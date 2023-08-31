@@ -1,0 +1,47 @@
+<div class="center-content">
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>Heimdall</mat-card-title>
+      <mat-card-subtitle>Login/Entrar</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-tab-group>
+        <mat-tab label="Login">
+          <mat-form-field class="example-full-width">
+            <mat-label>Email</mat-label>
+            <input type="email" matInput placeholder="Email" value="" [(ngModel)]="email">
+            <mat-icon matSuffix>email</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+            <mat-label>Senha</mat-label>
+            <input type="password" matInput placeholder="Password" [(ngModel)]="password">
+            <mat-icon matSuffix>vpn_key</mat-icon>
+          </mat-form-field>
+          <button mat-button color="primary" (click)="login()">Login</button>
+        </mat-tab>
+        <mat-tab label="Cadastre-se">
+          <mat-form-field class="example-full-width">
+            <mat-label>Email</mat-label>
+            <input type="email" matInput placeholder="Email" value="" [(ngModel)]="remail">
+            <mat-icon matSuffix>email</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+            <mat-label>Senha</mat-label>
+            <input type="password" matInput placeholder="Password" [(ngModel)]="rpassword">
+            <mat-icon matSuffix>vpn_key</mat-icon>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <mat-label>Senha</mat-label>
+            <input type="password" matInput placeholder="Password" [(ngModel)]="rcpassword">
+            <mat-icon matSuffix>vpn_key</mat-icon>
+          </mat-form-field>
+          <button mat-button color="primary" (click)="register()">Cadastrar</button>
+        </mat-tab>
+      </mat-tab-group>
+
+    </mat-card-content>
+
+  </mat-card>
+</div>
