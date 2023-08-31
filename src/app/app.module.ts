@@ -9,6 +9,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
+import {MatMenuModule} from '@angular/material/menu';
 
 import {TelaLoginCadastroComponent} from './tela-login-cadastro/tela-login-cadastro.component';
 import {MatCardModule} from '@angular/material/card';
@@ -28,18 +29,19 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
   imports: [
     AppRoutingModule,
     
-    BrowserModule,
     BrowserAnimationsModule,
+    BrowserModule,
 
     FormsModule,
 
-    MatToolbarModule,
-    MatIconModule,
     MatButtonModule,
-    MatInputModule,
     MatCardModule,
+    MatIconModule,
+    MatInputModule,
+    MatMenuModule,
+    MatSnackBarModule,
     MatTabsModule,
-    MatSnackBarModule
+    MatToolbarModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
