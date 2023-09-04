@@ -1,3 +1,160 @@
 .example-spacer {
     flex: 1 1 auto;
 }
+
+.manuSpacer {
+  margin: 0 2%;
+  width: 13%;
+  display: flex;
+  a{
+    margin: 0 3%
+  }
+}
+
+.search-container{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  min-width: 150px;
+  height: 100%;
+  margin-right: 30%;
+  position: relative;
+
+  input {
+    border: none;
+    border-radius: 100px;
+    padding: 5px 3rem 5px 16px;
+    margin-left: 8px;
+    width: 180px;
+    max-width: 240px;
+    line-height: normal;
+    height: 50%;
+  }
+  .search-box-shortcut{
+    border-color: rgb(110, 110, 110);
+    color: rgb(110, 110, 110);
+    display: block;
+    position: absolute;
+    right: 16px;
+    font-size: 0.9rem;
+    line-height: 1.6rem;
+    padding: 0 0.5rem;
+    pointer-events: none;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 4px;
+    border: 1px solid;
+  }
+  .box-icon-search{
+    display: none;
+    position: absolute;
+    right: 19px;
+    width: 5px;
+    padding: 0 0.5rem;
+    .search{
+      display: block;
+      cursor: pointer;
+      z-index: 999;
+      border-radius: 10px;
+      font-size: 1.2rem;
+      line-height: 1.6rem;
+      pointer-events: none;
+      font-weight: 700;
+      text-align: center;
+    }
+  }
+}
+
+.mat-toolbar {
+  background: #ffd740de;
+  color: var(--mat-toolbar-container-text-color);
+}
+
+.search-container:focus-within :last-child {
+  display: none;
+}
+
+.search-container:focus-within :nth-child(2) {
+  display: block;
+  cursor: pointer;
+}
+
+.box-container{
+  position: relative;
+  .logo-central{
+    position: absolute;
+    top: 15%;
+    right: 60%;
+    z-index: 999;
+    width: 225px;
+    height: 225px;
+    background-image: url(../../assets/images/heimdall.logo.png);
+  }
+  .tryNow{
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 5%;
+    position: absolute;
+    top: 15%;
+    right: 20%;
+    border-radius: 10px;
+    z-index: 999;
+    justify-content: center;
+    width: 20%;
+    p{
+    font-size: 1.2em;
+    width: 80%;
+    margin: 0 0 8% 15%;
+    font-weight: 700;
+    }
+    ::ng-deep {
+      button {
+        .mdc-button__label{
+          font-weight: 900 !important;
+          font-family: sans-serif !important;
+          font-size: 1.2em !important;
+        }
+      }
+    }
+  }
+}
+
+.top-box {
+  background-color: #ffd740de;
+  height: 300px;
+  position: relative;
+  overflow: hidden;
+}
+
+.top-box::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  border-style: solid;
+  border-width: 23vw 100vw 0vw;
+  border-color: transparent transparent transparent #ffd740de;
+}
+
+.bottom-box {
+  background-color: #ffd740de;
+  height: 300px;
+  position: relative;
+  overflow: hidden;
+}
+
+.bottom-box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 23vw 100vw 0vw;
+  border-color: #ffd740de transparent transparent transparent;
+}
