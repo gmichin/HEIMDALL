@@ -1,0 +1,23 @@
+<div class="center-content ">
+
+  <h2>{{ 'Editando ' + data.name }}</h2>
+  <form (submit)="editarSala()">
+  <mat-form-field>
+    <input matInput [(ngModel)]="sala.name" name="name" placeholder="Nome da Sala">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Professor:</mat-label>
+    <mat-select [disabled]="disableSelect.value" >
+      <mat-option (onSelectionChange)="atualiza($event)" *ngFor="let teacher of teachers" [value]="teacher.value">{{ teacher.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput [(ngModel)]="sala.seats" name="seats" placeholder="Assentos">
+  </mat-form-field>
+  <mat-form-field>
+    <textarea matInput [(ngModel)]="sala.description" name="description" placeholder="Descrição da Sala"></textarea>
+  </mat-form-field>
+  <button mat-raised-button color="primary" (submit)="editarSala()" type="submit">Salvar</button>
+</form>
+
+</div>

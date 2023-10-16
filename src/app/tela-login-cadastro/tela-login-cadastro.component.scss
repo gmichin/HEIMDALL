@@ -5,9 +5,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 91vh; 
-  text-align: center; 
-  background-color: rgb(188, 188, 188);
+  text-align: center;
 }
 
 .example-full-width {
@@ -17,4 +15,15 @@
 
 .example-spacer {
   flex: 1 1 auto;
+}
+
+::ng-deep .example-card {
+  max-width: 700px;
+  min-width: 700px;
+  max-height: 463px;
+  min-height: 463px;
+}
+
+::ng-deep .center-content .mat-mdc-tab-body-content{
+  overflow: hidden;
 }

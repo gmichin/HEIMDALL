@@ -1,5 +1,7 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tela-login',
@@ -12,19 +14,27 @@ export class TelaLoginCadastroComponent {
   remail!: string;
   rpassword!: string;
   rcpassword!: string;
- 
-  constructor(private snackBar:MatSnackBar){}
+
+  constructor(
+    private snackBar: MatSnackBar,
+    private router: Router,
+    public dialogRef: MatDialogRef<TelaLoginCadastroComponent>
+  ) {}
 
   register() {
-    if(this.rpassword != this.rcpassword){
-      this.snackBar.open('As senhas estão diferentes','',{duration:1000})
+    if (this.rpassword != this.rcpassword) {
+      this.snackBar.open('As senhas estão diferentes', '', { duration: 1000 });
     }
   }
   login() {
-    if(this.email=="Gustavo" && this.password=="Gu1234"){
-      this.snackBar.open('Login feito com sucesso!','',{duration:1000})
+    if (this.email == 'ericolima@outlook.com' && this.password == 'erico') {
+      this.snackBar.open('Login feito com sucesso!', '', { duration: 1000 });
+      setTimeout(() => {
+        this.dialogRef.close('close');
+        this.router.navigate(['edicao']);
+      }, 1500);
     } else {
-      this.snackBar.open('Erro de login','',{duration:1000})
+      this.snackBar.open('Erro de login', '', { duration: 1000 });
     }
   }
 }

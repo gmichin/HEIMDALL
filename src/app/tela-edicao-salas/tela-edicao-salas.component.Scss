@@ -1,0 +1,63 @@
+.mat-toolbar {
+  background: rgba(255, 215, 64, 0.8705882353);
+  color: var(--mat-toolbar-container-text-color);
+}
+
+.tituloH {
+  font-size: 1.4em;
+}
+
+.center-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  background: rgb(250 203 27 / 87%);
+}
+
+::ng-deep mat-sidenav-container {
+  height: 100%;
+}
+
+::ng-deep mat-form-field {
+  width: 120%;
+}
+
+.rooms {
+  padding-left: 1%;
+}
+
+.professores {
+  height: 20% !important;
+}
+
+.sala-container {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  max-width: 100%;
+  flex-wrap: wrap;
+
+  .sala-card {
+    width: 23%;
+    margin-top: 3%;
+    cursor: pointer;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 2%;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
+.minmax {
+  display: flex;
+  mat-list-item {
+    width: 170px !important;
+  }
+}

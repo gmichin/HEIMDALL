@@ -1,0 +1,60 @@
+<mat-toolbar>
+  <span class="tituloH">HEIMDALL</span>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav mode="side" opened>
+    <mat-toolbar color="secondary">Filtros</mat-toolbar>
+    <mat-list>
+      <mat-list-item>
+        <mat-form-field>
+          <input matInput placeholder="Nome da Sala" [(ngModel)]="filterName">
+        </mat-form-field>
+      </mat-list-item>
+      <mat-list-item class="professores">
+        <mat-form-field>
+          <mat-label>Professor:</mat-label>
+          <mat-select [disabled]="disableSelect.value" >
+            <mat-option (onSelectionChange)="atualiza($event)" *ngFor="let teacher of teachers" [value]="teacher.value">{{ teacher.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-list-item>
+      <div class="minmax">
+
+        <mat-list-item>
+          <mat-form-field>
+          <input matInput type="number" placeholder="Mín. Assentos" [(ngModel)]="minSeats">
+        </mat-form-field>
+      </mat-list-item>
+
+      <mat-list-item>
+        <mat-form-field>
+          <input matInput type="number" placeholder="Máx. Assentos" [(ngModel)]="maxSeats">
+        </mat-form-field>
+      </mat-list-item>
+      </div>
+
+      <mat-list-item>
+        <button mat-raised-button color="primary" (click)="applyFilters()">Aplicar Filtros</button>
+      </mat-list-item>
+    </mat-list>
+  <mat-list class="NovaSala">
+    <mat-list-item>
+      <button mat-stroked-button color="primary" (click)="openModalNewRoom()">Adicionar Sala</button>
+    </mat-list-item>
+  </mat-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="rooms" *ngIf="showRooms">
+      <div class="sala-container">
+        <ng-container *ngFor="let room of filteredRooms; let i = index" class="room">
+          <mat-card class="sala-card" (click)="openModal(room)">
+            {{ room.name }}
+          </mat-card>
+          <!-- Quebrar a cada 4 retângulos -->
+          <div *ngIf="i % 4 === 3" class="break"></div>
+        </ng-container>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

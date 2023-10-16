@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>{{ data.name }}</h2>
+<mat-dialog-content>
+  {{ 'Professor(a): ' + data.teacher }}
+</mat-dialog-content>
+<mat-dialog-content>
+  {{ 'Assentos: ' + data.seats }}
+</mat-dialog-content>
+<mat-dialog-content>
+  {{ 'Descrição: ' +data.description }}
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="openEditRoomDialog(data)">Editar</button>
+  <button mat-button [mat-dialog-close]="'close'" (click)="deleteRoom(data)">Excluir Sala</button>
+  <button mat-button [mat-dialog-close]="'close'">Fechar</button>
+</mat-dialog-actions>

@@ -5,24 +5,20 @@
   <mat-menu #menu="matMenu">
     <button mat-menu-item>
       <mat-icon>dialpad</mat-icon>
-      <span>primeira opção</span>
+      <span>Cadastro/Login</span>
     </button>
     <button mat-menu-item disabled>
       <mat-icon>voicemail</mat-icon>
-      <span>segunda opção</span>
+      <span>Mapa do Site</span>
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item disabled>
       <mat-icon>notifications_off</mat-icon>
-      <span>terceira opção</span>
+      <span>Sobre</span>
     </button>
   </mat-menu>
 
-  <span>HEIMDALL</span>
-  <div class="manuSpacer">
-    <a>DOCS</a>
-    <a>BLOG</a>
-    <a>SOBRE</a>
-  </div>
+  <span class="tituloH">HEIMDALL</span>
+
   <div class="search-container">
     <input type="search" aria-label="search" placeholder="Search" />
     <div class="box-icon-search"><mat-icon class="search">search</mat-icon></div>
@@ -33,9 +29,9 @@
   <div class="logo-central"></div>
   <div class="tryNow">
     <p>
-      Vigilância Acadêmica Inspirada por Heimdall.
+      Organicação Acadêmica Inspirada por Heimdall.
       </p>
-    <button mat-raised-button color="primary">Tente agora!</button>
+      <button mat-raised-button color="primary" (click)="openDialog()">Tente agora!</button>
   </div>
   <div class="top-box">
 
