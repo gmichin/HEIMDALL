@@ -3,7 +3,7 @@
     <mat-icon>menu</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item>
+    <button (click)="openDialog()" mat-menu-item>
       <mat-icon>dialpad</mat-icon>
       <span>Cadastro/Login</span>
     </button>
@@ -29,7 +29,7 @@
   <div class="logo-central"></div>
   <div class="tryNow">
     <p>
-      Organicação Acadêmica Inspirada por Heimdall.
+      Organização Acadêmica Inspirada por Heimdall.
       </p>
       <button mat-raised-button color="primary" (click)="openDialog()">Tente agora!</button>
   </div>

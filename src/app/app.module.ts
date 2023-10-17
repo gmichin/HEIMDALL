@@ -20,6 +20,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
+import { OnlyNumbersDirective } from './directives/OnlyNumbers.directive';
 import { EditarModalComponent } from './tela-edicao-salas/editar-modal/editar-modal.component';
 import { NovaSalaModalComponent } from './tela-edicao-salas/nova-sala-modal/nova-sala-modal.component';
 import { SalaModalComponent } from './tela-edicao-salas/sala-modal/sala-modal.component';
@@ -35,6 +36,7 @@ import { TelaLoginCadastroComponent } from './tela-login-cadastro/tela-login-cad
     SalaModalComponent,
     EditarModalComponent,
     NovaSalaModalComponent,
+    OnlyNumbersDirective,
   ],
   imports: [
     AppRoutingModule,

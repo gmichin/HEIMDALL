@@ -8,7 +8,13 @@
   <mat-form-field>
     <mat-label>Professor:</mat-label>
     <mat-select [disabled]="disableSelect.value" >
-      <mat-option (onSelectionChange)="atualiza($event)" *ngFor="let teacher of teachers" [value]="teacher.value">{{ teacher.name}}</mat-option>
+      <mat-option (onSelectionChange)="atualiza($event, 'professores')" *ngFor="let teacher of teachers" [value]="teacher.value">{{ teacher.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Horário:</mat-label>
+    <mat-select [disabled]="disableSelect.value" >
+      <mat-option (onSelectionChange)="atualiza($event, 'horario')" *ngFor="let schedule of schedules" [value]="schedule.value">{{ schedule.name}}</mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field>

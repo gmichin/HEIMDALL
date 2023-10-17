@@ -1,24 +1,24 @@
 .example-spacer {
-    flex: 1 1 auto;
+  flex: 1 1 auto;
 }
 
 .manuSpacer {
   margin: 0 2%;
   width: 13%;
   display: flex;
-  a{
-    margin: 0 3%
+  a {
+    margin: 0 3%;
   }
 }
 
-.search-container{
+.search-container {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   width: 100%;
   min-width: 150px;
   height: 100%;
-  margin-right: 30%;
+  margin-right: 20%;
   position: relative;
 
   input {
@@ -31,7 +31,7 @@
     line-height: normal;
     height: 50%;
   }
-  .search-box-shortcut{
+  .search-box-shortcut {
     border-color: rgb(110, 110, 110);
     color: rgb(110, 110, 110);
     display: block;
@@ -46,13 +46,13 @@
     border-radius: 4px;
     border: 1px solid;
   }
-  .box-icon-search{
+  .box-icon-search {
     display: none;
     position: absolute;
     right: 19px;
     width: 5px;
     padding: 0 0.5rem;
-    .search{
+    .search {
       display: block;
       cursor: pointer;
       z-index: 999;
@@ -80,9 +80,9 @@
   cursor: pointer;
 }
 
-.box-container{
+.box-container {
   position: relative;
-  .logo-central{
+  .logo-central {
     position: absolute;
     top: 15%;
     right: 60%;
@@ -91,7 +91,7 @@
     height: 225px;
     background-image: url(../../assets/images/heimdall.logo.png);
   }
-  .tryNow{
+  .tryNow {
     display: flex;
     flex-direction: column;
     background-color: rgba(255, 255, 255, 0.3);
@@ -103,15 +103,15 @@
     z-index: 999;
     justify-content: center;
     width: 20%;
-    p{
-    font-size: 1.2em;
-    width: 80%;
-    margin: 0 0 8% 15%;
-    font-weight: 700;
+    p {
+      font-size: 1.2em;
+      width: 80%;
+      margin: 0 0 8% 15%;
+      font-weight: 700;
     }
     ::ng-deep {
       button {
-        .mdc-button__label{
+        .mdc-button__label {
           font-weight: 900 !important;
           font-family: sans-serif !important;
           font-size: 1.2em !important;
@@ -159,12 +159,11 @@
   border-color: #ffd740de transparent transparent transparent;
 }
 
-
-.tituloH{
+.tituloH {
   font-size: 2em;
 }
 
-::ng-deep .mat-mdc-menu-trigger .mat-icon{
+::ng-deep .mat-mdc-menu-trigger .mat-icon {
   height: 50px;
   width: 29px;
   font-size: 33px;

@@ -3,8 +3,19 @@
   color: var(--mat-toolbar-container-text-color);
 }
 
+.tituloInst {
+  position: relative;
+  left: 45%;
+}
+
+::ng-deep .btnsFiltros .mat-mdc-list-item-unscoped-content {
+  display: flex;
+  justify-content: space-between;
+}
+
 .tituloH {
   font-size: 1.4em;
+  cursor: pointer;
 }
 
 .center-content {
@@ -30,6 +41,42 @@
 
 .professores {
   height: 20% !important;
+}
+
+.headerSideNav {
+  z-index: 99;
+  width: 56.5vh;
+}
+
+.semResultados {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  animation: colorChange 1s linear forwards;
+  mat-card {
+    position: relative;
+    top: 40%;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    text-align: center;
+  }
+}
+
+@keyframes colorChange {
+  0% {
+    background-color: white;
+  }
+  100% {
+    background-color: #dedede;
+  }
+}
+
+mat-sidenav-content {
+  display: flex;
+  flex-direction: column;
 }
 
 .sala-container {

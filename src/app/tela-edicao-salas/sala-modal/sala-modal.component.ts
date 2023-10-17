@@ -4,6 +4,7 @@ import {
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
+import { Rooms } from 'src/app/models/rooms.model';
 import { GetRoomsService } from 'src/app/services/get-rooms.service';
 import { EditarModalComponent } from '../editar-modal/editar-modal.component';
 
@@ -14,13 +15,11 @@ import { EditarModalComponent } from '../editar-modal/editar-modal.component';
 })
 export class SalaModalComponent implements OnInit {
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: Rooms,
     private roomsService: GetRoomsService,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<EditarModalComponent>
   ) {}
-
-  private index = this.roomsService.rooms.indexOf(this.data);
 
   ngOnInit(): void {}
 
