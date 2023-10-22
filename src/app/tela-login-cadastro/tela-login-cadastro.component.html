@@ -3,37 +3,49 @@
     <mat-card-content>
       <mat-tab-group>
         <mat-tab label="Login">
-          <mat-form-field class="example-full-width">
-            <mat-label>Email</mat-label>
-            <input type="email" matInput placeholder="Email" value="" [(ngModel)]="email">
-            <mat-icon matSuffix>email</mat-icon>
-          </mat-form-field>
+          <form [formGroup]="loginForm" (ngSubmit)="login()">
 
-          <mat-form-field class="example-full-width">
-            <mat-label>Senha</mat-label>
-            <input type="password" matInput placeholder="Password" [(ngModel)]="password">
-            <mat-icon matSuffix>vpn_key</mat-icon>
-          </mat-form-field>
-          <button mat-button color="primary"   (click)="login()">Login</button>
+            <mat-form-field class="example-full-width">
+                <mat-label>Email</mat-label>
+              <input formControlName="email" type="email" matInput placeholder="Email" value="" >
+              <mat-icon matSuffix>email</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <mat-label>Senha</mat-label>
+              <input formControlName="password" type="password" matInput placeholder="Password">
+              <mat-icon matSuffix>vpn_key</mat-icon>
+            </mat-form-field>
+            <button mat-button color="primary" type="submit" >Login</button>
+        </form>
         </mat-tab>
+
         <mat-tab label="Cadastre-se">
+        <form [formGroup]="resgiterForm" (ngSubmit)="register()">
+
           <mat-form-field class="example-full-width">
-            <mat-label>Email</mat-label>
-            <input type="email" matInput placeholder="Email" value="" [(ngModel)]="remail">
+              <mat-label>Nome</mat-label>
+            <input formControlName="nome" type="text" matInput placeholder="Nome" value="">
+            <mat-icon matSuffix>edit</mat-icon>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+              <mat-label>Email</mat-label>
+            <input formControlName="email" type="email" matInput placeholder="Email" value="">
             <mat-icon matSuffix>email</mat-icon>
           </mat-form-field>
 
           <mat-form-field class="example-full-width">
             <mat-label>Senha</mat-label>
-            <input type="password" matInput placeholder="Password" [(ngModel)]="rpassword">
+            <input formControlName="password" type="password" matInput placeholder="Password">
             <mat-icon matSuffix>vpn_key</mat-icon>
           </mat-form-field>
           <mat-form-field class="example-full-width">
-            <mat-label>Senha</mat-label>
-            <input type="password" matInput placeholder="Password" [(ngModel)]="rcpassword">
+            <mat-label>Confirme a Senha</mat-label>
+            <input formControlName="confirmPassword" type="password" matInput placeholder="Password">
             <mat-icon matSuffix>vpn_key</mat-icon>
           </mat-form-field>
-          <button mat-button color="primary" (click)="register()">Cadastrar</button>
+          <button mat-button type="submit" color="primary">Cadastrar</button>
+        </form>
         </mat-tab>
       </mat-tab-group>
 

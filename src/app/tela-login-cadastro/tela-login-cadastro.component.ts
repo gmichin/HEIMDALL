@@ -1,7 +1,17 @@
 import { Component } from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { getUserRequest } from '../models/login.model';
+import { RegisterUserRequest } from '../models/register.models';
+import { LoginUserService } from './../services/login-user.service';
+import { RegisterUserService } from './../services/register-user.service';
 
 @Component({
   selector: 'app-tela-login',
@@ -9,32 +19,108 @@ import { Router } from '@angular/router';
   styleUrls: ['./tela-login-cadastro.component.scss'],
 })
 export class TelaLoginCadastroComponent {
-  email!: string;
-  password!: string;
-  remail!: string;
-  rpassword!: string;
-  rcpassword!: string;
+  resgiterForm: FormGroup;
+  loginForm: FormGroup;
+  message: string = '';
 
   constructor(
     private snackBar: MatSnackBar,
     private router: Router,
-    public dialogRef: MatDialogRef<TelaLoginCadastroComponent>
-  ) {}
+    public dialogRef: MatDialogRef<TelaLoginCadastroComponent>,
+    private fb: FormBuilder,
+    private registerUserService: RegisterUserService,
+    private loginUserService: LoginUserService
+  ) {
+    this.resgiterForm = this.fb.group(
+      {
+        nome: ['', [Validators.required]],
+        email: ['', [Validators.required, this.emailValidator]],
+        password: ['', [Validators.required], Validators.minLength(6)],
+        confirmPassword: ['', [Validators.required]],
+      },
+      { validator: this.passwordMatchValidator }
+    );
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, this.emailValidator]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+    });
+  }
 
   register() {
-    if (this.rpassword != this.rcpassword) {
-      this.snackBar.open('As senhas estão diferentes', '', { duration: 1000 });
+    if (this.resgiterForm.invalid) {
+      return;
     }
+    this.registerUserService
+      .register(
+        new RegisterUserRequest({
+          name: this.resgiterForm.get('nome')?.value,
+          email: this.resgiterForm.get('email')?.value,
+          encrypted_password: this.resgiterForm.get('password')?.value,
+          role_id: '0',
+        })
+      )
+      .subscribe(
+        (res) => {
+          console.log('SUCESSO', res);
+        },
+        (err) => {
+          console.log('ERROR', err);
+        }
+      );
   }
+
   login() {
-    if (this.email == 'ericolima@outlook.com' && this.password == 'erico') {
-      this.snackBar.open('Login feito com sucesso!', '', { duration: 1000 });
-      setTimeout(() => {
-        this.dialogRef.close('close');
-        this.router.navigate(['edicao']);
-      }, 1500);
-    } else {
-      this.snackBar.open('Erro de login', '', { duration: 1000 });
+    if (this.loginForm.invalid) {
+      this.snackBar.open('Por favor, revise os campos.', '', {
+        duration: 1000,
+      });
+      return;
     }
+
+    this.loginUserService
+      .login(
+        new getUserRequest({
+          email: this.loginForm.get('email')?.value,
+          password: this.loginForm.get('password')?.value,
+        })
+      )
+      .subscribe(
+        (res) => {
+          setTimeout(() => {
+            this.snackBar.open(`Bem vindo, ${res.username}!`, '', {
+              duration: 1000,
+            });
+            this.router.navigate(['redirecionar']);
+            this.dialogRef.close('close');
+          }, 1500);
+        },
+        (err) => {
+          this.snackBar.open(`Usuário não cadastrado.`, '', {
+            duration: 1000,
+          });
+        }
+      );
+  }
+
+  private emailValidator(control: any) {
+    const value = control.value;
+    const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (value && !pattern.test(value)) {
+      return { email: true };
+    }
+    return null;
+  }
+
+  private passwordMatchValidator(
+    control: AbstractControl
+  ): { [key: string]: boolean } | null {
+    const password = control.get('password');
+    const confirmPassword = control.get('confirmPassword');
+
+    if (password?.value !== confirmPassword?.value) {
+      return { passwordMismatch: true };
+    }
+
+    return null;
   }
 }

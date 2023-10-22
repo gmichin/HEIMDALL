@@ -11,7 +11,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
@@ -21,30 +22,27 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { OnlyNumbersDirective } from './directives/OnlyNumbers.directive';
-import { EditarModalComponent } from './tela-edicao-salas/editar-modal/editar-modal.component';
-import { NovaSalaModalComponent } from './tela-edicao-salas/nova-sala-modal/nova-sala-modal.component';
-import { SalaModalComponent } from './tela-edicao-salas/sala-modal/sala-modal.component';
-import { TelaEdicaoSalasComponent } from './tela-edicao-salas/tela-edicao-salas.component';
+import { RoleAdmModule } from './role-adm/role-adm.module';
+import { RegisterUserService } from './services/register-user.service';
 import { TelaLoginCadastroComponent } from './tela-login-cadastro/tela-login-cadastro.component';
+import { TelaPerfilComponent } from './tela-perfil/tela-perfil.component';
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     TelaInicialComponent,
     TelaLoginCadastroComponent,
-    TelaEdicaoSalasComponent,
-    SalaModalComponent,
-    EditarModalComponent,
-    NovaSalaModalComponent,
     OnlyNumbersDirective,
-  ],
+      TelaPerfilComponent
+   ],
   imports: [
     AppRoutingModule,
-
     BrowserAnimationsModule,
     BrowserModule,
-
     FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    RoleAdmModule,
 
     MatButtonModule,
     MatCardModule,
@@ -59,7 +57,7 @@ import { TelaLoginCadastroComponent } from './tela-login-cadastro/tela-login-cad
     MatListModule,
     MatSelectModule,
   ],
-  providers: [],
+  providers: [RegisterUserService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

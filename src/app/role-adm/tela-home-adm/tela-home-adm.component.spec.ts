@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { SalaModalComponent } from './sala-modal.component';
+import { TelaHomeAdmComponent } from './tela-home-adm.component';
 
-describe('SalaModalComponent', () => {
-  let component: SalaModalComponent;
-  let fixture: ComponentFixture<SalaModalComponent>;
+describe('TelaHomeAdmComponent', () => {
+  let component: TelaHomeAdmComponent;
+  let fixture: ComponentFixture<TelaHomeAdmComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SalaModalComponent ]
+      declarations: [ TelaHomeAdmComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SalaModalComponent);
+    fixture = TestBed.createComponent(TelaHomeAdmComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

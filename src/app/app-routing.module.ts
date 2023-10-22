@@ -1,11 +1,25 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TelaEdicaoSalasComponent } from './tela-edicao-salas/tela-edicao-salas.component';
 import { TelaInicialComponent } from './tela-inicial/tela-inicial.component';
+import { TelaPerfilComponent } from './tela-perfil/tela-perfil.component';
+import { TelaRedirecionarUsuarioComponent } from './tela-redirecionar-usuario/tela-redirecionar-usuario.component';
+import { RedirecionarUsuarioGuard } from './tela-redirecionar-usuario/tela-redirecionar-usuario.guard';
 
 const routes: Routes = [
   { path: '', component: TelaInicialComponent },
-  { path: 'edicao', component: TelaEdicaoSalasComponent },
+  {
+    path: 'redirecionar',
+    component: TelaRedirecionarUsuarioComponent,
+    canActivate: [RedirecionarUsuarioGuard],
+  },
+  {
+    path: 'home-adm',
+    redirectTo: 'admin/home-adm',
+  },
+  {
+    path: 'profile',
+    component: TelaPerfilComponent,
+  },
 ];
 
 @NgModule({

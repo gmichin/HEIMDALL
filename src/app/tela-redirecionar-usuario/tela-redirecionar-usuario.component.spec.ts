@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { NovaSalaModalComponent } from './nova-sala-modal.component';
+import { TelaRedirecionarUsuarioComponent } from './tela-redirecionar-usuario.component';
 
-describe('NovaSalaModalComponent', () => {
-  let component: NovaSalaModalComponent;
-  let fixture: ComponentFixture<NovaSalaModalComponent>;
+describe('TelaRedirecionarUsuarioComponent', () => {
+  let component: TelaRedirecionarUsuarioComponent;
+  let fixture: ComponentFixture<TelaRedirecionarUsuarioComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NovaSalaModalComponent ]
+      declarations: [ TelaRedirecionarUsuarioComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NovaSalaModalComponent);
+    fixture = TestBed.createComponent(TelaRedirecionarUsuarioComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
