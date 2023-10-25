@@ -1,4 +1,92 @@
 .mat-toolbar {
-  background: #ffd740de;
+  background: #e6b60ade;
   color: var(--mat-toolbar-container-text-color);
+  border-bottom: 2px solid black;
+}
+
+.header {
+  background: #ffc802de;
+  display: flex;
+  padding: 1% 0 0 10%;
+}
+
+.container {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cards {
+  display: flex;
+  padding: 2% 5%;
+  flex-wrap: wrap;
+}
+
+mat-card {
+  width: 22%;
+  margin-right: 2%;
+  margin-bottom: 2%;
+  background: white;
+  mat-card-header {
+    background-color: rgba(255, 200, 2, 0.8705882353);
+  }
+  button {
+    background: #e6b60ade;
+    color: white;
+  }
+
+  &:hover {
+    background-color: black;
+    color: white;
+    button {
+      background: #e6b60ade;
+    }
+  }
+}
+
+.novoCard {
+  background: white;
+
+  mat-card-header {
+    background-color: rgba(255, 200, 2, 0.8705882353);
+    mat-card-title {
+      color: white;
+    }
+  }
+  button {
+    background: #e6b60ade;
+    color: white;
+  }
+
+  &:hover {
+    background-color: white;
+    color: black !important;
+    mat-card-title {
+      color: black !important;
+    }
+    button {
+      background: #e6b60ade;
+      color: black !important;
+    }
+  }
+}
+
+mat-card-header {
+  margin-bottom: 2%;
+  height: 60%;
+  background: #ff9700;
+}
+
+mat-card-title {
+  font-size: 2em;
+}
+
+example-card {
+  max-width: 200px;
+}
+
+.example-header-image {
+  background-image: url("https://material.angular.io/assets/img/examples/shiba1.jpg");
+  background-size: cover;
 }

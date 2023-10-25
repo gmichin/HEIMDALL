@@ -19,9 +19,10 @@ import { RegisterUserService } from './../services/register-user.service';
   styleUrls: ['./tela-login-cadastro.component.scss'],
 })
 export class TelaLoginCadastroComponent {
-  resgiterForm: FormGroup;
-  loginForm: FormGroup;
-  message: string = '';
+  public resgiterForm: FormGroup;
+  public loginForm: FormGroup;
+  public foco: number = 0;
+  private message: string = '';
 
   constructor(
     private snackBar: MatSnackBar,
@@ -40,6 +41,7 @@ export class TelaLoginCadastroComponent {
       },
       { validator: this.passwordMatchValidator }
     );
+
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, this.emailValidator]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -61,15 +63,25 @@ export class TelaLoginCadastroComponent {
       )
       .subscribe(
         (res) => {
-          console.log('SUCESSO', res);
+          this.snackBar.open(`Cadastrado com sucesso.`, '', {
+            duration: 1000,
+          });
+          this.foco = 0;
+          this.resetForms(this.resgiterForm);
         },
         (err) => {
-          console.log('ERROR', err);
+          this.snackBar.open(`Ocorreu um erro durante sua solicitação.`, '', {
+            duration: 1000,
+          });
+          this.resetForms(this.resgiterForm);
         }
       );
   }
 
   login() {
+    this.dialogRef.close('close');
+    this.router.navigate(['redirecionar']);
+    return;
     if (this.loginForm.invalid) {
       this.snackBar.open('Por favor, revise os campos.', '', {
         duration: 1000,
@@ -93,6 +105,7 @@ export class TelaLoginCadastroComponent {
             this.router.navigate(['redirecionar']);
             this.dialogRef.close('close');
           }, 1500);
+          this.resetForms(this.resgiterForm);
         },
         (err) => {
           this.snackBar.open(`Usuário não cadastrado.`, '', {
@@ -100,6 +113,16 @@ export class TelaLoginCadastroComponent {
           });
         }
       );
+  }
+
+  private resetForms(form: FormGroup): void {
+    form.reset();
+
+    Object.keys(form.controls).forEach((controlName) => {
+      const control = form.get(controlName);
+      control?.setErrors(null);
+      control?.markAsUntouched();
+    });
   }
 
   private emailValidator(control: any) {

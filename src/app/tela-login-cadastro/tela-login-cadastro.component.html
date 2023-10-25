@@ -1,8 +1,8 @@
 <div class="center-content">
   <mat-card class="example-card">
     <mat-card-content>
-      <mat-tab-group>
-        <mat-tab label="Login">
+      <mat-tab-group [(selectedIndex)]="foco">
+        <mat-tab #tabLogin label="Login">
           <form [formGroup]="loginForm" (ngSubmit)="login()">
 
             <mat-form-field class="example-full-width">
