@@ -1,4 +1,4 @@
-export class Rooms {
+export class RoomsModelResponse {
   name!: string;
   seats!: number;
   description!: string;

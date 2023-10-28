@@ -21,20 +21,20 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
-import { OnlyNumbersDirective } from './directives/OnlyNumbers.directive';
+import { PhoneNumberDirective } from './directives/OnlyNumbers.directive';
 import { RoleAdmModule } from './role-adm/role-adm.module';
 import { RegisterUserService } from './services/register-user.service';
 import { TelaLoginCadastroComponent } from './tela-login-cadastro/tela-login-cadastro.component';
 import { TelaPerfilComponent } from './tela-perfil/tela-perfil.component';
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     TelaInicialComponent,
     TelaLoginCadastroComponent,
-    OnlyNumbersDirective,
-      TelaPerfilComponent
-   ],
+    PhoneNumberDirective,
+    TelaPerfilComponent,
+  ],
   imports: [
     AppRoutingModule,
     BrowserAnimationsModule,

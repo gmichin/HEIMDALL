@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { TelaGerarInstituicaoComponent } from './tela-gerar-instituicao.component';
+import { TelaRegisterTeacherComponent } from './tela-register-teacher.component';
 
-describe('TelaGerarInstituicaoComponent', () => {
-  let component: TelaGerarInstituicaoComponent;
-  let fixture: ComponentFixture<TelaGerarInstituicaoComponent>;
+describe('TelaRegisterTeacherComponent', () => {
+  let component: TelaRegisterTeacherComponent;
+  let fixture: ComponentFixture<TelaRegisterTeacherComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TelaGerarInstituicaoComponent ]
+      declarations: [ TelaRegisterTeacherComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TelaGerarInstituicaoComponent);
+    fixture = TestBed.createComponent(TelaRegisterTeacherComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

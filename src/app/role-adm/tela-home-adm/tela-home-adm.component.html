@@ -31,44 +31,131 @@
 </div>
 <div class="container">
   <div class="cards">
-    <mat-card class="novoCard">
+    <mat-card class="novoCard card-adicionar-novo-curso card-width">
       <mat-card-header>
         <mat-card-title>Adicione um novo curso</mat-card-title>
       </mat-card-header>
       <mat-card-actions>
-        <button mat-button>Adicionar</button>
+        <button (click)="createCourse()" mat-button>Adicionar</button>
       </mat-card-actions>
     </mat-card>
-    <mat-card class="example-card">
+
+
+    <div *ngIf="courses.length > 0" class="example-card ">
+      <mat-card *ngFor="let course of courses.slice(0, 4)" class="card-width">
+        <mat-card-header>
+          <mat-card-title class="title-card">{{ course.name }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-actions>
+          <button (click)="editCourse(course)" mat-button>Editar</button>
+        </mat-card-actions>
+      </mat-card>
+
+    </div>
+
+    <mat-card class="novoCard card-width">
       <mat-card-header>
-        <mat-card-title>Licenciatura Matemática</mat-card-title>
+        <mat-card-title>Ver Mais</mat-card-title>
       </mat-card-header>
       <mat-card-actions>
-        <button mat-button>Editar</button>
+        <button (click)="createCourse()" mat-button>Buscar</button>
       </mat-card-actions>
     </mat-card>
-    <mat-card class="example-card">
+  </div>
+</div>
+<div class="header">
+  <h2>Administradores</h2>
+</div>
+<div class="container">
+  <div class="cards">
+    <mat-card class="novoCard">
       <mat-card-header>
-        <mat-card-title>Elétrica</mat-card-title>
+        <mat-card-title>Adicione um novo Administrador</mat-card-title>
       </mat-card-header>
       <mat-card-actions>
-        <button mat-button>Editar</button>
+        <button (click)="createCourse()" mat-button>Adicionar</button>
       </mat-card-actions>
     </mat-card>
-    <mat-card class="example-card">
+
+    <div *ngIf="admins.length > 0">
+      <mat-card *ngFor="let admin of admins.slice(0, 2)" class="example-card">
+        <mat-card-header>
+          <mat-card-title>{{ admin.name }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-actions>
+          <button (click)="removeUser(admin)" mat-button>Remover</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <mat-card *ngIf="admins.length > 2" class="novoCard">
       <mat-card-header>
-        <mat-card-title>Licenciatura Química</mat-card-title>
+        <mat-card-title>Ver Mais</mat-card-title>
       </mat-card-header>
       <mat-card-actions>
-        <button mat-button>Editar</button>
+        <button (click)="createCourse()" mat-button>Buscar</button>
       </mat-card-actions>
     </mat-card>
-    <mat-card class="example-card">
+  </div>
+</div>
+<div class="header">
+  <h2>Professores</h2>
+</div>
+<div class="container">
+  <div class="cards">
+    <mat-card class="novoCard">
       <mat-card-header>
-        <mat-card-title>Análise e desenvolvimento de sistemas</mat-card-title>
+        <mat-card-title>Adicione um novo Professor</mat-card-title>
       </mat-card-header>
       <mat-card-actions>
-        <button mat-button>Editar</button>
+        <button (click)="createCourse()" mat-button>Adicionar</button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="novoCard">
+      <mat-card-header>
+        <mat-card-title>Adicione um novo Professor</mat-card-title>
+      </mat-card-header>
+      <mat-card-actions>
+        <button (click)="createCourse()" mat-button>Adicionar</button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="novoCard">
+      <mat-card-header>
+        <mat-card-title>Adicione um novo Professor</mat-card-title>
+      </mat-card-header>
+      <mat-card-actions>
+        <button (click)="createCourse()" mat-button>Adicionar</button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="novoCard">
+      <mat-card-header>
+        <mat-card-title>Adicione um novo Professor</mat-card-title>
+      </mat-card-header>
+      <mat-card-actions>
+        <button (click)="createCourse()" mat-button>Adicionar</button>
+      </mat-card-actions>
+    </mat-card>
+<!--
+    <div *ngIf="teachers.length > 0">
+      <mat-card *ngFor="let teacher of teachers.slice(0, 2)" class="example-card">
+        <mat-card-header>
+          <mat-card-title>{{ teacher.name }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-actions>
+          <button (click)="removeUser(teacher)" mat-button>Remover</button>
+        </mat-card-actions>
+      </mat-card>
+    </div> -->
+
+    <mat-card *ngIf="teachers.length > 2" class="novoCard">
+      <mat-card-header>
+        <mat-card-title>Ver Mais</mat-card-title>
+      </mat-card-header>
+      <mat-card-actions>
+        <button (click)="createCourse()" mat-button>Buscar</button>
       </mat-card-actions>
     </mat-card>
   </div>

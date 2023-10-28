@@ -7,6 +7,7 @@ export class RegisterUserRequest {
   registration_number!: string;
   encrypted_password!: string;
   role_id!: string;
+  institution_id: string = '';
 
   constructor(data: any) {
     const id = uuidv4();
@@ -19,11 +20,39 @@ export class RegisterUserRequest {
   }
 }
 
-export class RegisterUserResponse {
-  email!: string;
+export class RegisterInstitutionRequest {
+  institution_id!: string;
   name!: string;
-  encrypted_password!: string;
-  registration_number!: string;
+  address!: string;
+  phone!: string;
+  email!: string;
+
+  constructor(data: any) {
+    const id = uuidv4();
+    this.institution_id = id;
+    this.name = data.nameInstitution;
+    this.email = data.emailInstitution;
+    this.phone = data.phoneInstitution;
+    this.address = data.addressInstitution;
+  }
+}
+
+export class RegisterInstitutionResponse {
+  name!: string;
+  address!: string;
+  phone!: string;
+  email!: string;
   _id!: string;
   __v!: number;
+}
+
+export class RegisterUserResponse {
+  _id!: string;
+  email!: string;
+  name!: string;
+  registration_number!: string;
+  encrypted_password!: string;
+  role_id!: string;
+  __v!: number;
+  institution_id!: string;
 }

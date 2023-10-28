@@ -14,6 +14,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RoleAdmRoutingModule } from './role-adm-routing.module';
 import { TelaHomeAdmComponent } from './tela-home-adm/tela-home-adm.component';
+import { telaHomeAdmResolver } from './tela-home-adm/tela-home-adm.resolver';
 
 @NgModule({
   imports: [
@@ -34,5 +35,6 @@ import { TelaHomeAdmComponent } from './tela-home-adm/tela-home-adm.component';
     MatSelectModule,
   ],
   declarations: [TelaHomeAdmComponent],
+  providers: [telaHomeAdmResolver],
 })
 export class RoleAdmModule {}

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { RegisterUserResponse } from '../models/register.models';
 
 @Component({
   selector: 'app-tela-perfil',
@@ -6,11 +8,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tela-perfil.component.scss'],
 })
 export class TelaPerfilComponent implements OnInit {
-  public nome = 'Érico Vinícius C. Lima';
-  public role = 'Administrador';
-  public email = 'erico@gmail.com';
+  public dados = <
+    {
+      dataUser: RegisterUserResponse;
+      roleDesc: string;
+    }
+  >(this.activatedRoute.snapshot.data['dados']);
 
-  constructor() {}
+  public nome = this.dados.dataUser.name;
+  public role = this.dados.roleDesc;
+  public email = this.dados.dataUser.email;
+
+  constructor(private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {}
 }

@@ -20,16 +20,16 @@
         </form>
         </mat-tab>
 
-        <mat-tab label="Cadastre-se">
+        <mat-tab label="Cadastre sua Instituição!">
         <form [formGroup]="resgiterForm" (ngSubmit)="register()">
 
           <mat-form-field class="example-full-width">
-              <mat-label>Nome</mat-label>
+              <mat-label>Nome Usuário</mat-label>
             <input formControlName="nome" type="text" matInput placeholder="Nome" value="">
             <mat-icon matSuffix>edit</mat-icon>
           </mat-form-field>
           <mat-form-field class="example-full-width">
-              <mat-label>Email</mat-label>
+              <mat-label>Email Usuário</mat-label>
             <input formControlName="email" type="email" matInput placeholder="Email" value="">
             <mat-icon matSuffix>email</mat-icon>
           </mat-form-field>
@@ -44,6 +44,31 @@
             <input formControlName="confirmPassword" type="password" matInput placeholder="Password">
             <mat-icon matSuffix>vpn_key</mat-icon>
           </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+            <mat-label>Nome da Instituição</mat-label>
+              <input formControlName="nameInstitution" type="text" matInput placeholder="Nome" value="">
+            <mat-icon matSuffix>edit</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+            <mat-label>Email da Instituição</mat-label>
+              <input formControlName="emailInstitution" type="email" matInput placeholder="Email" value="">
+            <mat-icon matSuffix>email</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+            <mat-label>Telefone da Instituição</mat-label>
+              <input appPhoneNumber formControlName="phoneInstitution" type="text" matInput placeholder="Nome" value="">
+            <mat-icon matSuffix>edit</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+            <mat-label>Endereço da Instituição</mat-label>
+              <input formControlName="addressInstitution" type="text" matInput placeholder="Nome" value="">
+            <mat-icon matSuffix>edit</mat-icon>
+          </mat-form-field>
+
           <button mat-button type="submit" color="primary">Cadastrar</button>
         </form>
         </mat-tab>

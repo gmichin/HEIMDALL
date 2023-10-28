@@ -9,6 +9,7 @@ export class getUserRequest {
 
 export class getUserResponse {
   _id!: string;
+  institution_id!: string;
   email!: string;
   username!: string;
   password!: string;

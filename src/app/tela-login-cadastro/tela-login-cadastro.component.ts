@@ -9,7 +9,10 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { getUserRequest } from '../models/login.model';
-import { RegisterUserRequest } from '../models/register.models';
+import {
+  RegisterInstitutionRequest,
+  RegisterUserRequest,
+} from '../models/register.models';
 import { LoginUserService } from './../services/login-user.service';
 import { RegisterUserService } from './../services/register-user.service';
 
@@ -38,6 +41,10 @@ export class TelaLoginCadastroComponent {
         email: ['', [Validators.required, this.emailValidator]],
         password: ['', [Validators.required], Validators.minLength(6)],
         confirmPassword: ['', [Validators.required]],
+        nameInstitution: ['', [Validators.required]],
+        emailInstitution: ['', [Validators.required, this.emailValidator]],
+        phoneInstitution: ['', [Validators.required]],
+        addressInstitution: ['', [Validators.required]],
       },
       { validator: this.passwordMatchValidator }
     );
@@ -53,35 +60,41 @@ export class TelaLoginCadastroComponent {
       return;
     }
     this.registerUserService
-      .register(
+      .registerAdm(
         new RegisterUserRequest({
           name: this.resgiterForm.get('nome')?.value,
           email: this.resgiterForm.get('email')?.value,
           encrypted_password: this.resgiterForm.get('password')?.value,
           role_id: '0',
+        }),
+        new RegisterInstitutionRequest({
+          nameInstitution: this.resgiterForm.get('nameInstitution')?.value,
+          emailInstitution: this.resgiterForm.get('emailInstitution')?.value,
+          phoneInstitution: this.resgiterForm.get('phoneInstitution')?.value,
+          addressInstitution:
+            this.resgiterForm.get('addressInstitution')?.value,
         })
       )
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: () => {
           this.snackBar.open(`Cadastrado com sucesso.`, '', {
             duration: 1000,
           });
           this.foco = 0;
           this.resetForms(this.resgiterForm);
         },
-        (err) => {
+        error: (err) => {
+          console.log(err);
           this.snackBar.open(`Ocorreu um erro durante sua solicitação.`, '', {
             duration: 1000,
           });
           this.resetForms(this.resgiterForm);
-        }
-      );
+        },
+      });
   }
 
   login() {
     this.dialogRef.close('close');
-    this.router.navigate(['redirecionar']);
-    return;
     if (this.loginForm.invalid) {
       this.snackBar.open('Por favor, revise os campos.', '', {
         duration: 1000,
