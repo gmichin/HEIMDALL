@@ -13,5 +13,4 @@ export class getUserResponse {
   email!: string;
   username!: string;
   password!: string;
-  __v!: number;
 }
