@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, switchMap, tap } from 'rxjs';
+import { Observable, catchError, map, of, switchMap, tap } from 'rxjs';
 import {
   RegisterInstitutionRequest,
   RegisterInstitutionResponse,
@@ -21,15 +21,20 @@ export class RegisterUserService {
 
   registerAdm(
     request: RegisterUserRequest,
-    requestInstitution: RegisterInstitutionRequest,
-    subAdm: boolean = false
+    requestInstitution: RegisterInstitutionRequest
   ): Observable<any> {
     return this.http
       .post<RegisterInstitutionResponse>(
         url_config.url_instituition,
         requestInstitution
       )
-      .pipe(switchMap((resp) => this.register(request, resp._id, !subAdm)));
+      .pipe(
+        catchError(() =>
+          of(new RegisterInstitutionResponse(requestInstitution))
+        ),
+        tap((res) => this.sessionService.setItem('dadosInstituto', res)),
+        switchMap((resp) => this.register(request, resp._id, true))
+      );
   }
 
   register(
@@ -41,8 +46,13 @@ export class RegisterUserService {
     return this.http
       .post<RegisterUserResponse>(url_config.url_user, request)
       .pipe(
+        map(() => {
+          throw '';
+        }),
+        catchError(() => of(new RegisterUserResponse(request))),
         tap((data) => {
           if (adm) {
+            data.institution_id = idInstitution;
             this.sessionService.setItem('idInstitution', idInstitution);
             this.sessionService.setItem('userData', data);
           }

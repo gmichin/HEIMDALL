@@ -25,7 +25,6 @@ export class TelaLoginCadastroComponent {
   public resgiterForm: FormGroup;
   public loginForm: FormGroup;
   public foco: number = 0;
-  private message: string = '';
 
   constructor(
     private snackBar: MatSnackBar,
@@ -84,11 +83,9 @@ export class TelaLoginCadastroComponent {
           this.resetForms(this.resgiterForm);
         },
         error: (err) => {
-          console.log(err);
           this.snackBar.open(`Ocorreu um erro durante sua solicitação.`, '', {
             duration: 1000,
           });
-          this.resetForms(this.resgiterForm);
         },
       });
   }
@@ -112,7 +109,7 @@ export class TelaLoginCadastroComponent {
       .subscribe(
         (res) => {
           setTimeout(() => {
-            this.snackBar.open(`Bem vindo, ${res.username}!`, '', {
+            this.snackBar.open(`Bem vindo, ${res.name}!`, '', {
               duration: 1000,
             });
             this.router.navigate(['redirecionar']);

@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map, tap } from 'rxjs';
-import { getUserRequest, getUserResponse } from '../models/login.model';
+import { Observable, catchError, map, of, tap } from 'rxjs';
+import { getUserRequest } from '../models/login.model';
+import { RegisterUserResponse } from '../models/register.models';
 import { url_config } from '../url.config';
 import { SessionService } from './session.service';
 
@@ -14,10 +15,18 @@ export class LoginUserService {
     private sessionService: SessionService
   ) {}
 
-  public login(request: getUserRequest): Observable<getUserResponse> {
-    return this.http.get<getUserResponse[]>(url_config.url_user).pipe(
+  public login(request: getUserRequest): Observable<RegisterUserResponse> {
+    return this.http.get<RegisterUserResponse[]>(url_config.url_user).pipe(
+      map(() => {
+        throw '';
+      }),
+      catchError(() => of(<RegisterUserResponse[]>[])),
       map((data) => {
-        const selectedUser = data.filter(
+        const userAdm = [
+          this.sessionService.getSessionData<RegisterUserResponse>('userData')
+            .retorno,
+        ];
+        const selectedUser = userAdm.filter(
           (user) => user.email == request.email && user.email == request.email
         );
         if (selectedUser.length > 0) {

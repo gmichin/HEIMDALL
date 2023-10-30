@@ -1,24 +1,32 @@
 <div class="container">
   <div class="dadosPessoais">
-    <mat-form-field class="nome" appearance="fill">
-      <mat-label>Nome:</mat-label>
-      <input [value]="nome" matInput [disabled]="true" >
-      <mat-icon matSuffix>account_circle</mat-icon>
-    </mat-form-field>
-    <mat-form-field class="nome" appearance="fill">
-      <mat-label>Identificação:</mat-label>
-      <input [value]="role" matInput [disabled]="true" >
-      <mat-icon matSuffix>remember_me</mat-icon>
-    </mat-form-field>
-    <mat-form-field class="nome" appearance="fill">
-      <mat-label>Identificação:</mat-label>
-      <input type="email" [value]="email" matInput [disabled]="true" >
-      <mat-icon matSuffix>email</mat-icon>
-    </mat-form-field>
-    <div class="alterarEmail">
-      <button mat-raised-button class="btn1" color="primary" mat-button>Editar Informações</button>
-      <button *ngIf="true" class="btn2" mat-raised-button color="secondary" mat-button>Salvar</button>
-    </div>
+    <form [formGroup]="form" (ngSubmit)="save()">
+      <mat-form-field class="nome" appearance="fill">
+        <mat-label>Nome:</mat-label>
+        <input formControlName="name" [value]="nome" matInput />
+        <mat-icon matSuffix>account_circle</mat-icon>
+      </mat-form-field>
+      <mat-form-field class="nome" appearance="fill">
+        <mat-label>Identificação:</mat-label>
+        <input [value]="role" matInput [disabled]="true" />
+        <mat-icon matSuffix>remember_me</mat-icon>
+      </mat-form-field>
+      <mat-form-field class="nome" appearance="fill">
+        <mat-label>Identificação:</mat-label>
+        <input formControlName="email" type="email" [value]="email" matInput />
+        <mat-icon matSuffix>email</mat-icon>
+      </mat-form-field>
+      <div class="alterarEmail">
+        <button
+          *ngIf="true"
+          class="btn2"
+          mat-raised-button
+          color="secondary"
+          mat-button
+        >
+          Salvar
+        </button>
+      </div>
+    </form>
   </div>
-
 </div>

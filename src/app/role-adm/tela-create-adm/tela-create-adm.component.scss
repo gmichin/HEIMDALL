@@ -1,0 +1,55 @@
+.mat-toolbar {
+  background: #ffd740de;
+  color: var(--mat-toolbar-container-text-color);
+  border-bottom: 2px solid black;
+}
+
+.container {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
+.dadosPessoais {
+  margin-top: 5%;
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.alterarEmail {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 4%;
+  button {
+    width: 35%;
+    height: 50px;
+  }
+  .btn1 {
+    margin-right: 2%;
+  }
+  .btn2 {
+    background: white;
+    color: black;
+  }
+}
+
+::ng-deep mat-form-field .mat-mdc-text-field-wrapper {
+  border-radius: 10px;
+}
+
+::ng-deep .mat-mdc-dialog-surface {
+  background: rgba(255, 215, 64, 1) !important;
+}
+
+.error {
+  padding: 8% 3%;
+
+  .error-text {
+    color: #000;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 0;
+  }
+}

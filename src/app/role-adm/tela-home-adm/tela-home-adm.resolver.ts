@@ -1,35 +1,49 @@
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable, map, switchMap } from 'rxjs';
 import { CourseModelResponse } from 'src/app/models/course.model';
 import { RegisterUserResponse } from 'src/app/models/register.models';
 import { CourseService } from 'src/app/services/course.service';
+import { InternsService } from 'src/app/services/interns.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class telaHomeAdmResolver implements Resolve<any> {
-  constructor(private courseService: CourseService) {}
+  constructor(
+    private courseService: CourseService,
+    private interns: InternsService
+  ) {}
 
-  resolve(): Observable<{
-    courses: CourseModelResponse[];
-    teachers: RegisterUserResponse[];
-    admins: RegisterUserResponse[];
-  }> {
-    return of({
-      courses: <CourseModelResponse[]>[
-        { name: 'Analise e Desenvolvimento de Sistemas' },
-        { name: 'Engenharia Elétrica' },
-      ],
-      teachers: <RegisterUserResponse[]>[
-        { name: 'Antônio Paladino' },
-        { name: 'Braz' },
-      ],
-      admins: <RegisterUserResponse[]>[
-        { name: 'Érico Lima' },
-        { name: 'Wesley Vieira' },
-      ],
-    });
-    // return this.courseService.getAllCourses();
+  resolve(): Observable<
+    {
+      name: string;
+      arr: CourseModelResponse[] | RegisterUserResponse[];
+    }[]
+  > {
+    return this.courseService.getAllCourses().pipe(
+      switchMap((courses) =>
+        this.interns.getAllAdms().pipe(
+          switchMap((adms) =>
+            this.interns.getAllTeachers().pipe(
+              map((teachers) => [
+                {
+                  name: 'Cursos',
+                  arr: courses,
+                },
+                {
+                  name: 'Professores',
+                  arr: teachers,
+                },
+                {
+                  name: 'Administradores',
+                  arr: adms,
+                },
+              ])
+            )
+          )
+        )
+      )
+    );
   }
 }

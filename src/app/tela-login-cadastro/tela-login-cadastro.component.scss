@@ -1,4 +1,4 @@
-.example-card {
+.example-cardLoginCadastro {
   max-width: 700px;
 }
 .center-content {
@@ -17,13 +17,13 @@
   flex: 1 1 auto;
 }
 
-::ng-deep .example-card {
+::ng-deep .example-cardLoginCadastro {
   max-width: 700px;
   min-width: 700px;
   max-height: 463px;
   min-height: 463px;
 }
 
-::ng-deep .center-content .mat-mdc-tab-body-content{
+::ng-deep .center-content .mat-mdc-tab-body-content {
   overflow: hidden;
 }

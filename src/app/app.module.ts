@@ -17,15 +17,19 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { PhoneNumberDirective } from './directives/OnlyNumbers.directive';
+import { LoaderComponent } from './loader/loader.component';
 import { RoleAdmModule } from './role-adm/role-adm.module';
+import { LoaderService } from './services/loader.service';
 import { RegisterUserService } from './services/register-user.service';
 import { TelaLoginCadastroComponent } from './tela-login-cadastro/tela-login-cadastro.component';
 import { TelaPerfilComponent } from './tela-perfil/tela-perfil.component';
+import { TelaPerfilResolver } from './tela-perfil/tela-perfil.resolver';
 
 @NgModule({
   declarations: [
@@ -34,6 +38,7 @@ import { TelaPerfilComponent } from './tela-perfil/tela-perfil.component';
     TelaLoginCadastroComponent,
     PhoneNumberDirective,
     TelaPerfilComponent,
+    LoaderComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -56,8 +61,9 @@ import { TelaPerfilComponent } from './tela-perfil/tela-perfil.component';
     MatSidenavModule,
     MatListModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
   ],
-  providers: [RegisterUserService],
+  providers: [RegisterUserService, LoaderService, TelaPerfilResolver],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

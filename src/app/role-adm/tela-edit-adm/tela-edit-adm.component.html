@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="dadosPessoais">
+    <form [formGroup]="resgiterForm" (ngSubmit)="register()">
+      <mat-form-field class="nome" appearance="fill">
+        <mat-label>Nome do Administrador:</mat-label>
+        <input formControlName="nome" matInput />
+        <mat-icon matSuffix>account_circle</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field class="nome" appearance="fill">
+        <mat-label>Email:</mat-label>
+        <input formControlName="email" matInput />
+        <mat-icon matSuffix>email</mat-icon>
+      </mat-form-field>
+
+      <div class="alterarEmail">
+        <button
+          mat-button
+          type="submit"
+          class="btn2"
+          mat-raised-button
+          color="secondary"
+        >
+          Cadastrar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
