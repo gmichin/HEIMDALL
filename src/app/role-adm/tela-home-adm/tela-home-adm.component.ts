@@ -7,6 +7,7 @@ import { RegisterUserResponse } from 'src/app/models/register.models';
 import { RoleService } from 'src/app/services/role.service';
 import { SessionService } from 'src/app/services/session.service';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
+import { TelaReservasComponent} from 'src/app/tela-reservas/tela-reservas.component'
 import { TelaCreateAdmComponent } from '../tela-create-adm/tela-create-adm.component';
 import { TelaCreateCourseComponent } from '../tela-create-course/tela-create-course.component';
 import { TelaCreateTeacherComponent } from '../tela-create-teacher/tela-create-teacher.component';
@@ -57,6 +58,10 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
     dialogT.afterClosed().subscribe(() => {
       this.dialogCloseSubs();
     });
+  }
+
+  public redirectReserve() {
+    this.router.navigate(['/tela-reservas']);
   }
 
   public editItem(

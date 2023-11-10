@@ -10,6 +10,7 @@ import { SessionService } from './../services/session.service';
   templateUrl: './tela-perfil.component.html',
   styleUrls: ['./tela-perfil.component.scss'],
 })
+
 export class TelaPerfilComponent implements OnInit {
   public dados = <
     {

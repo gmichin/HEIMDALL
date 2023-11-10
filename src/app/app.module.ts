@@ -30,6 +30,7 @@ import { RegisterUserService } from './services/register-user.service';
 import { TelaLoginCadastroComponent } from './tela-login-cadastro/tela-login-cadastro.component';
 import { TelaPerfilComponent } from './tela-perfil/tela-perfil.component';
 import { TelaPerfilResolver } from './tela-perfil/tela-perfil.resolver';
+import { TelaReservasComponent } from './tela-reservas/tela-reservas.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { TelaPerfilResolver } from './tela-perfil/tela-perfil.resolver';
     PhoneNumberDirective,
     TelaPerfilComponent,
     LoaderComponent,
+    TelaReservasComponent,
   ],
   imports: [
     AppRoutingModule,
