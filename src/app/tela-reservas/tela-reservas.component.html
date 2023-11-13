@@ -24,9 +24,9 @@
     <span class="tituloH">HEIMDALL</span>
   </mat-toolbar>
   
-<button *ngFor="let salaItem of sala; let i = index" (click)="abrirDetalhesSala(salaItem)" mat-menu-item>
-  <mat-icon>meeting_room</mat-icon>
-  <span>Reservar Sala {{sala[i].numero}}</span>
-</button>
-
-  
+  <div class="sala-buttons-container">
+    <button *ngFor="let salaItem of sala; let i = index" (click)="abrirDetalhesSala(salaItem)" mat-menu-item class="sala-button">
+      <mat-icon>meeting_room</mat-icon>
+      <span>Reservar Sala {{sala[i].numero}}</span>
+    </button>
+  </div>
