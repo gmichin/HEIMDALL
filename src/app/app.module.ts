@@ -31,6 +31,7 @@ import { TelaLoginCadastroComponent } from './tela-login-cadastro/tela-login-cad
 import { TelaPerfilComponent } from './tela-perfil/tela-perfil.component';
 import { TelaPerfilResolver } from './tela-perfil/tela-perfil.resolver';
 import { TelaReservasComponent } from './tela-reservas/tela-reservas.component';
+import { TelaReservaDetalhadasComponent } from './tela-reservas/tela-reserva-detalhadas/tela-reserva-detalhadas.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { TelaReservasComponent } from './tela-reservas/tela-reservas.component';
     TelaPerfilComponent,
     LoaderComponent,
     TelaReservasComponent,
+    TelaReservaDetalhadasComponent,
   ],
   imports: [
     AppRoutingModule,

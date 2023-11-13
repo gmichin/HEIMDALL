@@ -2,6 +2,7 @@
   <button mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon>menu</mat-icon>
   </button>
+  <div class="logo-central"></div>
   <mat-menu #menu="matMenu">
     <button (click)="redirectProfile()" mat-menu-item>
       <mat-icon> account_circle </mat-icon>
@@ -16,23 +17,16 @@
       <span>Professores</span>
     </button>
     <button (click)="redirectReserve()" mat-menu-item>
-      <mat-icon>notifications_off</mat-icon>
+      <mat-icon>meeting_room</mat-icon>
       <span>Reservas</span>
     </button>
   </mat-menu>
     <span class="tituloH">HEIMDALL</span>
-  
   </mat-toolbar>
-  <div class="box-container">
-    <div class="logo-central"></div>
-    <div class="tryNow">
-      <p>
-        Organização Acadêmica Inspirada por Heimdall.
-        </p>
-        <button mat-raised-button color="primary">Tente agora!</button>
-    </div>
-    <div class="top-box">
   
-    </div>
-  </div>
+<button *ngFor="let salaItem of sala; let i = index" (click)="abrirDetalhesSala(salaItem)" mat-menu-item>
+  <mat-icon>meeting_room</mat-icon>
+  <span>Reservar Sala {{sala[i].numero}}</span>
+</button>
+
   
