@@ -32,6 +32,7 @@ import { TelaPerfilComponent } from './tela-perfil/tela-perfil.component';
 import { TelaPerfilResolver } from './tela-perfil/tela-perfil.resolver';
 import { TelaReservasComponent } from './tela-reservas/tela-reservas.component';
 import { TelaReservaDetalhadasComponent } from './tela-reservas/tela-reserva-detalhadas/tela-reserva-detalhadas.component';
+import { NewTelaReservaComponent } from './tela-reservas/new-tela-reserva/new-tela-reserva.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { TelaReservaDetalhadasComponent } from './tela-reservas/tela-reserva-det
     LoaderComponent,
     TelaReservasComponent,
     TelaReservaDetalhadasComponent,
+    NewTelaReservaComponent,
   ],
   imports: [
     AppRoutingModule,

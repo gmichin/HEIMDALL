@@ -27,7 +27,8 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/assets/jsons/sala.json"
             ],
             "styles": [
               "@angular/material/prebuilt-themes/deeppurple-amber.css",

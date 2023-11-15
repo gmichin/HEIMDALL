@@ -1,0 +1,44 @@
+<div class="salaForm">
+  <form [formGroup]="salaForm" (ngSubmit)="salvarInformacoes()">
+    <mat-form-field>
+      <mat-label>Número:</mat-label>
+      <input formControlName="numero" matInput />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Cadeiras:</mat-label>
+      <input formControlName="cadeiras" matInput />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Mesas:</mat-label>
+      <input formControlName="mesas" matInput />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Cadeiras/Mesa:</mat-label>
+      <input formControlName="cadeirasPorMesa" matInput />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Computadores:</mat-label>
+      <input formControlName="computadores" matInput />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Lousa:</mat-label>
+      <input formControlName="lousa" matInput />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Projetor:</mat-label>
+      <input formControlName="projetor" matInput />
+    </mat-form-field>
+
+    <div class="salvarInformacoes">
+      <button mat-button type="submit" class="btn2" mat-raised-button color="primary">
+        Salvar Informações
+      </button>
+    </div>
+  </form>
+</div>

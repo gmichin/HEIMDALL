@@ -1,0 +1,21 @@
+[
+    {
+      "numero": 107,
+      "cadeiras": 25,
+      "mesas": 5,
+      "cadeirasPorMesa": 5,
+      "computadores": 25,
+      "lousa": 1,
+      "projetor": 1
+    },
+    {
+      "numero": 100,
+      "cadeiras": 20,
+      "mesas": 5,
+      "cadeirasPorMesa": 4,
+      "computadores": 0,
+      "lousa": 1,
+      "projetor": 1
+    }
+  ]
+  
