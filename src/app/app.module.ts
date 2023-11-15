@@ -33,6 +33,11 @@ import { TelaPerfilResolver } from './tela-perfil/tela-perfil.resolver';
 import { TelaReservasComponent } from './tela-reservas/tela-reservas.component';
 import { TelaReservaDetalhadasComponent } from './tela-reservas/tela-reserva-detalhadas/tela-reserva-detalhadas.component';
 import { NewTelaReservaComponent } from './tela-reservas/new-tela-reserva/new-tela-reserva.component';
+import { TelaMarcarReservaComponent } from './tela-reservas/tela-marcar-reserva/tela-marcar-reserva.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
   declarations: [
@@ -45,6 +50,7 @@ import { NewTelaReservaComponent } from './tela-reservas/new-tela-reserva/new-te
     TelaReservasComponent,
     TelaReservaDetalhadasComponent,
     NewTelaReservaComponent,
+    TelaMarcarReservaComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -68,6 +74,9 @@ import { NewTelaReservaComponent } from './tela-reservas/new-tela-reserva/new-te
     MatListModule,
     MatSelectModule,
     MatProgressSpinnerModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
   ],
   providers: [RegisterUserService, LoaderService, TelaPerfilResolver],
   bootstrap: [AppComponent],

@@ -29,6 +29,7 @@ export class NewTelaReservaComponent {
       computadores: [this.data ? this.data.computadores : '', Validators.required],
       lousa: [this.data ? this.data.lousa : '', Validators.required],
       projetor: [this.data ? this.data.projetor : '', Validators.required],
+      status: false
     });
   }
   

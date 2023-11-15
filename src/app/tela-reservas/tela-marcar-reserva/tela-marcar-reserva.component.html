@@ -1,0 +1,39 @@
+<div class="professorForm">
+    <form [formGroup]="professorForm" (ngSubmit)="salvarInformacoes()">
+      <mat-form-field>
+        <mat-label>Nome do Professor:</mat-label>
+        <input formControlName="nomeProfessor" matInput />
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Data de Início:</mat-label>
+        <input formControlName="dataInicio" matInput [matDatepicker]="inicioDatepicker" />
+        <mat-datepicker-toggle matSuffix [for]="inicioDatepicker"></mat-datepicker-toggle>
+        <mat-datepicker #inicioDatepicker></mat-datepicker>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Hora de Início:</mat-label>
+        <input formControlName="horaInicio" matInput />
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Data de Término:</mat-label>
+        <input formControlName="dataTermino" matInput [matDatepicker]="terminoDatepicker" />
+        <mat-datepicker-toggle matSuffix [for]="terminoDatepicker"></mat-datepicker-toggle>
+        <mat-datepicker #terminoDatepicker></mat-datepicker>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Hora de Término:</mat-label>
+        <input formControlName="horaTermino" matInput />
+      </mat-form-field>
+  
+      <div class="salvarInformacoes">
+        <button mat-button type="submit" class="btn2" mat-raised-button color="primary">
+          Salvar Informações
+        </button>
+      </div>
+    </form>
+  </div>
+  
