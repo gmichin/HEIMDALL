@@ -31,4 +31,5 @@ export class TelaReservaDetalhadasComponent {
     this.salaDataService.deletarSala(numeroSala);
   }
 
+  reservarSala(){}
 }

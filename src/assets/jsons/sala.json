@@ -6,7 +6,8 @@
       "cadeirasPorMesa": 5,
       "computadores": 25,
       "lousa": 1,
-      "projetor": 1
+      "projetor": 1,
+      "status": true
     },
     {
       "numero": 100,
@@ -15,7 +16,7 @@
       "cadeirasPorMesa": 4,
       "computadores": 0,
       "lousa": 1,
-      "projetor": 1
+      "projetor": 1,
+      "status": false
     }
-  ]
-  
+]

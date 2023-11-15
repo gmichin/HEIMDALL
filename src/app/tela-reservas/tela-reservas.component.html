@@ -26,8 +26,12 @@
   </mat-toolbar>
   
   <div class="sala-buttons-container">
-    <button *ngFor="let salaItem of sala; let i = index" (click)="abrirDetalhesSala(salaItem)" mat-menu-item class="sala-button">
+    <button *ngFor="let salaItem of sala; let i = index" 
+            (click)="abrirDetalhesSala(salaItem)" 
+            mat-menu-item class="sala-button"
+            [disabled]="sala[i].status === true">
       <mat-icon>meeting_room</mat-icon>
-      <span>Reservar Sala {{sala[i].numero}}</span>
+      <span>Sala {{sala[i].numero}} reservada? {{sala[i].status}}</span>
     </button>
   </div>
+  
