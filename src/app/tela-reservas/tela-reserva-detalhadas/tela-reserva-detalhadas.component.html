@@ -2,8 +2,10 @@
     <h2>Detalhes da Sala {{sala.numero}}</h2>
     <p>Cadeiras: {{ sala.cadeiras }}</p>
     <p>Mesas: {{ sala.mesas }}</p>
-    <p>Cadeiras por Mesa: {{ sala['cadeirasPorMesa'] }}</p>
+    <p>Cadeiras por Mesa: {{ sala.cadeirasPorMesa }}</p>
     <p>Computadores: {{ sala.computadores }}</p>
     <p>Lousa: {{ sala.lousa }}</p>
     <p>Projetor: {{ sala.projetor }}</p>
+    
+    <button (click)="editarSala()">Editar Sala</button>
 </div>

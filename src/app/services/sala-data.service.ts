@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -7,11 +7,13 @@ import { HttpClient } from '@angular/common/http';
 })
 export class SalaDataService {
   private salaDataSubject = new BehaviorSubject<any[]>([]);
-  salaData$ = this.salaDataSubject.asObservable();
 
   constructor(private http: HttpClient) {
     this.carregarDadosSalas();
   }
+
+  salaData$ = this.salaDataSubject.asObservable();
+
 
   private carregarDadosSalas() {
     this.http.get<any[]>('/assets/jsons/sala.json').subscribe(data => {
@@ -22,6 +24,17 @@ export class SalaDataService {
   adicionarNovaSala(novaSala: any) {
     const salasAtuais = this.salaDataSubject.getValue();
     this.salaDataSubject.next([...salasAtuais, novaSala]);
+  }
+
+  atualizarSala(salaAtualizada: any) {
+    const salasAtuais = this.salaDataSubject.getValue();
+    const indice = salasAtuais.findIndex(sala => sala.numero === salaAtualizada.numero);
+
+    if (indice !== -1) {
+      const salasAtualizadas = [...salasAtuais];
+      salasAtualizadas[indice] = salaAtualizada;
+      this.salaDataSubject.next(salasAtualizadas);
+    }
   }
 
   obterDetalhesSala(numero: number): any {

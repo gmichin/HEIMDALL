@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ReservaService } from '../services/tela-reserva.service';
 import { TelaReservaDetalhadasComponent } from 'src/app/tela-reservas/tela-reserva-detalhadas/tela-reserva-detalhadas.component'
 import { NewTelaReservaComponent } from 'src/app/tela-reservas/new-tela-reserva/new-tela-reserva.component'
 import { SalaDataService } from '../services/sala-data.service';
@@ -17,7 +16,6 @@ export class TelaReservasComponent {
   constructor(
     private router: Router,
     public dialog: MatDialog,
-    private ReservaService: ReservaService,
     private salaDataService: SalaDataService
   ) {
     this.salaDataService.salaData$.subscribe(data => {
@@ -38,6 +36,7 @@ export class TelaReservasComponent {
       this.router.navigate(['/tela-reservas']);
     }
 
+    
     public abrirDetalhesSala(sala: any) {
       const detalhesSala = this.salaDataService.obterDetalhesSala(sala.numero);
       this.dialog.open(TelaReservaDetalhadasComponent, {
@@ -46,16 +45,18 @@ export class TelaReservasComponent {
       });
     }
 
+    private dialogCloseSubs() {
+      this.router.navigate(['reload']);
+    }
+
+    //botão para rota de nova sala
     public novaSala() {
       this.dialog.open(NewTelaReservaComponent, {
         width: '400px'
       });
     }
 
-    private dialogCloseSubs() {
-      this.router.navigate(['reload']);
-    }
-
+    //botão de adição de nova sala
     adicionarNovaSala(novaSala: any) {
       this.sala.push(novaSala);
     }
