@@ -1,0 +1,26 @@
+.professorForm {
+    margin-top: 5%;
+    text-align: center;
+  }
+  
+  mat-form-field{
+      width: 85%;
+  }
+  
+  .salvarInformacoes {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 4%;
+    .btn2 {
+      background: black;
+      color: white;
+    }
+  }
+  
+  ::ng-deep mat-form-field .mat-mdc-text-field-wrapper {
+    border-radius: 10px;
+  }
+  
+  ::ng-deep .mat-mdc-dialog-surface {
+    background: rgba(255, 215, 64, 1) !important;
+  }
