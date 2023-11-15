@@ -25,4 +25,10 @@ export class TelaReservaDetalhadasComponent {
       data: this.sala
     });
   }
+  
+  deletarSala() {
+    const numeroSala = this.sala.numero;
+    this.salaDataService.deletarSala(numeroSala);
+  }
+
 }

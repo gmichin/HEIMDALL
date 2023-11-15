@@ -41,4 +41,10 @@ export class SalaDataService {
     const salas = this.salaDataSubject.getValue();
     return salas.find(sala => sala.numero === numero);
   }
+  
+  deletarSala(numero: number) {
+    const salasAtuais = this.salaDataSubject.getValue();
+    const salasAtualizadas = salasAtuais.filter(sala => sala.numero !== numero);
+    this.salaDataSubject.next(salasAtualizadas);
+  }
 }
