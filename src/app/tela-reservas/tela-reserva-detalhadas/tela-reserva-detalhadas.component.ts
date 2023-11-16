@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SalaDataService } from 'src/app/services/sala-data.service';
 import { NewTelaReservaComponent } from 'src/app/tela-reservas/new-tela-reserva/new-tela-reserva.component';
 import { TelaMarcarReservaComponent } from 'src/app/tela-reservas/tela-marcar-reserva/tela-marcar-reserva.component'
@@ -15,7 +15,8 @@ export class TelaReservaDetalhadasComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private salaDataService: SalaDataService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private dialogDetails: MatDialogRef<TelaReservaDetalhadasComponent>
   ) {
     const numeroSala = data.numero;
     this.sala = this.salaDataService.obterDetalhesSala(numeroSala);
@@ -25,6 +26,7 @@ export class TelaReservaDetalhadasComponent {
     const dialogRef = this.dialog.open(NewTelaReservaComponent, {
       data: this.sala
     });
+    this.dialogDetails.close();
   }
   
   deletarSala() {
@@ -37,5 +39,6 @@ export class TelaReservaDetalhadasComponent {
       width: '400px',
       data: this.sala
     });
+    this.dialogDetails.close();
   }
 }

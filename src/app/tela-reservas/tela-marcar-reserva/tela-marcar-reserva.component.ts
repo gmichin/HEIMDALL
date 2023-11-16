@@ -53,6 +53,6 @@ export class TelaMarcarReservaComponent {
 
     console.log(this.professorForm.value);
 
-    this.dialogRef.close({ salaEditada: true });
+    this.dialogRef.close();
   }
 }
