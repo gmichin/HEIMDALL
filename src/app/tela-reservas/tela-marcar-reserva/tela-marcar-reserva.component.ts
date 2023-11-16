@@ -12,16 +12,28 @@ export class TelaMarcarReservaComponent {
 
   professorForm!: FormGroup;
   sala!: FormGroup;
+  professorNomes: string[] = [];
 
   constructor(
     private formBuilder: FormBuilder, 
     private salaDataService: SalaDataService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<TelaMarcarReservaComponent>
-    ) {}
+    ) {
+    this.salaDataService.teacherData$.subscribe(professores => {
+      this.professorNomes = professores.map(professor => professor.nome);
+    });
+
+    }
 
   ngOnInit(): void {
-    this.inicializarFormulario();
+    this.professorForm = this.formBuilder.group({
+      nomeProfessor: ['', Validators.required],
+      dataInicio: ['', Validators.required],
+      horaInicio: ['', Validators.required],
+      dataTermino: ['', Validators.required],
+      horaTermino: ['', Validators.required],
+    });
 
     
     this.sala = this.formBuilder.group({
@@ -33,16 +45,6 @@ export class TelaMarcarReservaComponent {
       lousa: this.data.lousa,
       projetor: this.data.projetor,
       status: true
-    });
-  }
-
-  inicializarFormulario(): void {
-    this.professorForm = this.formBuilder.group({
-      nomeProfessor: ['', Validators.required],
-      dataInicio: ['', Validators.required],
-      horaInicio: ['', Validators.required],
-      dataTermino: ['', Validators.required],
-      horaTermino: ['', Validators.required],
     });
   }
 

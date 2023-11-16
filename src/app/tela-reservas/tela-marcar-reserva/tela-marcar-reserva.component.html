@@ -2,7 +2,9 @@
     <form [formGroup]="professorForm" (ngSubmit)="salvarInformacoes()">
       <mat-form-field>
         <mat-label>Nome do Professor:</mat-label>
-        <input formControlName="nomeProfessor" matInput />
+        <mat-select formControlName="nomeProfessor">
+          <mat-option *ngFor="let nome of professorNomes" [value]="nome">{{ nome }}</mat-option>
+        </mat-select>
       </mat-form-field>
   
       <mat-form-field>
