@@ -15,8 +15,7 @@ export class NewTelaReservaComponent {
     private formBuilder: FormBuilder, 
     private salaDataService: SalaDataService,
     private dialogRef: MatDialogRef<NewTelaReservaComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialog: MatDialog
+    @Inject(MAT_DIALOG_DATA) public data: any
   
   ) { }
 

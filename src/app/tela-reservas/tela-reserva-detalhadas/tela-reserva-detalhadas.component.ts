@@ -35,6 +35,7 @@ export class TelaReservaDetalhadasComponent {
   reservarSala(){
     const dialogT = this.dialog.open(TelaMarcarReservaComponent, {
       width: '400px',
+      data: this.sala
     });
   }
 }
