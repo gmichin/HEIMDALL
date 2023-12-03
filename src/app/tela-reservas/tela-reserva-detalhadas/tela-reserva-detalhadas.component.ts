@@ -1,13 +1,17 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { SalaDataService } from 'src/app/services/sala-data.service';
 import { NewTelaReservaComponent } from 'src/app/tela-reservas/new-tela-reserva/new-tela-reserva.component';
-import { TelaMarcarReservaComponent } from 'src/app/tela-reservas/tela-marcar-reserva/tela-marcar-reserva.component'
+import { TelaMarcarReservaComponent } from 'src/app/tela-reservas/tela-marcar-reserva/tela-marcar-reserva.component';
 
 @Component({
   selector: 'app-tela-reserva-detalhadas',
   templateUrl: './tela-reserva-detalhadas.component.html',
-  styleUrls: ['./tela-reserva-detalhadas.component.scss']
+  styleUrls: ['./tela-reserva-detalhadas.component.scss'],
 })
 export class TelaReservaDetalhadasComponent {
   sala: any;
@@ -24,21 +28,23 @@ export class TelaReservaDetalhadasComponent {
 
   editarSala() {
     const dialogRef = this.dialog.open(NewTelaReservaComponent, {
-      data: this.sala
+      width: '400px',
+      maxHeight: '480px',
+      data: this.sala,
     });
     this.dialogDetails.close();
   }
-  
+
   deletarSala() {
     const numeroSala = this.sala.numero;
     this.salaDataService.deletarSala(numeroSala);
     this.dialogDetails.close();
   }
 
-  reservarSala(){
+  reservarSala() {
     const dialogT = this.dialog.open(TelaMarcarReservaComponent, {
       width: '400px',
-      data: this.sala
+      data: this.sala,
     });
     this.dialogDetails.close();
   }
