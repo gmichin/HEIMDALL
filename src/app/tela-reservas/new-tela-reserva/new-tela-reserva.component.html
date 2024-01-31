@@ -1,8 +1,15 @@
 <div class="salaForm">
+  <div class="header">
+    <h2>Detalhes da Sala {{ data.numero }}</h2>
+  </div>
   <form [formGroup]="salaForm" (ngSubmit)="salvarInformacoes()">
     <mat-form-field>
       <mat-label>Número:</mat-label>
-      <input formControlName="numero" matInput />
+      <input
+        [value]="salaForm.get('numero')?.value"
+        matInput
+        [disabled]="true"
+      />
     </mat-form-field>
 
     <mat-form-field>
@@ -36,7 +43,13 @@
     </mat-form-field>
 
     <div class="salvarInformacoes">
-      <button mat-button type="submit" class="btn2" mat-raised-button color="primary">
+      <button
+        mat-button
+        type="submit"
+        class="btn2"
+        mat-raised-button
+        color="primary"
+      >
         Salvar Informações
       </button>
     </div>

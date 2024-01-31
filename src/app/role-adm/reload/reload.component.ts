@@ -10,6 +10,6 @@ export class ReloadComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit() {
-    this.router.navigate(['home-adm']);
+    this.router.navigate(['tela-reservas']);
   }
 }

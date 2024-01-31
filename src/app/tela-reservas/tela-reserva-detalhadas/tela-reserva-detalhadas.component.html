@@ -1,16 +1,38 @@
 <div class="detalhes-sala">
-    <div class="header">
-        <h2>Detalhes da Sala {{sala.numero}}</h2>
-        <button class="reservar-btn" (click)="reservarSala()">Reservar</button>
-    </div>
+  <div class="header">
+    <h2>Detalhes da Sala {{ sala.numero }}</h2>
+    <button
+      mat-button
+      mat-raised-button
+      color="primary"
+      class="reservar-btn"
+      (click)="reservarSala()"
+      [disabled]="sala.status === true"
+    >
+      Reservar
+    </button>
+  </div>
 
-    <p style="margin-top: 20px;">Cadeiras: {{ sala.cadeiras }}</p>
-    <p>Mesas: {{ sala.mesas }}</p>
-    <p>Cadeiras por Mesa: {{ sala.cadeirasPorMesa }}</p>
-    <p>Computadores: {{ sala.computadores }}</p>
-    <p>Lousa: {{ sala.lousa }}</p>
-    <p>Projetor: {{ sala.projetor }}</p>
+  <p style="margin-top: 20px">Cadeiras: {{ sala.cadeiras }}</p>
+  <p>Mesas: {{ sala.mesas }}</p>
+  <p>Cadeiras por Mesa: {{ sala.cadeirasPorMesa }}</p>
+  <p>Computadores: {{ sala.computadores }}</p>
+  <p>Lousa: {{ sala.lousa }}</p>
+  <p>Projetor: {{ sala.projetor }}</p>
+  <p *ngIf="sala.teacher">Reservado por: {{ sala.teacher }}</p>
+  <p *ngIf="sala.data !== ''">Data da Reserva: {{ sala.data }}</p>
+  <p *ngIf="sala.horario !== ''">Horário da Reserva: {{ sala.horario }}</p>
 
-    <button (click)="editarSala()">Editar</button>
-    <button (click)="deletarSala()">Deletar</button>
+  <button
+    style="margin-right: 2%"
+    mat-button
+    mat-raised-button
+    color="primary"
+    (click)="editarSala()"
+  >
+    Editar
+  </button>
+  <button mat-button mat-raised-button color="primary" (click)="deletarSala()">
+    Deletar
+  </button>
 </div>

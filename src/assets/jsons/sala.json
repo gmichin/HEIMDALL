@@ -1,22 +1,88 @@
 [
-    {
-      "numero": 107,
-      "cadeiras": 25,
-      "mesas": 5,
-      "cadeirasPorMesa": 5,
-      "computadores": 25,
-      "lousa": 1,
-      "projetor": 1,
-      "status": true
-    },
-    {
-      "numero": 100,
-      "cadeiras": 20,
-      "mesas": 5,
-      "cadeirasPorMesa": 4,
-      "computadores": 0,
-      "lousa": 1,
-      "projetor": 1,
-      "status": false
-    }
+  {
+    "data": "06/12/2023",
+    "horario": "19:00 - 20:10",
+    "numero": 107,
+    "cadeiras": 25,
+    "mesas": 5,
+    "cadeirasPorMesa": 5,
+    "computadores": 25,
+    "lousa": 1,
+    "projetor": 1,
+    "status": true,
+    "teacher": "Professor Bras"
+  },
+  {
+    "data": "08/12/2023",
+    "horario": "19:00 - 22:00",
+    "numero": 104,
+    "cadeiras": 25,
+    "mesas": 5,
+    "cadeirasPorMesa": 5,
+    "computadores": 25,
+    "lousa": 1,
+    "projetor": 1,
+    "status": true,
+    "teacher": "Professor Bras"
+  },
+  {
+    "data": "",
+    "horario": "",
+    "numero": 105,
+    "cadeiras": 25,
+    "mesas": 5,
+    "cadeirasPorMesa": 5,
+    "computadores": 25,
+    "lousa": 1,
+    "projetor": 1,
+    "status": false
+  },
+  {
+    "data": "",
+    "horario": "",
+    "numero": 106,
+    "cadeiras": 25,
+    "mesas": 5,
+    "cadeirasPorMesa": 5,
+    "computadores": 25,
+    "lousa": 1,
+    "projetor": 1,
+    "status": false
+  },
+  {
+    "data": "",
+    "horario": "",
+    "numero": 102,
+    "cadeiras": 25,
+    "mesas": 5,
+    "cadeirasPorMesa": 5,
+    "computadores": 25,
+    "lousa": 1,
+    "projetor": 1,
+    "status": false
+  },
+  {
+    "data": "",
+    "horario": "",
+    "numero": 101,
+    "cadeiras": 25,
+    "mesas": 5,
+    "cadeirasPorMesa": 5,
+    "computadores": 25,
+    "lousa": 1,
+    "projetor": 1,
+    "status": false
+  },
+  {
+    "data": "",
+    "horario": "",
+    "numero": 100,
+    "cadeiras": 20,
+    "mesas": 5,
+    "cadeirasPorMesa": 4,
+    "computadores": 0,
+    "lousa": 1,
+    "projetor": 1,
+    "status": false
+  }
 ]

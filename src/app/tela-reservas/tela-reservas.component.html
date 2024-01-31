@@ -21,17 +21,23 @@
       <span>Reservas</span>
     </button>
   </mat-menu>
-    <span class="tituloH">HEIMDALL</span>
-    <button mat-button (click)="novaSala()"  style="margin-left: 28cm;">Criar nova sala</button>
-  </mat-toolbar>
-  
-  <div class="sala-buttons-container">
-    <button *ngFor="let salaItem of sala; let i = index" 
-            (click)="abrirDetalhesSala(salaItem)" 
-            mat-menu-item class="sala-button"
-            [disabled]="sala[i].status === true">
-      <mat-icon>meeting_room</mat-icon>
-      <span>Sala {{sala[i].numero}} reservada? {{sala[i].status}}</span>
-    </button>
-  </div>
-  
+  <span class="tituloH">HEIMDALL</span>
+  <button mat-button (click)="novaSala()" style="margin-left: 28cm">
+    Criar nova sala
+  </button>
+</mat-toolbar>
+
+<div class="sala-buttons-container">
+  <button
+    *ngFor="let salaItem of sala; let i = index"
+    (click)="abrirDetalhesSala(salaItem)"
+    mat-menu-item
+    class="sala-button"
+  >
+    <mat-icon>meeting_room</mat-icon>
+    <span
+      >Sala {{ sala[i].numero }}
+      {{ sala[i].status == true ? "reservada" : "não reservada" }}</span
+    >
+  </button>
+</div>

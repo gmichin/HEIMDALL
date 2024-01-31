@@ -8,7 +8,6 @@ import {
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { getUserRequest } from '../models/login.model';
 import {
   RegisterInstitutionRequest,
   RegisterUserRequest,
@@ -92,37 +91,38 @@ export class TelaLoginCadastroComponent {
 
   login() {
     this.dialogRef.close('close');
-    if (this.loginForm.invalid) {
-      this.snackBar.open('Por favor, revise os campos.', '', {
-        duration: 1000,
-      });
-      return;
-    }
+    // if (this.loginForm.invalid) {
+    //   this.snackBar.open('Por favor, revise os campos.', '', {
+    //     duration: 1000,
+    //   });
+    //   return;
+    // }
 
-    this.loginUserService
-      .login(
-        new getUserRequest({
-          email: this.loginForm.get('email')?.value,
-          password: this.loginForm.get('password')?.value,
-        })
-      )
-      .subscribe(
-        (res) => {
-          setTimeout(() => {
-            this.snackBar.open(`Bem vindo, ${res.name}!`, '', {
-              duration: 1000,
-            });
-            this.router.navigate(['redirecionar']);
-            this.dialogRef.close('close');
-          }, 1500);
-          this.resetForms(this.resgiterForm);
-        },
-        (err) => {
-          this.snackBar.open(`Usuário não cadastrado.`, '', {
-            duration: 1000,
-          });
-        }
-      );
+    // this.loginUserService
+    //   .login(
+    //     new getUserRequest({
+    //       email: this.loginForm.get('email')?.value,
+    //       password: this.loginForm.get('password')?.value,
+    //     })
+    //   )
+    //   .subscribe(
+    //     (res) => {
+    //       setTimeout(() => {
+    //         this.snackBar.open(`Bem vindo, ${res.name}!`, '', {
+    //           duration: 1000,
+    //         });
+    //         this.router.navigate(['redirecionar']);
+    //         this.dialogRef.close('close');
+    //       }, 1500);
+    //       this.resetForms(this.resgiterForm);
+    //     },
+    //     (err) => {
+    //       this.snackBar.open(`Usuário não cadastrado.`, '', {
+    //         duration: 1000,
+    //       });
+    //     }
+    //   );
+    this.router.navigate(['tela-reservas']);
   }
 
   private resetForms(form: FormGroup): void {
