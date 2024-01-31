@@ -24,3 +24,14 @@
       <span class="tituloH">HEIMDALL</span>
     </mat-toolbar>
     
+    <div class="calendario-personalizado">
+        <mat-calendar [dateClass]="diaClassFunction" (selectedChange)="onClickDia($event)"></mat-calendar>
+    </div>
+    
+    <div>
+        <h2>Dias Selecionados:</h2>
+        <ul>
+            <li *ngFor="let selectedDate of diasSelecionados">{{ selectedDate | date }}</li>
+        </ul>
+    </div>
+    
