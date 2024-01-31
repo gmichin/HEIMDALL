@@ -6,6 +6,7 @@ import { TelaPerfilResolver } from './tela-perfil/tela-perfil.resolver';
 import { TelaRedirecionarUsuarioComponent } from './tela-redirecionar-usuario/tela-redirecionar-usuario.component';
 import { TelaReservasComponent } from './tela-reservas/tela-reservas.component'
 import { RedirecionarUsuarioGuard } from './tela-redirecionar-usuario/tela-redirecionar-usuario.guard';
+import { TelaCalendarioComponent } from './tela-calendario/tela-calendario.component';
 
 const routes: Routes = [
   { path: '', component: TelaInicialComponent },
@@ -25,7 +26,8 @@ const routes: Routes = [
       dados: TelaPerfilResolver,
     },
   },
-  { path: 'tela-reservas', component: TelaReservasComponent }
+  { path: 'tela-reservas', component: TelaReservasComponent },
+  { path: 'tela-calendario', component: TelaCalendarioComponent }
 ];
 
 @NgModule({

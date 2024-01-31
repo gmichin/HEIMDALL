@@ -1,0 +1,26 @@
+<mat-toolbar>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div class="logo-central"></div>
+    <mat-menu #menu="matMenu">
+      <button (click)="redirectProfile()" mat-menu-item>
+        <mat-icon> account_circle </mat-icon>
+        <span>Perfil</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>apartment</mat-icon>
+        <span>Instituição</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>school</mat-icon>
+        <span>Professores</span>
+      </button>
+      <button (click)="redirectReserve()" mat-menu-item>
+        <mat-icon>meeting_room</mat-icon>
+        <span>Reservas</span>
+      </button>
+    </mat-menu>
+      <span class="tituloH">HEIMDALL</span>
+    </mat-toolbar>
+    
