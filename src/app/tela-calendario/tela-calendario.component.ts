@@ -11,7 +11,8 @@ import { CalendarioService } from '../services/calendario.service';
 })
 export class TelaCalendarioComponent implements OnInit {
   diasDesabilitados: any[] = [];
-  diasSelecionados: Date[] = []
+  diasSelecionados: Date[] = [];
+  dataAtual: Date = new Date();
   constructor(
     private router: Router,
     public dialog: MatDialog,
@@ -36,7 +37,7 @@ export class TelaCalendarioComponent implements OnInit {
     }
 
     public saveDate() {
-      console.log();
+      console.log(this.diasDesabilitados);
     }
    
   ngOnInit(): void {
@@ -45,8 +46,15 @@ export class TelaCalendarioComponent implements OnInit {
 
   carregarDiasDesabilitados(): void {
     this.CalendarioService.diasDesabilitados$.subscribe((diasDesabilitados) => {
-      this.diasDesabilitados = diasDesabilitados;
       console.log(diasDesabilitados);
+  
+      // Converte os itens da matriz para objetos Date
+      this.diasDesabilitados = diasDesabilitados.map((str: string) => {
+        const [dia, mes, ano] = str.split("-").map(Number);
+        return new Date(ano, mes - 1, dia);
+      });
+  
+      console.log(this.diasDesabilitados);
     });
   }
 
@@ -79,9 +87,12 @@ export class TelaCalendarioComponent implements OnInit {
     }
 
     const dayWeek = date.getDay();
+    const today = new Date();
+    const todayDay =  new Date(today.getFullYear(), today.getMonth(), today.getDate());
     
 
-    return dayWeek !== 0 && dayWeek !== 6;
+
+    return dayWeek !== 0 && dayWeek !== 6  && date >= todayDay && !this.diasDesabilitados[0];
   }
 
 }

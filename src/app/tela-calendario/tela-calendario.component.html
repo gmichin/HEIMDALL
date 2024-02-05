@@ -47,10 +47,11 @@
       <button (click)="saveDate()" class="saveButton">SALVAR</button>
 
       <br>
-    <div class="calendario-personalizado">
-        <h2>Dias Selecionados:</h2>
-        <ul>
-            <li *ngFor="let selectedDate of diasSelecionados">{{ selectedDate | date }}</li>
-        </ul>
-    </div>
+      <br>
+      <div class="calendario-personalizado">
+          <h2>Dias Selecionados:</h2>
+          <ul>
+              <li *ngFor="let selectedDate of diasSelecionados">{{ selectedDate | date }}</li>
+          </ul>
+      </div>
       
