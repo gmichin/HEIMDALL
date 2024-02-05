@@ -14,6 +14,7 @@ export class TelaCalendarioComponent implements OnInit {
   diasDesabilitados: string[] = [];
   dataAtual: Date = new Date();
   diasSelecionados: Date[] = [];
+  date : any; 
   constructor(
     private router: Router,
     public dialog: MatDialog,
@@ -37,6 +38,9 @@ export class TelaCalendarioComponent implements OnInit {
       this.router.navigate(['reload']);
     }
 
+    public saveDate() {
+      console.log();
+    }
    
   ngOnInit(): void {
     this.carregarDiasDesabilitados();
@@ -47,16 +51,20 @@ export class TelaCalendarioComponent implements OnInit {
       this.diasDesabilitados = data.diasDesabilitados;
     });*/
     this.diasDesabilitados = ['Sat Feb 03 2024 00:00:00 GMT-0300 (Horário Padrão de Brasília)', 'Sat Feb 10 2024 00:00:00 GMT-0300 (Horário Padrão de Brasília)'];
-    console.log(this.diasDesabilitados);
+    console.log('Dias Desabilitados:', this.diasDesabilitados);
   }
-
+  
   diaClassFunction = (date: Date): MatCalendarCellCssClasses => {
     const dataString = date.toISOString().split('T')[0];
+    console.log('Data Atual:', this.dataAtual);
+    console.log('Data Verificada:', dataString);
     const desabilitado = this.diasDesabilitados.includes(dataString) || date < this.dataAtual || this.isFinalDeSemana(date);
+    console.log('Desabilitado?', desabilitado);
     const selecionado = this.diasSelecionados.some(selectedDate => this.isSameDay(selectedDate, date));
-  
+    console.log('Selecionado?', selecionado);
     return desabilitado ? 'dia-desabilitado' : selecionado ? 'dia-selecionado' : '';
   };
+  
   
   isFinalDeSemana(date: Date): boolean {
     const diaDaSemana = date.getDay();
@@ -83,4 +91,16 @@ export class TelaCalendarioComponent implements OnInit {
     }
     console.log(this.diasSelecionados);
   }
+  
+  dateFilter: (date: Date | null) => boolean =
+  (date: Date | null) => {
+    if (date === null) {
+      return false;
+    }
+
+    const day = date.getDay();
+    return day !== 0 && day !== 6;
+  }
+
+
 }
