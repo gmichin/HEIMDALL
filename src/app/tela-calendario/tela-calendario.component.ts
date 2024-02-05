@@ -46,16 +46,22 @@ export class TelaCalendarioComponent implements OnInit {
     /*this.http.get<any>('caminho/para/seu/data.json').subscribe(data => {
       this.diasDesabilitados = data.diasDesabilitados;
     });*/
-    this.diasDesabilitados = ['2024-01-01', '2024-01-10'];
+    this.diasDesabilitados = ['Sat Feb 03 2024 00:00:00 GMT-0300 (Horário Padrão de Brasília)', 'Sat Feb 10 2024 00:00:00 GMT-0300 (Horário Padrão de Brasília)'];
+    console.log(this.diasDesabilitados);
   }
 
   diaClassFunction = (date: Date): MatCalendarCellCssClasses => {
     const dataString = date.toISOString().split('T')[0];
-    const desabilitado = this.diasDesabilitados.includes(dataString) || date < this.dataAtual;
+    const desabilitado = this.diasDesabilitados.includes(dataString) || date < this.dataAtual || this.isFinalDeSemana(date);
     const selecionado = this.diasSelecionados.some(selectedDate => this.isSameDay(selectedDate, date));
-
+  
     return desabilitado ? 'dia-desabilitado' : selecionado ? 'dia-selecionado' : '';
   };
+  
+  isFinalDeSemana(date: Date): boolean {
+    const diaDaSemana = date.getDay();
+    return diaDaSemana === 0 || diaDaSemana === 6;
+  }  
 
   isSameDay(date1: Date, date2: Date): boolean {
       return (
@@ -75,5 +81,6 @@ export class TelaCalendarioComponent implements OnInit {
             this.diasSelecionados.splice(index, 1);
         }
     }
+    console.log(this.diasSelecionados);
   }
 }

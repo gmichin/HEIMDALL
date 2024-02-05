@@ -20,20 +20,10 @@
   font-size: 2em;
 }
 
-.dia-desabilitado {
-  pointer-events: none; /* Impede a interação com dias desabilitados */
-}
-
-.dia-selecionado {
-  background-color: #4caf50 !important; /* Cor de fundo para dias selecionados */
-  color: #ffffff !important; /* Cor do texto para dias selecionados */
-  border: 1px solid #4caf50 !important; /* Contorno para destacar */
-}
-
 .calendario-personalizado {
-  max-width: 600px; /* Ajusta o tamanho máximo do calendário */
+  max-width: 600px; 
   margin: 0 auto;
-  border: 1px solid rgba(0, 0, 0, 0.667);
+  border: 1px solid rgb(0, 0, 0);
   border-radius: 5px;
   overflow: hidden; 
 }
