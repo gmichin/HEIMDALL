@@ -12,6 +12,7 @@ import { CalendarioService } from '../services/calendario.service';
 export class TelaCalendarioComponent implements OnInit {
   diasDesabilitados: any[] = [];
   diasSelecionados: Date[] = [];
+  diasDesabilitadosCarregados: boolean = false;
   constructor(
     private router: Router,
     public dialog: MatDialog,
@@ -46,16 +47,37 @@ export class TelaCalendarioComponent implements OnInit {
   carregarDiasDesabilitados(): void {
     this.CalendarioService.diasDesabilitados$.subscribe((diasDesabilitados) => {
       console.log(diasDesabilitados);
-  
+
       this.diasDesabilitados = diasDesabilitados.map((str: string) => {
         const [dia, mes, ano] = str.split("-").map(Number);
         return { dia, mes, ano };
       });
-    
-  
+
       console.log(this.diasDesabilitados);
+
+      this.diasDesabilitadosCarregados = true;
+
+      this.dateFilter = (date: Date | null) => {
+        if (!this.diasDesabilitadosCarregados || !date) {
+          console.log("Dias desabilitados ainda não carregados ou Date nulo.");
+          return true;
+        }
+
+        const dayWeek = date.getDay();
+        const today = new Date();
+        const todayDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+        const isDisabled = this.diasDesabilitados.some(diaDesabilitado =>
+          this.isSameDay(date, new Date(diaDesabilitado.ano, diaDesabilitado.mes - 1, diaDesabilitado.dia))
+        );
+
+        console.log("disabled: " + isDisabled);
+
+        return dayWeek !== 0 && dayWeek !== 6 && date >= todayDay && !isDisabled;
+      };
     });
   }
+
 
 
   isSameDay(date1: Date, date2: Date): boolean {
@@ -78,26 +100,24 @@ export class TelaCalendarioComponent implements OnInit {
     }
     console.log(this.diasSelecionados);
   }
+
   dateFilter: (date: Date | null) => boolean = (date: Date | null) => {
-    if (date === null) {
-      return false;
+    if (!this.diasDesabilitadosCarregados || !date) {
+      console.log("Dias desabilitados ainda não carregados ou Date nulo.");
+      return true;
     }
-  
+
     const dayWeek = date.getDay();
     const today = new Date();
     const todayDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  
-    const diasDesabilitados = [
-      { dia: 21, mes: 2, ano: 2024 },
-      { dia: 28, mes: 2, ano: 2024 }
-    ];
-  
-    const isDisabled = diasDesabilitados.some(diaDesabilitado =>
+
+    const isDisabled = this.diasDesabilitados.some(diaDesabilitado =>
       this.isSameDay(date, new Date(diaDesabilitado.ano, diaDesabilitado.mes - 1, diaDesabilitado.dia))
     );
-  
+
+    console.log("disabled: " + isDisabled);
+
     return dayWeek !== 0 && dayWeek !== 6 && date >= todayDay && !isDisabled;
   }
-  
 
 }
