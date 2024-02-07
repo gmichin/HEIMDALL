@@ -48,11 +48,11 @@ export class TelaCalendarioComponent implements OnInit {
     this.CalendarioService.diasDesabilitados$.subscribe((diasDesabilitados) => {
       console.log(diasDesabilitados);
   
-      // Converte os itens da matriz para objetos Date
       this.diasDesabilitados = diasDesabilitados.map((str: string) => {
         const [dia, mes, ano] = str.split("-").map(Number);
-        return new Date(ano, mes - 1, dia);
+        return { dia, mes, ano };
       });
+    
   
       console.log(this.diasDesabilitados);
     });
@@ -79,20 +79,26 @@ export class TelaCalendarioComponent implements OnInit {
     }
     console.log(this.diasSelecionados);
   }
-  
-  dateFilter: (date: Date | null) => boolean =
-  (date: Date | null) => {
+  dateFilter: (date: Date | null) => boolean = (date: Date | null) => {
     if (date === null) {
       return false;
     }
-
+  
     const dayWeek = date.getDay();
     const today = new Date();
-    const todayDay =  new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    
-
-
-    return dayWeek !== 0 && dayWeek !== 6  && date >= todayDay && !this.diasDesabilitados[0];
+    const todayDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  
+    const diasDesabilitados = [
+      { dia: 21, mes: 2, ano: 2024 },
+      { dia: 28, mes: 2, ano: 2024 }
+    ];
+  
+    const isDisabled = diasDesabilitados.some(diaDesabilitado =>
+      this.isSameDay(date, new Date(diaDesabilitado.ano, diaDesabilitado.mes - 1, diaDesabilitado.dia))
+    );
+  
+    return dayWeek !== 0 && dayWeek !== 6 && date >= todayDay && !isDisabled;
   }
+  
 
 }
