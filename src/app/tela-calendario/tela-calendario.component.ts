@@ -12,7 +12,6 @@ import { CalendarioService } from '../services/calendario.service';
 export class TelaCalendarioComponent implements OnInit {
   diasDesabilitados: any[] = [];
   diasSelecionados: Date[] = [];
-  dataAtual: Date = new Date();
   constructor(
     private router: Router,
     public dialog: MatDialog,
