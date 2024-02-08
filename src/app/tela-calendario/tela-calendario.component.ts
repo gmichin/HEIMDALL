@@ -49,20 +49,16 @@ export class TelaCalendarioComponent implements OnInit {
 
   carregarDiasDesabilitados(): void {
     this.CalendarioService.diasDesabilitados$.subscribe((diasDesabilitados) => {
-      console.log(diasDesabilitados);
 
       this.diasDesabilitados = diasDesabilitados.map((str: string) => {
         const [dia, mes, ano] = str.split("-").map(Number);
         return { dia, mes, ano };
       });
 
-      console.log(this.diasDesabilitados);
-
       this.diasDesabilitadosCarregados = true;
 
       this.dateFilter = (date: Date | null) => {
         if (!this.diasDesabilitadosCarregados || !date) {
-          console.log("Dias desabilitados ainda não carregados ou Date nulo.");
           return true;
         }
 
