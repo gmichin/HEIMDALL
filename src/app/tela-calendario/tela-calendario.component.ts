@@ -4,6 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CalendarioService } from '../services/calendario.service';
 
+
+
 @Component({
   selector: 'app-tela-calendario',
   templateUrl: './tela-calendario.component.html',
@@ -38,6 +40,7 @@ export class TelaCalendarioComponent implements OnInit {
 
     public saveDate() {
       console.log(this.diasDesabilitados);
+      console.log(this.diasSelecionados);
     }
    
   ngOnInit(): void {
@@ -71,7 +74,6 @@ export class TelaCalendarioComponent implements OnInit {
           this.isSameDay(date, new Date(diaDesabilitado.ano, diaDesabilitado.mes - 1, diaDesabilitado.dia))
         );
 
-        console.log("disabled: " + isDisabled);
 
         return dayWeek !== 0 && dayWeek !== 6 && date >= todayDay && !isDisabled;
       };
@@ -103,7 +105,6 @@ export class TelaCalendarioComponent implements OnInit {
 
   dateFilter: (date: Date | null) => boolean = (date: Date | null) => {
     if (!this.diasDesabilitadosCarregados || !date) {
-      console.log("Dias desabilitados ainda não carregados ou Date nulo.");
       return true;
     }
 
@@ -115,9 +116,7 @@ export class TelaCalendarioComponent implements OnInit {
       this.isSameDay(date, new Date(diaDesabilitado.ano, diaDesabilitado.mes - 1, diaDesabilitado.dia))
     );
 
-    console.log("disabled: " + isDisabled);
 
     return dayWeek !== 0 && dayWeek !== 6 && date >= todayDay && !isDisabled;
   }
-
 }
