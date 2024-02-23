@@ -22,27 +22,28 @@
       </button>
     </mat-menu>
       <span class="tituloH">HEIMDALL</span>
-    </mat-toolbar>
+</mat-toolbar>
     
     <div class="calendario-personalizado">
         <mat-calendar [dateFilter]="dateFilter" (selectedChange)="onClickDia($event)"></mat-calendar>
     </div>
-
+    
     <mat-form-field class="date-range">
-        <mat-label>Selecione um periodo</mat-label>
-        <mat-date-range-input [rangePicker]="rangePicker" [dateFilter]="dateFilter">
-          <input matStartDate placeholder="Start date">
-          <input matEndDate placeholder="End date">
-        </mat-date-range-input>
-        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matIconSuffix [for]="rangePicker"></mat-datepicker-toggle>
-        <mat-date-range-picker #rangePicker>
-          <mat-date-range-picker-actions>
-            <button mat-button matDateRangePickerCancel>Cancel</button>
-            <button mat-raised-button color="primary" matDateRangePickerApply>Apply</button>
-          </mat-date-range-picker-actions>
-        </mat-date-range-picker>
-      </mat-form-field>
+      <mat-label>Selecione um periodo</mat-label>
+      <mat-date-range-input [rangePicker]="rangePicker" [dateFilter]="dateFilter">
+        <input matStartDate placeholder="Start date" [(ngModel)]="startDate">
+        <input matEndDate placeholder="End date" [(ngModel)]="endDate">
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="rangePicker"></mat-datepicker-toggle>
+      <mat-date-range-picker #rangePicker>
+        <mat-date-range-picker-actions>
+          <button mat-button matDateRangePickerCancel>Cancel</button>
+          <button mat-raised-button color="primary" matDateRangePickerApply (click)="applyDateRange()">Apply</button>
+        </mat-date-range-picker-actions>
+      </mat-date-range-picker>
+    </mat-form-field>    
+    
       
       <button (click)="saveDate()" class="saveButton">SALVAR</button>
 
