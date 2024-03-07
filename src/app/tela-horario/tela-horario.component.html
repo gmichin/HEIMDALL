@@ -1,0 +1,22 @@
+<mat-toolbar>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button (click)="redirectProfile()" mat-menu-item>
+        <mat-icon>dialpad</mat-icon>
+        <span>Cadastro/Login</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>voicemail</mat-icon>
+        <span>Mapa do Site</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>notifications_off</mat-icon>
+        <span>Sobre</span>
+      </button>
+    </mat-menu>
+  
+    <span class="tituloH">HEIMDALL</span>
+  
+  </mat-toolbar>
