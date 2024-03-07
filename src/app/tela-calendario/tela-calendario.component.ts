@@ -70,8 +70,6 @@ export class TelaCalendarioComponent implements OnInit {
         const isDisabled = this.diasDesabilitados.some(diaDesabilitado =>
           this.isSameDay(date, new Date(diaDesabilitado.ano, diaDesabilitado.mes - 1, diaDesabilitado.dia))
         );
-
-
         return dayWeek !== 0 && dayWeek !== 6 && date >= todayDay && !isDisabled;
       };
     });
