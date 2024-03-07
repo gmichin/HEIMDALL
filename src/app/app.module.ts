@@ -38,7 +38,6 @@ import { TelaMarcarReservaComponent } from './tela-reservas/tela-marcar-reserva/
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
-import { TelaHorarioComponent } from './tela-horario/tela-horario.component';
 
 @NgModule({
   declarations: [
@@ -52,8 +51,7 @@ import { TelaHorarioComponent } from './tela-horario/tela-horario.component';
     TelaCalendarioComponent,
     TelaReservaDetalhadasComponent,
     NewTelaReservaComponent,
-    TelaMarcarReservaComponent,
-    TelaHorarioComponent
+    TelaMarcarReservaComponent
   ],
   imports: [
     AppRoutingModule,
