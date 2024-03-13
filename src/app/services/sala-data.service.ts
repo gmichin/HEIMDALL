@@ -9,6 +9,10 @@ import { SessionService } from './session.service';
 export class SalaDataService {
   private salaDataSubject = new BehaviorSubject<any[]>([]);
   private teacherDataSubject = new BehaviorSubject<any[]>([]);
+  private diasDesabilitadosSubject = new BehaviorSubject<any[]>([]);
+
+  
+  private salaReservaDataSubject = new BehaviorSubject<any[]>([]);
 
   constructor(
     private http: HttpClient,
@@ -16,22 +20,46 @@ export class SalaDataService {
   ) {
     this.carregarDadosSalas();
     this.carregarDadosProfessores();
+    this.carregarDiasDesabilitados();
+    this.carregarDadosSalasReservadas();
   }
 
   salaData$ = this.salaDataSubject.asObservable();
   teacherData$ = this.teacherDataSubject.asObservable();
+  diasDesabilitados$ = this.diasDesabilitadosSubject.asObservable();
+
+
+  salaReservaData$ = this.salaReservaDataSubject.asObservable();
+
+  private carregarDadosSalasReservadas() {
+    this.http.get<any[]>('/assets/jsons/reservas-sala.json').subscribe((data) => {
+      this.sessionService.setItem('reservas-sala', data);
+      this.salaReservaDataSubject.next(
+        this.sessionService.getSessionData('reservas-sala').retorno as any[]
+      );
+    });
+  }
+
+  carregarDiasDesabilitados(): void {
+    this.http.get<any>('/assets/jsons/feriados.json').subscribe(data => {
+        this.sessionService.setItem('salas', data);
+        this.diasDesabilitadosSubject.next(
+          this.sessionService.getSessionData('salas').retorno as any[]
+        );
+    });
+  }
 
   private carregarDadosSalas() {
-    this.http.get<any[]>('/assets/jsons/sala.json').subscribe((data) => {
-      this.sessionService.setItem('salas', data);
+    this.http.get<any[]>('/assets/jsons/salas-cadastradas.json').subscribe((data) => {
+      this.sessionService.setItem('salas-cadastradas', data);
       this.salaDataSubject.next(
-        this.sessionService.getSessionData('salas').retorno as any[]
+        this.sessionService.getSessionData('salas-cadastradas').retorno as any[]
       );
     });
   }
 
   private carregarDadosProfessores() {
-    this.http.get<any[]>('/assets/jsons/teacher.json').subscribe((data) => {
+    this.http.get<any[]>('/assets/jsons/professores-cadastrados.json').subscribe((data) => {
       this.sessionService.setItem('professores', data);
       this.teacherDataSubject.next(
         this.sessionService.getSessionData('professores').retorno as any[]

@@ -38,6 +38,8 @@ import { TelaMarcarReservaComponent } from './tela-reservas/tela-marcar-reserva/
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 
 @NgModule({
   declarations: [
@@ -79,7 +81,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatFormFieldModule,
     MatNativeDateModule,
   ],
-  providers: [RegisterUserService, LoaderService, TelaPerfilResolver],
+  providers: [{ provide: MAT_DIALOG_DATA, useValue: {} }, RegisterUserService, LoaderService, TelaPerfilResolver],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

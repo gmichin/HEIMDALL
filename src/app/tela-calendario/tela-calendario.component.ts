@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject , OnInit } from '@angular/core';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { CalendarioService } from '../services/calendario.service';
+import { SalaDataService } from 'src/app/services/sala-data.service';
+import { FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -16,57 +17,79 @@ export class TelaCalendarioComponent implements OnInit {
   diasDesabilitadosCarregados: boolean = false;
   startDate!: Date | null;
   endDate!: Date | null;
+  singleDate!: Date;
+  numeroSala: string[] = [];
+  salaForm!: FormGroup;
+  professorNomes: string[] = [];
+  professorForm!: FormGroup
+  hours: string[] = [];
+  salaData: any[] = [];
   constructor(
     private router: Router,
     public dialog: MatDialog,
-    private CalendarioService: CalendarioService
-  ) {}
-
-    public redirectProfile() {
-      const dialogT = this.dialog.open(TelaPerfilComponent, {
-        width: '400px',
-      });
-      dialogT.afterClosed().subscribe(() => {
-        this.dialogCloseSubs();
-      });
-    }
-  
-    public redirectReserve() {
-      this.router.navigate(['/tela-reservas']);
-    }
-
-    private dialogCloseSubs() {
-      this.router.navigate(['reload']);
-    }
-
-    public saveDate() {
-      console.log(this.diasDesabilitados);
-      console.log(this.diasSelecionados);
-    }
-   
-  ngOnInit(): void {
-    this.carregarDiasDesabilitados();
+    private salaDataService: SalaDataService,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    this.salaDataService.teacherData$.subscribe((professores) => {
+      this.professorNomes = professores.map((professor) => professor.nome);
+    });
+    this.salaDataService.salaData$.subscribe((salas) => {
+      this.numeroSala = salas.map((sala) => sala.numero);
+    });
   }
 
-  carregarDiasDesabilitados(): void {
-    this.CalendarioService.diasDesabilitados$.subscribe((diasDesabilitados) => {
+  ngOnInit(): void {
+    this.carregarDiasDesabilitados();
+    this.generateHours();
+  }
+  
+  public redirectProfile() {
+    const dialogT = this.dialog.open(TelaPerfilComponent, {
+      width: '400px',
+    });
+    dialogT.afterClosed().subscribe(() => {
+      this.dialogCloseSubs();
+    });
+  }
+  
+  public redirectReserve() {
+    this.router.navigate(['/tela-reservas']);
+  }
 
-      this.diasDesabilitados = diasDesabilitados.map((str: string) => {
-        const [dia, mes, ano] = str.split("-").map(Number);
+  private dialogCloseSubs() {
+    this.router.navigate(['reload']);
+  }
+
+  public saveDate() {
+    console.log(this.diasDesabilitados);
+    console.log(this.diasSelecionados);
+    const sala = this.salaForm.value;
+    if (this.data) {
+      this.salaDataService.atualizarSala(sala);
+    } else {
+      this.salaDataService.adicionarNovaSala(sala);
+    }
+  }
+  
+  carregarDiasDesabilitados(): void {
+    this.salaDataService.salaReservaData$.subscribe((diasDesabilitados) => {
+
+      this.diasDesabilitados = diasDesabilitados.map((obj: any) => {
+        const [dia, mes, ano] = obj.dia.split("-").map(Number);
         return { dia, mes, ano };
       });
-
+    
       this.diasDesabilitadosCarregados = true;
-
+    
       this.dateFilter = (date: Date | null) => {
         if (!this.diasDesabilitadosCarregados || !date) {
           return true;
         }
-
+    
         const dayWeek = date.getDay();
         const today = new Date();
         const todayDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-
+    
         const isDisabled = this.diasDesabilitados.some(diaDesabilitado =>
           this.isSameDay(date, new Date(diaDesabilitado.ano, diaDesabilitado.mes - 1, diaDesabilitado.dia))
         );
@@ -83,6 +106,8 @@ export class TelaCalendarioComponent implements OnInit {
   
         if (index === -1) {
           this.diasSelecionados.push(date);
+        } else {
+          this.diasSelecionados.splice(index, 1);
         }
       });
     }
@@ -92,7 +117,6 @@ export class TelaCalendarioComponent implements OnInit {
     let currentDate = new Date(startDate);
   
     while (currentDate <= endDate) {
-      // Verificar as condições antes de adicionar a data ao array
       const dayWeek = currentDate.getDay();
       const today = new Date();
       const todayDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
@@ -117,17 +141,13 @@ export class TelaCalendarioComponent implements OnInit {
       );
   }
 
-  onClickDia(selectedDate: Date | null): void {
-    if (selectedDate !== null) {
-        const index = this.diasSelecionados.findIndex(date => this.isSameDay(date, selectedDate));
-
+  applyDate() {
+        const index = this.diasSelecionados.findIndex(date => this.isSameDay(date, this.singleDate));
         if (index === -1) {
-            this.diasSelecionados.push(selectedDate);
+            this.diasSelecionados.push(this.singleDate);
         } else {
             this.diasSelecionados.splice(index, 1);
         }
-    }
-    console.log(this.diasSelecionados);
   }
 
   dateFilter: (date: Date | null) => boolean = (date: Date | null) => {
@@ -145,5 +165,13 @@ export class TelaCalendarioComponent implements OnInit {
 
 
     return dayWeek !== 0 && dayWeek !== 6 && date >= todayDay && !isDisabled;
+  } 
+
+  
+  generateHours(): void {
+    for (let i = 5; i < 24; i++) {
+      const hour = i < 10 ? '0' + i : '' + i;
+      this.hours.push(hour + ':00');
+    }
   }
 }

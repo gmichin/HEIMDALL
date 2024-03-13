@@ -1,7 +1,5 @@
 [
   {
-    "data": "06/12/2023",
-    "horario": "19:00 - 20:10",
     "numero": 107,
     "cadeiras": 25,
     "mesas": 5,
@@ -9,12 +7,9 @@
     "computadores": 25,
     "lousa": 1,
     "projetor": 1,
-    "status": true,
-    "teacher": "Professor Bras"
+    "status": true
   },
   {
-    "data": "08/12/2023",
-    "horario": "19:00 - 22:00",
     "numero": 104,
     "cadeiras": 25,
     "mesas": 5,
@@ -22,12 +17,9 @@
     "computadores": 25,
     "lousa": 1,
     "projetor": 1,
-    "status": true,
-    "teacher": "Professor Bras"
+    "status": true
   },
   {
-    "data": "",
-    "horario": "",
     "numero": 105,
     "cadeiras": 25,
     "mesas": 5,
@@ -38,8 +30,6 @@
     "status": false
   },
   {
-    "data": "",
-    "horario": "",
     "numero": 106,
     "cadeiras": 25,
     "mesas": 5,
@@ -50,8 +40,6 @@
     "status": false
   },
   {
-    "data": "",
-    "horario": "",
     "numero": 102,
     "cadeiras": 25,
     "mesas": 5,
@@ -62,8 +50,6 @@
     "status": false
   },
   {
-    "data": "",
-    "horario": "",
     "numero": 101,
     "cadeiras": 25,
     "mesas": 5,
@@ -74,8 +60,6 @@
     "status": false
   },
   {
-    "data": "",
-    "horario": "",
     "numero": 100,
     "cadeiras": 20,
     "mesas": 5,

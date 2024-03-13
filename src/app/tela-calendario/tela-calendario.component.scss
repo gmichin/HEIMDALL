@@ -26,11 +26,26 @@
   border: 1px solid rgb(0, 0, 0);
   border-radius: 5px;
   overflow: hidden; 
+  margin-right: 9cm;
+  padding-right: 10cm;
+  float: right;
+}
+
+::ng-deep .mat-calendar {
+  background-color: grey;
+}
+
+::ng-deep .mat-calendar-body-cell.marked{
+  background-color: white;
+}
+
+h1{
+  text-align: center;
+  margin: 1cm;
 }
 
 .dia-desabilitado {
   pointer-events: none;
-  /* Outros estilos de desabilitação, se necessário */
 }
 
 .date-range{
@@ -38,7 +53,6 @@
 }
 
 .saveButton{
-  float: right;
   border-radius: 5px;
   font-family:monospace;
   font-size: 16px;
