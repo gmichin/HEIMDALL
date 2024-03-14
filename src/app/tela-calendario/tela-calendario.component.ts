@@ -3,7 +3,6 @@ import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SalaDataService } from 'src/app/services/sala-data.service';
-import { FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -19,10 +18,11 @@ export class TelaCalendarioComponent implements OnInit {
   endDate!: Date | null;
   singleDate!: Date;
   numeroSala: string[] = [];
-  salaForm!: FormGroup;
   professorNomes: string[] = [];
-  professorForm!: FormGroup
   hours: string[] = [];
+  startTime: string = ''; 
+  endTime: string = '';  
+
   constructor(
     private router: Router,
     public dialog: MatDialog,
@@ -30,7 +30,8 @@ export class TelaCalendarioComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.salaDataService.teacherData$.subscribe((professores) => {
-      this.professorNomes = professores.map((professor) => professor.nome);
+      const uniqueProfessorNames = Array.from(new Set(professores.map(professor => professor.nome)));
+      this.professorNomes = uniqueProfessorNames;
     });
     this.salaDataService.salaData$.subscribe((salas) => {
       this.numeroSala = salas.map((sala) => sala.numero);
@@ -89,16 +90,35 @@ export class TelaCalendarioComponent implements OnInit {
       const dateRange = this.getDateRangeArray(this.startDate, this.endDate);
   
       dateRange.forEach(date => {
-        const index = this.diasSelecionados.findIndex(selectedDate => this.isSameDay(selectedDate, date));
+        const selectedStartTime = this.getStartTime();
+        const selectedEndTime = this.getEndTime();
   
-        if (index === -1) {
-          this.diasSelecionados.push(date);
-        } else {
-          this.diasSelecionados.splice(index, 1);
-        }
+        this.addTimeRangeToSelectedDates(date, selectedStartTime, selectedEndTime);
       });
     }
   }
+  getStartTime(): string {
+    return this.startTime;
+  }
+  
+  getEndTime(): string {
+    return this.endTime;
+  }
+
+  addTimeRangeToSelectedDates(date: Date, startTime: string, endTime: string) {
+    const selectedDate = new Date(date);
+    const startHour = parseInt(startTime.split(':')[0]);
+    const endHour = parseInt(endTime.split(':')[0]);
+  
+    for (let hour = startHour; hour <= endHour; hour++) {
+      const fullHour = hour < 10 ? '0' + hour : '' + hour;
+      const time = fullHour + ':00';
+  
+      selectedDate.setHours(hour);
+      this.diasSelecionados.push(new Date(selectedDate));
+    }
+  }
+  
   private getDateRangeArray(startDate: Date, endDate: Date): Date[] {
     const dateArray: Date[] = [];
     let currentDate = new Date(startDate);
@@ -129,12 +149,21 @@ export class TelaCalendarioComponent implements OnInit {
   }
 
   applyDate() {
-        const index = this.diasSelecionados.findIndex(date => this.isSameDay(date, this.singleDate));
-        if (index === -1) {
-            this.diasSelecionados.push(this.singleDate);
-        } else {
-            this.diasSelecionados.splice(index, 1);
-        }
+    if (this.singleDate && this.startTime && this.endTime) {
+      const selectedDate = new Date(this.singleDate);
+      const startHour = parseInt(this.startTime.split(':')[0]);
+      const endHour = parseInt(this.endTime.split(':')[0]);
+      const selectedDateTimeList: Date[] = [];
+  
+      for (let hour = startHour; hour <= endHour; hour++) {
+        const fullHour = hour < 10 ? '0' + hour : '' + hour;
+        const selectedDateTime = new Date(selectedDate);
+        selectedDateTime.setHours(hour);
+        selectedDateTimeList.push(selectedDateTime);
+      }
+  
+      this.diasSelecionados.push(...selectedDateTimeList);
+    }
   }
 
   dateFilter: (date: Date | null) => boolean = (date: Date | null) => {

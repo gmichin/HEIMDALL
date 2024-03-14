@@ -30,9 +30,11 @@
   significa que não exite disponibilidade dos mesmos (tente diferente combinações).</h3>
 
 <div class="calendario-personalizado">
-  <h2>Dias Selecionados:</h2>
+  <h2>Dias e Horários Selecionados:</h2>
   <ul>
-      <li *ngFor="let selectedDate of diasSelecionados">{{ selectedDate | date }}</li>
+    <li *ngFor="let selectedDateTime of diasSelecionados">
+      {{ selectedDateTime | date: 'medium' }}
+    </li>
   </ul>
 </div>
 
@@ -41,7 +43,7 @@
   <h5>Escolha a sala que deseja reservar:</h5>
   <mat-form-field>
     <mat-label>Sala:</mat-label>
-    <mat-select formControlName="numeroSala">
+    <mat-select>
       <mat-option *ngFor="let numero of numeroSala" [value]="numero">{{
         numero
       }}</mat-option>
@@ -51,14 +53,14 @@
   <h5>Reserve os horários requeridos:</h5>
   <mat-form-field>
     <mat-label>Hora de Início:</mat-label>
-    <mat-select formControlName="horaInicio">
+    <mat-select [(ngModel)]="startTime">
       <mat-option *ngFor="let hour of hours" [value]="hour">{{ hour }}</mat-option>
     </mat-select>
   </mat-form-field>
   
   <mat-form-field>
     <mat-label>Hora de Término:</mat-label>
-    <mat-select formControlName="horaTermino">
+    <mat-select [(ngModel)]="endTime">
       <mat-option *ngFor="let hour of hours" [value]="hour">{{ hour }}</mat-option>
     </mat-select>
   </mat-form-field>
@@ -98,12 +100,13 @@
   <h5>Selecione o professor para quem a sala estará reservada</h5>
   <mat-form-field>
     <mat-label>Nome do Professor:</mat-label>
-    <mat-select formControlName="nomeProfessor">
+    <mat-select>
       <mat-option *ngFor="let nome of professorNomes" [value]="nome">{{
         nome
       }}</mat-option>
     </mat-select>
   </mat-form-field>
 </div>
+
 
 <button (click)="saveDate()" class="saveButton">SALVAR</button>
