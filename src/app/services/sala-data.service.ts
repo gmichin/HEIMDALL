@@ -30,7 +30,7 @@ export class SalaDataService {
 
 
   salaReservaData$ = this.salaReservaDataSubject.asObservable();
-
+  
   private carregarDadosSalasReservadas() {
     this.http.get<any[]>('/assets/jsons/reservas-sala.json').subscribe((data) => {
       this.sessionService.setItem('reservas-sala', data);

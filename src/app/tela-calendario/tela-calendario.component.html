@@ -65,9 +65,9 @@
     </mat-select>
   </mat-form-field>
 
-  <h5>Há dois campos abaixo, você pode tanto escrever as datas manualmente quanto selecioná-las clicando no ícone de calendário. 
+  <h5 *ngIf="startTime&&endTime">Há dois campos abaixo, você pode tanto escrever as datas manualmente quanto selecioná-las clicando no ícone de calendário. 
     O campo da esquerda é referente a reserva de dias indíviduais enquanto o da direita é sobre a reserva de períodos inteiros:</h5>
-  <mat-form-field class="date-picker">
+  <mat-form-field class="date-picker" *ngIf="startTime&&endTime">
     <mat-label>Selecione uma data</mat-label>
     <input matInput [matDatepicker]="picker" placeholder="Escolha uma data" [(ngModel)]="singleDate" [matDatepickerFilter]="dateFilter">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -81,7 +81,7 @@
   </mat-form-field>
 
       
-  <mat-form-field class="date-range">
+  <mat-form-field class="date-range" *ngIf="startTime&&endTime">
     <mat-label>Selecione um periodo</mat-label>
     <mat-date-range-input [rangePicker]="rangePicker" [dateFilter]="dateFilter">
       <input matStartDate placeholder="Start date" [(ngModel)]="startDate">
@@ -107,6 +107,5 @@
     </mat-select>
   </mat-form-field>
 </div>
-
-
+<br>
 <button (click)="saveDate()" class="saveButton">SALVAR</button>

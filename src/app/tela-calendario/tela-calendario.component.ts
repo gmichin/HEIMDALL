@@ -192,6 +192,5 @@ export class TelaCalendarioComponent implements OnInit {
   public saveDate() {
     console.log(this.diasDesabilitados);
     console.log(this.diasSelecionados);
-  }
-  
+  }  
 }
