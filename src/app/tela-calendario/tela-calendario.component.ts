@@ -61,25 +61,23 @@ export class TelaCalendarioComponent implements OnInit {
   }
   carregarDiasDesabilitados(): void {
     this.salaDataService.diasDesabilitados$.subscribe((diasDesabilitados) => {
-
       this.diasDesabilitados = diasDesabilitados.map((obj: any) => {
-        const [dia, mes, ano] = obj.dia.split("-").map(Number);
-        return { dia, mes, ano };
+        return { ...obj, dia: new Date(obj.dia) };
       });
-    
+
       this.diasDesabilitadosCarregados = true;
-    
+
       this.dateFilter = (date: Date | null) => {
         if (!this.diasDesabilitadosCarregados || !date) {
           return true;
         }
-    
+
         const dayWeek = date.getDay();
         const today = new Date();
         const todayDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    
+
         const isDisabled = this.diasDesabilitados.some(diaDesabilitado =>
-          this.isSameDay(date, new Date(diaDesabilitado.ano, diaDesabilitado.mes - 1, diaDesabilitado.dia))
+          this.isSameDay(date, diaDesabilitado.dia)
         );
         return dayWeek !== 0 && dayWeek !== 6 && date >= todayDay && !isDisabled;
       };
@@ -176,12 +174,12 @@ export class TelaCalendarioComponent implements OnInit {
     const todayDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 
     const isDisabled = this.diasDesabilitados.some(diaDesabilitado =>
-      this.isSameDay(date, new Date(diaDesabilitado.ano, diaDesabilitado.mes - 1, diaDesabilitado.dia))
+      this.isSameDay(date, diaDesabilitado.dia)
     );
 
 
     return dayWeek !== 0 && dayWeek !== 6 && date >= todayDay && !isDisabled;
-  } 
+  }
   generateHours(): void {
     for (let i = 5; i < 23; i++) {
       const hour = i < 10 ? '0' + i : '' + i;
