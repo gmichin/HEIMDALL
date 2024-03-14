@@ -58,18 +58,6 @@ export class TelaCalendarioComponent implements OnInit {
   private dialogCloseSubs() {
     this.router.navigate(['reload']);
   }
-
-  public saveDate() {
-    console.log(this.diasDesabilitados);
-    console.log(this.diasSelecionados);
-    const sala = this.salaForm.value;
-    if (this.data) {
-      this.salaDataService.atualizarSala(sala);
-    } else {
-      this.salaDataService.adicionarNovaSala(sala);
-    }
-  }
-  
   carregarDiasDesabilitados(): void {
     this.salaDataService.diasDesabilitados$.subscribe((diasDesabilitados) => {
 
@@ -171,4 +159,10 @@ export class TelaCalendarioComponent implements OnInit {
       this.hours.push(hour + ':00');
     }
   }
+
+  public saveDate() {
+    console.log(this.diasDesabilitados);
+    console.log(this.diasSelecionados);
+  }
+  
 }
