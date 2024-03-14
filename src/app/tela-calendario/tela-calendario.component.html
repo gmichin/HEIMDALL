@@ -29,6 +29,15 @@
 <h3 style="color: red; text-align: center;">Sempre que houver dias, salas ou horários desabilitados na hora de selecioná-los, 
   significa que não exite disponibilidade dos mesmos (tente diferente combinações).</h3>
 
+<div class="calendario-personalizado">
+  <h2>Dias Selecionados:</h2>
+  <ul>
+      <li *ngFor="let selectedDate of diasSelecionados">{{ selectedDate | date }}</li>
+  </ul>
+</div>
+
+<div class="insertData">
+
   <h5>Escolha a sala que deseja reservar:</h5>
   <mat-form-field>
     <mat-label>Sala:</mat-label>
@@ -95,13 +104,6 @@
       }}</mat-option>
     </mat-select>
   </mat-form-field>
-  
-<div class="calendario-personalizado">
-  <h2>Dias Selecionados:</h2>
-  <ul>
-      <li *ngFor="let selectedDate of diasSelecionados">{{ selectedDate | date }}</li>
-  </ul>
 </div>
-<br>
-<br>
+
 <button (click)="saveDate()" class="saveButton">SALVAR</button>

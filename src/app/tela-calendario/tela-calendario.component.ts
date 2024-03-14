@@ -23,7 +23,6 @@ export class TelaCalendarioComponent implements OnInit {
   professorNomes: string[] = [];
   professorForm!: FormGroup
   hours: string[] = [];
-  salaData: any[] = [];
   constructor(
     private router: Router,
     public dialog: MatDialog,
@@ -72,7 +71,7 @@ export class TelaCalendarioComponent implements OnInit {
   }
   
   carregarDiasDesabilitados(): void {
-    this.salaDataService.salaReservaData$.subscribe((diasDesabilitados) => {
+    this.salaDataService.diasDesabilitados$.subscribe((diasDesabilitados) => {
 
       this.diasDesabilitados = diasDesabilitados.map((obj: any) => {
         const [dia, mes, ano] = obj.dia.split("-").map(Number);
@@ -166,10 +165,8 @@ export class TelaCalendarioComponent implements OnInit {
 
     return dayWeek !== 0 && dayWeek !== 6 && date >= todayDay && !isDisabled;
   } 
-
-  
   generateHours(): void {
-    for (let i = 5; i < 24; i++) {
+    for (let i = 5; i < 23; i++) {
       const hour = i < 10 ? '0' + i : '' + i;
       this.hours.push(hour + ':00');
     }
