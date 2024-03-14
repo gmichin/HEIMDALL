@@ -22,6 +22,11 @@ export class TelaCalendarioComponent implements OnInit {
   hours: string[] = [];
   startTime: string = ''; 
   endTime: string = '';  
+  error: string = '';
+  showPickers: boolean = true;
+  novasReservas: any[] = [];
+  numeroSalaSelecionada: string = '';
+  professorSelecionado: string = ''; 
 
   constructor(
     private router: Router,
@@ -39,7 +44,6 @@ export class TelaCalendarioComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.carregarDiasDesabilitados();
     this.generateHours();
   }
   
@@ -59,29 +63,63 @@ export class TelaCalendarioComponent implements OnInit {
   private dialogCloseSubs() {
     this.router.navigate(['reload']);
   }
-  carregarDiasDesabilitados(): void {
-    this.salaDataService.diasDesabilitados$.subscribe((diasDesabilitados) => {
+
+  filtroCalendar(): void {
+    if (this.startTime && this.endTime && this.startTime > this.endTime) {
+      this.error = 'O horário de início deve ser menor que o horário de término';
+      this.endTime = ''; // Limpa o valor do endTime
+      this.showPickers = false; // Esconde os pickers se houver erro
+    } else {
+      this.error = ''; // Limpa a mensagem de erro se não houver erro
+      this.carregarDiasDesabilitados(this.startTime, this.endTime);
+      this.showPickers = true; // Mostra os pickers se não houver erro
+    }
+  }
+  carregarDiasDesabilitados(startTime: string, endTime: string): void {
+    this.salaDataService.salaReservaData$.subscribe((diasDesabilitados) => {
       this.diasDesabilitados = diasDesabilitados.map((obj: any) => {
         return { ...obj, dia: new Date(obj.dia) };
       });
-
+  
       this.diasDesabilitadosCarregados = true;
-
+  
       this.dateFilter = (date: Date | null) => {
         if (!this.diasDesabilitadosCarregados || !date) {
           return true;
         }
-
+  
         const dayWeek = date.getDay();
         const today = new Date();
         const todayDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-
+  
         const isDisabled = this.diasDesabilitados.some(diaDesabilitado =>
-          this.isSameDay(date, diaDesabilitado.dia)
+          diaDesabilitado.numero === this.numeroSalaSelecionada && // Verifica se o número da sala corresponde
+          this.isSameDay(date, diaDesabilitado.dia) && // Verifica se o dia corresponde
+          this.isBetweenTimes(diaDesabilitado.dia, startTime, endTime) // Verifica se o horário corresponde
         );
         return dayWeek !== 0 && dayWeek !== 6 && date >= todayDay && !isDisabled;
       };
     });
+  }
+  
+  
+  isSameDay(date1: Date, date2: Date): boolean {
+    return date1.getFullYear() === date2.getFullYear() &&
+           date1.getMonth() === date2.getMonth() &&
+           date1.getDate() === date2.getDate();
+  }
+  
+  isBetweenTimes(date: Date, startTime: string, endTime: string): boolean {
+    const startTimeParts = startTime.split(':').map(part => parseInt(part, 10));
+    const endTimeParts = endTime.split(':').map(part => parseInt(part, 10));
+  
+    const startDateTime = new Date(date);
+    startDateTime.setHours(startTimeParts[0], startTimeParts[1], startTimeParts[2] || 0, 0);
+  
+    const endDateTime = new Date(date);
+    endDateTime.setHours(endTimeParts[0], endTimeParts[1], endTimeParts[2] || 0, 0);
+  
+    return date >= startDateTime && date <= endDateTime;
   }
   applyDateRange() {
     if (this.startDate && this.endDate) {
@@ -91,10 +129,19 @@ export class TelaCalendarioComponent implements OnInit {
         const selectedStartTime = this.getStartTime();
         const selectedEndTime = this.getEndTime();
   
-        this.addTimeRangeToSelectedDates(date, selectedStartTime, selectedEndTime);
+        const existingIndex = this.diasSelecionados.findIndex(selectedDate =>
+          this.isSameDay(selectedDate, date)
+        );
+  
+        if (existingIndex !== -1) {
+          this.diasSelecionados.splice(existingIndex, 1);
+        } else {
+          this.addTimeRangeToSelectedDates(date, selectedStartTime, selectedEndTime);
+        }
       });
     }
   }
+  
   getStartTime(): string {
     return this.startTime;
   }
@@ -138,13 +185,6 @@ export class TelaCalendarioComponent implements OnInit {
   
     return dateArray;
   }
-  isSameDay(date1: Date, date2: Date): boolean {
-      return (
-          date1.getDate() === date2.getDate() &&
-          date1.getMonth() === date2.getMonth() &&
-          date1.getFullYear() === date2.getFullYear()
-      );
-  }
 
   applyDate() {
     if (this.singleDate && this.startTime && this.endTime) {
@@ -160,9 +200,23 @@ export class TelaCalendarioComponent implements OnInit {
         selectedDateTimeList.push(selectedDateTime);
       }
   
-      this.diasSelecionados.push(...selectedDateTimeList);
+      const existingIndex = this.diasSelecionados.findIndex(date =>
+        selectedDateTimeList.some(dateTime => this.isSameDay(date, dateTime))
+      );
+  
+      if (existingIndex === -1) {
+        this.diasSelecionados.push(...selectedDateTimeList);
+      } else {
+        const selectedDateTimeToRemove = selectedDateTimeList.find(dateTime =>
+          this.isSameDay(dateTime, this.diasSelecionados[existingIndex])
+        );
+        if (selectedDateTimeToRemove) {
+          this.diasSelecionados.splice(existingIndex, 1);
+        }
+      }
     }
   }
+  
 
   dateFilter: (date: Date | null) => boolean = (date: Date | null) => {
     if (!this.diasDesabilitadosCarregados || !date) {
@@ -187,8 +241,27 @@ export class TelaCalendarioComponent implements OnInit {
     }
   }
 
+  selectSala(numeroSala: string) {
+    this.numeroSalaSelecionada = numeroSala;
+  }
+  
+  selectProfessor(nomeProfessor: string) {
+    this.professorSelecionado = nomeProfessor;
+  }
+
   public saveDate() {
-    console.log(this.diasDesabilitados);
-    console.log(this.diasSelecionados);
-  }  
+    this.novasReservas = [];
+  
+    this.diasSelecionados.forEach(dia => {
+      const reserva = {
+        numero: this.numeroSalaSelecionada,
+        professor: this.professorSelecionado, 
+        materia: 'Projeto Integrado I - A5', 
+        dia: dia 
+      };
+      this.novasReservas.push(reserva);
+    });
+  
+    console.log(this.novasReservas);
+  }
 }

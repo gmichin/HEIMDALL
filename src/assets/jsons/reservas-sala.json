@@ -1,6 +1,6 @@
 [
     {
-        "numero": "104",
+        "numero": 104,
         "professo": "Professor Paladino",
         "materia": "Projeto Integrado I - A5",
         "dia":"Wed Mar 20 2024 19:00:00 GMT-0300 (Horário Padrão de Brasília)"
@@ -9,6 +9,6 @@
         "numero": 107,
         "nome": "Professor Bras",
         "materia": "Projeto Integrado I - A5",
-        "dia": "Wed Mar 27 2024 19:00:00 GMT-0300 (Horário Padrão de Brasília)"
+        "dia": "Wed Mar 27 2024 22:00:00 GMT-0300 (Horário Padrão de Brasília)"
     }
 ]
