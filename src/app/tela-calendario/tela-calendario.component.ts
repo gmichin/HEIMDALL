@@ -97,7 +97,7 @@ export class TelaCalendarioComponent implements OnInit {
           this.isSameDay(date, diaDesabilitado.dia) && // Verifica se o dia corresponde
           this.isBetweenTimes(diaDesabilitado.dia, startTime, endTime) // Verifica se o horário corresponde
         );
-        return dayWeek !== 0 && dayWeek !== 6 && date >= todayDay && !isDisabled;
+        return dayWeek !== 0 && date >= todayDay && !isDisabled;
       };
     });
   }
