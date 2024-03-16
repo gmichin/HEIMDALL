@@ -3,6 +3,7 @@ import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SalaDataService } from 'src/app/services/sala-data.service';
+import { map } from 'rxjs/operators';
 
 
 @Component({
@@ -27,6 +28,8 @@ export class TelaCalendarioComponent implements OnInit {
   novasReservas: any[] = [];
   numeroSalaSelecionada: string = '';
   professorSelecionado: string = ''; 
+  materiasPorProfessor: string[] = [];
+  materiaSelecionada: string = '';
 
   constructor(
     private router: Router,
@@ -75,6 +78,7 @@ export class TelaCalendarioComponent implements OnInit {
       this.showPickers = true; // Mostra os pickers se não houver erro
     }
   }
+
   carregarDiasDesabilitados(startTime: string, endTime: string): void {
     this.salaDataService.salaReservaData$.subscribe((diasDesabilitados) => {
       this.diasDesabilitados = diasDesabilitados.map((obj: any) => {
@@ -241,14 +245,26 @@ export class TelaCalendarioComponent implements OnInit {
     }
   }
 
+  selectMateria(materia: string){
+    this.materiaSelecionada = materia;
+  }
+
   selectSala(numeroSala: string) {
     this.numeroSalaSelecionada = numeroSala;
   }
   
   selectProfessor(nomeProfessor: string) {
     this.professorSelecionado = nomeProfessor;
+    
+    this.salaDataService.teacherData$.pipe(
+      map(professores => {
+        return professores.filter(professor => professor.nome === nomeProfessor)
+                          .map(professor => professor.materia);
+      })
+    ).subscribe(materias => {
+      this.materiasPorProfessor = materias;
+    });
   }
-
   public saveDate() {
     this.novasReservas = [];
   
@@ -256,7 +272,7 @@ export class TelaCalendarioComponent implements OnInit {
       const reserva = {
         numero: this.numeroSalaSelecionada,
         professor: this.professorSelecionado, 
-        materia: 'Projeto Integrado I - A5', 
+        materia: this.materiaSelecionada, 
         dia: dia 
       };
       this.novasReservas.push(reserva);

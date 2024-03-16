@@ -102,6 +102,14 @@ existe uma chance de haver o dia desejado disponível</h3>
       <mat-option *ngFor="let nome of professorNomes" [value]="nome">{{ nome }}</mat-option>
     </mat-select>
   </mat-form-field>
+  
+  <mat-form-field *ngIf="materiasPorProfessor.length > 0">
+    <mat-label>Materia:</mat-label>
+    <mat-select (selectionChange)="selectMateria($event.value)">
+      <mat-option *ngFor="let materia of materiasPorProfessor" [value]="materia">{{ materia }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  
 </div>
 <br>
 <button (click)="saveDate()" class="saveButton">SALVAR</button>
