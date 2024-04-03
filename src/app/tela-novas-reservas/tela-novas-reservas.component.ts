@@ -7,11 +7,11 @@ import { map } from 'rxjs/operators';
 
 
 @Component({
-  selector: 'app-tela-calendario',
-  templateUrl: './tela-calendario.component.html',
-  styleUrls: ['./tela-calendario.component.scss'],
+  selector: 'app-tela-novas-reservas',
+  templateUrl: './tela-novas-reservas.component.html',
+  styleUrl: './tela-novas-reservas.component.scss'
 })
-export class TelaCalendarioComponent implements OnInit {
+export class TelaNovasReservasComponent implements OnInit{
   diasDesabilitados: any[] = [];
   diasSelecionados: Date[] = [];
   diasDesabilitadosCarregados: boolean = false;

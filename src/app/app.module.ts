@@ -31,7 +31,7 @@ import { TelaLoginCadastroComponent } from './tela-login-cadastro/tela-login-cad
 import { TelaPerfilComponent } from './tela-perfil/tela-perfil.component';
 import { TelaPerfilResolver } from './tela-perfil/tela-perfil.resolver';
 import { TelaReservasComponent } from './tela-reservas/tela-reservas.component';
-import { TelaCalendarioComponent } from './tela-calendario/tela-calendario.component';
+import { TelaNovasReservasComponent } from './tela-novas-reservas/tela-novas-reservas.component';
 import { TelaReservaDetalhadasComponent } from './tela-reservas/tela-reserva-detalhadas/tela-reserva-detalhadas.component';
 import { NewTelaReservaComponent } from './tela-reservas/new-tela-reserva/new-tela-reserva.component';
 import { TelaMarcarReservaComponent } from './tela-reservas/tela-marcar-reserva/tela-marcar-reserva.component';
@@ -50,7 +50,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
     TelaPerfilComponent,
     LoaderComponent,
     TelaReservasComponent,
-    TelaCalendarioComponent,
+    TelaNovasReservasComponent,
     TelaReservaDetalhadasComponent,
     NewTelaReservaComponent,
     TelaMarcarReservaComponent

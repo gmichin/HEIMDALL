@@ -41,7 +41,7 @@ existe uma chance de haver o dia desejado disponível</h3>
 <div class="insertData">
 
   <h5>Escolha a sala que deseja reservar:</h5>
-  <mat-form-field>
+  <mat-form-field class="boxSize">
     <mat-label>Sala:</mat-label>
     <mat-select (selectionChange)="selectSala($event.value)">
       <mat-option *ngFor="let numero of numeroSala" [value]="numero">{{ numero }}</mat-option>
@@ -49,19 +49,21 @@ existe uma chance de haver o dia desejado disponível</h3>
   </mat-form-field>
 
   <h5>Reserve os horários requeridos:</h5>
-  <mat-form-field>
+  <mat-form-field class="boxSize">
     <mat-label>Hora de Início:</mat-label>
     <mat-select [(ngModel)]="startTime" (ngModelChange)="filtroCalendar()">
       <mat-option *ngFor="let hour of hours" [value]="hour">{{ hour }}</mat-option>
     </mat-select>
   </mat-form-field>
   
-  <mat-form-field *ngIf="startTime&&!error">
+  <mat-form-field *ngIf="startTime&&!error" class="boxSize" style="margin-left: 1cm;">
     <mat-label>Hora de Término:</mat-label>
     <mat-select [(ngModel)]="endTime" (ngModelChange)="filtroCalendar()">
       <mat-option *ngFor="let hour of hours" [value]="hour">{{ hour }}</mat-option>
     </mat-select>
   </mat-form-field>
+
+
   <div *ngIf="error" style="color: red;margin-bottom: 1cm;">{{ error }}</div>
   <div *ngIf="showPickers">
     <h5 *ngIf="startTime&&endTime">Há dois campos abaixo, você pode tanto escrever as datas manualmente quanto selecioná-las clicando no ícone de calendário. 
@@ -79,7 +81,7 @@ existe uma chance de haver o dia desejado disponível</h3>
       <mat-hint>MM/DD/YYYY</mat-hint>
     </mat-form-field>
 
-    <mat-form-field class="date-range" *ngIf="startTime&&endTime">
+    <mat-form-field *ngIf="startTime&&endTime" style="margin-left: 1cm;">
       <mat-label>Selecione um periodo</mat-label>
       <mat-date-range-input [rangePicker]="rangePicker" [dateFilter]="dateFilter">
         <input matStartDate placeholder="Start date" [(ngModel)]="startDate">
@@ -96,14 +98,14 @@ existe uma chance de haver o dia desejado disponível</h3>
     </mat-form-field>    
   </div>
   <h5>Selecione o professor para quem a sala estará reservada</h5>
-  <mat-form-field>
+  <mat-form-field class="boxSize">
     <mat-label>Nome do Professor:</mat-label>
     <mat-select (selectionChange)="selectProfessor($event.value)">
       <mat-option *ngFor="let nome of professorNomes" [value]="nome">{{ nome }}</mat-option>
     </mat-select>
   </mat-form-field>
   
-  <mat-form-field *ngIf="materiasPorProfessor.length > 0">
+  <mat-form-field *ngIf="materiasPorProfessor.length > 0" class="boxSize" style="margin-left: 1cm;">
     <mat-label>Materia:</mat-label>
     <mat-select (selectionChange)="selectMateria($event.value)">
       <mat-option *ngFor="let materia of materiasPorProfessor" [value]="materia">{{ materia }}</mat-option>
