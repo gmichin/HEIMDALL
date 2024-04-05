@@ -21,28 +21,45 @@
   
 </mat-toolbar>
 
+<div class="demo-button-container">
+  <button mat-raised-button (click)="addData()" class="demo-button">
+    Add data
+  </button>
+  <button
+      mat-raised-button
+      [disabled]="!salas.length"
+      (click)="removeData()"
+      class="demo-button">
+    Remove data
+  </button>
+</div>
 <div class="table-container">
-  <mat-table [dataSource]="salas">
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. profess" #input>
+  </mat-form-field>
+
+  <mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="numero">
       <mat-header-cell *matHeaderCellDef>Número da Sala</mat-header-cell>
       <mat-cell *matCellDef="let sala">{{ sala.numero }}</mat-cell>
     </ng-container>
-  
+
     <ng-container matColumnDef="professor">
       <mat-header-cell *matHeaderCellDef>Nome do Professor</mat-header-cell>
       <mat-cell *matCellDef="let sala">{{ sala.professor }}</mat-cell>
     </ng-container>
-  
+
     <ng-container matColumnDef="materia">
       <mat-header-cell *matHeaderCellDef>Matéria</mat-header-cell>
       <mat-cell *matCellDef="let sala">{{ sala.materia }}</mat-cell>
     </ng-container>
-  
+
     <ng-container matColumnDef="dia">
       <mat-header-cell *matHeaderCellDef>Dia</mat-header-cell>
       <mat-cell *matCellDef="let sala">{{ sala.dia | date:'medium' }}</mat-cell>
     </ng-container>
-  
+
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>

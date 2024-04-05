@@ -30,3 +30,17 @@
 mat-table{
   background-color: #ffd740de;
 }
+
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+  margin-bottom: -20px;
+}
+
+.demo-button-container{
+  position: absolute;
+  margin-left: 2cm;
+}
+.demo-button + .demo-button {
+  margin-left: 8px;
+}
