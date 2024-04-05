@@ -32,6 +32,7 @@ import { TelaPerfilComponent } from './tela-perfil/tela-perfil.component';
 import { TelaPerfilResolver } from './tela-perfil/tela-perfil.resolver';
 import { TelaReservasComponent } from './tela-reservas/tela-reservas.component';
 import { TelaNovasReservasComponent } from './tela-novas-reservas/tela-novas-reservas.component';
+import { TelaReservasFeitasComponent } from './tela-reservas-feitas/tela-reservas-feitas.component';
 import { TelaReservaDetalhadasComponent } from './tela-reservas/tela-reserva-detalhadas/tela-reserva-detalhadas.component';
 import { NewTelaReservaComponent } from './tela-reservas/new-tela-reserva/new-tela-reserva.component';
 import { TelaMarcarReservaComponent } from './tela-reservas/tela-marcar-reserva/tela-marcar-reserva.component';
@@ -39,7 +40,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-
+import {MatTableModule} from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
     LoaderComponent,
     TelaReservasComponent,
     TelaNovasReservasComponent,
+    TelaReservasFeitasComponent,
     TelaReservaDetalhadasComponent,
     NewTelaReservaComponent,
     TelaMarcarReservaComponent
@@ -80,8 +82,15 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
     MatDatepickerModule,
     MatFormFieldModule,
     MatNativeDateModule,
+    MatTableModule
+    
   ],
-  providers: [{ provide: MAT_DIALOG_DATA, useValue: {} }, RegisterUserService, LoaderService, TelaPerfilResolver],
+  providers: [
+    { provide: MAT_DIALOG_DATA, useValue: {} }, 
+    RegisterUserService,
+    LoaderService, 
+    TelaPerfilResolver,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

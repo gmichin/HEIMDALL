@@ -1,0 +1,49 @@
+<mat-toolbar>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button (click)="openDialog()" mat-menu-item>
+        <mat-icon>dialpad</mat-icon>
+        <span>Cadastro/Login</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>voicemail</mat-icon>
+        <span>Mapa do Site</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>notifications_off</mat-icon>
+        <span>Sobre</span>
+      </button>
+    </mat-menu>
+  
+    <span class="tituloH">HEIMDALL</span>
+  
+</mat-toolbar>
+
+<div class="table-container">
+  <mat-table [dataSource]="salas">
+    <ng-container matColumnDef="numero">
+      <mat-header-cell *matHeaderCellDef>Número da Sala</mat-header-cell>
+      <mat-cell *matCellDef="let sala">{{ sala.numero }}</mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="professor">
+      <mat-header-cell *matHeaderCellDef>Nome do Professor</mat-header-cell>
+      <mat-cell *matCellDef="let sala">{{ sala.professor }}</mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="materia">
+      <mat-header-cell *matHeaderCellDef>Matéria</mat-header-cell>
+      <mat-cell *matCellDef="let sala">{{ sala.materia }}</mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="dia">
+      <mat-header-cell *matHeaderCellDef>Dia</mat-header-cell>
+      <mat-cell *matCellDef="let sala">{{ sala.dia | date:'medium' }}</mat-cell>
+    </ng-container>
+  
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>
