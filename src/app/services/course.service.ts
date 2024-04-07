@@ -19,11 +19,6 @@ export class CourseService {
     const url = `${url_config.url_course}/course-institution/${id}`;
     return this.http.get<CourseModelResponse[]>(url).pipe(
       catchError(()=> {
-        const cursos =
-          this.sessionService.getSessionData<CourseModelResponse[]>('courses');
-        if (cursos.valido) {
-          return of(cursos.retorno);
-        }
         return of([]);
       })
     );

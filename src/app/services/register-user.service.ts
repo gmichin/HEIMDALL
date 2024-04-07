@@ -53,6 +53,10 @@ export class RegisterUserService {
 
   updateUser(request: RegisterUserResponse) {
     return this.http
-    .patch<RegisterUserResponse>(`${url_config.url_user}/${request._id}`, request)
+    .patch<RegisterUserResponse>(`${url_config.url_user}/${request._id}`, request).pipe(
+      map(resp => {
+        this.sessionService.setItem('user', resp );
+      })
+    )
   }
 }

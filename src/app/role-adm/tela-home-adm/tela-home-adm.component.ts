@@ -38,17 +38,6 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   ngOnInit() {
-    const dataUser =
-      this.sessionService.getSessionData<RegisterUserResponse>('userData');
-    return this.roleService
-      .validateRole(dataUser.retorno.role._id)
-      .pipe(
-        map((res) => ({
-          dataUser: dataUser.retorno,
-          roleDesc: res,
-        }))
-      )
-      .subscribe((res) => this.sessionService.setItem('profile', res));
   }
 
   public redirectProfile() {
