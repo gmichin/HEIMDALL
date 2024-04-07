@@ -4,6 +4,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RegisterUserResponse } from '../models/register.models';
 import { SessionService } from './../services/session.service';
+import { RoleId } from '../models/role.model';
+import { RegisterUserService } from '../services/register-user.service';
 
 @Component({
   selector: 'app-tela-perfil',
@@ -12,16 +14,11 @@ import { SessionService } from './../services/session.service';
 })
 
 export class TelaPerfilComponent implements OnInit {
-  public dados = <
-    {
-      dataUser: RegisterUserResponse;
-      roleDesc: string;
-    }
-  >this.sessionService.getSessionData('profile').retorno;
+  public dataUser = <RegisterUserResponse>this.sessionService.getSessionData('user').retorno;
 
-  public nome = this.dados.dataUser.name;
-  public role = this.dados.roleDesc;
-  public email = this.dados.dataUser.email;
+  public nome = this.dataUser.name;
+  public role = '';
+  public email = this.dataUser.email;
 
   public form: FormGroup;
 
@@ -29,14 +26,27 @@ export class TelaPerfilComponent implements OnInit {
     private sessionService: SessionService,
     private snackBar: MatSnackBar,
     private fb: FormBuilder,
-    public dialogRef: MatDialogRef<TelaPerfilComponent>
+    public dialogRef: MatDialogRef<TelaPerfilComponent>,
+    private register: RegisterUserService
   ) {
+    RoleId.PROFESSOR
+    switch(this.dataUser.role._id){
+      case RoleId.ADM:
+        this.role = 'Administrador';
+        break;
+      case RoleId.PROFESSOR:
+        this.role = 'Professor';
+        break;
+      case RoleId.ALUNO:
+        this.role = 'Aluno';
+        break;
+    }
     this.form = this.fb.group({
       email: [
-        this.dados.dataUser.email,
+        this.dataUser.email,
         [Validators.required, this.emailValidator],
       ],
-      name: [this.dados.dataUser.name, [Validators.required]],
+      name: [this.dataUser.name, [Validators.required]],
     });
   }
 
@@ -49,20 +59,24 @@ export class TelaPerfilComponent implements OnInit {
       });
       return;
     }
-    const user =
-      this.sessionService.getSessionData<RegisterUserResponse>('userData');
 
-    user.retorno.email = this.form.get('email')?.value;
-    user.retorno.name = this.form.get('name')?.value;
-    this.sessionService.setItem('userData', user.retorno);
-
-    this.dados.dataUser.email = this.form.get('email')?.value;
-    this.dados.dataUser.name = this.form.get('name')?.value;
-    this.sessionService.setItem('profile', this.dados);
-    this.snackBar.open('Dados Atualizados com sucesso.', '', {
-      duration: 1000,
-    });
-    this.dialogRef.close();
+    this.dataUser.email = this.form.get('email')?.value;
+    this.dataUser.name = this.form.get('name')?.value;
+    this.register.updateUser(this.dataUser).subscribe({
+      next: ()=>{
+        this.snackBar.open('Dados Atualizados com sucesso.', '', {
+          duration: 1000,
+        });
+        this.dialogRef.close();
+        
+      },
+      error: ()=>{
+        this.snackBar.open('Ocorreu um erro durante sua solicitação.', '', {
+          duration: 1000,
+        });
+        this.dialogRef.close();
+      }
+    })
   }
 
   private emailValidator(control: any) {

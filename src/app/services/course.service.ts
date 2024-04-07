@@ -16,12 +16,9 @@ export class CourseService {
 
   public getAllCourses(): Observable<CourseModelResponse[]> {
     const id = this.sessionService.getSessionData('idInstitution').retorno;
-    const url = `${url_config.url_course}/${id}`;
+    const url = `${url_config.url_course}/course-institution/${id}`;
     return this.http.get<CourseModelResponse[]>(url).pipe(
-      catchError(() => {
-        return of(<CourseModelResponse[]>[]);
-      }),
-      switchMap(() => {
+      catchError(()=> {
         const cursos =
           this.sessionService.getSessionData<CourseModelResponse[]>('courses');
         if (cursos.valido) {
@@ -32,16 +29,3 @@ export class CourseService {
     );
   }
 }
-
-// of(<CourseModelResponse[]>[
-//   new CourseModelResponse({
-//     name: 'Análise e Desenvolvimento de Sistemas',
-//     institution_id: id,
-//     adm_id: '0',
-//   }),
-//   new CourseModelResponse({
-//     name: 'Engenharia Elétrica',
-//     institution_id: id,
-//     adm_id: '1',
-//   }),
-// ]);

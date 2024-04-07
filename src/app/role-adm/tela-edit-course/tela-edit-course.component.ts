@@ -50,7 +50,7 @@ export class TelaEditCourseComponent implements OnInit {
     const cursos =
       this.sessionService.getSessionData<CourseModelResponse[]>('courses');
     cursos.retorno.forEach((c) => {
-      if (c.course_id == this.data.course_id) {
+      if (c._id == this.data._id) {
         c.name = this.form.get('nome')?.value;
         c.adm_id = this.form.get('adm')?.value;
       }

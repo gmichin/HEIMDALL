@@ -13,9 +13,6 @@ export class RoleService {
   public validateRole(role_id: string): Observable<string> {
     const url = `${url_config.url_roles}/${role_id}`;
     return this.http.get<RoleModelResponse>(url).pipe(
-      map(() => {
-        throw '';
-      }),
       catchError(() => {
         const validate: any = {
           '0': { role_name: 'Administrador Geral' },

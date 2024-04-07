@@ -41,7 +41,7 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
     const dataUser =
       this.sessionService.getSessionData<RegisterUserResponse>('userData');
     return this.roleService
-      .validateRole(dataUser.retorno.role_id)
+      .validateRole(dataUser.retorno.role._id)
       .pipe(
         map((res) => ({
           dataUser: dataUser.retorno,

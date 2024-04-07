@@ -17,26 +17,16 @@ export class LoginUserService {
 
   public login(request: getUserRequest): Observable<RegisterUserResponse> {
     return this.http.get<RegisterUserResponse[]>(url_config.url_user).pipe(
-      map(() => {
-        throw '';
-      }),
-      catchError(() => of(<RegisterUserResponse[]>[])),
-      map((data) => {
-        const userAdm = [
-          this.sessionService.getSessionData<RegisterUserResponse>('userData')
-            .retorno,
-        ];
-        const selectedUser = userAdm.filter(
+      map((user) => {
+        const selectedUser = user.filter(
           (user) => user.email == request.email && user.email == request.email
         );
         if (selectedUser.length > 0) {
+          this.sessionService.setItem('idInstitution', selectedUser[0].instituition );
+          this.sessionService.setItem('user', selectedUser[0] );
           return selectedUser[0];
         }
         throw 'Não encontrado na base de dados.';
-      }),
-      tap((data) => {
-        this.sessionService.setItem('idInstitution', data.institution_id);
-        this.sessionService.setItem('userData', data);
       })
     );
   }

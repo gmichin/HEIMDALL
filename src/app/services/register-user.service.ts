@@ -29,10 +29,6 @@ export class RegisterUserService {
         requestInstitution
       )
       .pipe(
-        catchError(() =>
-          of(new RegisterInstitutionResponse(requestInstitution))
-        ),
-        tap((res) => this.sessionService.setItem('dadosInstituto', res)),
         switchMap((resp) => this.register(request, resp._id, true))
       );
   }
@@ -42,21 +38,21 @@ export class RegisterUserService {
     idInstitution: string,
     adm: boolean = false
   ): Observable<RegisterUserResponse> {
-    request.institution_id = idInstitution;
+    request.instituition = {_id:idInstitution};
     return this.http
       .post<RegisterUserResponse>(url_config.url_user, request)
       .pipe(
-        map(() => {
-          throw '';
+        map((resp) => {
+          this.sessionService.setItem('idInstitution', idInstitution );
+          this.sessionService.setItem('user', resp );
+          return resp;
         }),
         catchError(() => of(new RegisterUserResponse(request))),
-        tap((data) => {
-          if (adm) {
-            data.institution_id = idInstitution;
-            this.sessionService.setItem('idInstitution', idInstitution);
-            this.sessionService.setItem('userData', data);
-          }
-        })
       );
+  }
+
+  updateUser(request: RegisterUserResponse) {
+    return this.http
+    .patch<RegisterUserResponse>(`${url_config.url_user}/${request._id}`, request)
   }
 }

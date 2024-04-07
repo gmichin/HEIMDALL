@@ -14,6 +14,7 @@ import {
 } from '../models/register.models';
 import { LoginUserService } from './../services/login-user.service';
 import { RegisterUserService } from './../services/register-user.service';
+import { getUserRequest } from '../models/login.model';
 
 @Component({
   selector: 'app-tela-login',
@@ -63,7 +64,7 @@ export class TelaLoginCadastroComponent {
           name: this.resgiterForm.get('nome')?.value,
           email: this.resgiterForm.get('email')?.value,
           encrypted_password: this.resgiterForm.get('password')?.value,
-          role_id: '0',
+          role: { _id: '652ddd174bbd5905a65d8f4e' },
         }),
         new RegisterInstitutionRequest({
           nameInstitution: this.resgiterForm.get('nameInstitution')?.value,
@@ -90,39 +91,37 @@ export class TelaLoginCadastroComponent {
   }
 
   login() {
-    this.dialogRef.close('close');
-    // if (this.loginForm.invalid) {
-    //   this.snackBar.open('Por favor, revise os campos.', '', {
-    //     duration: 1000,
-    //   });
-    //   return;
-    // }
+    if (this.loginForm.invalid) {
+      this.snackBar.open('Por favor, revise os campos.', '', {
+        duration: 1000,
+      });
+      return;
+    }
 
-    // this.loginUserService
-    //   .login(
-    //     new getUserRequest({
-    //       email: this.loginForm.get('email')?.value,
-    //       password: this.loginForm.get('password')?.value,
-    //     })
-    //   )
-    //   .subscribe(
-    //     (res) => {
-    //       setTimeout(() => {
-    //         this.snackBar.open(`Bem vindo, ${res.name}!`, '', {
-    //           duration: 1000,
-    //         });
-    //         this.router.navigate(['redirecionar']);
-    //         this.dialogRef.close('close');
-    //       }, 1500);
-    //       this.resetForms(this.resgiterForm);
-    //     },
-    //     (err) => {
-    //       this.snackBar.open(`Usuário não cadastrado.`, '', {
-    //         duration: 1000,
-    //       });
-    //     }
-    //   );
-    this.router.navigate(['tela-reservas']);
+    this.loginUserService
+      .login(
+        new getUserRequest({
+          email: this.loginForm.get('email')?.value,
+          password: this.loginForm.get('password')?.value,
+        })
+      )
+      .subscribe(
+        (res) => {
+          setTimeout(() => {
+            this.snackBar.open(`Bem vindo, ${res.name}!`, '', {
+              duration: 1000,
+            });
+            this.router.navigate(['redirecionar']);
+            this.dialogRef.close('close');
+          }, 1500);
+          this.resetForms(this.resgiterForm);
+        },
+        (err) => {
+          this.snackBar.open(`Usuário não cadastrado.`, '', {
+            duration: 1000,
+          });
+        }
+      );
   }
 
   private resetForms(form: FormGroup): void {

@@ -4,8 +4,9 @@ export class RegisterUserRequest {
   name!: string;
   email!: string;
   encrypted_password!: string;
-  role_id!: string;
-  institution_id: string = '';
+  role!: Role;
+  instituition!: Instituition;
+  class!: Class[];
   registration_number: string = '';
 
   constructor(data: any) {
@@ -13,18 +14,32 @@ export class RegisterUserRequest {
     this.name = data.name;
     this.email = data.email;
     this.encrypted_password = data.encrypted_password;
-    this.role_id = data.role_id;
+    this.role = data.role;
+    this.class = [];
   }
+}
+
+export interface Role {
+  _id: string;
+};
+
+export interface Instituition {
+  _id: string;
+}
+
+export interface Class {
+  _id: string;
 }
 
 export class RegisterUserResponse {
   _id!: string;
-  email!: string;
   name!: string;
-  registration_number!: string;
+  email!: string;
   encrypted_password!: string;
-  role_id!: string;
-  institution_id!: string;
+  role!: Role;
+  instituition!: Instituition;
+  class!: Class[];
+  registration_number: string = '';
 
   constructor(data: RegisterUserRequest) {
     this._id = uuidv4();
@@ -32,8 +47,8 @@ export class RegisterUserResponse {
     this.name = data.name;
     this.registration_number = data.registration_number;
     this.encrypted_password = data.encrypted_password;
-    this.role_id = data.role_id;
-    this.institution_id = data.institution_id;
+    this.role = data.role;
+    this.instituition._id = data.instituition._id;
   }
 }
 
@@ -52,6 +67,8 @@ export class RegisterInstitutionRequest {
 }
 
 export class RegisterInstitutionResponse {
+
+  
   name!: string;
   address!: string;
   phone!: string;
