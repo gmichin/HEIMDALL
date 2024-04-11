@@ -1,9 +1,10 @@
 import { Component, Inject , OnInit } from '@angular/core';
-import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SalaDataService } from 'src/app/services/sala-data.service';
 import { map } from 'rxjs/operators';
+import { TelaReservasComponent } from '../tela-reservas.component';
+import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
 
 
 @Component({
@@ -46,25 +47,23 @@ export class TelaNovasReservasComponent implements OnInit{
     });
   }
 
-  ngOnInit(): void {
-    this.generateHours();
-  }
-  
-  public redirectProfile() {
-    const dialogT = this.dialog.open(TelaPerfilComponent, {
-      width: '400px',
-    });
-    dialogT.afterClosed().subscribe(() => {
-      this.dialogCloseSubs();
+  openLoginSignUp() {
+    const dialogRef = this.dialog.open(TelaLoginCadastroComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
     });
   }
-  
-  public redirectReserve() {
-    this.router.navigate(['/tela-reservas']);
+  openReservas() {
+    const dialogRef = this.dialog.open(TelaReservasComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
-  private dialogCloseSubs() {
-    this.router.navigate(['reload']);
+  ngOnInit(): void {
+    this.generateHours();
   }
 
   filtroCalendar(): void {

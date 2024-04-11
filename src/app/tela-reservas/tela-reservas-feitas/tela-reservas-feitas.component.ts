@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatTable } from '@angular/material/table'; 
 import { Router } from '@angular/router';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
+import { TelaReservasComponent } from '../tela-reservas.component';
 
 interface Sala {
   numero: number;
@@ -34,8 +35,15 @@ export class TelaReservasFeitasComponent {
     });
   }
 
-  openDialog() {
+  openLoginSignUp() {
     const dialogRef = this.dialog.open(TelaLoginCadastroComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+  openReservas() {
+    const dialogRef = this.dialog.open(TelaReservasComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
