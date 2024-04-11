@@ -1,10 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { TelaLoginCadastroComponent } from '../../tela-login-cadastro/tela-login-cadastro.component';
 import { SalaDataService } from 'src/app/services/sala-data.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTable } from '@angular/material/table'; 
 import { Router } from '@angular/router';
+import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
 
 interface Sala {
   numero: number;
