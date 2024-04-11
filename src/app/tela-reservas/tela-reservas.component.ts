@@ -28,6 +28,10 @@ export class TelaReservasComponent {
   }
 
   removeData() {
-    this.router.navigate(['/tela-novas-reservas']);
+    this.router.navigate(['/tela-deletar-reservas']);
+  }
+
+  seeData() {
+    this.router.navigate(['/tela-reservas-feitas']);
   }
 }
