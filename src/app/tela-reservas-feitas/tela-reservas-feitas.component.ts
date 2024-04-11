@@ -3,8 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { TelaLoginCadastroComponent } from '../tela-login-cadastro/tela-login-cadastro.component';
 import { SalaDataService } from 'src/app/services/sala-data.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatTable } from '@angular/material/table'; // Removed MatTableModule as it's not necessary here
-import { MatButtonModule } from '@angular/material/button';
+import { MatTable } from '@angular/material/table'; 
+import { Router } from '@angular/router';
 
 interface Sala {
   numero: number;
@@ -25,7 +25,8 @@ export class TelaReservasFeitasComponent {
 
   constructor(
     private salaDataService: SalaDataService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
   ) {
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.salas = salas;
@@ -50,15 +51,12 @@ export class TelaReservasFeitasComponent {
   table!: MatTable<Sala>;
 
   addData() {
-    const randomElementIndex = Math.floor(Math.random() * this.salas.length);
-    this.salas.push(this.salas[randomElementIndex]); // Adiciona um elemento aleatório ao array
-    this.dataSource.data = this.salas; // Atualiza o dataSource com os novos dados
-    this.table.renderRows(); // Renderiza as linhas da tabela
+    this.router.navigate(['/tela-novas-reservas']);
   }
 
   removeData() {
-    this.salas.pop(); // Remove o último elemento do array
-    this.dataSource.data = this.salas; // Atualiza o dataSource com os novos dados
-    this.table.renderRows(); // Renderiza as linhas da tabela
+    this.salas.pop();
+    this.dataSource.data = this.salas;
+    this.table.renderRows();
   }
 }
