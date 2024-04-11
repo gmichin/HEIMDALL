@@ -6,8 +6,8 @@ import { TelaPerfilResolver } from './tela-perfil/tela-perfil.resolver';
 import { TelaRedirecionarUsuarioComponent } from './tela-redirecionar-usuario/tela-redirecionar-usuario.component';
 import { TelaReservasComponent } from './tela-reservas/tela-reservas.component'
 import { RedirecionarUsuarioGuard } from './tela-redirecionar-usuario/tela-redirecionar-usuario.guard';
-import { TelaNovasReservasComponent } from './tela-novas-reservas/tela-novas-reservas.component';
-import { TelaReservasFeitasComponent } from './tela-reservas-feitas/tela-reservas-feitas.component';
+import { TelaNovasReservasComponent } from './tela-reservas/tela-novas-reservas/tela-novas-reservas.component';
+import { TelaReservasFeitasComponent } from './tela-reservas/tela-reservas-feitas/tela-reservas-feitas.component';
 
 const routes: Routes = [
   { path: '', component: TelaInicialComponent },

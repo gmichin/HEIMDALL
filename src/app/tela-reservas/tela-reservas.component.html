@@ -1,43 +1,27 @@
 <mat-toolbar>
-  <button mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <div class="logo-central"></div>
-  <mat-menu #menu="matMenu">
-    <button (click)="redirectProfile()" mat-menu-item>
-      <mat-icon> account_circle </mat-icon>
-      <span>Perfil</span>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>menu</mat-icon>
     </button>
-    <button mat-menu-item disabled>
-      <mat-icon>apartment</mat-icon>
-      <span>Instituição</span>
-    </button>
-    <button mat-menu-item disabled>
-      <mat-icon>school</mat-icon>
-      <span>Professores</span>
-    </button>
-    <button (click)="redirectReserve()" mat-menu-item>
-      <mat-icon>meeting_room</mat-icon>
-      <span>Reservas</span>
-    </button>
-  </mat-menu>
-  <span class="tituloH">HEIMDALL</span>
-  <button mat-button (click)="novaSala()" style="margin-left: 28cm">
-    Criar nova sala
-  </button>
+    <mat-menu #menu="matMenu">
+      <button (click)="openDialog()" mat-menu-item>
+        <mat-icon>dialpad</mat-icon>
+        <span>Cadastro/Login</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>voicemail</mat-icon>
+        <span>Mapa do Site</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>notifications_off</mat-icon>
+        <span>Sobre</span>
+      </button>
+    </mat-menu>
+  
+    <span class="tituloH">HEIMDALL</span>
+  
 </mat-toolbar>
 
-<div class="sala-buttons-container">
-  <button
-    *ngFor="let salaItem of sala; let i = index"
-    (click)="abrirDetalhesSala(salaItem)"
-    mat-menu-item
-    class="sala-button"
-  >
-    <mat-icon>meeting_room</mat-icon>
-    <span
-      >Sala {{ sala[i].numero }}
-      {{ sala[i].status == true ? "reservada" : "não reservada" }}</span
-    >
-  </button>
+<div class="demo-button-container">
+    <button mat-raised-button (click)="addData()">Add data</button>
+    <button (click)="removeData()">Remove data</button>
 </div>

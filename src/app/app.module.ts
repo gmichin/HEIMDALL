@@ -30,17 +30,14 @@ import { RegisterUserService } from './services/register-user.service';
 import { TelaLoginCadastroComponent } from './tela-login-cadastro/tela-login-cadastro.component';
 import { TelaPerfilComponent } from './tela-perfil/tela-perfil.component';
 import { TelaPerfilResolver } from './tela-perfil/tela-perfil.resolver';
-import { TelaReservasComponent } from './tela-reservas/tela-reservas.component';
-import { TelaNovasReservasComponent } from './tela-novas-reservas/tela-novas-reservas.component';
-import { TelaReservasFeitasComponent } from './tela-reservas-feitas/tela-reservas-feitas.component';
-import { TelaReservaDetalhadasComponent } from './tela-reservas/tela-reserva-detalhadas/tela-reserva-detalhadas.component';
-import { NewTelaReservaComponent } from './tela-reservas/new-tela-reserva/new-tela-reserva.component';
-import { TelaMarcarReservaComponent } from './tela-reservas/tela-marcar-reserva/tela-marcar-reserva.component';
+import { TelaNovasReservasComponent } from './tela-reservas/tela-novas-reservas/tela-novas-reservas.component';
+import { TelaReservasFeitasComponent } from './tela-reservas/tela-reservas-feitas/tela-reservas-feitas.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {MatTableModule} from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
+import { TelaReservasComponent } from './tela-reservas/tela-reservas.component'
 
 @NgModule({
   declarations: [
@@ -50,12 +47,9 @@ import {MatTableModule} from '@angular/material/table';
     PhoneNumberDirective,
     TelaPerfilComponent,
     LoaderComponent,
-    TelaReservasComponent,
     TelaNovasReservasComponent,
     TelaReservasFeitasComponent,
-    TelaReservaDetalhadasComponent,
-    NewTelaReservaComponent,
-    TelaMarcarReservaComponent
+    TelaReservasComponent
   ],
   imports: [
     AppRoutingModule,

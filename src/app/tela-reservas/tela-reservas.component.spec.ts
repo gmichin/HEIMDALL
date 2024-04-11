@@ -6,10 +6,12 @@ describe('TelaReservasComponent', () => {
   let component: TelaReservasComponent;
   let fixture: ComponentFixture<TelaReservasComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [TelaReservasComponent]
-    });
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [TelaReservasComponent]
+    })
+    .compileComponents();
+    
     fixture = TestBed.createComponent(TelaReservasComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { TelaLoginCadastroComponent } from '../tela-login-cadastro/tela-login-cadastro.component';
+import { TelaLoginCadastroComponent } from '../../tela-login-cadastro/tela-login-cadastro.component';
 import { SalaDataService } from 'src/app/services/sala-data.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTable } from '@angular/material/table'; 
@@ -30,7 +30,7 @@ export class TelaReservasFeitasComponent {
   ) {
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.salas = salas;
-      this.dataSource.data = this.salas; // Atualize o dataSource.data com os novos dados
+      this.dataSource.data = this.salas; 
     });
   }
 
