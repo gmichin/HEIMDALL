@@ -62,6 +62,10 @@ export class TelaNovasReservasComponent implements OnInit{
     });
   }
 
+  openHome(){
+    this.router.navigate(['']);
+  }
+
   ngOnInit(): void {
     this.generateHours();
   }

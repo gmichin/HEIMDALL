@@ -49,6 +49,9 @@ export class TelaReservasFeitasComponent {
       console.log(`Dialog result: ${result}`);
     });
   }
+  openHome(){
+    this.router.navigate(['']);
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

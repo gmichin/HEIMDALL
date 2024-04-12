@@ -1,4 +1,8 @@
 <mat-toolbar>
+  <button mat-icon-button (click)="openHome()">
+    <mat-icon style="float: right;">home</mat-icon>
+  </button>
+
   <button mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon>menu</mat-icon>
   </button>
@@ -27,14 +31,14 @@
 
 <div class="demo-button-container">
   <button mat-raised-button (click)="addData()" class="demo-button">
-    Add data
+    FAZER NOVAS RESERVAS
   </button>
   <button
       mat-raised-button
       [disabled]="!salas.length"
       (click)="removeData()"
       class="demo-button">
-    Remove data
+    DELETAR RESERVAS
   </button>
 </div>
 <div class="table-container">

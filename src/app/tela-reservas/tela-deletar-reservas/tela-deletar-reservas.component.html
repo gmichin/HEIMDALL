@@ -1,0 +1,40 @@
+<mat-toolbar>
+    <button mat-icon-button (click)="openHome()">
+      <mat-icon style="float: right;">home</mat-icon>
+    </button>
+    
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button (click)="openLoginSignUp()" mat-menu-item>
+        <mat-icon>dialpad</mat-icon>
+        <span>Cadastro/Login</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>voicemail</mat-icon>
+        <span>Mapa do Site</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>notifications_off</mat-icon>
+        <span>Sobre</span>
+      </button>
+      <button (click)="openReservas()" mat-menu-item>
+        <mat-icon>event</mat-icon>
+        <span>Reservas</span>
+      </button>
+    </mat-menu>
+  
+    <span class="tituloH">HEIMDALL</span>
+  
+</mat-toolbar>
+
+<mat-form-field>
+  <mat-label>Escolha</mat-label>
+  <mat-select [(value)]="escolha">
+    <mat-option value="Número da sala">Número da sala</mat-option>
+    <mat-option value="Nome do professor">Nome do professor</mat-option>
+    <mat-option value="Matéria">Matéria</mat-option>
+    <mat-option value="Dia">Dia</mat-option>
+  </mat-select>
+</mat-form-field>
