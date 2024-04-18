@@ -29,12 +29,27 @@
   
 </mat-toolbar>
 
-<mat-form-field>
-  <mat-label>Escolha</mat-label>
-  <mat-select [(value)]="escolha">
-    <mat-option value="Número da sala">Número da sala</mat-option>
-    <mat-option value="Nome do professor">Nome do professor</mat-option>
-    <mat-option value="Matéria">Matéria</mat-option>
-    <mat-option value="Dia">Dia</mat-option>
-  </mat-select>
-</mat-form-field>
+<h1>DELETAR RESERVA DE SALAS</h1>
+
+<h3 style="color: red; text-align: center;">As deletas serão permanentes!</h3>
+
+<div class="insertData">
+  <h5>Escolha o parametro para deletar a sala:</h5>
+  <mat-form-field>
+    <mat-label>Escolha</mat-label>
+    <mat-select [(value)]="escolha">
+      <mat-option value="Sala">Número da sala</mat-option>
+      <mat-option value="Professor">Nome do professor</mat-option>
+      <mat-option value="Matéria">Matéria</mat-option>
+      <mat-option value="Dia">Dia</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <h5 *ngIf="escolha=='Sala'">Escolha a sala que possui uma reserva que deseja deletar:</h5>
+  <mat-form-field class="boxSize" *ngIf="escolha=='Sala'">
+    <mat-label>Sala:</mat-label>
+    <mat-select (selectionChange)="selectSala($event.value)" [(value)]="sala">
+      <mat-option *ngFor="let numero of numeroSala" [value]="numero">{{ numero }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>

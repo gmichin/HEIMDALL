@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
 import { TelaReservasComponent } from '../tela-reservas.component';
+import { SalaDataService } from 'src/app/services/sala-data.service';
 
 @Component({
   selector: 'app-tela-deletar-reservas',
@@ -11,10 +12,18 @@ import { TelaReservasComponent } from '../tela-reservas.component';
 })
 export class TelaDeletarReservasComponent {
   escolha: string = ''; 
+  sala: string = ''; 
+  numeroSala: string[] = [];
+  numeroSalaSelecionada: string = '';
   constructor(
     public dialog: MatDialog,
-    private router: Router
-  ) {}
+    private router: Router,
+    private salaDataService: SalaDataService
+  ) {
+    this.salaDataService.salaReservaData$.subscribe((salas) => {
+      this.numeroSala = salas.map((sala) => sala.numero);
+    });
+  }
   openLoginSignUp() {
     const dialogRef = this.dialog.open(TelaLoginCadastroComponent);
 
@@ -32,4 +41,9 @@ export class TelaDeletarReservasComponent {
   openHome(){
     this.router.navigate(['']);
   }
+  
+  selectSala(numeroSala: string) {
+    this.numeroSalaSelecionada = numeroSala;
+  }
+
 }
