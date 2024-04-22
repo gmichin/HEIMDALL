@@ -13,8 +13,11 @@ import { SalaDataService } from 'src/app/services/sala-data.service';
 export class TelaDeletarReservasComponent {
   escolha: string = ''; 
   sala: string = ''; 
+  salaSelecionada: string = '';
+  professorNomes: string[] = [];
   numeroSala: string[] = [];
-  numeroSalaSelecionada: string = '';
+  materia: string[] = [];
+  dia: string[] = [];
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -22,6 +25,19 @@ export class TelaDeletarReservasComponent {
   ) {
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.numeroSala = salas.map((sala) => sala.numero);
+    });
+    this.salaDataService.salaReservaData$.subscribe((salas) => {
+      this.professorNomes = salas.map((sala) => sala.professor);
+    });
+    this.salaDataService.salaReservaData$.subscribe((salas) => {
+      this.materia = salas.map((sala) => sala.materia);
+    });
+    this.salaDataService.salaReservaData$.subscribe((salas) => {
+      this.dia = salas.map((sala) => {
+        const data = new Date(sala.dia);
+        const diaFormatado = `${data.toLocaleDateString()} ${data.toLocaleTimeString()}`;
+        return diaFormatado;
+      });
     });
   }
   openLoginSignUp() {
@@ -42,8 +58,8 @@ export class TelaDeletarReservasComponent {
     this.router.navigate(['']);
   }
   
-  selectSala(numeroSala: string) {
-    this.numeroSalaSelecionada = numeroSala;
+  selectSala(selectedSala: string) {
+    this.salaSelecionada = selectedSala;
   }
 
 }
