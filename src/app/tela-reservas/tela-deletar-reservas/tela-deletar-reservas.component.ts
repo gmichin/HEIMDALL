@@ -18,6 +18,7 @@ export class TelaDeletarReservasComponent {
   numeroSala: string[] = [];
   materia: string[] = [];
   dia: string[] = [];
+  reservasAchadas: any[] = [];
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -33,11 +34,7 @@ export class TelaDeletarReservasComponent {
       this.materia = salas.map((sala) => sala.materia);
     });
     this.salaDataService.salaReservaData$.subscribe((salas) => {
-      this.dia = salas.map((sala) => {
-        const data = new Date(sala.dia);
-        const diaFormatado = `${data.toLocaleDateString()} ${data.toLocaleTimeString()}`;
-        return diaFormatado;
-      });
+      this.dia = salas.map((sala) => sala.dia);
     });
   }
   openLoginSignUp() {
@@ -58,8 +55,14 @@ export class TelaDeletarReservasComponent {
     this.router.navigate(['']);
   }
   
-  selectSala(selectedSala: string) {
-    this.salaSelecionada = selectedSala;
+  selectSala(selectedValue: string, attribute: string) {
+    this.salaDataService.salaReservaData$.subscribe((salas) => {
+      this.reservasAchadas = salas.filter((sala) => {
+        return sala[attribute] === selectedValue;
+      });
+    });
   }
-
+  deleteReserva(){
+    console.log(this.reservasAchadas);
+  }
 }

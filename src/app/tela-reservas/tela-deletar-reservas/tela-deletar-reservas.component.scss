@@ -33,3 +33,21 @@
   .boxSize{
     width: 33%;
   }
+
+  
+  .deleteButton{
+    border-radius: 5px;
+    font-family:monospace;
+    font-size: 16px;
+    padding-left: 2.5cm;
+    padding-right: 2.5cm;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    margin-right: 1cm;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    float: right;
+    margin-right: 1cm;
+    margin-bottom: 20px;
+  }

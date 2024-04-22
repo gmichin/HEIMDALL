@@ -38,42 +38,44 @@
   <mat-form-field>
     <mat-label>Escolha</mat-label>
     <mat-select [(value)]="escolha">
-      <mat-option value="Sala">Número da sala</mat-option>
-      <mat-option value="Professor">Nome do professor</mat-option>
-      <mat-option value="Matéria">Matéria</mat-option>
-      <mat-option value="Dia">Dia</mat-option>
+      <mat-option value="numero">Número da sala</mat-option>
+      <mat-option value="professor">Nome do professor</mat-option>
+      <mat-option value="materia">Matéria</mat-option>
+      <mat-option value="dia">Dia</mat-option>
     </mat-select>
   </mat-form-field>
 
-  <h5 *ngIf="escolha=='Sala'">Escolha a sala que possui uma reserva que deseja deletar:</h5>
-  <mat-form-field class="boxSize" *ngIf="escolha=='Sala'">
+  <h5 *ngIf="escolha=='numero'">Escolha a sala que possui uma reserva que deseja deletar:</h5>
+  <mat-form-field class="boxSize" *ngIf="escolha=='numero'">
     <mat-label>Sala:</mat-label>
-    <mat-select (selectionChange)="selectSala($event.value)" [(value)]="sala">
+    <mat-select (selectionChange)="selectSala($event.value, escolha)" [(value)]="sala">
       <mat-option *ngFor="let numero of numeroSala" [value]="numero">{{ numero }}</mat-option>
     </mat-select>
   </mat-form-field>
 
-  <h5 *ngIf="escolha=='Professor'">Escolha o professor que possui uma reserva que deseja deletar:</h5>
-  <mat-form-field class="boxSize" *ngIf="escolha=='Professor'">
+  <h5 *ngIf="escolha=='professor'">Escolha o professor que possui uma reserva que deseja deletar:</h5>
+  <mat-form-field class="boxSize" *ngIf="escolha=='professor'">
     <mat-label>Professor:</mat-label>
-    <mat-select (selectionChange)="selectSala($event.value)" [(value)]="sala">
+    <mat-select (selectionChange)="selectSala($event.value, escolha)" [(value)]="sala">
       <mat-option *ngFor="let nome of professorNomes" [value]="nome">{{ nome }}</mat-option>
     </mat-select>
   </mat-form-field>
 
-  <h5 *ngIf="escolha=='Matéria'">Escolha a matéria que possui uma reserva que deseja deletar:</h5>
-  <mat-form-field class="boxSize" *ngIf="escolha=='Matéria'">
+  <h5 *ngIf="escolha=='materia'">Escolha a matéria que possui uma reserva que deseja deletar:</h5>
+  <mat-form-field class="boxSize" *ngIf="escolha=='materia'">
     <mat-label>Matéria:</mat-label>
-    <mat-select (selectionChange)="selectSala($event.value)" [(value)]="sala">
+    <mat-select (selectionChange)="selectSala($event.value, escolha)" [(value)]="sala">
       <mat-option *ngFor="let materias of materia" [value]="materias">{{ materias }}</mat-option>
     </mat-select>
   </mat-form-field>
 
-  <h5 *ngIf="escolha=='Dia'">Escolha o dia que possui uma reserva que deseja deletar:</h5>
-  <mat-form-field class="boxSize" *ngIf="escolha=='Dia'">
+  <h5 *ngIf="escolha=='dia'">Escolha o dia que possui uma reserva que deseja deletar:</h5>
+  <mat-form-field class="boxSize" *ngIf="escolha=='dia'">
     <mat-label>Dia:</mat-label>
-    <mat-select (selectionChange)="selectSala($event.value)" [(value)]="sala">
+    <mat-select (selectionChange)="selectSala($event.value, escolha)" [(value)]="sala">
       <mat-option *ngFor="let dias of dia" [value]="dias">{{ dias }}</mat-option>
     </mat-select>
   </mat-form-field>
+
+  <button (click)="deleteReserva()" class="deleteButton">Delete</button>
 </div>
