@@ -1,1 +1,30 @@
-<p>tela-permissao-reservas works!</p>
+<mat-toolbar>
+    <button mat-icon-button (click)="openHome()">
+      <mat-icon style="float: right;">home</mat-icon>
+    </button>
+    
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button (click)="openLoginSignUp()" mat-menu-item>
+        <mat-icon>dialpad</mat-icon>
+        <span>Cadastro/Login</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>voicemail</mat-icon>
+        <span>Mapa do Site</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>notifications_off</mat-icon>
+        <span>Sobre</span>
+      </button>
+      <button (click)="openReservas()" mat-menu-item>
+        <mat-icon>event</mat-icon>
+        <span>Reservas</span>
+      </button>
+    </mat-menu>
+  
+    <span class="tituloH">HEIMDALL</span>
+  
+</mat-toolbar>
