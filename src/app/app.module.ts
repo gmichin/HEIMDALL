@@ -39,6 +39,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { TelaReservasComponent } from './tela-reservas/tela-reservas.component'
 import { TelaDeletarReservasComponent } from './tela-reservas/tela-deletar-reservas/tela-deletar-reservas.component'
+import { TelaPermissaoReservasComponent } from './tela-reservas/tela-permissao-reservas/tela-permissao-reservas.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { TelaDeletarReservasComponent } from './tela-reservas/tela-deletar-reser
     TelaNovasReservasComponent,
     TelaReservasFeitasComponent,
     TelaReservasComponent,
-    TelaDeletarReservasComponent
+    TelaDeletarReservasComponent,
+    TelaPermissaoReservasComponent
   ],
   imports: [
     AppRoutingModule,
