@@ -21,7 +21,7 @@ interface Sala {
 })
 export class TelaReservasFeitasComponent {
   salas: Sala[] = [];
-  displayedColumns: string[] = ['numero', 'professor', 'materia', 'dia'];
+  displayedColumns: string[] = ['numero', 'professor', 'materia', 'dia', 'remove'];
   dataSource = new MatTableDataSource<Sala>(this.salas);
 
   constructor(
@@ -67,5 +67,15 @@ export class TelaReservasFeitasComponent {
 
   removeData() {
     this.router.navigate(['/tela-deletar-reservas']);
+  }
+
+  
+  removeRow(sala: Sala){
+    const index = this.salas.findIndex(item => item === sala);
+    
+    if (index !== -1) {
+      this.salas.splice(index, 1);
+      this.dataSource.data = [...this.salas]; 
+    }
   }
 }
