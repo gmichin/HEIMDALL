@@ -36,6 +36,16 @@
     </mat-form-field>
   
     <mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="accept">
+            <mat-header-cell *matHeaderCellDef>Accept</mat-header-cell>
+            <mat-cell *matCellDef="let sala">
+              <button mat-icon-button (click)="acceptRow(sala)">
+                <mat-icon>check_circle</mat-icon>
+              </button>
+            </mat-cell>
+        </ng-container>
+
+        
       <ng-container matColumnDef="numero">
         <mat-header-cell *matHeaderCellDef>Número da Sala</mat-header-cell>
         <mat-cell *matCellDef="let sala">{{ sala.numero }}</mat-cell>

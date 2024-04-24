@@ -20,7 +20,7 @@ interface Sala {
 })
 export class TelaPermissaoReservasComponent {
   requests: any[] = [];
-  displayedColumns: string[] = ['numero', 'professor', 'materia', 'dia'];
+  displayedColumns: string[] = ['accept', 'numero', 'professor', 'materia', 'dia'];
   dataSource = new MatTableDataSource<Sala>(this.requests);
   constructor(
     public dialog: MatDialog,
@@ -53,5 +53,15 @@ export class TelaPermissaoReservasComponent {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  acceptRow(sala: Sala) {
+    const acceptedData = [{
+      "numero": sala.numero,
+      "professor": sala.professor,
+      "materia": sala.materia,
+      "dia": sala.dia.toString() // Converte para string para manter o formato desejado
+    }];
+    console.log(acceptedData); // Você pode fazer o que quiser com os dados aceitos, como enviá-los para algum serviço ou exibi-los
   }
 }
