@@ -118,4 +118,4 @@ existe uma chance de haver o dia desejado disponível</h3>
   
 </div>
 <br>
-<button (click)="saveDate()" class="saveButton" *ngIf="materiaSelecionada&&professorSelecionado&&numeroSalaSelecionada">SALVAR</button>
+<button (click)="saveDate()" class="saveButton" [disabled]="!(materiaSelecionada&&professorSelecionado&&numeroSalaSelecionada&&diasSelecionados.length>0)">SALVAR</button>

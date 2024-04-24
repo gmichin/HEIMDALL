@@ -64,7 +64,11 @@
     margin-right: 1cm;
     margin-bottom: 20px;
   }
-  
+  .saveButton:disabled {
+    background-color: #665925; 
+    color: #888;
+    cursor: not-allowed;
+  }
   .insertData{
     width: 20cm;
     margin-left: 1cm;
