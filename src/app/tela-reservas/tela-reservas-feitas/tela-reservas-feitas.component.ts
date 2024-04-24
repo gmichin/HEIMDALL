@@ -66,8 +66,6 @@ export class TelaReservasFeitasComponent {
   }
 
   removeData() {
-    this.salas.pop();
-    this.dataSource.data = this.salas;
-    this.table.renderRows();
+    this.router.navigate(['/tela-deletar-reservas']);
   }
 }
