@@ -20,7 +20,7 @@ interface Sala {
 })
 export class TelaPermissaoReservasComponent {
   requests: any[] = [];
-  displayedColumns: string[] = ['accept', 'numero', 'professor', 'materia', 'dia'];
+  displayedColumns: string[] = ['accept', 'numero', 'professor', 'materia', 'dia', 'remove'];
   dataSource = new MatTableDataSource<Sala>(this.requests);
   constructor(
     public dialog: MatDialog,
@@ -56,12 +56,29 @@ export class TelaPermissaoReservasComponent {
   }
 
   acceptRow(sala: Sala) {
+    const index = this.requests.findIndex(item => item === sala);
+    
+    if (index !== -1) {
+      this.requests.splice(index, 1);
+      this.dataSource.data = [...this.requests]; 
+    }
+  
     const acceptedData = [{
       "numero": sala.numero,
       "professor": sala.professor,
       "materia": sala.materia,
-      "dia": sala.dia.toString() // Converte para string para manter o formato desejado
+      "dia": sala.dia.toString()
     }];
-    console.log(acceptedData); // Você pode fazer o que quiser com os dados aceitos, como enviá-los para algum serviço ou exibi-los
+  
+    console.log(acceptedData);
+  }
+
+  removeRow(sala: Sala){
+    const index = this.requests.findIndex(item => item === sala);
+    
+    if (index !== -1) {
+      this.requests.splice(index, 1);
+      this.dataSource.data = [...this.requests]; 
+    }
   }
 }
