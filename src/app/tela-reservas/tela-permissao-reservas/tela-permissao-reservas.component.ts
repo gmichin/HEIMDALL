@@ -20,7 +20,7 @@ interface Sala {
 })
 export class TelaPermissaoReservasComponent {
   requests: any[] = [];
-  displayedColumns: string[] = ['accept', 'numero', 'professor', 'materia', 'dia', 'remove'];
+  displayedColumns: string[] = ['accept','numero', 'professor', 'materia', 'dia', 'remove'];
   dataSource = new MatTableDataSource<Sala>(this.requests);
   constructor(
     public dialog: MatDialog,
