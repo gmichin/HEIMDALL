@@ -43,7 +43,7 @@ export class TelaNovasReservasComponent implements OnInit{
       this.professorNomes = uniqueProfessorNames;
     });
     this.salaDataService.salaData$.subscribe((salas) => {
-      this.numeroSala = salas.map((sala) => sala.numero);
+      this.numeroSala = salas.map((sala) => sala.number);
     });
   }
 
