@@ -36,7 +36,7 @@ export class RegisterUserResponse {
   name!: string;
   email!: string;
   encrypted_password!: string;
-  role!: Role;
+  role!: string;
   instituition!: Instituition;
   class!: Class[];
   registration_number: string = '';
@@ -47,7 +47,7 @@ export class RegisterUserResponse {
     this.name = data.name;
     this.registration_number = data.registration_number;
     this.encrypted_password = data.encrypted_password;
-    this.role = data.role;
+    this.role = data.role._id;
     this.instituition._id = data.instituition._id;
   }
 }

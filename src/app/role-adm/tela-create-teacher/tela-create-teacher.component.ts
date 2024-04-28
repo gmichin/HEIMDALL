@@ -15,6 +15,7 @@ import {
 import { RegisterUserService } from 'src/app/services/register-user.service';
 import { SessionService } from 'src/app/services/session.service';
 import { TelaCreateAdmComponent } from '../tela-create-adm/tela-create-adm.component';
+import { RoleId } from 'src/app/models/role.model';
 
 @Component({
   selector: 'app-tela-create-teacher',
@@ -23,9 +24,9 @@ import { TelaCreateAdmComponent } from '../tela-create-adm/tela-create-adm.compo
 })
 export class TelaCreateTeacherComponent implements OnInit {
   public resgiterForm: FormGroup;
-  private institution =
-    this.sessionService.getSessionData<RegisterInstitutionResponse>(
-      'dadosInstituto'
+  private idInstitution =
+    this.sessionService.getSessionData<string>(
+      'idInstitution'
     ).retorno;
 
   constructor(
@@ -56,22 +57,12 @@ export class TelaCreateTeacherComponent implements OnInit {
       name: this.resgiterForm.get('nome')?.value,
       email: this.resgiterForm.get('email')?.value,
       encrypted_password: this.resgiterForm.get('password')?.value,
-      role_id: '2',
+      role: {_id: RoleId.ADM},
     });
-    this.registerUserService.register(request, this.institution._id).subscribe({
+    this.registerUserService.register(request, this.idInstitution).subscribe({
       next: (res) => {
-        const teachers =
-          this.sessionService.getSessionData<RegisterUserResponse[]>(
-            'teachers'
-          );
-        if (!teachers.valido) {
-          teachers.retorno = [];
-        }
-        teachers.retorno.push(res);
-        this.sessionService.setItem('teachers', teachers.retorno);
-
         this.snackBar.open(`Cadastrado com sucesso.`, '', {
-          duration: 1000,
+          duration: 1500,
         });
         this.resetForms(this.resgiterForm);
         this.dialogRef.close();

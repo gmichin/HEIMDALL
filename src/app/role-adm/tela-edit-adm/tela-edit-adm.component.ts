@@ -22,8 +22,8 @@ import { SessionService } from 'src/app/services/session.service';
 export class TelaEditAdmComponent implements OnInit {
   public resgiterForm: FormGroup;
   private institution =
-    this.sessionService.getSessionData<RegisterInstitutionResponse>(
-      'dadosInstituto'
+    this.sessionService.getSessionData<string>(
+      'idInstitution'
     ).retorno;
 
   constructor(
@@ -46,23 +46,26 @@ export class TelaEditAdmComponent implements OnInit {
     if (this.resgiterForm.invalid) {
       return;
     }
-    const adms =
-      this.sessionService.getSessionData<RegisterUserResponse[]>(
-        'adms'
-      ).retorno;
-    adms.forEach((a) => {
-      if (a._id == this.data._id) {
-        a.name = this.resgiterForm.get('nome')?.value;
-        a.email = this.resgiterForm.get('email')?.value;
-      }
-    });
 
-    this.sessionService.setItem('adms', adms);
+    this.data.name = this.resgiterForm.get('nome')?.value;
+    this.data.email = this.resgiterForm.get('email')?.value;
 
-    this.snackBar.open('Dados atualizados com sucesso.', '', {
-      duration: 1000,
-    });
-    this.dialogRef.close();
+    this.registerUserService.updateUser(this.data).subscribe({
+      next: () => {
+        this.snackBar.open('Dados atualizados com sucesso.', '', {
+          duration: 1500,
+        });
+        this.dialogRef.close();
+      },
+      error: (err) => {
+        this.snackBar.open('Ocorreu um erro durante sua solicitação.', '', {
+          duration: 1500,
+        });
+        this.dialogRef.close();
+        
+      },
+    })
+
   }
 
   private resetForms(form: FormGroup): void {

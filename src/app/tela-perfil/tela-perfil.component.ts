@@ -29,8 +29,7 @@ export class TelaPerfilComponent implements OnInit {
     public dialogRef: MatDialogRef<TelaPerfilComponent>,
     private register: RegisterUserService
   ) {
-    RoleId.PROFESSOR
-    switch(this.dataUser.role._id){
+    switch(this.dataUser.role){
       case RoleId.ADM:
         this.role = 'Administrador';
         break;
@@ -47,6 +46,7 @@ export class TelaPerfilComponent implements OnInit {
         [Validators.required, this.emailValidator],
       ],
       name: [this.dataUser.name, [Validators.required]],
+      role: [this.dataUser.role, [Validators.required]],
     });
   }
 

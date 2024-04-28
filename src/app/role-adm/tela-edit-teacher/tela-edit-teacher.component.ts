@@ -46,23 +46,23 @@ export class TelaEditTeacherComponent implements OnInit {
     if (this.resgiterForm.invalid) {
       return;
     }
-    const teachers =
-      this.sessionService.getSessionData<RegisterUserResponse[]>(
-        'teachers'
-      ).retorno;
-    teachers.forEach((a) => {
-      if (a._id == this.data._id) {
-        a.name = this.resgiterForm.get('nome')?.value;
-        a.email = this.resgiterForm.get('email')?.value;
+    this.data.name = this.resgiterForm.get('nome')?.value;
+    this.data.email = this.resgiterForm.get('email')?.value;
+
+    this.registerUserService.updateUser(this.data).subscribe({
+      next: () => {
+        this.snackBar.open('Dados atualizados com sucesso.', '', {
+          duration: 1500,
+        });
+        this.dialogRef.close();
+      },
+      error: (err) => {
+        this.snackBar.open('Ocorreu um erro durante sua solicitação.', '', {
+          duration: 1500,
+        });
+        this.dialogRef.close();
       }
-    });
-
-    this.sessionService.setItem('teachers', teachers);
-
-    this.snackBar.open('Dados atualizados com sucesso.', '', {
-      duration: 1000,
-    });
-    this.dialogRef.close();
+    })
   }
 
   private resetForms(form: FormGroup): void {

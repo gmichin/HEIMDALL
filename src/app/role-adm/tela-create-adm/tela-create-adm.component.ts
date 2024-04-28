@@ -14,6 +14,7 @@ import {
 import { RegisterUserService } from 'src/app/services/register-user.service';
 import { RegisterUserRequest } from './../../models/register.models';
 import { SessionService } from './../../services/session.service';
+import { RoleId } from 'src/app/models/role.model';
 
 @Component({
   selector: 'app-tela-create-adm',
@@ -22,9 +23,9 @@ import { SessionService } from './../../services/session.service';
 })
 export class TelaCreateAdmComponent implements OnInit {
   public resgiterForm: FormGroup;
-  private institution =
-    this.sessionService.getSessionData<RegisterInstitutionResponse>(
-      'dadosInstituto'
+  private idInstitution =
+    this.sessionService.getSessionData<string>(
+      'idInstitution'
     ).retorno;
 
   constructor(
@@ -55,9 +56,9 @@ export class TelaCreateAdmComponent implements OnInit {
       name: this.resgiterForm.get('nome')?.value,
       email: this.resgiterForm.get('email')?.value,
       encrypted_password: this.resgiterForm.get('password')?.value,
-      role_id: '1',
+      role: {_id: RoleId.ADM},
     });
-    this.registerUserService.register(request, this.institution._id).subscribe({
+    this.registerUserService.register(request, this.idInstitution).subscribe({
       next: (res) => {
         const adms =
           this.sessionService.getSessionData<RegisterUserResponse[]>('adms');

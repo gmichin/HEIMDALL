@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, map, of, switchMap } from 'rxjs';
+import { Observable, catchError, map, of, switchMap, tap } from 'rxjs';
 import { RegisterInstitutionResponse, RegisterUserResponse } from '../models/register.models';
 import { url_config } from '../url.config';
 import { SessionService } from './session.service';
@@ -19,6 +19,9 @@ export class InternsService {
     .get<RegisterUserResponse[]>(
       url
     ).pipe(
+      tap((resp)=>{
+        this.sessionService.setItem('adms', resp)
+      }),
       catchError(()=> {
         return of([]);
       })
@@ -32,6 +35,9 @@ export class InternsService {
     .get<RegisterUserResponse[]>(
       url
     ).pipe(
+      tap((resp)=>{
+        this.sessionService.setItem('teachers', resp)
+      }),
       catchError(()=> {
         return of([]);
       })
