@@ -48,7 +48,7 @@
   <h5 *ngIf="escolha=='numero'">Escolha a sala que possui uma reserva que deseja deletar:</h5>
   <mat-form-field class="boxSize" *ngIf="escolha=='numero'">
     <mat-label>Sala:</mat-label>
-    <mat-select (selectionChange)="selectSala($event.value, escolha)" [(value)]="sala">
+    <mat-select [(value)]="sala" (selectionChange)="procurarSala($event.value)">
       <mat-option *ngFor="let numero of numeroSala" [value]="numero">{{ numero }}</mat-option>
     </mat-select>
   </mat-form-field>
@@ -56,7 +56,7 @@
   <h5 *ngIf="escolha=='professor'">Escolha o professor que possui uma reserva que deseja deletar:</h5>
   <mat-form-field class="boxSize" *ngIf="escolha=='professor'">
     <mat-label>Professor:</mat-label>
-    <mat-select (selectionChange)="selectSala($event.value, escolha)" [(value)]="sala">
+    <mat-select [(value)]="sala" (selectionChange)="procurarSala($event.value)">
       <mat-option *ngFor="let nome of professorNomes" [value]="nome">{{ nome }}</mat-option>
     </mat-select>
   </mat-form-field>
@@ -64,7 +64,7 @@
   <h5 *ngIf="escolha=='materia'">Escolha a matéria que possui uma reserva que deseja deletar:</h5>
   <mat-form-field class="boxSize" *ngIf="escolha=='materia'">
     <mat-label>Matéria:</mat-label>
-    <mat-select (selectionChange)="selectSala($event.value, escolha)" [(value)]="sala">
+    <mat-select [(value)]="sala" (selectionChange)="procurarSala($event.value)">
       <mat-option *ngFor="let materias of materia" [value]="materias">{{ materias }}</mat-option>
     </mat-select>
   </mat-form-field>
@@ -72,7 +72,7 @@
   <h5 *ngIf="escolha=='dia'">Escolha o dia que possui uma reserva que deseja deletar:</h5>
   <mat-form-field class="boxSize" *ngIf="escolha=='dia'">
     <mat-label>Dia:</mat-label>
-    <mat-select (selectionChange)="selectSala($event.value, escolha)" [(value)]="sala">
+    <mat-select [(value)]="sala" (selectionChange)="procurarSala($event.value)">
       <mat-option *ngFor="let dias of dia" [value]="dias">{{ dias }}</mat-option>
     </mat-select>
   </mat-form-field>
