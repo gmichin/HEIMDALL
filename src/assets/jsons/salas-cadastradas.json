@@ -1,6 +1,6 @@
 [
   {
-    "numero": 107,
+    "number": 107,
     "cadeiras": 25,
     "mesas": 5,
     "cadeirasPorMesa": 5,
@@ -10,7 +10,7 @@
     "status": true
   },
   {
-    "numero": 104,
+    "number": 104,
     "cadeiras": 25,
     "mesas": 5,
     "cadeirasPorMesa": 5,
@@ -20,7 +20,7 @@
     "status": true
   },
   {
-    "numero": 105,
+    "number": 105,
     "cadeiras": 25,
     "mesas": 5,
     "cadeirasPorMesa": 5,
@@ -30,7 +30,7 @@
     "status": false
   },
   {
-    "numero": 106,
+    "number": 106,
     "cadeiras": 25,
     "mesas": 5,
     "cadeirasPorMesa": 5,
@@ -40,7 +40,7 @@
     "status": false
   },
   {
-    "numero": 102,
+    "number": 102,
     "cadeiras": 25,
     "mesas": 5,
     "cadeirasPorMesa": 5,
@@ -50,7 +50,7 @@
     "status": false
   },
   {
-    "numero": 101,
+    "number": 101,
     "cadeiras": 25,
     "mesas": 5,
     "cadeirasPorMesa": 5,
@@ -60,7 +60,7 @@
     "status": false
   },
   {
-    "numero": 100,
+    "number": 100,
     "cadeiras": 20,
     "mesas": 5,
     "cadeirasPorMesa": 4,
