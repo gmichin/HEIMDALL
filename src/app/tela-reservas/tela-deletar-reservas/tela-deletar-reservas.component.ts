@@ -4,6 +4,14 @@ import { Router } from '@angular/router';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
 import { TelaReservasComponent } from '../tela-reservas.component';
 import { SalaDataService } from 'src/app/services/sala-data.service';
+import { MatTableDataSource } from '@angular/material/table';
+
+interface Sala {
+  numero: number;
+  professor: string;
+  materia: string;
+  dia: Date;
+}
 
 @Component({
   selector: 'app-tela-deletar-reservas',
@@ -19,6 +27,7 @@ export class TelaDeletarReservasComponent {
   materia: string[] = [];
   dia: string[] = [];
   reservasAchadas: any[] = [];
+
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -62,6 +71,7 @@ export class TelaDeletarReservasComponent {
       });
     });
   }
+  
   deleteReserva(){
     console.log(this.reservasAchadas);
   }
