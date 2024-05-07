@@ -6,6 +6,7 @@ import { MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
 import { TelaReservasComponent } from '../tela-reservas.component';
+import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
 
 interface Sala {
   numero: number;
@@ -46,10 +47,14 @@ export class TelaPermissaoReservasComponent {
       console.log(`Dialog result: ${result}`);
     });
   }
-  openHome(){
-    this.router.navigate(['']);
-  }
+  openSalas() {
+    const dialogRef = this.dialog.open(TelaSalasComponent);
 
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+  
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

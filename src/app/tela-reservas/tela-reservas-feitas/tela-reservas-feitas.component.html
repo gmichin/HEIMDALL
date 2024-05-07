@@ -1,8 +1,4 @@
 <mat-toolbar>
-  <button mat-icon-button (click)="openHome()">
-    <mat-icon style="float: right;">home</mat-icon>
-  </button>
-
   <button mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon>menu</mat-icon>
   </button>
@@ -15,9 +11,9 @@
       <mat-icon>voicemail</mat-icon>
       <span>Mapa do Site</span>
     </button>
-    <button mat-menu-item disabled>
-      <mat-icon>notifications_off</mat-icon>
-      <span>Sobre</span>
+    <button (click)="openSalas()" mat-menu-item>
+      <mat-icon>meeting_room</mat-icon>
+      <span>Salas</span>
     </button>
     <button (click)="openReservas()" mat-menu-item>
       <mat-icon>event</mat-icon>

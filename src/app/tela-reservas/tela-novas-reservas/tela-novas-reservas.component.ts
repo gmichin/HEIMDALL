@@ -5,6 +5,7 @@ import { SalaDataService } from 'src/app/services/sala-data.service';
 import { map } from 'rxjs/operators';
 import { TelaReservasComponent } from '../tela-reservas.component';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
+import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
 
 
 @Component({
@@ -62,10 +63,14 @@ export class TelaNovasReservasComponent implements OnInit{
     });
   }
 
-  openHome(){
-    this.router.navigate(['']);
-  }
+  openSalas() {
+    const dialogRef = this.dialog.open(TelaSalasComponent);
 
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+  
   ngOnInit(): void {
     this.generateHours();
   }

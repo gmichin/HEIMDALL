@@ -5,6 +5,7 @@ import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-log
 import { TelaReservasComponent } from '../tela-reservas.component';
 import { SalaDataService } from 'src/app/services/sala-data.service';
 import { SelectionModel } from '@angular/cdk/collections';
+import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
 
 interface Sala {
   numero: number;
@@ -68,10 +69,15 @@ export class TelaDeletarReservasComponent {
       console.log(`Dialog result: ${result}`);
     });
   }
-  openHome(){
-    this.router.navigate(['']);
-  }
 
+  openSalas() {
+    const dialogRef = this.dialog.open(TelaSalasComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+  
   procurarSala(selectedValue: string){
     this.reservasAchadas = [];
     this.todasReservas.forEach(reserva => {

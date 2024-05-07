@@ -41,6 +41,7 @@ import { TelaReservasComponent } from './tela-reservas/tela-reservas.component'
 import { TelaDeletarReservasComponent } from './tela-reservas/tela-deletar-reservas/tela-deletar-reservas.component'
 import { TelaPermissaoReservasComponent } from './tela-reservas/tela-permissao-reservas/tela-permissao-reservas.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { TelaSalasComponent } from './tela-salas/tela-salas.component'
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     TelaReservasFeitasComponent,
     TelaReservasComponent,
     TelaDeletarReservasComponent,
-    TelaPermissaoReservasComponent
+    TelaPermissaoReservasComponent,
+    TelaSalasComponent
   ],
   imports: [
     AppRoutingModule,
