@@ -8,6 +8,8 @@ import { SessionService } from './session.service';
 })
 export class SalaDataService {
   private salaDataSubject = new BehaviorSubject<any[]>([]);
+  private salasRequestDataSubject = new BehaviorSubject<any[]>([]);
+
   private teacherDataSubject = new BehaviorSubject<any[]>([]);
   private diasDesabilitadosSubject = new BehaviorSubject<any[]>([]);
 
@@ -24,9 +26,14 @@ export class SalaDataService {
     this.carregarDiasDesabilitados();
     this.carregarDadosSalasReservadas();
     this.carregarDadosReservasRequests();
+    this.carregarDadosSalassRequests();
   }
 
   salaData$ = this.salaDataSubject.asObservable();
+
+  salasRequestData$ = this.salasRequestDataSubject.asObservable();
+
+
   teacherData$ = this.teacherDataSubject.asObservable();
   diasDesabilitados$ = this.diasDesabilitadosSubject.asObservable();
 
@@ -40,6 +47,15 @@ export class SalaDataService {
       this.sessionService.setItem('reservas-request', data);
       this.reservasRequestDataSubject.next(
         this.sessionService.getSessionData('reservas-request').retorno as any[]
+      );
+    });
+  }
+
+  private carregarDadosSalassRequests() {
+    this.http.get<any[]>('/assets/jsons/salas-request.json').subscribe((data) => {
+      this.sessionService.setItem('salas-request', data);
+      this.salasRequestDataSubject.next(
+        this.sessionService.getSessionData('salas-request').retorno as any[]
       );
     });
   }
