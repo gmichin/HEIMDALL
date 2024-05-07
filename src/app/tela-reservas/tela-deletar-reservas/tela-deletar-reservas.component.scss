@@ -51,3 +51,23 @@
     margin-right: 1cm;
     margin-bottom: 20px;
   }
+
+  
+.table-container {
+  width: 180%;
+  margin: auto;
+  margin-top: 1cm;
+  border: 2px solid rgb(0, 0, 0);
+}
+
+mat-table{
+  background-color: #ffd740de;
+}
+
+.demo-button-container{
+  position: absolute;
+  margin-left: 2cm;
+}
+.demo-button + .demo-button {
+  margin-left: 8px;
+}

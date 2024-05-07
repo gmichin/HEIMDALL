@@ -26,8 +26,12 @@ export class TelaDeletarReservasComponent {
   numeroSala: string[] = [];
   materia: string[] = [];
   dia: string[] = [];
-  reservasAchadas: any[] = [];
+  reservasAchadas: Sala[] = [];
   todasReservas: any[] = [];
+
+  displayedColumns: string[] = ['numero', 'professor', 'materia', 'dia', 'remove'];
+  dataSource = new MatTableDataSource<Sala>(this.reservasAchadas);
+
 
   constructor(
     public dialog: MatDialog,
@@ -49,6 +53,9 @@ export class TelaDeletarReservasComponent {
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.todasReservas = salas;
     })
+    this.salaDataService.salaReservaData$.subscribe(() => {
+      this.dataSource.data = this.reservasAchadas; 
+    });
   }
   openLoginSignUp() {
     const dialogRef = this.dialog.open(TelaLoginCadastroComponent);
@@ -78,6 +85,15 @@ export class TelaDeletarReservasComponent {
           this.reservasAchadas.push(reserva);
       }
     });
+  }
+  
+  removeRow(sala: Sala){
+    const index = this.reservasAchadas.findIndex(item => item === sala);
+    
+    if (index !== -1) {
+      this.reservasAchadas.splice(index, 1);
+      this.dataSource.data = [...this.reservasAchadas]; 
+    }
   }
 
   deleteReserva(){

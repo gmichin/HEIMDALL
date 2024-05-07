@@ -76,6 +76,46 @@
       <mat-option *ngFor="let dias of dia" [value]="dias">{{ dias }}</mat-option>
     </mat-select>
   </mat-form-field>
+  
+
+  
+  <div class="table-container">
+  
+    <mat-table [dataSource]="reservasAchadas">
+      <ng-container matColumnDef="numero">
+        <mat-header-cell *matHeaderCellDef>Número da Sala</mat-header-cell>
+        <mat-cell *matCellDef="let sala">{{ sala.numero }}</mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="professor">
+        <mat-header-cell *matHeaderCellDef>Nome do Professor</mat-header-cell>
+        <mat-cell *matCellDef="let sala">{{ sala.professor }}</mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="materia">
+        <mat-header-cell *matHeaderCellDef>Matéria</mat-header-cell>
+        <mat-cell *matCellDef="let sala">{{ sala.materia }}</mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="dia">
+        <mat-header-cell *matHeaderCellDef>Dia</mat-header-cell>
+        <mat-cell *matCellDef="let sala">{{ sala.dia | date:'medium' }}</mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="remove">
+        <mat-header-cell *matHeaderCellDef>Remove</mat-header-cell>
+        <mat-cell *matCellDef="let sala">
+          <button mat-icon-button (click)="removeRow(sala)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+  
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
+
 
   <button (click)="deleteReserva()" class="deleteButton">Delete</button>
 </div>
