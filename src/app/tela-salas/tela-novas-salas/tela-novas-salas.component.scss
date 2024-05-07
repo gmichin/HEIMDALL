@@ -1,0 +1,61 @@
+.example-spacer {
+    flex: 1 1 auto;
+  }
+  
+  .manuSpacer {
+    margin: 0 2%;
+    width: 13%;
+    display: flex;
+    a {
+      margin: 0 3%;
+    }
+  }
+  
+  .mat-toolbar {
+    background: #ffd740de;
+    color: var(--mat-toolbar-container-text-color);
+  }
+  
+  .box-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10%;
+    .logo-central {
+      z-index: 999;
+      width: 225px;
+      height: 225px;
+      margin-right: 5%;
+      background-image: url(../../assets/images/heimdall.logo.png);
+    }
+    .tryNow {
+      display: flex;
+      flex-direction: column;
+      background-color: rgba(255, 255, 255, 0.3);
+      padding: 5%;
+      border-radius: 10px;
+      z-index: 999;
+      justify-content: center;
+      width: 20%;
+      p {
+        font-size: 1.2em;
+        width: 80%;
+        margin: 0 0 8% 15%;
+        font-weight: 700;
+      }
+      ::ng-deep {
+        button {
+          .mdc-button__label {
+            font-weight: 900 !important;
+            font-family: sans-serif !important;
+            font-size: 1.2em !important;
+          }
+        }
+      }
+    }
+  }
+  
+  .tituloH {
+    font-size: 2em;
+  }
+  
