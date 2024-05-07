@@ -7,10 +7,14 @@ import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
 import { TelaReservasComponent } from 'src/app/tela-reservas/tela-reservas.component';
 
 interface Sala {
-  numero: number;
-  professor: string;
-  materia: string;
-  dia: Date;
+  number: number;
+  cadeiras: number;
+  mesas: number;
+  cadeirasPorMesa: number;
+  computadores: number;
+  lousa: number;
+  projetor: number;
+  status : number;
 }
 @Component({
   selector: 'app-tela-permissao-salas',
@@ -67,10 +71,14 @@ export class TelaPermissaoSalasComponent {
     }
   
     const acceptedData = [{
-      "numero": sala.numero,
-      "professor": sala.professor,
-      "materia": sala.materia,
-      "dia": sala.dia.toString()
+      "number": sala.number,
+      "cadeiras": sala.cadeiras,
+      "mesas": sala.mesas,
+      "cadeirasPorMesa": sala.cadeirasPorMesa,
+      "computadores": sala.computadores,
+      "lousa": sala.lousa,
+      "projetor": sala.projetor,
+      "status": sala.status
     }];
   
     console.log(acceptedData);
