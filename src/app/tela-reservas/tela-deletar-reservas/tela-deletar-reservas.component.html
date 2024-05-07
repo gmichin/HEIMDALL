@@ -79,9 +79,25 @@
   
 
   
-  <div class="table-container" *ngIf="reservasAchadas.length>0">
+  <div class="table-container" *ngIf="reservasAchadas.length">
   
-    <mat-table [dataSource]="reservasAchadas">
+    <mat-table [dataSource]="reservasAchadas" matSort>
+
+      <ng-container matColumnDef="selecionar">
+        <mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()">
+          </mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row)">
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+      
       <ng-container matColumnDef="numero">
         <mat-header-cell *matHeaderCellDef>Número da Sala</mat-header-cell>
         <mat-cell *matCellDef="let sala">{{ sala.numero }}</mat-cell>

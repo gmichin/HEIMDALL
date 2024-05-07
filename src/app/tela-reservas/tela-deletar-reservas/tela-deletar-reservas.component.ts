@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
 import { TelaReservasComponent } from '../tela-reservas.component';
 import { SalaDataService } from 'src/app/services/sala-data.service';
-import { MatTableDataSource } from '@angular/material/table';
+import { SelectionModel } from '@angular/cdk/collections';
 
 interface Sala {
   numero: number;
@@ -29,9 +29,9 @@ export class TelaDeletarReservasComponent {
   reservasAchadas: Sala[] = [];
   todasReservas: any[] = [];
 
-  displayedColumns: string[] = ['numero', 'professor', 'materia', 'dia', 'remove'];
-  dataSource = new MatTableDataSource<Sala>(this.reservasAchadas);
+  displayedColumns: string[] = ['selecionar','numero', 'professor', 'materia', 'dia', 'remove'];
 
+  selection = new SelectionModel<any>(true, []);
 
   constructor(
     public dialog: MatDialog,
@@ -53,9 +53,6 @@ export class TelaDeletarReservasComponent {
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.todasReservas = salas;
     })
-    this.salaDataService.salaReservaData$.subscribe(() => {
-      this.dataSource.data = this.reservasAchadas; 
-    });
   }
   openLoginSignUp() {
     const dialogRef = this.dialog.open(TelaLoginCadastroComponent);
@@ -92,11 +89,23 @@ export class TelaDeletarReservasComponent {
     
     if (index !== -1) {
       this.reservasAchadas.splice(index, 1);
-      this.dataSource.data = [...this.reservasAchadas]; 
     }
   }
 
   deleteReserva(){
     console.log(this.reservasAchadas);
+  }
+
+  masterToggle() {
+    this.isAllSelected() ?
+        this.selection.clear() :
+        this.reservasAchadas.forEach(row => this.selection.select(row));
+  }
+  
+  // Função para verificar se todas as linhas estão selecionadas
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.reservasAchadas.length;
+    return numSelected === numRows;
   }
 }

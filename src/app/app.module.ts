@@ -40,6 +40,7 @@ import { MatTableModule } from '@angular/material/table';
 import { TelaReservasComponent } from './tela-reservas/tela-reservas.component'
 import { TelaDeletarReservasComponent } from './tela-reservas/tela-deletar-reservas/tela-deletar-reservas.component'
 import { TelaPermissaoReservasComponent } from './tela-reservas/tela-permissao-reservas/tela-permissao-reservas.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { TelaPermissaoReservasComponent } from './tela-reservas/tela-permissao-r
     MatDatepickerModule,
     MatFormFieldModule,
     MatNativeDateModule,
-    MatTableModule
+    MatTableModule,
+    MatCheckboxModule
     
   ],
   providers: [
