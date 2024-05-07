@@ -79,7 +79,7 @@
   
 
   
-  <div class="table-container">
+  <div class="table-container" *ngIf="reservasAchadas.length>0">
   
     <mat-table [dataSource]="reservasAchadas">
       <ng-container matColumnDef="numero">
@@ -116,6 +116,6 @@
     </mat-table>
   </div>
 
-
+ <br>
   <button (click)="deleteReserva()" class="deleteButton">Delete</button>
 </div>
