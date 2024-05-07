@@ -24,3 +24,46 @@
     <span class="tituloH">HEIMDALL</span>
   
   </mat-toolbar>
+
+  <mat-card>
+    <mat-card-title>Cadastro de Salas</mat-card-title>
+    <mat-card-content>
+      <form>
+        <mat-form-field>
+            <mat-label>Numero da Salas</mat-label>
+          <input matInput type="number" placeholder="Numero da Salas" [(ngModel)]="numeroSalas" name="numeroSalas">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Qte. de Cadeiras</mat-label>
+          <input matInput type="number" placeholder="Qte. de Cadeiras" [(ngModel)]="numeroCadeiras" name="numeroCadeiras">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <mat-label>Qte. de Mesas</mat-label>
+          <input matInput type="number" placeholder="Qte. de Mesas" [(ngModel)]="numeroMesas" name="numeroMesas">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Qte. de Cadeiras por Mesa</mat-label>
+          <input matInput type="number" placeholder="Qte. de Cadeiras por Mesa" [(ngModel)]="cadeirasPorMesa" name="cadeirasPorMesa">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <mat-label>Qte. de Computadores</mat-label>
+          <input matInput type="number" placeholder="Qte. de Computadores" [(ngModel)]="numeroComputadores" name="numeroComputadores">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Qte. de Lousas</mat-label>
+          <input matInput type="number" placeholder="Qte. de Lousas" [(ngModel)]="lousa" name="lousa">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <mat-label>Qte. de Projetores</mat-label>
+          <input matInput type="number" placeholder="Qte. de Projetores" [(ngModel)]="projetor" name="projetor">
+        </mat-form-field>
+        <mat-checkbox [(ngModel)]="status" name="status" style="margin-left: 1.7cm;">Sala esta disponível?</mat-checkbox>
+      </form>
+    </mat-card-content>
+
+    
+    <button (click)="save()" class="saveButton">Delete</button>
+  </mat-card>

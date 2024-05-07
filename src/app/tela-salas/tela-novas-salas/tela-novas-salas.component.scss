@@ -14,6 +14,7 @@
   .mat-toolbar {
     background: #ffd740de;
     color: var(--mat-toolbar-container-text-color);
+    margin-bottom: 1cm;
   }
   
   .box-container {
@@ -26,7 +27,7 @@
       width: 225px;
       height: 225px;
       margin-right: 5%;
-      background-image: url(../../assets/images/heimdall.logo.png);
+      background-image: url(/src/assets/images/heimdall.logo.png);
     }
     .tryNow {
       display: flex;
@@ -59,3 +60,35 @@
     font-size: 2em;
   }
   
+  mat-card{
+    background-color: #ffd740de;
+    border: 2px solid rgb(0, 0, 0);
+    width: 50%;
+    margin: auto;
+    padding: 1cm;
+  }
+  mat-form-field{
+    background-color: #ffd740de;
+    margin-left: 2cm;
+  }
+  mat-card-title{
+    margin-bottom: 1cm;
+    text-align: center;
+  }
+
+  .saveButton{
+    border-radius: 5px;
+    font-family:monospace;
+    font-size: 16px;
+    padding-left: 2.5cm;
+    padding-right: 2.5cm;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    margin-right: 1cm;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    float: right;
+    margin-right: 1cm;
+    margin-bottom: 20px;
+  }
