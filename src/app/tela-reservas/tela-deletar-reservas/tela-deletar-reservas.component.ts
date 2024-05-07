@@ -102,7 +102,6 @@ export class TelaDeletarReservasComponent {
         this.reservasAchadas.forEach(row => this.selection.select(row));
   }
   
-  // Função para verificar se todas as linhas estão selecionadas
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.reservasAchadas.length;
