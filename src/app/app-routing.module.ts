@@ -10,6 +10,11 @@ import { TelaNovasReservasComponent } from './tela-reservas/tela-novas-reservas/
 import { TelaReservasFeitasComponent } from './tela-reservas/tela-reservas-feitas/tela-reservas-feitas.component';
 import { TelaDeletarReservasComponent } from './tela-reservas/tela-deletar-reservas/tela-deletar-reservas.component';
 import { TelaPermissaoReservasComponent } from './tela-reservas/tela-permissao-reservas/tela-permissao-reservas.component';
+import { TelaSalasComponent } from './tela-salas/tela-salas.component';
+import { TelaNovasSalasComponent } from './tela-salas/tela-novas-salas/tela-novas-salas.component';
+import { TelaSalasFeitasComponent } from './tela-salas/tela-salas-feitas/tela-salas-feitas.component';
+import { TelaDeletarSalasComponent } from './tela-salas/tela-deletar-salas/tela-deletar-salas.component';
+import { TelaPermissaoSalasComponent } from './tela-salas/tela-permissao-salas/tela-permissao-salas.component';
 
 const routes: Routes = [
   { path: '', component: TelaInicialComponent },
@@ -34,6 +39,12 @@ const routes: Routes = [
   { path: 'tela-reservas-feitas', component: TelaReservasFeitasComponent},
   { path: 'tela-deletar-reservas', component: TelaDeletarReservasComponent},
   { path: 'tela-permissao-reservas', component: TelaPermissaoReservasComponent},
+
+  { path: 'tela-salas', component: TelaSalasComponent },
+  { path: 'tela-novas-salas', component: TelaNovasSalasComponent},
+  { path: 'tela-salas-feitas', component: TelaSalasFeitasComponent},
+  { path: 'tela-deletar-salas', component: TelaDeletarSalasComponent},
+  { path: 'tela-permissao-salas', component: TelaPermissaoSalasComponent},
 ];
 
 @NgModule({
