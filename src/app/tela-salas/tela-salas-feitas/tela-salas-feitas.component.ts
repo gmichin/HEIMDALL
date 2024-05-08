@@ -15,9 +15,9 @@ interface Sala {
   mesas: number;
   cadeirasPorMesa: number;
   computadores: number;
-  lousa: number;
+  capacidade: number;
   projetor: number;
-  status : number;
+  status : string;
 }
 
 @Component({

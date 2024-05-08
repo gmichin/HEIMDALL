@@ -12,9 +12,9 @@ interface Sala {
   mesas: number;
   cadeirasPorMesa: number;
   computadores: number;
-  lousa: number;
+  capacidade: number;
   projetor: number;
-  status : number;
+  status : string;
 }
 @Component({
   selector: 'app-tela-permissao-salas',
@@ -72,12 +72,12 @@ export class TelaPermissaoSalasComponent {
   
     const acceptedData = [{
       "number": sala.number,
-      "cadeiras": sala.cadeiras,
-      "mesas": sala.mesas,
-      "cadeirasPorMesa": sala.cadeirasPorMesa,
-      "computadores": sala.computadores,
-      "lousa": sala.lousa,
-      "projetor": sala.projetor,
+      "chairs": sala.cadeiras,
+      "tables": sala.mesas,
+      "chairByTables": sala.cadeirasPorMesa,
+      "computers": sala.computadores,
+      "capacity": sala.capacidade,
+      "projectors": sala.projetor,
       "status": sala.status
     }];
   

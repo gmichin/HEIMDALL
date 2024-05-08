@@ -79,9 +79,9 @@ export class SalaDataService {
     });
   }
 
-  /* http://52.232.204.226:3000/room */
+  /*/assets/jsons/salas-cadastradas.json*/
   private carregarDadosSalas() {
-    this.http.get<any[]>('/assets/jsons/salas-cadastradas.json').subscribe((data) => {
+    this.http.get<any[]>('http://52.232.204.226:3000/room').subscribe((data) => {
       this.sessionService.setItem('salas-cadastradas', data);
       this.salaDataSubject.next(
         this.sessionService.getSessionData('salas-cadastradas').retorno as any[]

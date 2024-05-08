@@ -1,22 +1,22 @@
 [
     {
       "number": 1,
-      "cadeiras": 25,
-      "mesas": 5,
-      "cadeirasPorMesa": 5,
-      "computadores": 25,
-      "lousa": 1,
-      "projetor": 1,
-      "status": true
+      "chairs": 25,
+      "tables": 5,
+      "chairByTables": 5,
+      "computers": 25,
+      "capacity": 25,
+      "projectors": 1,
+      "status": "available"
     },
     {
       "number": 2,
-      "cadeiras": 20,
-      "mesas": 4,
-      "cadeirasPorMesa": 5,
-      "computadores": 20,
-      "lousa": 1,
-      "projetor": 0,
-      "status": false
+      "chairs": 20,
+      "tables": 4,
+      "chairByTables": 5,
+      "computers": 20,
+      "capacity": 20,
+      "projectors": 0,
+      "status": "available"
     }
   ]

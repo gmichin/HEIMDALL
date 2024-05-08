@@ -1,72 +1,72 @@
 [
   {
     "number": 107,
-    "cadeiras": 25,
-    "mesas": 5,
-    "cadeirasPorMesa": 5,
-    "computadores": 25,
-    "lousa": 1,
-    "projetor": 1,
-    "status": true
+    "chairs": 25,
+    "tables": 5,
+    "chairByTables": 5,
+    "computers": 25,
+    "capacity": 1,
+    "projectors": 1,
+    "status": "available"
   },
   {
     "number": 104,
-    "cadeiras": 25,
-    "mesas": 5,
-    "cadeirasPorMesa": 5,
-    "computadores": 25,
-    "lousa": 1,
-    "projetor": 1,
-    "status": true
+    "chairs": 25,
+    "tables": 5,
+    "chairByTables": 5,
+    "computers": 25,
+    "capacity": 1,
+    "projectors": 1,
+    "status": "available"
   },
   {
     "number": 105,
-    "cadeiras": 25,
-    "mesas": 5,
-    "cadeirasPorMesa": 5,
-    "computadores": 25,
-    "lousa": 1,
-    "projetor": 1,
-    "status": false
+    "chairs": 25,
+    "tables": 5,
+    "chairByTables": 5,
+    "computers": 25,
+    "capacity": 1,
+    "projectors": 1,
+    "status": "unvailable"
   },
   {
     "number": 106,
-    "cadeiras": 25,
-    "mesas": 5,
-    "cadeirasPorMesa": 5,
-    "computadores": 25,
-    "lousa": 1,
-    "projetor": 1,
-    "status": false
+    "chairs": 25,
+    "tables": 5,
+    "chairByTables": 5,
+    "computers": 25,
+    "capacity": 1,
+    "projectors": 1,
+    "status": "unvailable"
   },
   {
     "number": 102,
-    "cadeiras": 25,
-    "mesas": 5,
-    "cadeirasPorMesa": 5,
-    "computadores": 25,
-    "lousa": 1,
-    "projetor": 1,
-    "status": false
+    "chairs": 25,
+    "tables": 5,
+    "chairByTables": 5,
+    "computers": 25,
+    "capacity": 1,
+    "projectors": 1,
+    "status": "unvailable"
   },
   {
     "number": 101,
-    "cadeiras": 25,
-    "mesas": 5,
-    "cadeirasPorMesa": 5,
-    "computadores": 25,
-    "lousa": 1,
-    "projetor": 1,
-    "status": false
+    "chairs": 25,
+    "tables": 5,
+    "chairByTables": 5,
+    "computers": 25,
+    "capacity": 1,
+    "projectors": 1,
+    "status": "unvailable"
   },
   {
     "number": 100,
-    "cadeiras": 20,
-    "mesas": 5,
-    "cadeirasPorMesa": 4,
-    "computadores": 0,
-    "lousa": 1,
-    "projetor": 1,
-    "status": false
+    "chairs": 20,
+    "tables": 5,
+    "chairByTables": 4,
+    "computers": 0,
+    "capacity": 1,
+    "projectors": 1,
+    "status": "unvailable"
   }
 ]

@@ -15,7 +15,7 @@ numeroCadeiras: number = 0;
 numeroMesas: number = 0;
 cadeirasPorMesa: number = 0;
 numeroComputadores: number = 0;
-lousa: number = 0;
+capacidade: number = 0;
 projetor: number = 0;
 status: boolean = true;
 
@@ -46,15 +46,21 @@ newSala: any[] = [];
   }
   save(){
     this.newSala = [];
+    let available = "";
+    if(this.status==true){
+      available = "available";
+    }else if(this.status==false){
+      available = "unvailable";
+    }
     const reserva = {
-      numeroSalas: this.numeroSalas,
-      numeroCadeiras: this.numeroCadeiras,
-      numeroMesas: this.numeroMesas,
-      cadeirasPorMesa: this.cadeirasPorMesa,
-      numeroComputadores: this.numeroComputadores,
-      lousa: this.lousa,
-      projetor: this.projetor,
-      status: this.status
+      number: this.numeroSalas,
+      chairs: this.numeroCadeiras,
+      tables: this.numeroMesas,
+      chairByTables: this.cadeirasPorMesa,
+      computers: this.numeroComputadores,
+      capacity: this.capacidade,
+      projectors: this.projetor,
+      status: available
     };
     this.newSala.push(reserva);
     console.log(this.newSala);
