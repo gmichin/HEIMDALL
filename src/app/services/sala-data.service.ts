@@ -60,9 +60,9 @@ export class SalaDataService {
     });
   }
 
-  
+  /*/assets/jsons/reservas-sala.json*/
   private carregarDadosSalasReservadas() {
-    this.http.get<any[]>('/assets/jsons/reservas-sala.json').subscribe((data) => {
+    this.http.get<any[]>('http://52.232.204.226:3000/reserve').subscribe((data) => {
       this.sessionService.setItem('reservas-sala', data);
       this.salaReservaDataSubject.next(
         this.sessionService.getSessionData('reservas-sala').retorno as any[]
