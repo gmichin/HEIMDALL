@@ -286,7 +286,7 @@ export class TelaNovasReservasComponent implements OnInit{
           course: course.name,
           instituition: course.instituition
         }
-        
+        this.materiasPorProfessor.push(prof);
       })
     })
 
