@@ -268,25 +268,24 @@ export class TelaNovasReservasComponent implements OnInit{
   selectProfessor(nomeProfessor: string) {
     this.professorSelecionado = nomeProfessor;
     
-    this.salaDataService.teacherData$.pipe(
-      map(professores => {
-        return professores.filter(professor => professor.name === nomeProfessor)
-                          .map(professor => {
-                            const prof = {
-                              professor: professor.id,
-                              instituition: professor.instituition
-                            }
-                            this.professores.push(prof);
-                          });
+    this.salaDataService.teacherData$.subscribe(users=>{
+      users.forEach(prof => {
+        if(prof.name == nomeProfessor){
+          const professor = {
+            professor: prof.name,
+            instituition: prof.instituition
+          }
+          this.professores.push(professor)
+        }
       })
-    )
+    })
     this.salaDataService.coursesData$.subscribe(couses => {
       couses.forEach(course => {
-        const prof = {
+        const cour = {
           course: course.name,
           instituition: course.instituition
         }
-        this.materiasPorProfessor.push(prof);
+        this.materiasPorProfessor.push(cour);
       })
     })
 
