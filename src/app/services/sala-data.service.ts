@@ -35,10 +35,9 @@ export class SalaDataService {
   teacherData$ = this.teacherDataSubject.asObservable();
   diasDesabilitados$ = this.diasDesabilitadosSubject.asObservable();
   salaReservaData$ = this.salaReservaDataSubject.asObservable();
-  reservasRequestData$ = this.coursesDataSubject.asObservable();
+  reservasRequestData$ = this.reservasRequestDataSubject.asObservable();
 
-  
-  coursesData$ = this.salaDataSubject.asObservable();
+  coursesData$ = this.coursesDataSubject.asObservable();
 
   private carregarDadosCourses(){
     this.http.get<any[]>('http://52.232.204.226:3000/course').subscribe((data) => {
