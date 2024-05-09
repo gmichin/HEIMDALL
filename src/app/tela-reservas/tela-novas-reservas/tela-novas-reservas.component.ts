@@ -266,7 +266,7 @@ export class TelaNovasReservasComponent implements OnInit{
     
     this.salaDataService.teacherData$.pipe(
       map(professores => {
-        return professores.filter(professor => professor.nome === nomeProfessor)
+        return professores.filter(professor => professor.name === nomeProfessor)
                           .map(professor => professor.materia);
       })
     ).subscribe(materias => {
