@@ -281,7 +281,13 @@ export class TelaNovasReservasComponent implements OnInit{
       })
     )
     this.salaDataService.coursesData$.subscribe(couses => {
-      this.materiasPorProfessor = couses.map(course => course.name)
+      couses.forEach(course => {
+        const prof = {
+          course: course.name,
+          instituition: course.instituition
+        }
+        
+      })
     })
 
     console.log(this.professores);
