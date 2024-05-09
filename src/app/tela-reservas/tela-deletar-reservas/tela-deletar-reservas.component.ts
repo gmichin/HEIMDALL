@@ -43,13 +43,13 @@ export class TelaDeletarReservasComponent {
       this.numeroSala = salas.map((sala) => sala.room_id).filter((value, index, self) => self.indexOf(value) === index);
     });
     this.salaDataService.salaReservaData$.subscribe((salas) => {
-      this.professorNomes = salas.map((sala) => sala.professor).filter((value, index, self) => self.indexOf(value) === index);
+      this.professorNomes = salas.map((sala) => sala.user_id).filter((value, index, self) => self.indexOf(value) === index);
     });
     this.salaDataService.salaReservaData$.subscribe((salas) => {
-      this.materia = salas.map((sala) => sala.materia).filter((value, index, self) => self.indexOf(value) === index);
+      this.materia = salas.map((sala) => sala.class_id).filter((value, index, self) => self.indexOf(value) === index);
     });
     this.salaDataService.salaReservaData$.subscribe((salas) => {
-      this.dia = salas.map((sala) => sala.dia).filter((value, index, self) => self.indexOf(value) === index);
+      this.dia = salas.map((sala) => sala.start_time).filter((value, index, self) => self.indexOf(value) === index);
     });
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.todasReservas = salas;
@@ -81,10 +81,10 @@ export class TelaDeletarReservasComponent {
   procurarSala(selectedValue: string){
     this.reservasAchadas = [];
     this.todasReservas.forEach(reserva => {
-      if (reserva.numero === selectedValue ||
-          reserva.professor === selectedValue ||
-          reserva.materia === selectedValue ||
-          reserva.dia === selectedValue) {
+      if (reserva.room_id === selectedValue ||
+          reserva.user_id === selectedValue ||
+          reserva.class_id === selectedValue ||
+          reserva.start_time === selectedValue) {
           this.reservasAchadas.push(reserva);
       }
     });
