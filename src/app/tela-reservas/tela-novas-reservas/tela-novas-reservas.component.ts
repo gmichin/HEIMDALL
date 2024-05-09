@@ -272,7 +272,7 @@ export class TelaNovasReservasComponent implements OnInit{
     
     this.salaDataService.teacherData$.subscribe(users=>{
       users.forEach(prof => {
-        if(prof.name == nomeProfessor){
+        if(prof.name == nomeProfessor&&prof.instituition!=undefined||prof.instituition!=null){
           const professor = {
             professor: prof.name,
             instituition: prof.instituition
