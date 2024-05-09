@@ -88,9 +88,9 @@ export class SalaDataService {
       );
     });
   }
-
+  /*/assets/jsons/professores-cadastrados.json*/
   private carregarDadosProfessores() {
-    this.http.get<any[]>('/assets/jsons/professores-cadastrados.json').subscribe((data) => {
+    this.http.get<any[]>('http://52.232.204.226:3000/users').subscribe((data) => {
       this.sessionService.setItem('professores', data);
       this.teacherDataSubject.next(
         this.sessionService.getSessionData('professores').retorno as any[]

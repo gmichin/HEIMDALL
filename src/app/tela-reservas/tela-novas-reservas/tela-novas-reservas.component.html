@@ -101,7 +101,7 @@ existe uma chance de haver o dia desejado disponível</h3>
   <mat-form-field class="boxSize">
     <mat-label>Nome do Professor:</mat-label>
     <mat-select (selectionChange)="selectProfessor($event.value)">
-      <mat-option *ngFor="let nome of professorNomes" [value]="nome">{{ nome }}</mat-option>
+      <mat-option *ngFor="let name of professorNomes" [value]="name">{{ name }}</mat-option>
     </mat-select>
   </mat-form-field>
   

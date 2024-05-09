@@ -40,7 +40,7 @@ export class TelaNovasReservasComponent implements OnInit{
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.salaDataService.teacherData$.subscribe((professores) => {
-      const uniqueProfessorNames = Array.from(new Set(professores.map(professor => professor.nome)));
+      const uniqueProfessorNames = Array.from(new Set(professores.map(professor => professor.name)));
       this.professorNomes = uniqueProfessorNames;
     });
     this.salaDataService.salaData$.subscribe((salas) => {
