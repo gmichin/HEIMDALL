@@ -284,8 +284,8 @@ export class TelaNovasReservasComponent implements OnInit{
       this.materiasPorProfessor = couses.map(course => course.name)
     })
 
-    console.log(this.professores);
-    console.log(this.materiasPorProfessor);
+    console.log("professores: "+this.professores);
+    console.log("materia por professor: "+this.materiasPorProfessor);
   }
   public saveDate() {
     this.novasReservas = [];
