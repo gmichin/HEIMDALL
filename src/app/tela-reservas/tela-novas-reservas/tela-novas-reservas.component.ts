@@ -267,6 +267,8 @@ export class TelaNovasReservasComponent implements OnInit{
   
   selectProfessor(nomeProfessor: string) {
     this.professorSelecionado = nomeProfessor;
+    this.professores = [];
+    this.materiasPorProfessor = [];
     
     this.salaDataService.teacherData$.subscribe(users=>{
       users.forEach(prof => {
