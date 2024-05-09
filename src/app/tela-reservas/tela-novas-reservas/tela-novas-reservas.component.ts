@@ -1,3 +1,4 @@
+import { Instituition } from './../../models/register.models';
 import { Component, Inject , OnInit } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -270,11 +271,15 @@ export class TelaNovasReservasComponent implements OnInit{
     this.salaDataService.teacherData$.pipe(
       map(professores => {
         return professores.filter(professor => professor.name === nomeProfessor)
-                          .map(professor => professor.id);
+                          .map(professor => {
+                            const prof = {
+                              professor: professor.id,
+                              instituition: professor.instituition
+                            }
+                            this.professores.push(prof);
+                          });
       })
-    ).subscribe(professores => {
-      this.professores = professores;
-    });
+    )
     this.salaDataService.coursesData$.subscribe(couses => {
       this.materiasPorProfessor = couses.map(course => course.name)
     })
