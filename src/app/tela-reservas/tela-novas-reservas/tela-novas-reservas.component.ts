@@ -291,12 +291,6 @@ export class TelaNovasReservasComponent implements OnInit{
       })
     })
 
-    this.materia.forEach(mat=>{
-      if(mat.instituition == this.professores[mat].instituition){
-        this.materiasPorProfessor = mat.name;
-      }
-    })
-
     console.log(this.professores);
     console.log(this.materia);
     console.log(this.materiasPorProfessor)
