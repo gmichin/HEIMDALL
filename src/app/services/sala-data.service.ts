@@ -9,13 +9,13 @@ import { SessionService } from './session.service';
 export class SalaDataService {
   private salaDataSubject = new BehaviorSubject<any[]>([]);
   private salasRequestDataSubject = new BehaviorSubject<any[]>([]);
-
   private teacherDataSubject = new BehaviorSubject<any[]>([]);
   private diasDesabilitadosSubject = new BehaviorSubject<any[]>([]);
-
-  
   private salaReservaDataSubject = new BehaviorSubject<any[]>([]);
   private reservasRequestDataSubject = new BehaviorSubject<any[]>([]);
+
+  private coursesDataSubject = new BehaviorSubject<any[]>([]);
+
 
   constructor(
     private http: HttpClient,
@@ -26,21 +26,28 @@ export class SalaDataService {
     this.carregarDiasDesabilitados();
     this.carregarDadosSalasReservadas();
     this.carregarDadosReservasRequests();
-    this.carregarDadosSalassRequests();
+    this.carregarDadosSalasRequests();
+    this.carregarDadosCourses();
   }
 
   salaData$ = this.salaDataSubject.asObservable();
-
   salasRequestData$ = this.salasRequestDataSubject.asObservable();
-
-
   teacherData$ = this.teacherDataSubject.asObservable();
   diasDesabilitados$ = this.diasDesabilitadosSubject.asObservable();
-
-
   salaReservaData$ = this.salaReservaDataSubject.asObservable();
+  reservasRequestData$ = this.coursesDataSubject.asObservable();
 
-  reservasRequestData$ = this.reservasRequestDataSubject.asObservable();
+  
+  coursesData$ = this.salaDataSubject.asObservable();
+
+  private carregarDadosCourses(){
+    this.http.get<any[]>('http://52.232.204.226:3000/course').subscribe((data) => {
+      this.sessionService.setItem('courses', data);
+      this.coursesDataSubject.next(
+        this.sessionService.getSessionData('courses').retorno as any[]
+      );
+    });
+  }
 
   private carregarDadosReservasRequests() {
     this.http.get<any[]>('/assets/jsons/reservas-request.json').subscribe((data) => {
@@ -51,7 +58,7 @@ export class SalaDataService {
     });
   }
 
-  private carregarDadosSalassRequests() {
+  private carregarDadosSalasRequests() {
     this.http.get<any[]>('/assets/jsons/salas-request.json').subscribe((data) => {
       this.sessionService.setItem('salas-request', data);
       this.salasRequestDataSubject.next(

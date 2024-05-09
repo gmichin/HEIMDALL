@@ -30,6 +30,9 @@ export class TelaNovasReservasComponent implements OnInit{
   novasReservas: any[] = [];
   numeroSalaSelecionada: string = '';
   professorSelecionado: string = ''; 
+  
+  professores: string[] = [];
+
   materiasPorProfessor: string[] = [];
   materiaSelecionada: string = '';
 
@@ -267,11 +270,14 @@ export class TelaNovasReservasComponent implements OnInit{
     this.salaDataService.teacherData$.pipe(
       map(professores => {
         return professores.filter(professor => professor.name === nomeProfessor)
-                          .map(professor => professor.materia);
+                          .map(professor => professor.id);
       })
-    ).subscribe(materias => {
-      this.materiasPorProfessor = materias;
+    ).subscribe(professores => {
+      this.professores = professores;
     });
+    this.salaDataService.coursesData$.subscribe(couses => {
+      this.materiasPorProfessor = couses.map(course => course.name)
+    })
   }
   public saveDate() {
     this.novasReservas = [];
