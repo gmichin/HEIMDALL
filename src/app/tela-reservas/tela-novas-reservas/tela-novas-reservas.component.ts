@@ -290,6 +290,13 @@ export class TelaNovasReservasComponent implements OnInit{
         this.materia.push(cour);
       })
     })
+    
+    this.professores.forEach(professor => {
+      const materiasDoProfessor = this.materia.filter(materia => materia.instituition === professor.instituition);
+      materiasDoProfessor.forEach(materia => {
+        this.materiasPorProfessor.push(materia.course);
+      });
+    });
 
     console.log(this.professores);
     console.log(this.materia);
