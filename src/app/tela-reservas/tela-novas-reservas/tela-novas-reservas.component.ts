@@ -31,10 +31,9 @@ export class TelaNovasReservasComponent implements OnInit{
   novasReservas: any[] = [];
   numeroSalaSelecionada: string = '';
   professorSelecionado: string = ''; 
-  
   professores: any[] = [];
-
-  materiasPorProfessor: any[] = [];
+  materia: any[] = [];
+  materiasPorProfessor: string[] = [];
   materiaSelecionada: string = '';
 
   constructor(
@@ -288,12 +287,19 @@ export class TelaNovasReservasComponent implements OnInit{
           course: course.name,
           instituition: course.instituition
         }
-        this.materiasPorProfessor.push(cour);
+        this.materia.push(cour);
       })
     })
 
+    this.materia.forEach(mat=>{
+      if(mat.instituition == this.professores[mat].instituition){
+        this.materiasPorProfessor = mat.name;
+      }
+    })
+
     console.log(this.professores);
-    console.log(this.materiasPorProfessor);
+    console.log(this.materia);
+    console.log(this.materiasPorProfessor)
   }
   public saveDate() {
     this.novasReservas = [];
