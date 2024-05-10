@@ -272,8 +272,8 @@ export class TelaNovasReservasComponent implements OnInit{
   selectProfessor(nomeProfessor: string) {
     this.professorSelecionado = nomeProfessor;
     this.professores = [];
-    this.materia = []; // Corrigido de this.materiasParaProfessor para this.materia
-    this.materiasPorProfessor = [];
+    this.materia = [];
+    this.materiasPorProfessor = []; // Agora é um array de strings
 
     this.salaDataService.teacherData$.subscribe(users => {
         users.forEach(prof => {
@@ -286,6 +286,7 @@ export class TelaNovasReservasComponent implements OnInit{
             }
         })
     })
+
     this.salaDataService.coursesData$.subscribe(couses => {
         couses.forEach(course => {
             const cour = {
@@ -296,17 +297,19 @@ export class TelaNovasReservasComponent implements OnInit{
         })
     })
 
-    this.professores.forEach(professor => { // Corrigido de this.professores.map para this.professores.forEach
+    const uniqueCoursesSet = new Set<string>(); // Conjunto temporário para garantir cursos únicos
+
+    this.professores.forEach(professor => {
         const materiasDoProfessor = this.materia.filter(materia => materia.instituition === professor.instituition);
         materiasDoProfessor.forEach(materia => {
-            this.materiasPorProfessor.push(materia.course);
+            uniqueCoursesSet.add(materia.course); // Adicionando cursos únicos ao conjunto temporário
         });
     });
 
-    console.log(this.professores);
-    console.log(this.materia);
-    console.log(this.materiasPorProfessor)
-}
+    this.materiasPorProfessor = Array.from(uniqueCoursesSet); // Convertendo o conjunto temporário para um array
+  }
+
+
 
 
 
