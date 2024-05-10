@@ -50,10 +50,11 @@ export class TelaNovasReservasComponent implements OnInit{
       ));
       this.professorNomes = uniqueProfessorNames;
     });
-    
     this.salaDataService.salaData$.subscribe((salas) => {
-      this.numeroSala = salas.map((sala) => sala.number);
-    });
+      this.numeroSala = salas.map((sala) => sala.number).filter((value, index, self) => {
+        return self.indexOf(value) === index;
+      });
+    });    
   }
 
   openLoginSignUp() {
