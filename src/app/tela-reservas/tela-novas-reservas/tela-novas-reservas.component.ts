@@ -307,6 +307,9 @@ export class TelaNovasReservasComponent implements OnInit{
     });
 
     this.materiasPorProfessor = Array.from(uniqueCoursesSet); // Convertendo o conjunto temporário para um array
+
+    console.log(this.professores);
+    console.log(this.materia);
   }
 
 
