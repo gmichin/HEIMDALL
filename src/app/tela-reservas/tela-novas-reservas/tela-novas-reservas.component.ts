@@ -272,40 +272,44 @@ export class TelaNovasReservasComponent implements OnInit{
   selectProfessor(nomeProfessor: string) {
     this.professorSelecionado = nomeProfessor;
     this.professores = [];
+    this.materia = []; // Corrigido de this.materiasParaProfessor para this.materia
     this.materiasPorProfessor = [];
-    
-    this.salaDataService.teacherData$.subscribe(users=>{
-      users.forEach(prof => {
-        if(prof.name == nomeProfessor&&prof.instituition!=undefined&&prof.instituition!=null){
-          const professor = {
-            professor: prof.name,
-            instituition: prof.instituition
-          }
-          this.professores.push(professor)
-        }
-      })
+
+    this.salaDataService.teacherData$.subscribe(users => {
+        users.forEach(prof => {
+            if (prof.name == nomeProfessor && prof.instituition != undefined && prof.instituition != null) {
+                const professor = {
+                    professor: prof.name,
+                    instituition: prof.instituition
+                }
+                this.professores.push(professor)
+            }
+        })
     })
     this.salaDataService.coursesData$.subscribe(couses => {
-      couses.forEach(course => {
-        const cour = {
-          course: course.name,
-          instituition: course.instituition
-        }
-        this.materia.push(cour);
-      })
+        couses.forEach(course => {
+            const cour = {
+                course: course.name,
+                instituition: course.instituition
+            }
+            this.materia.push(cour);
+        })
     })
 
-    this.professores.map(professor => {
-      const materiasDoProfessor = this.materia.filter(materia => materia.instituition === professor.instituition);
-      materiasDoProfessor.forEach(materia => {
-        this.materiasPorProfessor.push(materia.course);
-      });
+    this.professores.forEach(professor => { // Corrigido de this.professores.map para this.professores.forEach
+        const materiasDoProfessor = this.materia.filter(materia => materia.instituition === professor.instituition);
+        materiasDoProfessor.forEach(materia => {
+            this.materiasPorProfessor.push(materia.course);
+        });
     });
 
     console.log(this.professores);
     console.log(this.materia);
     console.log(this.materiasPorProfessor)
-  }
+}
+
+
+
   public saveDate() {
     this.novasReservas = [];
   
