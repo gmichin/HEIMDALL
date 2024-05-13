@@ -40,16 +40,16 @@ export class TelaDeletarReservasComponent {
     private salaDataService: SalaDataService
   ) {
     this.salaDataService.salaReservaData$.subscribe((salas) => {
-      this.numeroSala = salas.map((sala) => sala.room_id).filter((value, index, self) => self.indexOf(value) === index);
+      this.numeroSala = salas.map((sala) => sala.room_id);
     });
     this.salaDataService.salaReservaData$.subscribe((salas) => {
-      this.professorNomes = salas.map((sala) => sala.user_id).filter((value, index, self) => self.indexOf(value) === index);
+      this.professorNomes = salas.map((sala) => sala.user_id);
     });
     this.salaDataService.salaReservaData$.subscribe((salas) => {
-      this.materia = salas.map((sala) => sala.class_id).filter((value, index, self) => self.indexOf(value) === index);
+      this.materia = salas.map((sala) => sala.class_id);
     });
     this.salaDataService.salaReservaData$.subscribe((salas) => {
-      this.dia = salas.map((sala) => sala.start_time).filter((value, index, self) => self.indexOf(value) === index);
+      this.dia = salas.map((sala) => sala.start_time);
     });
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.todasReservas = salas;
