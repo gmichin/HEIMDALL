@@ -6,12 +6,15 @@ import { TelaReservasComponent } from '../tela-reservas.component';
 import { SalaDataService } from 'src/app/services/sala-data.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
+import { map } from 'rxjs/operators';
 
 interface Sala {
-  numero: number;
-  professor: string;
-  materia: string;
-  dia: Date;
+  _id: string;
+  room_id: string;
+  user_id: string;
+  class_id: string;
+  start_time: string;
+  end_time: string;
 }
 
 @Component({
@@ -40,8 +43,20 @@ export class TelaDeletarReservasComponent {
     private salaDataService: SalaDataService
   ) {
     this.salaDataService.salaReservaData$.subscribe((salas) => {
-      this.numeroSala = salas.map((sala) => sala.room_id);
+      const salaIds = salas.map((sala) => sala.room_id);
+      this.salaDataService.salaData$.pipe(
+        map((salaData) => {
+          for (const salaId of salaIds) {
+            const salaEncontrada = salaData.find((sala) => sala._id === salaId);
+            if (salaEncontrada) {
+              this.numeroSala = salaEncontrada.number;
+              break;
+            }
+          }
+        })
+      ).subscribe();
     });
+
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.professorNomes = salas.map((sala) => sala.user_id);
     });
