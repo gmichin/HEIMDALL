@@ -42,6 +42,9 @@ export class TelaDeletarReservasComponent {
     private router: Router,
     private salaDataService: SalaDataService
   ) {
+    this.salaDataService.salaReservaData$.subscribe((salas) => {
+      this.idSala = salas.map((sala) => sala.room_id);
+    });
     this.salaDataService.salaData$.subscribe((salasData) => {
       const salasCorrespondentes = salasData.filter((salaData) => {
           return this.idSala.includes(salaData._id);
