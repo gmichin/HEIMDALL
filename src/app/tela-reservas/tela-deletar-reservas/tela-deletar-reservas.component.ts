@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
 import { TelaReservasComponent } from '../tela-reservas.component';
 import { SalaDataService } from 'src/app/services/sala-data.service';
@@ -40,7 +39,6 @@ export class TelaDeletarReservasComponent {
 
   constructor(
     public dialog: MatDialog,
-    private router: Router,
     private salaDataService: SalaDataService
   ) {
     this.salaDataService.salaReservaData$.subscribe((salas) => {
