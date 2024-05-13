@@ -36,6 +36,7 @@ export class TelaDeletarReservasComponent {
   displayedColumns: string[] = ['selecionar','numero', 'professor', 'materia', 'dia', 'remove'];
 
   selection = new SelectionModel<any>(true, []);
+  numerosSalasEncontradas: any[] | undefined;
 
   constructor(
     public dialog: MatDialog,
@@ -46,17 +47,23 @@ export class TelaDeletarReservasComponent {
       const salaIds = salas.map((sala) => sala.room_id);
       this.salaDataService.salaData$.pipe(
         map((salaData) => {
+          const numerosSalasEncontradas = [];
           for (const salaId of salaIds) {
             const salaEncontrada = salaData.find((sala) => sala._id === salaId);
             if (salaEncontrada) {
-              this.numeroSala = salaEncontrada.number;
-              break;
+              numerosSalasEncontradas.push(salaEncontrada.number);
             }
           }
+          return numerosSalasEncontradas;
         })
-      ).subscribe();
+      ).subscribe((numerosSalasEncontradas) => {
+        // Aqui, numerosSalasEncontradas é uma matriz que contém os números das salas encontradas
+        console.log(numerosSalasEncontradas); // Verifique se os números das salas foram encontrados corretamente
+        // Faça o que precisar com os números das salas encontradas
+        // Por exemplo, você pode atribuir esta matriz a uma variável em sua classe e usá-la na interface do usuário
+        this.numerosSalasEncontradas = numerosSalasEncontradas;
+      });
     });
-
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.professorNomes = salas.map((sala) => sala.user_id);
     });
