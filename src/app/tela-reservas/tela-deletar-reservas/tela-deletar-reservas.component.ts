@@ -42,17 +42,17 @@ export class TelaDeletarReservasComponent {
     private router: Router,
     private salaDataService: SalaDataService
   ) {
-    this.salaDataService.salaReservaData$.subscribe((salas) => {
+    this.salaDataService.salaReservaData$.subscribe(async (salas) => {
       this.idSala = salas.map((sala) => sala.room_id);
       console.log(this.idSala);
-    });
-    
-    this.salaDataService.salaData$.subscribe((salas) => {
+
+      // Aguarde até que this.idSala seja definido antes de prosseguir
+      await this.waitForIdSala();
+
       const salasFiltradas = salas.filter((sala) => this.idSala.includes(sala._id));
       console.log(salasFiltradas);
       this.numeroSala = salasFiltradas.map((sala) => sala.number);
     });
-    
     
 
     this.salaDataService.salaReservaData$.subscribe((salas) => {
@@ -71,6 +71,13 @@ export class TelaDeletarReservasComponent {
       this.todasReservas = salas;
     })
   }
+
+  private async waitForIdSala() {
+    while (!this.idSala) {
+      await new Promise(resolve => setTimeout(resolve, 100)); // Esperar 100ms
+    }
+  }
+  
   openLoginSignUp() {
     const dialogRef = this.dialog.open(TelaLoginCadastroComponent);
 
