@@ -45,7 +45,7 @@ export class TelaNovasReservasComponent implements OnInit{
     this.salaDataService.teacherData$.subscribe((professores) => {
       const uniqueProfessorNames = Array.from(new Set(
         professores
-          .filter(professor => professor.instituition !== undefined && professor.instituition !== null)
+          .filter(professor => professor.instituition !== undefined && professor.instituition !== null && professor.role === "65f5c07e489c8ea56ac6ff5b")
           .map(professor => professor.name)
       ));
       this.professorNomes = uniqueProfessorNames;
@@ -278,11 +278,10 @@ export class TelaNovasReservasComponent implements OnInit{
 
     this.salaDataService.teacherData$.subscribe(users => {
         users.forEach(prof => {
-            if (prof.name == nomeProfessor && prof.instituition != undefined && prof.instituition != null && prof.role === "65f5c07e489c8ea56ac6ff5b") {
+            if (prof.name == nomeProfessor && prof.instituition != undefined && prof.instituition != null) {
                 const professor = {
                     professor: prof.name,
-                    instituition: prof.instituition,
-                    role: prof.role
+                    instituition: prof.instituition
                 }
                 this.professores.push(professor)
             }
