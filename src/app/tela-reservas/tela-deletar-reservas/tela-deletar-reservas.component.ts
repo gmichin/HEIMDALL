@@ -52,6 +52,7 @@ export class TelaDeletarReservasComponent {
       this.numeroSala = salasFiltradas.map((sala) => sala.number);
     });
     
+    
 
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.professorNomes = salas.map((sala) => sala.user_id);
