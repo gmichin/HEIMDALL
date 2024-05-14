@@ -56,7 +56,7 @@ export class TelaDeletarReservasComponent {
       this.idProfessores = salas.map((sala) => sala.user_id);
     });
     this.salaDataService.teacherData$.subscribe((teacher) => {
-      const professoresFiltradas = teacher.filter((teacher) => teacher._id.includes(this.idProfessores && teacher.role==="65f5c07e489c8ea56ac6ff5b"));
+      const professoresFiltradas = teacher.filter((teacher) => teacher._id.includes(this.idProfessores));
       this.professorNomes = professoresFiltradas.map((teacher) => teacher.name);
     });
 
