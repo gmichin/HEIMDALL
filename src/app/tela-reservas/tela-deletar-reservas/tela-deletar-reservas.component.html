@@ -45,7 +45,7 @@
   <mat-form-field class="boxSize" *ngIf="escolha=='numero'">
     <mat-label>Sala:</mat-label>
     <mat-select [(value)]="sala" (selectionChange)="procurarSala($event.value)">
-      <mat-option *ngFor="let numero of numeroSala" [value]="numero">{{ numero }}</mat-option>
+      <mat-option *ngFor="let numero of idSala" [value]="numero">{{ numero }}</mat-option>
     </mat-select>
   </mat-form-field>
 
