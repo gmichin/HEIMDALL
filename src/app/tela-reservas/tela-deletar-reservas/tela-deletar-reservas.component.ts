@@ -49,9 +49,9 @@ export class TelaDeletarReservasComponent {
       const salaFiltrada = salas.find((sala) => sala._id === this.idSala);
       console.log(salaFiltrada);
       if (salaFiltrada) {
-        this.numeroSala = [salaFiltrada.number]; // Adicionado como um array único para manter a consistência
+        this.numeroSala = [salaFiltrada.number];
       } else {
-        this.numeroSala = []; // Define como um array vazio se não houver correspondência
+        this.numeroSala = [];
       }
     });
 
