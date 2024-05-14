@@ -49,11 +49,11 @@ export class TelaDeletarReservasComponent {
       console.log(this.idSalaReservada);
     });
     this.salaDataService.salaData$.subscribe((salas) => {
-      this.idSala = salas.map((sala) => sala.room_id);
+      this.idSala = salas.map((sala) => sala._id);
       console.log(this.idSala);
     });
     this.salaDataService.salaData$.subscribe((salas) => {
-      const salasFiltradas = salas.filter((sala) => this.idSalaReservada.includes(sala.room_id));
+      const salasFiltradas = salas.filter((sala) => this.idSalaReservada.includes(sala._id));
       console.log(salasFiltradas);
       this.numeroSala = salasFiltradas.map((sala) => sala.number);
     });
