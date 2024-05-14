@@ -6,7 +6,6 @@ import { TelaReservasComponent } from '../tela-reservas.component';
 import { SalaDataService } from 'src/app/services/sala-data.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
-import { switchMap } from 'rxjs/operators';
 
 interface Sala {
   _id: string;
@@ -43,18 +42,16 @@ export class TelaDeletarReservasComponent {
     private router: Router,
     private salaDataService: SalaDataService
   ) {
-    this.salaDataService.salaReservaData$.pipe(
-      switchMap((salas) => {
-        this.idSala = salas.map((sala) => sala.room_id);
-        console.log(this.idSala);
-        return this.salaDataService.salaData$; 
-      })
-    ).subscribe((salas) => {
-      const salasFiltradas = salas.filter((sala) => sala._id === this.idSala);
+    this.salaDataService.salaReservaData$.subscribe((salas) => {
+      this.idSala = salas.map((sala) => sala.room_id);
+    });
+    
+    this.salaDataService.salaData$.subscribe((salas) => {
+      const salasFiltradas = salas.filter((sala) => this.idSala.includes(sala._id));
       console.log(salasFiltradas);
       this.numeroSala = salasFiltradas.map((sala) => sala.number);
     });
-
+    
 
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.professorNomes = salas.map((sala) => sala.user_id);
