@@ -26,13 +26,15 @@ export class TelaDeletarReservasComponent {
   sala: string = ''; 
   salaSelecionada: string = '';
   professorNomes: string[] = [];
+
+  idSala: string[]=[];
   idSalaReservada: string[] = [];
-  numeroSala: string[] = []
+  numeroSala: string[] = [];
+
   materia: string[] = [];
   dia: string[] = [];
   reservasAchadas: Sala[] = [];
   todasReservas: any[] = [];
-  idSala: string[]=[];
 
   displayedColumns: string[] = ['selecionar','numero', 'professor', 'materia', 'dia', 'remove'];
 
@@ -51,7 +53,7 @@ export class TelaDeletarReservasComponent {
       this.idSala= salas.map((sala) => sala.room_id);
     });
     this.salaDataService.salaData$.subscribe((salas) => {
-      const salasFiltradas = salas.filter((sala) => this.idSalaReservada===this.idSala);
+      const salasFiltradas = salas
       console.log(salasFiltradas);
       this.numeroSala = salasFiltradas.map((sala) => sala.number);
     });
