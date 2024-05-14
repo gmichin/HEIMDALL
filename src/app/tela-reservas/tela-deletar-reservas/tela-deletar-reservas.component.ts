@@ -25,6 +25,7 @@ export class TelaDeletarReservasComponent {
   escolha: string = ''; 
   sala: string = ''; 
   salaSelecionada: string = '';
+  idProfessores: string[] = [];
   professorNomes: string[] = [];
   idSala: string[] = [];
   numeroSala: string[] = []
@@ -49,12 +50,22 @@ export class TelaDeletarReservasComponent {
       const salasFiltradas = salas.filter((sala) => sala._id.includes(this.idSala));
       this.numeroSala = salasFiltradas.map((sala) => sala.number);
     });
+
+
     this.salaDataService.salaReservaData$.subscribe((salas) => {
-      this.professorNomes = salas.map((sala) => sala.user_id);
+      this.idProfessores = salas.map((sala) => sala.user_id);
     });
+    this.salaDataService.teacherData$.subscribe((teacher) => {
+      const professoresFiltradas = teacher.filter((teacher) => teacher._id.includes(this.idProfessores && teacher.role==="65f5c07e489c8ea56ac6ff5b"));
+      this.professorNomes = professoresFiltradas.map((teacher) => teacher.name);
+    });
+
+
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.materia = salas.map((sala) => sala.class_id);
     });
+
+
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.dia = salas.map((sala) => sala.start_time);
     });
