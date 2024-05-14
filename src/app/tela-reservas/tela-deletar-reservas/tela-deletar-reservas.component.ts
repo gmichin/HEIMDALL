@@ -47,7 +47,13 @@ export class TelaDeletarReservasComponent {
       console.log(this.idSala);
     });
     
-    this.procurarSalas();
+    this.salaDataService.salaData$.subscribe((salas) => {
+      const salasFiltradas = salas/* .filter((sala) => this.idSala.includes(sala._id)) */;
+      console.log(salasFiltradas);
+      this.numeroSala = salasFiltradas.map((sala) => sala.number);
+    });
+    
+    
 
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.professorNomes = salas.map((sala) => sala.user_id);
@@ -64,15 +70,6 @@ export class TelaDeletarReservasComponent {
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.todasReservas = salas;
     })
-  }
-
-  procurarSalas(){
-    this.salaDataService.salaData$.subscribe((salas) => {
-      const salasFiltradas = salas.filter((sala) => this.idSala.includes(sala._id));
-      console.log(salasFiltradas);
-      this.numeroSala = salasFiltradas.map((sala) => sala.number);
-    });
-    
   }
   openLoginSignUp() {
     const dialogRef = this.dialog.open(TelaLoginCadastroComponent);
