@@ -47,7 +47,7 @@ export class TelaDeletarReservasComponent {
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       console.log("Dados de reserva:", salas);
       this.idSalaReservada = salas.map((sala) => sala.room_id);
-      console.log("ID's das salas: ",this.idSalaReservada);
+      console.log("ID's das reservas: ",this.idSalaReservada);
     });
     
     this.salaDataService.salaData$.subscribe((salas) => {
