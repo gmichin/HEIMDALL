@@ -42,11 +42,6 @@ export class TelaReservasFeitasComponent {
       this.salaDataService.teacherData$,
       this.salaDataService.classData$
     ]).subscribe(([reservas, salas, professores, classes]) => {
-      console.log('Reservas:', reservas);
-      console.log('Salas:', salas);
-      console.log('Professores:', professores);
-      console.log('Classes:', classes);
-  
       this.salas = reservas;
       this.salasFiltradas = salas;
       this.professores = professores;
@@ -66,8 +61,7 @@ export class TelaReservasFeitasComponent {
   numeroReservas() {
     this.salas.forEach(reserva => {
       const salaCorrespondente = this.salasFiltradas.find(sala => sala._id === reserva.room_id);
-      console.log('Procurando sala com room_id:', reserva.room_id, 'Encontrado:', salaCorrespondente);
-      reserva.room_id = salaCorrespondente ? salaCorrespondente.number : 'não encontrado';
+      reserva.room_id = salaCorrespondente.number;
     });
     this.substituirUserIdPorNome();
   }
@@ -75,8 +69,7 @@ export class TelaReservasFeitasComponent {
   substituirUserIdPorNome() {
     this.salas.forEach(reserva => {
       const professorCorrespondente = this.professores.find(prof => prof._id === reserva.user_id);
-      console.log('Procurando professor com user_id:', reserva.user_id, 'Encontrado:', professorCorrespondente);
-      reserva.user_id = professorCorrespondente ? professorCorrespondente.name : 'não encontrado';
+      reserva.user_id = professorCorrespondente.name;
     });
     this.substituirClassIdPorNome();
   }
@@ -84,8 +77,7 @@ export class TelaReservasFeitasComponent {
   substituirClassIdPorNome() {
     this.salas.forEach(reserva => {
       const classeCorrespondente = this.classes.find(classe => classe._id === reserva.class_id);
-      console.log('Procurando classe com class_id:', reserva.class_id, 'Encontrado:', classeCorrespondente);
-      reserva.class_id = classeCorrespondente ? classeCorrespondente.name : 'não encontrado';
+      reserva.class_id = classeCorrespondente.name;
     });
   }
   
