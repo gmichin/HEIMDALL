@@ -139,11 +139,9 @@ export class TelaDeletarReservasComponent {
         if (materia && reserva.class_id === materia._id) {
           this.reservasAchadas.push(reserva);
         }
-      } else if (this.escolha === "dia") {
-        this.salaName = this.salasFiltradas.find(sala => sala.start_time === reserva.start_time);
-        if (this.salaName && reserva.room_id === this.salaName._id && reserva.start_time === selectedValue) {
-          this.reservasAchadas.push(reserva);
-        }
+      } else if (this.escolha === "dia" && reserva.start_time === selectedValue) {
+        this.salaName = this.salasFiltradas.find(sala => sala.start_time === selectedValue);
+        this.reservasAchadas.push(reserva);
       }
     });
   }
