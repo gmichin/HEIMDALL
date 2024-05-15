@@ -24,6 +24,9 @@ export class TelaReservasFeitasComponent {
   salas: Sala[] = [];
   displayedColumns: string[] = ['numero', 'professor', 'materia', 'dia', 'remove'];
   dataSource = new MatTableDataSource<Sala>(this.salas);
+  idSalaReservada: any[] = [];
+  salasFiltradas: any[] = [];
+  numeroSala: any[] = [];
 
   constructor(
     private salaDataService: SalaDataService,
@@ -33,6 +36,20 @@ export class TelaReservasFeitasComponent {
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.salas = salas;
       this.dataSource.data = this.salas; 
+    });
+    
+    this.salaDataService.salaReservaData$.subscribe((salas) => {
+      this.idSalaReservada = salas;
+      console.log("id salas reservas: ",this.idSalaReservada);
+      this.numeroReservas();
+    });
+  }
+
+  numeroReservas(){
+    this.salaDataService.salaData$.subscribe((salas) => {
+      this.salasFiltradas = salas.filter((sala) => this.idSalaReservada.includes(sala._id));
+      console.log("filtro de salas: ",this.salasFiltradas);
+      this.numeroSala = this.salasFiltradas.map((sala) => sala.number);
     });
   }
 
