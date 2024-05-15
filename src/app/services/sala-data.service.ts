@@ -15,6 +15,7 @@ export class SalaDataService {
   private reservasRequestDataSubject = new BehaviorSubject<any[]>([]);
 
   private coursesDataSubject = new BehaviorSubject<any[]>([]);
+  private classDataSubject = new BehaviorSubject<any[]>([]);
 
 
   constructor(
@@ -28,6 +29,7 @@ export class SalaDataService {
     this.carregarDadosReservasRequests();
     this.carregarDadosSalasRequests();
     this.carregarDadosCourses();
+    this.carregarDadosClasses();
   }
 
   salaData$ = this.salaDataSubject.asObservable();
@@ -38,6 +40,16 @@ export class SalaDataService {
   reservasRequestData$ = this.reservasRequestDataSubject.asObservable();
 
   coursesData$ = this.coursesDataSubject.asObservable();
+  classData$ = this.classDataSubject.asObservable();
+
+  private carregarDadosClasses(){
+    this.http.get<any[]>('http://52.232.204.226:3000/class').subscribe((data) => {
+      this.sessionService.setItem('classes', data);
+      this.classDataSubject.next(
+        this.sessionService.getSessionData('classes').retorno as any[]
+      );
+    });
+  }
 
   private carregarDadosCourses(){
     this.http.get<any[]>('http://52.232.204.226:3000/course').subscribe((data) => {

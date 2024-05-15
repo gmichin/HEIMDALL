@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
 import { TelaReservasComponent } from '../tela-reservas.component';
 import { SalaDataService } from 'src/app/services/sala-data.service';
@@ -32,7 +31,9 @@ export class TelaDeletarReservasComponent {
   idSalaReservada: string[] = [];
   numeroSala: string[] = [];
 
+  idMateriaReservada: string[] = [];
   materia: string[] = [];
+
   dia: string[] = [];
   reservasAchadas: Sala[] = [];
   todasReservas: any[] = [];
@@ -58,7 +59,9 @@ export class TelaDeletarReservasComponent {
     });
 
     this.salaDataService.salaReservaData$.subscribe((salas) => {
-      this.materia = salas.map((sala) => sala.class_id);
+      this.idMateriaReservada = salas.map((sala) => sala.class_id);
+      console.log("id das materias reservadas: ",this.idProfessoresReservados);
+      this.materiasReserva();
     });
 
 
@@ -68,6 +71,14 @@ export class TelaDeletarReservasComponent {
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.todasReservas = salas;
     })
+  }
+
+  materiasReserva(){
+    this.salaDataService.classData$.subscribe((classes) => {
+      const classFiltrado = classes.filter((classe) => this.idProfessoresReservados.includes(classe._id));
+      console.log("filtro de classes: ", classFiltrado);
+      this.professorNomes = classFiltrado.map((classe) => classe.name);
+    });
   }
   nomeProfessores(){
     this.salaDataService.teacherData$.subscribe((teachers) => {
