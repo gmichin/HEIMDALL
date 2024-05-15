@@ -125,7 +125,6 @@ export class TelaDeletarReservasComponent {
     this.todasReservas.forEach(reserva => {
       if (this.escolha === "numero" && this.salaName && reserva.room_id === this.salaName._id) {
           this.reservasAchadas.push(reserva);
-          console.log(reserva);
       } else if (this.escolha === "professor") {
         const professor = this.teacherFiltrado.find(teacher => teacher.name === selectedValue);
         if (professor && reserva.user_id === professor._id) {
@@ -136,7 +135,7 @@ export class TelaDeletarReservasComponent {
         if (materia && reserva.class_id === materia._id) {
           this.reservasAchadas.push(reserva);
         }
-      } else if (this.escolha === "dia" && reserva.start_time === selectedValue) {
+      } else if (this.escolha === "dia" && reserva.start_time === selectedValue && this.salaName) {
         this.reservasAchadas.push(reserva);
       }
     });

@@ -79,7 +79,6 @@
   
     <mat-table [dataSource]="reservasAchadas" matSort>
 
-      <!-- Selecionar Column -->
       <ng-container matColumnDef="selecionar">
         <mat-header-cell *matHeaderCellDef>
           <mat-checkbox (change)="$event ? masterToggle() : null"
@@ -95,7 +94,6 @@
         </mat-cell>
       </ng-container>
     
-      <!-- Número Column -->
       <ng-container matColumnDef="numero">
         <mat-header-cell *matHeaderCellDef>Número da Sala</mat-header-cell>
         <mat-cell *matCellDef="let sala">
@@ -103,25 +101,21 @@
         </mat-cell>
       </ng-container>
     
-      <!-- Professor Column -->
       <ng-container matColumnDef="professor">
         <mat-header-cell *matHeaderCellDef>Nome do Professor</mat-header-cell>
         <mat-cell *matCellDef="let sala">{{ sala.user_id }}</mat-cell>
       </ng-container>
     
-      <!-- Matéria Column -->
       <ng-container matColumnDef="materia">
         <mat-header-cell *matHeaderCellDef>Matéria</mat-header-cell>
         <mat-cell *matCellDef="let sala">{{ sala.class_id }}</mat-cell>
       </ng-container>
     
-      <!-- Dia Column -->
       <ng-container matColumnDef="dia">
         <mat-header-cell *matHeaderCellDef>Dia</mat-header-cell>
         <mat-cell *matCellDef="let sala">{{ sala.start_time | date:'medium' }}</mat-cell>
       </ng-container>
     
-      <!-- Remove Column -->
       <ng-container matColumnDef="remove">
         <mat-header-cell *matHeaderCellDef>Remove</mat-header-cell>
         <mat-cell *matCellDef="let sala">
