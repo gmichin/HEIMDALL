@@ -52,6 +52,7 @@ export class TelaDeletarReservasComponent {
   ) {
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.idSalaReservada = salas.map((sala) => sala.room_id);
+      console.log("id salas reservas: ",this.idSalaReservada);
       this.numeroReservas();
     });
     
@@ -93,6 +94,7 @@ export class TelaDeletarReservasComponent {
   numeroReservas(){
     this.salaDataService.salaData$.subscribe((salas) => {
       this.salasFiltradas = salas.filter((sala) => this.idSalaReservada.includes(sala._id));
+      console.log("filtro de salas: ",this.salasFiltradas);
       this.numeroSala = this.salasFiltradas.map((sala) => sala.number);
     });
   }
@@ -121,45 +123,30 @@ export class TelaDeletarReservasComponent {
   
   procurarSala(selectedValue: string){
     this.reservasAchadas = [];
-    if (this.escolha === "numero") {
+    this.todasReservas.forEach(reserva => {
+      if (this.escolha === "numero") {
         this.salaName = this.salasFiltradas.find(sala => sala.number === selectedValue);
-        if (this.salaName) {
-            this.todasReservas.forEach(reserva => {
-                if (reserva.room_id === this.salaName._id) {
-                    this.reservasAchadas.push(reserva);
-                }
-            });
+        if (this.salaName && reserva.room_id === this.salaName._id) {
+          this.reservasAchadas.push(reserva);
         }
-    } else if (this.escolha === "professor") {
+      } else if (this.escolha === "professor") {
         const professor = this.teacherFiltrado.find(teacher => teacher.name === selectedValue);
-        if (professor) {
-            this.todasReservas.forEach(reserva => {
-                if (reserva.user_id === professor._id) {
-                    this.reservasAchadas.push(reserva);
-                }
-            });
+        if (professor && reserva.user_id === professor._id) {
+          this.reservasAchadas.push(reserva);
         }
-    } else if (this.escolha === "materia") {
+      } else if (this.escolha === "materia") {
         const materia = this.classFiltrado.find(classe => classe._id === selectedValue);
-        if (materia) {
-            this.todasReservas.forEach(reserva => {
-                if (reserva.class_id === materia._id) {
-                    this.reservasAchadas.push(reserva);
-                }
-            });
+        if (materia && reserva.class_id === materia._id) {
+          this.reservasAchadas.push(reserva);
         }
-    } else if (this.escolha === "dia") {
-        this.salaName = this.salasFiltradas.find(sala => sala.number === selectedValue);
-        if (this.salaName) {
-            this.todasReservas.forEach(reserva => {
-                if (reserva.start_time === selectedValue) {
-                    this.reservasAchadas.push(reserva);
-                }
-            });
+      } else if (this.escolha === "dia") {
+        this.salaName = this.salasFiltradas.find(sala => sala.start_time === reserva.start_time);
+        if (this.salaName && reserva.room_id === this.salaName._id && reserva.start_time === selectedValue) {
+          this.reservasAchadas.push(reserva);
         }
-    }
+      }
+    });
   }
-
   
   
   removeRow(sala: Sala){
