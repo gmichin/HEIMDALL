@@ -27,9 +27,11 @@ export class TelaDeletarReservasComponent {
 
   idProfessoresReservados: string[] = [];
   professorNomes: string[] = [];
+  teacherFiltrado: any[] = [];
 
   idSalaReservada: string[] = [];
   numeroSala: string[] = [];
+  salasFiltradas: any[] = [];
 
   idMateriaReservada: string[] = [];
   materia: string[] = [];
@@ -82,16 +84,16 @@ export class TelaDeletarReservasComponent {
   }
   nomeProfessores(){
     this.salaDataService.teacherData$.subscribe((teachers) => {
-      const teacherFiltrado = teachers.filter((teacher) => this.idProfessoresReservados.includes(teacher._id));
-      console.log("filtro de professores: ",teacherFiltrado);
-      this.professorNomes = teacherFiltrado.map((teacher) => teacher.name);
+      this.teacherFiltrado = teachers.filter((teacher) => this.idProfessoresReservados.includes(teacher._id));
+      console.log("filtro de professores: ",this.teacherFiltrado);
+      this.professorNomes = this.teacherFiltrado.map((teacher) => teacher.name);
     });
   }
   numeroReservas(){
     this.salaDataService.salaData$.subscribe((salas) => {
-      const salasFiltradas = salas.filter((sala) => this.idSalaReservada.includes(sala._id));
-      console.log("filtro de salas: ",salasFiltradas);
-      this.numeroSala = salasFiltradas.map((sala) => sala.number);
+      this.salasFiltradas = salas.filter((sala) => this.idSalaReservada.includes(sala._id));
+      console.log("filtro de salas: ",this.salasFiltradas);
+      this.numeroSala = this.salasFiltradas.map((sala) => sala.number);
     });
   }
   openLoginSignUp() {
@@ -120,11 +122,14 @@ export class TelaDeletarReservasComponent {
   procurarSala(selectedValue: string){
     this.reservasAchadas = [];
     this.todasReservas.forEach(reserva => {
-      if (reserva.room_id === selectedValue ||
-          reserva.user_id === selectedValue ||
-          reserva.class_id === selectedValue ||
-          reserva.start_time === selectedValue) {
-          this.reservasAchadas.push(reserva);
+      if (this.escolha == "numero"/* reserva.room_id === selectedValue */){
+        this.reservasAchadas.push(reserva);
+      }else if(this.escolha == "professor"/* reserva.user_id === selectedValue */){
+        this.reservasAchadas.push(reserva);
+      }else if (this.escolha == "materia"/* reserva.class_id === selectedValue */){
+        this.reservasAchadas.push(reserva);
+      }else if(this.escolha == "dia"/* reserva.start_time === selectedValue */) {
+        this.reservasAchadas.push(reserva);
       }
     });
   }
