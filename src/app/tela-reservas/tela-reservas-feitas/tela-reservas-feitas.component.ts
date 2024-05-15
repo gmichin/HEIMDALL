@@ -90,13 +90,14 @@ export class TelaReservasFeitasComponent {
         if (classeCorrespondente) {
           reserva.class_id = classeCorrespondente.name;
         } else {
-          reserva.class_id = reserva.class_id || 'class_id original';
+          reserva.class_id = reserva.class_id;
         }
       });
       this.dataSource.data = this.salas;
     });
   }
-  
+
+
   openLoginSignUp() {
     const dialogRef = this.dialog.open(TelaLoginCadastroComponent);
 
