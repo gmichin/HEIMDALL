@@ -76,7 +76,7 @@ export class TelaReservasFeitasComponent {
         if (professorCorrespondente) {
           reserva.user_id = professorCorrespondente.name;
         } else {
-          reserva.class_id = reserva.class_id || 'não encontrado';
+          reserva.user_id = reserva.user_id || 'não encontrado';
         }
       });
       this.dataSource.data = this.salas; 
