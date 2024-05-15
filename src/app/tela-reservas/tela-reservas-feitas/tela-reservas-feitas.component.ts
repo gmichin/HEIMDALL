@@ -91,7 +91,7 @@ export class TelaReservasFeitasComponent {
         if (classeCorrespondente) {
           reserva.class_id = classeCorrespondente.name;
         } else {
-          reserva.class_id = 'não encontrado';
+          reserva.class_id = reserva.class_id || 'não encontrado';
         }
       });
       this.dataSource.data = this.salas;
