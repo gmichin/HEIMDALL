@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, of, switchMap, tap } from 'rxjs';
 import {
+  Instituition,
   RegisterInstitutionRequest,
   RegisterInstitutionResponse,
   RegisterUserRequest,
@@ -58,5 +59,13 @@ export class RegisterUserService {
         this.sessionService.setItem('user', resp );
       })
     )
+  }
+
+  searchInstByName(name:string): Observable<RegisterInstitutionResponse>{
+    return this.http.get<RegisterInstitutionResponse>(`${url_config.url_instituition}/search-by-name/${name}`);
+  }
+
+  inviteStudent(request: RegisterUserRequest) {
+    return this.http.post(url_config.url_registration,request);
   }
 }

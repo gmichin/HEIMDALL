@@ -19,6 +19,41 @@
             <button mat-button color="primary" type="submit" >Login</button>
         </form>
         </mat-tab>
+        <mat-tab label="Solicite acesso a uma Instituição">
+          <form [formGroup]="resgiterStudentForm" (ngSubmit)="solicitationRegister()">
+  
+            <mat-form-field class="example-full-width">
+                <mat-label>Nome Usuário</mat-label>
+              <input formControlName="nome" type="text" matInput placeholder="Nome" value="">
+              <mat-icon matSuffix>edit</mat-icon>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <mat-label>Email Usuário</mat-label>
+              <input formControlName="email" type="email" matInput placeholder="Email" value="">
+              <mat-icon matSuffix>email</mat-icon>
+            </mat-form-field>
+  
+            <mat-form-field class="example-full-width">
+              <mat-label>Senha</mat-label>
+              <input formControlName="password" type="password" matInput placeholder="Password">
+              <mat-icon matSuffix>vpn_key</mat-icon>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <mat-label>Confirme a Senha</mat-label>
+              <input formControlName="confirmPassword" type="password" matInput placeholder="Password">
+              <mat-icon matSuffix>vpn_key</mat-icon>
+            </mat-form-field>
+  
+            <mat-form-field class="example-full-width">
+              <mat-label>Nome da Instituição</mat-label>
+                <input formControlName="nameInstitution" type="text" matInput placeholder="Nome" value="">
+              <mat-icon matSuffix>edit</mat-icon>
+            </mat-form-field>
+            <p *ngIf="nomeInst" style="color: red;">{{ nomeInst }}</p>
+  
+            <button mat-button type="submit" color="primary">Cadastrar</button>
+          </form>
+          </mat-tab>
 
         <mat-tab label="Cadastre sua Instituição!">
         <form [formGroup]="resgiterForm" (ngSubmit)="register()">
