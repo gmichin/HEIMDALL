@@ -47,13 +47,12 @@ export class TelaDeletarReservasComponent {
   ) {
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.idSalaReservada = salas.map((sala) => sala.room_id);
+      console.log(this.idSalaReservada);
       this.numeroReservas();
     });
     
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.idProfessores = salas.map((sala) => sala.user_id);
-      console.log("1: ", this.idProfessores);
-      this.nomeProfessores();
     });
 
     this.salaDataService.salaReservaData$.subscribe((salas) => {
@@ -68,16 +67,10 @@ export class TelaDeletarReservasComponent {
       this.todasReservas = salas;
     })
   }
-  nomeProfessores(){
-    this.salaDataService.teacherData$.subscribe((teachers) => {
-      const professoresFiltradas = teachers.filter((teacher) => this.idProfessores.includes(teacher._id));
-      console.log("2: ",professoresFiltradas);
-      this.numeroSala = professoresFiltradas.map((teacher) => teacher.name);
-    });
-  }
   numeroReservas(){
     this.salaDataService.salaData$.subscribe((salas) => {
       const salasFiltradas = salas.filter((sala) => this.idSalaReservada.includes(sala._id));
+      console.log(salasFiltradas);
       this.numeroSala = salasFiltradas.map((sala) => sala.number);
     });
   }
