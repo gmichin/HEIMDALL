@@ -121,25 +121,45 @@ export class TelaDeletarReservasComponent {
   
   procurarSala(selectedValue: string){
     this.reservasAchadas = [];
-    this.salaName = this.salasFiltradas.find(sala => sala.number === selectedValue);
-    this.todasReservas.forEach(reserva => {
-      if (this.escolha === "numero" && this.salaName && reserva.room_id === this.salaName._id) {
-          this.reservasAchadas.push(reserva);
-      } else if (this.escolha === "professor") {
+    if (this.escolha === "numero") {
+        this.salaName = this.salasFiltradas.find(sala => sala.number === selectedValue);
+        if (this.salaName) {
+            this.todasReservas.forEach(reserva => {
+                if (reserva.room_id === this.salaName._id) {
+                    this.reservasAchadas.push(reserva);
+                }
+            });
+        }
+    } else if (this.escolha === "professor") {
         const professor = this.teacherFiltrado.find(teacher => teacher.name === selectedValue);
-        if (professor && reserva.user_id === professor._id) {
-          this.reservasAchadas.push(reserva);
+        if (professor) {
+            this.todasReservas.forEach(reserva => {
+                if (reserva.user_id === professor._id) {
+                    this.reservasAchadas.push(reserva);
+                }
+            });
         }
-      } else if (this.escolha === "materia") {
+    } else if (this.escolha === "materia") {
         const materia = this.classFiltrado.find(classe => classe._id === selectedValue);
-        if (materia && reserva.class_id === materia._id) {
-          this.reservasAchadas.push(reserva);
+        if (materia) {
+            this.todasReservas.forEach(reserva => {
+                if (reserva.class_id === materia._id) {
+                    this.reservasAchadas.push(reserva);
+                }
+            });
         }
-      } else if (this.escolha === "dia" && reserva.start_time === selectedValue && this.salaName) {
-        this.reservasAchadas.push(reserva);
-      }
-    });
+    } else if (this.escolha === "dia") {
+        this.salaName = this.salasFiltradas.find(sala => sala.number === selectedValue);
+        if (this.salaName) {
+            this.todasReservas.forEach(reserva => {
+                if (reserva.start_time === selectedValue) {
+                    this.reservasAchadas.push(reserva);
+                }
+            });
+        }
+    }
   }
+
   
   
   removeRow(sala: Sala){
