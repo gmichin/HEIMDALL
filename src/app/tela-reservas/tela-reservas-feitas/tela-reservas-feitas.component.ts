@@ -66,7 +66,7 @@ export class TelaReservasFeitasComponent {
   numeroReservas() {
     this.salas.forEach(reserva => {
       const salaCorrespondente = this.salasFiltradas.find(sala => sala._id === reserva.room_id);
-      console.log('Sala Correspondente para room_id', reserva.room_id, ':', salaCorrespondente);
+      console.log('Procurando sala com room_id:', reserva.room_id, 'Encontrado:', salaCorrespondente);
       reserva.room_id = salaCorrespondente ? salaCorrespondente.number : 'não encontrado';
     });
     this.substituirUserIdPorNome();
@@ -75,7 +75,7 @@ export class TelaReservasFeitasComponent {
   substituirUserIdPorNome() {
     this.salas.forEach(reserva => {
       const professorCorrespondente = this.professores.find(prof => prof._id === reserva.user_id);
-      console.log('Professor Correspondente para user_id', reserva.user_id, ':', professorCorrespondente);
+      console.log('Procurando professor com user_id:', reserva.user_id, 'Encontrado:', professorCorrespondente);
       reserva.user_id = professorCorrespondente ? professorCorrespondente.name : 'não encontrado';
     });
     this.substituirClassIdPorNome();
@@ -84,7 +84,7 @@ export class TelaReservasFeitasComponent {
   substituirClassIdPorNome() {
     this.salas.forEach(reserva => {
       const classeCorrespondente = this.classes.find(classe => classe._id === reserva.class_id);
-      console.log('Classe Correspondente para class_id', reserva.class_id, ':', classeCorrespondente);
+      console.log('Procurando classe com class_id:', reserva.class_id, 'Encontrado:', classeCorrespondente);
       reserva.class_id = classeCorrespondente ? classeCorrespondente.name : 'não encontrado';
     });
   }
