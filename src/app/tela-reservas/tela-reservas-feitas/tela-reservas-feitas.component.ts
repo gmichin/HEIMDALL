@@ -42,13 +42,11 @@ export class TelaReservasFeitasComponent {
       console.log(this.dataSource.data)
     });
   }
-
- 
   processarReservas() {
     this.idSalaReservada = this.salas.map((reserva) => reserva.room_id);
     this.numeroReservas();
   }
-
+  
   numeroReservas() {
     this.salaDataService.salaData$.subscribe((salas) => {
       this.salasFiltradas = salas.filter((sala) => this.idSalaReservada.includes(sala._id));
@@ -56,7 +54,7 @@ export class TelaReservasFeitasComponent {
       this.substituirRoomIdPorNumero();
     });
   }
-
+  
   substituirRoomIdPorNumero() {
     this.salas.forEach((reserva) => {
       const salaCorrespondente = this.salasFiltradas.find((sala) => sala._id === reserva.room_id);
@@ -65,26 +63,26 @@ export class TelaReservasFeitasComponent {
       }
     });
     this.dataSource.data = this.salas;
-    this.substituirUserIdPorNome(); 
+    this.substituirUserIdPorNome();
   }
-
+  
   substituirUserIdPorNome() {
     this.salaDataService.teacherData$.subscribe((professores) => {
       this.professores = professores;
-      console.log(this.professores)
+      console.log(this.professores);
       this.salas.forEach((reserva) => {
         const professorCorrespondente = this.professores.find((prof) => prof._id === reserva.user_id);
         if (professorCorrespondente) {
           reserva.user_id = professorCorrespondente.name;
         } else {
-          reserva.user_id = reserva.user_id || 'não encontrado';
+          reserva.user_id = 'não encontrado';
         }
       });
       this.dataSource.data = this.salas; 
       this.substituirClassIdPorNome();
     });
   }
-
+  
   substituirClassIdPorNome() {
     this.salaDataService.classData$.subscribe((classes) => {
       this.classes = classes;
@@ -93,7 +91,7 @@ export class TelaReservasFeitasComponent {
         if (classeCorrespondente) {
           reserva.class_id = classeCorrespondente.name;
         } else {
-          reserva.class_id = reserva.class_id || 'não encontrado';
+          reserva.class_id = 'não encontrado';
         }
       });
       this.dataSource.data = this.salas;
