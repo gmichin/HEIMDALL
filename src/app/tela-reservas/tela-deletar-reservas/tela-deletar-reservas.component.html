@@ -96,22 +96,22 @@
       
       <ng-container matColumnDef="numero">
         <mat-header-cell *matHeaderCellDef>Número da Sala</mat-header-cell>
-        <mat-cell *matCellDef="let sala">{{ sala.numero }}</mat-cell>
+        <mat-cell *matCellDef="let sala">{{ sala.room_id }}</mat-cell>
       </ng-container>
   
       <ng-container matColumnDef="professor">
         <mat-header-cell *matHeaderCellDef>Nome do Professor</mat-header-cell>
-        <mat-cell *matCellDef="let sala">{{ sala.professor }}</mat-cell>
+        <mat-cell *matCellDef="let sala">{{ sala.user_id }}</mat-cell>
       </ng-container>
   
       <ng-container matColumnDef="materia">
         <mat-header-cell *matHeaderCellDef>Matéria</mat-header-cell>
-        <mat-cell *matCellDef="let sala">{{ sala.materia }}</mat-cell>
+        <mat-cell *matCellDef="let sala">{{ sala.class_id }}</mat-cell>
       </ng-container>
   
       <ng-container matColumnDef="dia">
         <mat-header-cell *matHeaderCellDef>Dia</mat-header-cell>
-        <mat-cell *matCellDef="let sala">{{ sala.dia | date:'medium' }}</mat-cell>
+        <mat-cell *matCellDef="let sala">{{ sala.start_time | date:'medium' }}</mat-cell>
       </ng-container>
   
       <ng-container matColumnDef="remove">
