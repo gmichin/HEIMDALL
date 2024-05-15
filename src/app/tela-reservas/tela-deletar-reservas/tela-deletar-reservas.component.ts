@@ -43,6 +43,7 @@ export class TelaDeletarReservasComponent {
   displayedColumns: string[] = ['selecionar','numero', 'professor', 'materia', 'dia', 'remove'];
 
   selection = new SelectionModel<any>(true, []);
+  classFiltrado: any[] = [];
 
   constructor(
     public dialog: MatDialog,
@@ -77,9 +78,9 @@ export class TelaDeletarReservasComponent {
 
   materiasReserva(){
     this.salaDataService.classData$.subscribe((classes) => {
-      const classFiltrado = classes.filter((classe) => this.idProfessoresReservados.includes(classe._id));
-      console.log("filtro de classes: ", classFiltrado);
-      this.professorNomes = classFiltrado.map((classe) => classe.name);
+      this.classFiltrado = classes.filter((classe) => this.idProfessoresReservados.includes(classe._id));
+      console.log("filtro de classes: ", this.classFiltrado);
+      this.professorNomes = this.classFiltrado.map((classe) => classe.name);
     });
   }
   nomeProfessores(){
@@ -122,8 +123,10 @@ export class TelaDeletarReservasComponent {
   procurarSala(selectedValue: string){
     this.reservasAchadas = [];
     this.todasReservas.forEach(reserva => {
-      if (this.escolha == "numero"/* reserva.room_id === selectedValue */){
-        this.reservasAchadas.push(reserva);
+      if (this.escolha == "numero"){
+        if (Array.isArray(this.salasFiltradas) && this.salasFiltradas.some((sala: any) => sala._id === selectedValue)) {
+          this.reservasAchadas.push(reserva);
+        }
       }else if(this.escolha == "professor"/* reserva.user_id === selectedValue */){
         this.reservasAchadas.push(reserva);
       }else if (this.escolha == "materia"/* reserva.class_id === selectedValue */){
