@@ -271,7 +271,7 @@ export class TelaNovasReservasComponent implements OnInit{
     this.professorSelecionado = nomeProfessor;
     this.professores = [];
     this.materia = [];
-    this.materiasPorProfessor = []; // Agora é um array de strings
+    this.materiasPorProfessor = [];
 
     this.salaDataService.teacherData$.subscribe(users => {
         users.forEach(prof => {
