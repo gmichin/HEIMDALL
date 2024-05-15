@@ -97,7 +97,8 @@
       <ng-container matColumnDef="numero">
         <mat-header-cell *matHeaderCellDef>Número da Sala</mat-header-cell>
         <mat-cell *matCellDef="let sala">
-          <span *ngIf="salaName">{{ salaName.number }}</span>
+          <span *ngIf="salaName">{{ salaName.number }}</span>X
+          <span *ngIf="!salaName">{{ sala.room_id }}</span>X
         </mat-cell>
       </ng-container>
     
