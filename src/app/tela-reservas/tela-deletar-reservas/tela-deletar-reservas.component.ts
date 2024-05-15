@@ -123,15 +123,22 @@ export class TelaDeletarReservasComponent {
   procurarSala(selectedValue: string){
     this.reservasAchadas = [];
     this.todasReservas.forEach(reserva => {
-      if (this.escolha == "numero"){
-        if (Array.isArray(this.salasFiltradas) && this.salasFiltradas.some((sala: any) => sala.name === selectedValue)) {
+      if (this.escolha === "numero") {
+        const sala = this.salasFiltradas.find(sala => sala.name === selectedValue);
+        if (sala && reserva.room_id === sala._id) {
           this.reservasAchadas.push(reserva);
         }
-      }else if(this.escolha == "professor"/* reserva.user_id === selectedValue */){
-        this.reservasAchadas.push(reserva);
-      }else if (this.escolha == "materia"/* reserva.class_id === selectedValue */){
-        this.reservasAchadas.push(reserva);
-      }else if(this.escolha == "dia"&& reserva.start_time === selectedValue) {
+      } else if (this.escolha === "professor") {
+        const professor = this.teacherFiltrado.find(teacher => teacher.name === selectedValue);
+        if (professor && reserva.user_id === professor._id) {
+          this.reservasAchadas.push(reserva);
+        }
+      } else if (this.escolha === "materia") {
+        const materia = this.classFiltrado.find(classe => classe.name === selectedValue);
+        if (materia && reserva.class_id === materia._id) {
+          this.reservasAchadas.push(reserva);
+        }
+      } else if (this.escolha === "dia" && reserva.start_time === selectedValue) {
         this.reservasAchadas.push(reserva);
       }
     });
