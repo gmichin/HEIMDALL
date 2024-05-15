@@ -128,7 +128,7 @@ export class TelaDeletarReservasComponent {
         this.reservasAchadas.push(reserva);
       }else if (this.escolha == "materia"/* reserva.class_id === selectedValue */){
         this.reservasAchadas.push(reserva);
-      }else if(this.escolha == "dia"/* reserva.start_time === selectedValue */) {
+      }else if(this.escolha == "dia"&& reserva.start_time === selectedValue) {
         this.reservasAchadas.push(reserva);
       }
     });
