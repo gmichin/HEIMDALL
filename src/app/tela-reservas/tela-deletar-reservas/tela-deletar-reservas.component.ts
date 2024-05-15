@@ -128,6 +128,7 @@ export class TelaDeletarReservasComponent {
         this.salaName = this.salasFiltradas.find(sala => sala.number === selectedValue);
         if (this.salaName && reserva.room_id === this.salaName._id) {
           this.reservasAchadas.push(reserva);
+          console.log(this.salaName);
         }
       } else if (this.escolha === "professor") {
         const professor = this.teacherFiltrado.find(teacher => teacher.name === selectedValue);
