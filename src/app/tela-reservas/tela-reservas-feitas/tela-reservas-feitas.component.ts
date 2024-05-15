@@ -75,6 +75,8 @@ export class TelaReservasFeitasComponent {
         const professorCorrespondente = this.professores.find((prof) => prof._id === reserva.user_id);
         if (professorCorrespondente) {
           reserva.user_id = professorCorrespondente.name;
+        }else {
+          reserva.user_id = reserva.user_id || 'not found';
         }
       });
       this.dataSource.data = this.salas;
@@ -90,14 +92,13 @@ export class TelaReservasFeitasComponent {
         if (classeCorrespondente) {
           reserva.class_id = classeCorrespondente.name;
         } else {
-          reserva.class_id = reserva.class_id;
+          reserva.class_id = reserva.class_id || 'not found';
         }
       });
       this.dataSource.data = this.salas;
     });
   }
-
-
+  
   openLoginSignUp() {
     const dialogRef = this.dialog.open(TelaLoginCadastroComponent);
 
