@@ -35,15 +35,20 @@ export class TelaReservasFeitasComponent {
     private salaDataService: SalaDataService,
     public dialog: MatDialog,
     private router: Router
-  )  {
+  ) {
     combineLatest([
       this.salaDataService.salaReservaData$,
       this.salaDataService.salaData$,
       this.salaDataService.teacherData$,
       this.salaDataService.classData$
     ]).subscribe(([reservas, salas, professores, classes]) => {
+      console.log('Reservas:', reservas);
+      console.log('Salas:', salas);
+      console.log('Professores:', professores);
+      console.log('Classes:', classes);
+  
       this.salas = reservas;
-      this.salasFiltradas = salas.filter(sala => reservas.some(reserva => reserva.room_id === sala._id));
+      this.salasFiltradas = salas;
       this.professores = professores;
       this.classes = classes;
   
@@ -61,6 +66,7 @@ export class TelaReservasFeitasComponent {
   numeroReservas() {
     this.salas.forEach(reserva => {
       const salaCorrespondente = this.salasFiltradas.find(sala => sala._id === reserva.room_id);
+      console.log('Sala Correspondente para room_id', reserva.room_id, ':', salaCorrespondente);
       reserva.room_id = salaCorrespondente ? salaCorrespondente.number : 'não encontrado';
     });
     this.substituirUserIdPorNome();
@@ -69,6 +75,7 @@ export class TelaReservasFeitasComponent {
   substituirUserIdPorNome() {
     this.salas.forEach(reserva => {
       const professorCorrespondente = this.professores.find(prof => prof._id === reserva.user_id);
+      console.log('Professor Correspondente para user_id', reserva.user_id, ':', professorCorrespondente);
       reserva.user_id = professorCorrespondente ? professorCorrespondente.name : 'não encontrado';
     });
     this.substituirClassIdPorNome();
@@ -77,6 +84,7 @@ export class TelaReservasFeitasComponent {
   substituirClassIdPorNome() {
     this.salas.forEach(reserva => {
       const classeCorrespondente = this.classes.find(classe => classe._id === reserva.class_id);
+      console.log('Classe Correspondente para class_id', reserva.class_id, ':', classeCorrespondente);
       reserva.class_id = classeCorrespondente ? classeCorrespondente.name : 'não encontrado';
     });
   }
