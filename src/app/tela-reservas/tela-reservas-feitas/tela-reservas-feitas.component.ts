@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
 import { TelaReservasComponent } from '../tela-reservas.component';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
+import { combineLatest } from 'rxjs';
 
 interface Sala {
   room_id: string;
@@ -34,68 +35,49 @@ export class TelaReservasFeitasComponent {
     private salaDataService: SalaDataService,
     public dialog: MatDialog,
     private router: Router
-  ) {
-    this.salaDataService.salaReservaData$.subscribe((reservas) => {
+  )  {
+    combineLatest([
+      this.salaDataService.salaReservaData$,
+      this.salaDataService.salaData$,
+      this.salaDataService.teacherData$,
+      this.salaDataService.classData$
+    ]).subscribe(([reservas, salas, professores, classes]) => {
       this.salas = reservas;
-      this.dataSource.data = this.salas; 
+      this.salasFiltradas = salas.filter(sala => reservas.some(reserva => reserva.room_id === sala._id));
+      this.professores = professores;
+      this.classes = classes;
+  
       this.processarReservas();
-      this.substituirRoomIdPorNumero();
-      this.substituirUserIdPorNome();
-      this.substituirClassIdPorNome();
-      console.log(this.dataSource.data)
+      this.dataSource.data = this.salas;
+      console.log(this.dataSource.data);
     });
   }
+  
   processarReservas() {
-    this.idSalaReservada = this.salas.map((reserva) => reserva.room_id);
+    this.idSalaReservada = this.salas.map(reserva => reserva.room_id);
     this.numeroReservas();
   }
   
   numeroReservas() {
-    this.salaDataService.salaData$.subscribe((salas) => {
-      this.salasFiltradas = salas.filter((sala) => this.idSalaReservada.includes(sala._id));
-      this.numeroSala = this.salasFiltradas.map((sala) => sala.number);
+    this.salas.forEach(reserva => {
+      const salaCorrespondente = this.salasFiltradas.find(sala => sala._id === reserva.room_id);
+      reserva.room_id = salaCorrespondente ? salaCorrespondente.number : 'não encontrado';
     });
-  }
-  
-  substituirRoomIdPorNumero() {
-    this.salas.forEach((reserva) => {
-      const salaCorrespondente = this.salasFiltradas.find((sala) => sala._id === reserva.room_id);
-      if (salaCorrespondente) {
-        reserva.room_id = salaCorrespondente.number;
-      }else {
-        reserva.room_id = reserva.room_id || 'não encontrado';
-      }
-    });
-    this.dataSource.data = this.salas;
+    this.substituirUserIdPorNome();
   }
   
   substituirUserIdPorNome() {
-    this.salaDataService.teacherData$.subscribe((professores) => {
-      this.professores = professores;
-      this.salas.forEach((reserva) => {
-        const professorCorrespondente = this.professores.find((prof) => prof._id === reserva.user_id);
-        if (professorCorrespondente) {
-          reserva.user_id = professorCorrespondente.name;
-        } else {
-          reserva.user_id = reserva.class_id || 'não encontrado';
-        }
-      });
-      this.dataSource.data = this.salas; 
+    this.salas.forEach(reserva => {
+      const professorCorrespondente = this.professores.find(prof => prof._id === reserva.user_id);
+      reserva.user_id = professorCorrespondente ? professorCorrespondente.name : 'não encontrado';
     });
+    this.substituirClassIdPorNome();
   }
   
   substituirClassIdPorNome() {
-    this.salaDataService.classData$.subscribe((classes) => {
-      this.classes = classes;
-      this.salas.forEach((reserva) => {
-        const classeCorrespondente = this.classes.find((classe) => classe._id === reserva.class_id);
-        if (classeCorrespondente) {
-          reserva.class_id = classeCorrespondente.name;
-        } else {
-          reserva.class_id = reserva.class_id || 'não encontrado';
-        }
-      });
-      this.dataSource.data = this.salas;
+    this.salas.forEach(reserva => {
+      const classeCorrespondente = this.classes.find(classe => classe._id === reserva.class_id);
+      reserva.class_id = classeCorrespondente ? classeCorrespondente.name : 'não encontrado';
     });
   }
   
