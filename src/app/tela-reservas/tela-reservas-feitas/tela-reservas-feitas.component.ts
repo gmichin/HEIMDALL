@@ -39,6 +39,9 @@ export class TelaReservasFeitasComponent {
       this.salas = reservas;
       this.dataSource.data = this.salas; 
       this.processarReservas();
+      this.substituirRoomIdPorNumero();
+      this.substituirUserIdPorNome();
+      this.substituirClassIdPorNome();
       console.log(this.dataSource.data)
     });
   }
@@ -51,7 +54,6 @@ export class TelaReservasFeitasComponent {
     this.salaDataService.salaData$.subscribe((salas) => {
       this.salasFiltradas = salas.filter((sala) => this.idSalaReservada.includes(sala._id));
       this.numeroSala = this.salasFiltradas.map((sala) => sala.number);
-      this.substituirRoomIdPorNumero();
     });
   }
   
@@ -65,7 +67,6 @@ export class TelaReservasFeitasComponent {
       }
     });
     this.dataSource.data = this.salas;
-    this.substituirUserIdPorNome();
   }
   
   substituirUserIdPorNome() {
@@ -80,7 +81,6 @@ export class TelaReservasFeitasComponent {
         }
       });
       this.dataSource.data = this.salas; 
-      this.substituirClassIdPorNome();
     });
   }
   
