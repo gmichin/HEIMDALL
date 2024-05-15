@@ -39,7 +39,7 @@ export class TelaReservasFeitasComponent {
     });
     
     this.salaDataService.salaReservaData$.subscribe((salas) => {
-      this.idSalaReservada = salas;
+      this.idSalaReservada = salas.map((sala) => sala.room_id);
       console.log("id salas reservas: ",this.idSalaReservada);
       this.numeroReservas();
     });
