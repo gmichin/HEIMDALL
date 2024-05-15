@@ -96,7 +96,9 @@
     
       <ng-container matColumnDef="numero">
         <mat-header-cell *matHeaderCellDef>Número da Sala</mat-header-cell>
-        <mat-cell *matCellDef="let sala">{{ sala.room_id }}</mat-cell>
+        <mat-cell *matCellDef="let sala">
+          <span *ngIf="salaName">{{ salaName.number }}</span>
+        </mat-cell>
       </ng-container>
     
       <ng-container matColumnDef="professor">
@@ -113,7 +115,7 @@
         <mat-header-cell *matHeaderCellDef>Dia</mat-header-cell>
         <mat-cell *matCellDef="let sala">{{ sala.start_time | date:'medium' }}</mat-cell>
       </ng-container>
-    
+    s
       <ng-container matColumnDef="remove">
         <mat-header-cell *matHeaderCellDef>Remove</mat-header-cell>
         <mat-cell *matCellDef="let sala">
