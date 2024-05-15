@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
 import { TelaReservasComponent } from '../tela-reservas.component';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
-import { combineLatest } from 'rxjs';
 
 interface Sala {
   room_id: string;
@@ -36,48 +35,61 @@ export class TelaReservasFeitasComponent {
     public dialog: MatDialog,
     private router: Router
   ) {
-    combineLatest([
-      this.salaDataService.salaReservaData$,
-      this.salaDataService.salaData$,
-      this.salaDataService.teacherData$,
-      this.salaDataService.classData$
-    ]).subscribe(([reservas, salas, professores, classes]) => {
+    this.salaDataService.salaReservaData$.subscribe((reservas) => {
       this.salas = reservas;
-      this.salasFiltradas = salas;
-      this.professores = professores;
-      this.classes = classes;
-  
+      this.dataSource.data = this.salas; 
       this.processarReservas();
-      this.dataSource.data = this.salas;
-      console.log(this.dataSource.data);
+      console.log(this.dataSource.data)
     });
   }
-  
   processarReservas() {
-    this.idSalaReservada = this.salas.map(reserva => reserva.room_id);
+    this.idSalaReservada = this.salas.map((reserva) => reserva.room_id);
     this.numeroReservas();
   }
   
   numeroReservas() {
-    this.salas.forEach(reserva => {
-      const salaCorrespondente = this.salasFiltradas.find(sala => sala._id === reserva.room_id);
-      reserva.room_id = salaCorrespondente.number;
+    this.salaDataService.salaData$.subscribe((salas) => {
+      this.salasFiltradas = salas.filter((sala) => this.idSalaReservada.includes(sala._id));
+      this.numeroSala = this.salasFiltradas.map((sala) => sala.number);
+      this.substituirRoomIdPorNumero();
     });
+  }
+  
+  substituirRoomIdPorNumero() {
+    this.salas.forEach((reserva) => {
+      const salaCorrespondente = this.salasFiltradas.find((sala) => sala._id === reserva.room_id);
+      if (salaCorrespondente) {
+        reserva.room_id = salaCorrespondente.number;
+      }
+    });
+    this.dataSource.data = this.salas;
     this.substituirUserIdPorNome();
   }
   
   substituirUserIdPorNome() {
-    this.salas.forEach(reserva => {
-      const professorCorrespondente = this.professores.find(prof => prof._id === reserva.user_id);
-      reserva.user_id = professorCorrespondente.name;
+    this.salaDataService.teacherData$.subscribe((professores) => {
+      this.professores = professores;
+      this.salas.forEach((reserva) => {
+        const professorCorrespondente = this.professores.find((prof) => prof._id === reserva.user_id);
+        if (professorCorrespondente) {
+          reserva.user_id = professorCorrespondente.name;
+        }
+      });
+      this.dataSource.data = this.salas; 
+      this.substituirClassIdPorNome();
     });
-    this.substituirClassIdPorNome();
   }
   
   substituirClassIdPorNome() {
-    this.salas.forEach(reserva => {
-      const classeCorrespondente = this.classes.find(classe => classe._id === reserva.class_id);
-      reserva.class_id = classeCorrespondente.name;
+    this.salaDataService.classData$.subscribe((classes) => {
+      this.classes = classes;
+      this.salas.forEach((reserva) => {
+        const classeCorrespondente = this.classes.find((classe) => classe._id === reserva.class_id);
+        if (classeCorrespondente) {
+          reserva.class_id = classeCorrespondente.name;
+        }
+      });
+      this.dataSource.data = this.salas;
     });
   }
   
