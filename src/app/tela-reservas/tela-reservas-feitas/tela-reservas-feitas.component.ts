@@ -63,8 +63,8 @@ export class TelaReservasFeitasComponent {
         reserva.room_id = salaCorrespondente.number;
       }
     });
-    this.dataSource.data = this.salas; // Atualizar dataSource se necessário
-    this.substituirUserIdPorNome(); // Chamar a função para substituir user_id por nome
+    this.dataSource.data = this.salas;
+    this.substituirUserIdPorNome();
   }
 
   substituirUserIdPorNome() {
