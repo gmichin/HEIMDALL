@@ -9,7 +9,7 @@ import { TelaReservasComponent } from '../tela-reservas.component';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
 
 interface Sala {
-  numero: number;
+  room_id: number;
   professor: string;
   materia: string;
   dia: Date;
@@ -33,25 +33,37 @@ export class TelaReservasFeitasComponent {
     public dialog: MatDialog,
     private router: Router
   ) {
-    this.salaDataService.salaReservaData$.subscribe((salas) => {
-      this.salas = salas;
+    this.salaDataService.salaReservaData$.subscribe((reservas) => {
+      this.salas = reservas;
       this.dataSource.data = this.salas; 
-      console.log(this.salas);
-    });
-    
-    this.salaDataService.salaReservaData$.subscribe((salas) => {
-      this.idSalaReservada = salas.map((sala) => sala.room_id);
-      console.log("id salas reservas: ",this.idSalaReservada);
-      this.numeroReservas();
+      this.processarReservas();
     });
   }
 
-  numeroReservas(){
+  processarReservas() {
+    this.idSalaReservada = this.salas.map((reserva) => reserva.room_id);
+    console.log("ID salas reservadas: ", this.idSalaReservada);
+    this.numeroReservas();
+  }
+
+  numeroReservas() {
     this.salaDataService.salaData$.subscribe((salas) => {
       this.salasFiltradas = salas.filter((sala) => this.idSalaReservada.includes(sala._id));
-      console.log("filtro de salas: ",this.salasFiltradas);
+      console.log("Filtro de salas: ", this.salasFiltradas);
       this.numeroSala = this.salasFiltradas.map((sala) => sala.number);
+      this.substituirRoomIdPorNumero();
     });
+  }
+
+  substituirRoomIdPorNumero() {
+    this.salas.forEach((reserva) => {
+      const salaCorrespondente = this.salasFiltradas.find((sala) => sala._id === reserva.room_id);
+      if (salaCorrespondente) {
+        reserva.room_id = salaCorrespondente.number;
+      }
+    });
+    console.log("Reservas com room_id substituído por número: ", this.salas);
+    this.dataSource.data = this.salas; // Atualizar dataSource se necessário
   }
 
   openLoginSignUp() {
