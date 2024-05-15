@@ -124,7 +124,7 @@ export class TelaDeletarReservasComponent {
     this.reservasAchadas = [];
     this.todasReservas.forEach(reserva => {
       if (this.escolha === "numero") {
-        const sala = this.salasFiltradas.find(sala => sala.name === selectedValue);
+        const sala = this.salasFiltradas.find(sala => sala.number === selectedValue);
         if (sala && reserva.room_id === sala._id) {
           this.reservasAchadas.push(reserva);
         }
@@ -134,7 +134,7 @@ export class TelaDeletarReservasComponent {
           this.reservasAchadas.push(reserva);
         }
       } else if (this.escolha === "materia") {
-        const materia = this.classFiltrado.find(classe => classe.name === selectedValue);
+        const materia = this.classFiltrado.find(classe => classe._id === selectedValue);
         if (materia && reserva.class_id === materia._id) {
           this.reservasAchadas.push(reserva);
         }
@@ -143,6 +143,7 @@ export class TelaDeletarReservasComponent {
       }
     });
   }
+  
   
   removeRow(sala: Sala){
     const index = this.reservasAchadas.findIndex(item => item === sala);
