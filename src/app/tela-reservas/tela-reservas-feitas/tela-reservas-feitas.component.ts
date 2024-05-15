@@ -12,7 +12,7 @@ interface Sala {
   room_id: number;
   user_id: string;
   class_id: string;
-  dia: Date;
+  start_time: Date;
 }
 
 @Component({
@@ -43,6 +43,7 @@ export class TelaReservasFeitasComponent {
     });
   }
 
+ 
   processarReservas() {
     this.idSalaReservada = this.salas.map((reserva) => reserva.room_id);
     this.numeroReservas();
@@ -88,6 +89,8 @@ export class TelaReservasFeitasComponent {
         const classeCorrespondente = this.classes.find((classe) => classe._id === reserva.class_id);
         if (classeCorrespondente) {
           reserva.class_id = classeCorrespondente.name;
+        } else {
+          reserva.class_id = reserva.class_id || 'class_id original';
         }
       });
       this.dataSource.data = this.salas;
