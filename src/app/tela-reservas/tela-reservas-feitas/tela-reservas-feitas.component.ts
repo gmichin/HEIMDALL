@@ -71,15 +71,18 @@ export class TelaReservasFeitasComponent {
       this.professores = professores;
       this.salas.forEach((reserva) => {
         const professorCorrespondente = this.professores.find((prof) => prof._id === reserva.user_id);
-        if (professorCorrespondente) {
-          reserva.user_id = professorCorrespondente.name;
-        } else {
-          reserva.user_id = reserva.class_id || 'não encontrado';
-        }
+        this.condicionalUserIdPorNome(professorCorrespondente, reserva)
       });
       this.dataSource.data = this.salas; 
       this.substituirClassIdPorNome();
     });
+  }
+  condicionalUserIdPorNome(professorCorrespondente: any, reserva: any) {
+    if (professorCorrespondente) {
+      reserva.user_id = professorCorrespondente.name;
+    } else {
+      reserva.user_id = reserva.class_id || 'não encontrado';
+    }
   }
   
   substituirClassIdPorNome() {
