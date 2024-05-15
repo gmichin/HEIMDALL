@@ -52,7 +52,6 @@ export class TelaDeletarReservasComponent {
   ) {
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.idSalaReservada = salas.map((sala) => sala.room_id);
-      console.log("id salas reservas: ",this.idSalaReservada);
       this.numeroReservas();
     });
     
@@ -94,7 +93,6 @@ export class TelaDeletarReservasComponent {
   numeroReservas(){
     this.salaDataService.salaData$.subscribe((salas) => {
       this.salasFiltradas = salas.filter((sala) => this.idSalaReservada.includes(sala._id));
-      console.log("filtro de salas: ",this.salasFiltradas);
       this.numeroSala = this.salasFiltradas.map((sala) => sala.number);
     });
   }
@@ -125,10 +123,8 @@ export class TelaDeletarReservasComponent {
     this.reservasAchadas = [];
     this.salaName = this.salasFiltradas.find(sala => sala.number === selectedValue);
     this.todasReservas.forEach(reserva => {
-      if (this.escolha === "numero") {
-        if (this.salaName && reserva.room_id === this.salaName._id) {
+      if (this.escolha === "numero" && this.salaName && reserva.room_id === this.salaName._id) {
           this.reservasAchadas.push(reserva);
-        }
       } else if (this.escolha === "professor") {
         const professor = this.teacherFiltrado.find(teacher => teacher.name === selectedValue);
         if (professor && reserva.user_id === professor._id) {
