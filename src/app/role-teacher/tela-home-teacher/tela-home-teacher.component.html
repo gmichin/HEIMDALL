@@ -1,0 +1,40 @@
+<mat-toolbar>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button (click)="redirectProfile()" mat-menu-item>
+      <mat-icon> account_circle </mat-icon>
+      <span>Perfil</span>
+    </button>
+    <button (click)="redirectReserve()" mat-menu-item>
+      <mat-icon>meeting_room</mat-icon>
+      <span>Reservas</span>
+    </button>
+    <button mat-menu-item disabled>
+      <mat-icon>how_to_reg</mat-icon>
+      <span>Cadastrar Alunos</span>
+    </button>
+  </mat-menu>
+
+  <span class="tituloH">HEIMDALL</span>
+</mat-toolbar>
+<div>
+  <div class="header">
+    <h2>Acesso Rápido</h2>
+  </div>
+  <div class="container">
+    <div class="cards">
+        <mat-card class="card-width">
+          <mat-card-header>
+            <mat-card-title class="title-card">Horários de Aula</mat-card-title>
+          </mat-card-header>
+          <mat-card-actions>
+            <button (click)="redirectHorarios()" mat-button>
+              Selecionar
+            </button>
+          </mat-card-actions>
+        </mat-card>
+    </div>
+  </div>
+</div>
