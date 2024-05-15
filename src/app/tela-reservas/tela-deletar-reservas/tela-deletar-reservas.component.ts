@@ -29,6 +29,7 @@ export class TelaDeletarReservasComponent {
   professorNomes: string[] = [];
   teacherFiltrado: any[] = [];
 
+  salaName: any;
   idSalaReservada: string[] = [];
   numeroSala: string[] = [];
   salasFiltradas: any[] = [];
@@ -124,8 +125,8 @@ export class TelaDeletarReservasComponent {
     this.reservasAchadas = [];
     this.todasReservas.forEach(reserva => {
       if (this.escolha === "numero") {
-        const sala = this.salasFiltradas.find(sala => sala.number === selectedValue);
-        if (sala && reserva.room_id === sala._id) {
+        this.salaName = this.salasFiltradas.find(sala => sala.number === selectedValue);
+        if (this.salaName && reserva.room_id === this.salaName._id) {
           this.reservasAchadas.push(reserva);
         }
       } else if (this.escolha === "professor") {
