@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import {
   AbstractControl,
+  AsyncValidatorFn,
   FormBuilder,
   FormGroup,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -15,6 +17,8 @@ import {
 import { LoginUserService } from './../services/login-user.service';
 import { RegisterUserService } from './../services/register-user.service';
 import { getUserRequest } from '../models/login.model';
+import { Observable, catchError, debounceTime, distinctUntilChanged, last, map, of, switchMap, tap } from 'rxjs';
+import { RoleId } from '../models/role.model';
 
 @Component({
   selector: 'app-tela-login',
@@ -23,8 +27,11 @@ import { getUserRequest } from '../models/login.model';
 })
 export class TelaLoginCadastroComponent {
   public resgiterForm: FormGroup;
+  public resgiterStudentForm: FormGroup;
   public loginForm: FormGroup;
   public foco: number = 0;
+  public nomeInst: string | undefined;
+  private idInstByName = '';
 
   constructor(
     private snackBar: MatSnackBar,
@@ -34,6 +41,16 @@ export class TelaLoginCadastroComponent {
     private registerUserService: RegisterUserService,
     private loginUserService: LoginUserService
   ) {
+    this.resgiterStudentForm = this.fb.group(
+      {
+        nome: ['', [Validators.required]],
+        email: ['', [Validators.required, this.emailValidator]],
+        password: ['', [Validators.required], Validators.minLength(6)],
+        confirmPassword: ['', [Validators.required]],
+        nameInstitution: ['', [Validators.required], [this.validateNameInst()]],
+      },
+      { validator: this.passwordMatchValidator }
+    );
     this.resgiterForm = this.fb.group(
       {
         nome: ['', [Validators.required]],
@@ -52,6 +69,31 @@ export class TelaLoginCadastroComponent {
       email: ['', [Validators.required, this.emailValidator]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
+  }
+
+  solicitationRegister() {
+    if (this.resgiterStudentForm.invalid) {
+      return;
+    }
+    const request = new RegisterUserRequest({
+      name: this.resgiterStudentForm.get('nome')?.value,
+      email: this.resgiterStudentForm.get('email')?.value,
+      encrypted_password: this.resgiterStudentForm.get('password')?.value,
+      role: {_id: RoleId.ALUNO},
+      instituition: {_id: this.idInstByName }
+    });
+    this.registerUserService.inviteStudent(request).subscribe({
+      next:() => {
+        this.snackBar.open(`Solicitação enviada com sucesso, aguarde análise.`, '', {
+          duration: 5000,
+        });
+      },
+      error: () => {
+        this.snackBar.open(`Ocorreu um erro durante sua solicitação.`, '', {
+          duration: 2000,
+        });
+      }
+    })
   }
 
   register() {
@@ -77,14 +119,14 @@ export class TelaLoginCadastroComponent {
       .subscribe({
         next: () => {
           this.snackBar.open(`Cadastrado com sucesso.`, '', {
-            duration: 1000,
+            duration: 2000,
           });
           this.foco = 0;
           this.resetForms(this.resgiterForm);
         },
         error: (err) => {
           this.snackBar.open(`Ocorreu um erro durante sua solicitação.`, '', {
-            duration: 1000,
+            duration: 2000,
           });
         },
       });
@@ -154,5 +196,31 @@ export class TelaLoginCadastroComponent {
     }
 
     return null;
+  }
+
+  private validateNameInst(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      const name = control.value;
+
+      // Se o campo estiver vazio, retorna um Observable com null (sem erro)
+      if (!name) {
+        return of(null);
+      }
+
+      // Faz a chamada para a API e verifica o resultado
+      return control.valueChanges.pipe(
+        debounceTime(500),
+        switchMap(() => this.registerUserService.searchInstByName(name)),
+        tap((res)=> {
+          this.idInstByName = res._id;
+          this.nomeInst = undefined
+        }),
+        map(valid => (valid ? null : { invalidInstitutionName: true })),
+        catchError(() => {
+          this.nomeInst = 'Instituição não encontrada.'
+          return of({ invalidInstitutionName: true })
+        })
+      );
+    }
   }
 }

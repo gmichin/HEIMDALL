@@ -1,4 +1,5 @@
 export const url_config = Object.freeze({
+  url_registration: 'http://localhost:3000/registration',
   url_user: 'http://localhost:3000/users',
   url_instituition: 'http://localhost:3000/instituition',
   url_course: 'http://localhost:3000/course',
