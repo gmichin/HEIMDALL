@@ -10,7 +10,7 @@ import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
 
 interface Sala {
   room_id: number;
-  professor: string;
+  user_id: string;
   materia: string;
   dia: Date;
 }
@@ -27,6 +27,7 @@ export class TelaReservasFeitasComponent {
   idSalaReservada: any[] = [];
   salasFiltradas: any[] = [];
   numeroSala: any[] = [];
+  professores: any[] = [];
 
   constructor(
     private salaDataService: SalaDataService,
@@ -64,8 +65,23 @@ export class TelaReservasFeitasComponent {
     });
     console.log("Reservas com room_id substituído por número: ", this.salas);
     this.dataSource.data = this.salas; // Atualizar dataSource se necessário
+    this.substituirUserIdPorNome(); // Chamar a função para substituir user_id por nome
   }
 
+  substituirUserIdPorNome() {
+    this.salaDataService.teacherData$.subscribe((professores) => {
+      this.professores = professores;
+      this.salas.forEach((reserva) => {
+        const professorCorrespondente = this.professores.find((prof) => prof._id === reserva.user_id);
+        if (professorCorrespondente) {
+          reserva.user_id = professorCorrespondente.name;
+        }
+      });
+      console.log("Reservas com user_id substituído por nome: ", this.salas);
+      this.dataSource.data = this.salas; // Atualizar dataSource se necessário
+    });
+  }
+  
   openLoginSignUp() {
     const dialogRef = this.dialog.open(TelaLoginCadastroComponent);
 
