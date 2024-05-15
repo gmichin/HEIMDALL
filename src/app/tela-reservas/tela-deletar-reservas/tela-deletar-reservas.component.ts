@@ -137,6 +137,7 @@ export class TelaDeletarReservasComponent {
         }
       } else if (this.escolha === "dia" && reserva.start_time === selectedValue) {
         this.reservasAchadas.push(reserva);
+        console.log(reserva);
       }
     });
   }
