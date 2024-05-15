@@ -56,7 +56,10 @@
 
     <ng-container matColumnDef="materia">
       <mat-header-cell *matHeaderCellDef>Matéria</mat-header-cell>
-      <mat-cell *matCellDef="let sala">{{ sala.class_id }}</mat-cell>
+      <mat-cell *matCellDef="let sala">
+        <span *ngIf="sala.class==undefined">não encontrado</span>
+        <span *ngIf="sala.class!=undefined">{{ sala.class_id }}</span>
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="dia">
