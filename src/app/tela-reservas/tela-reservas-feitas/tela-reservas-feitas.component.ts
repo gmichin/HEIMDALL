@@ -36,6 +36,7 @@ export class TelaReservasFeitasComponent {
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.salas = salas;
       this.dataSource.data = this.salas; 
+      console.log(this.salas);
     });
     
     this.salaDataService.salaReservaData$.subscribe((salas) => {
