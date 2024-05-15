@@ -275,40 +275,49 @@ export class TelaNovasReservasComponent implements OnInit{
 
     this.salaDataService.teacherData$.subscribe(users => {
         users.forEach(prof => {
-            if (prof.name == nomeProfessor && prof.instituition != undefined && prof.instituition != null) {
+            if (prof.name === nomeProfessor && prof.instituition) {
                 const professor = {
                     professor: prof.name,
                     id: prof._id
+                };
+                this.professores.push(professor);
+            }
+        });
+
+        this.salaDataService.classData$.subscribe(classes => {
+            classes.forEach(classe => {
+                // Verifique se os dados da classe têm um nome e um id de professor válido
+                if (classe.name && classe.teachers_id) {
+                    const cour = {
+                        class: classe.name,
+                        id: classe.teachers_id
+                    };
+                    this.materia.push(cour);
                 }
-                this.professores.push(professor)
-            }
-        })
-    })
+            });
 
-    this.salaDataService.classData$.subscribe(classes => {
-      classes.forEach(classe => {
-            const cour = {
-                course: classe.name,
-                id: classe.teachers_id
-            }
-            this.materia.push(cour);
-        })
-    })
+            // Processa os dados após garantir que both subscriptions have completed
+            this.processarMateriasPorProfessor();
+        });
+    });
+}
 
-    const uniqueCoursesSet = new Set<string>();
+processarMateriasPorProfessor() {
+    const uniqueClassSet = new Set<string>();
 
     this.professores.forEach(professor => {
-        const materiasDoProfessor = this.materia.filter(materia => materia.id === professor.id);
+        const materiasDoProfessor = this.materia.filter(materia => materia.id.includes(professor.id));
         materiasDoProfessor.forEach(materia => {
-            uniqueCoursesSet.add(materia.course);
+            uniqueClassSet.add(materia.class); // Corrigido para 'class' ao invés de 'name'
         });
     });
 
-    this.materiasPorProfessor = Array.from(uniqueCoursesSet); 
+    this.materiasPorProfessor = Array.from(uniqueClassSet);
 
     console.log(this.professores);
     console.log(this.materia);
-  }
+}
+
 
 
 
