@@ -52,7 +52,7 @@ export class TelaDeletarReservasComponent {
     
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.idProfessores = salas.map((sala) => sala.user_id);
-      console.log(this.idProfessores);
+      console.log("1: ", this.idProfessores);
       this.nomeProfessores();
     });
 
@@ -71,7 +71,7 @@ export class TelaDeletarReservasComponent {
   nomeProfessores(){
     this.salaDataService.teacherData$.subscribe((teachers) => {
       const professoresFiltradas = teachers.filter((teacher) => this.idProfessores.includes(teacher._id));
-      console.log(professoresFiltradas);
+      console.log("2: ",professoresFiltradas);
       this.numeroSala = professoresFiltradas.map((teacher) => teacher.name);
     });
   }
