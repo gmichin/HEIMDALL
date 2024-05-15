@@ -28,6 +28,14 @@ const routes: Routes = [
     redirectTo: 'admin/home-adm',
   },
   {
+    path: 'home-teacher',
+    redirectTo: 'teacher/home-teacher',
+  },
+  {
+    path: 'home-student',
+    redirectTo: 'student/home-student',
+  },
+  {
     path: 'profile',
     component: TelaPerfilComponent,
     resolve: {

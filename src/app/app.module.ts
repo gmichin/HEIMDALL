@@ -46,6 +46,8 @@ import { TelaDeletarSalasComponent } from './tela-salas/tela-deletar-salas/tela-
 import { TelaPermissaoSalasComponent } from './tela-salas/tela-permissao-salas/tela-permissao-salas.component';
 import { TelaSalasFeitasComponent } from './tela-salas/tela-salas-feitas/tela-salas-feitas.component';
 import { TelaNovasSalasComponent } from './tela-salas/tela-novas-salas/tela-novas-salas.component';
+import { RoleTeacherModule } from './role-teacher/role-teacher.module';
+import { RoleStudentModule } from './role-student/role-student.module';
 
 @NgModule({
   declarations: [
@@ -74,6 +76,8 @@ import { TelaNovasSalasComponent } from './tela-salas/tela-novas-salas/tela-nova
     ReactiveFormsModule,
     HttpClientModule,
     RoleAdmModule,
+    RoleStudentModule,
+    RoleTeacherModule,
 
     MatButtonModule,
     MatCardModule,
