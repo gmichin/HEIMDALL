@@ -123,9 +123,9 @@ export class TelaDeletarReservasComponent {
   
   procurarSala(selectedValue: string){
     this.reservasAchadas = [];
+    this.salaName = this.salasFiltradas.find(sala => sala.number === selectedValue);
     this.todasReservas.forEach(reserva => {
       if (this.escolha === "numero") {
-        this.salaName = this.salasFiltradas.find(sala => sala.number === selectedValue);
         if (this.salaName && reserva.room_id === this.salaName._id) {
           this.reservasAchadas.push(reserva);
         }
