@@ -140,6 +140,8 @@ export class TelaDeletarReservasComponent {
           this.reservasAchadas.push(reserva);
         }
       } else if (this.escolha === "dia" && reserva.start_time === selectedValue) {
+        const salasNumber = this.salasFiltradas.find(sala => reserva.room_id === sala._id);
+        this.salaName = this.salasFiltradas.find(sala => sala.number === salasNumber.number);
         this.reservasAchadas.push(reserva);
       }
     });

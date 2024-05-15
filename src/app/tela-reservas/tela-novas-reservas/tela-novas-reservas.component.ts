@@ -271,40 +271,40 @@ export class TelaNovasReservasComponent implements OnInit{
     this.professorSelecionado = nomeProfessor;
     this.professores = [];
     this.materia = [];
-    this.materiasPorProfessor = []; // Agora é um array de strings
+    this.materiasPorProfessor = [];
 
     this.salaDataService.teacherData$.subscribe(users => {
         users.forEach(prof => {
             if (prof.name == nomeProfessor && prof.instituition != undefined && prof.instituition != null) {
                 const professor = {
                     professor: prof.name,
-                    instituition: prof.instituition
+                    id: prof._id
                 }
                 this.professores.push(professor)
             }
         })
     })
 
-    this.salaDataService.coursesData$.subscribe(couses => {
-        couses.forEach(course => {
+    this.salaDataService.classData$.subscribe(classes => {
+      classes.forEach(classe => {
             const cour = {
-                course: course.name,
-                instituition: course.instituition
+                course: classe.name,
+                id: classe.teachers_id
             }
             this.materia.push(cour);
         })
     })
 
-    const uniqueCoursesSet = new Set<string>(); // Conjunto temporário para garantir cursos únicos
+    const uniqueCoursesSet = new Set<string>();
 
     this.professores.forEach(professor => {
-        const materiasDoProfessor = this.materia.filter(materia => materia.instituition === professor.instituition);
+        const materiasDoProfessor = this.materia.filter(materia => materia.id === professor.id);
         materiasDoProfessor.forEach(materia => {
-            uniqueCoursesSet.add(materia.course); // Adicionando cursos únicos ao conjunto temporário
+            uniqueCoursesSet.add(materia.course);
         });
     });
 
-    this.materiasPorProfessor = Array.from(uniqueCoursesSet); // Convertendo o conjunto temporário para um array
+    this.materiasPorProfessor = Array.from(uniqueCoursesSet); 
 
     console.log(this.professores);
     console.log(this.materia);
