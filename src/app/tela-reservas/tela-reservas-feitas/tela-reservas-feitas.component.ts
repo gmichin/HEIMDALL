@@ -71,6 +71,7 @@ export class TelaReservasFeitasComponent {
   substituirUserIdPorNome() {
     this.salaDataService.teacherData$.subscribe((professores) => {
       this.professores = professores;
+      console.log(this.professores)
       this.salas.forEach((reserva) => {
         const professorCorrespondente = this.professores.find((prof) => prof._id === reserva.user_id);
         if (professorCorrespondente) {
