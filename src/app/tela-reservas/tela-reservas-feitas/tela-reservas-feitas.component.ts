@@ -9,7 +9,7 @@ import { TelaReservasComponent } from '../tela-reservas.component';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
 
 interface Sala {
-  room_id: number;
+  room_id: string;
   user_id: string;
   class_id: string;
   start_time: Date;
@@ -60,6 +60,8 @@ export class TelaReservasFeitasComponent {
       const salaCorrespondente = this.salasFiltradas.find((sala) => sala._id === reserva.room_id);
       if (salaCorrespondente) {
         reserva.room_id = salaCorrespondente.number;
+      }else {
+        reserva.room_id = reserva.room_id || 'não encontrado';
       }
     });
     this.dataSource.data = this.salas;
