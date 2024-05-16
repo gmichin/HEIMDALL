@@ -79,8 +79,7 @@ export class TelaDeletarReservasComponent {
   materiasReserva(){
     this.salaDataService.classData$.subscribe((classes) => {
       this.classFiltrado = classes.filter((classe) => this.idMateriaReservada.includes(classe._id));
-      this.materia = this.classFiltrado.map((classe) => classe.name);
-      console.log(this.materia);
+      this.materia = this.classFiltrado.map((classe) => classe.name).filter(name => typeof name === 'string' && name.trim() !== '');;
     });
   }
   nomeProfessores(){
