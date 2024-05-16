@@ -39,25 +39,23 @@ export class TelaReservasFeitasComponent {
   ) {
     this.salaDataService.salaReservaData$.subscribe(async (reservas) => {
       this.salas = reservas;
-      await this.numeroReservas();
+      await this.processarSalas();
       console.log(this.salas);
-      this.dataSource.data = this.salas;
     });
   }
   
-  async numeroReservas() {
+  async processarSalas() {
+    await this.carregarSalasFiltradas();
+    await this.substituirRoomIdPorNumero();
+    await this.substituirUserIdPorNome();
+    await this.substituirClassIdPorNome();
+  }
+
+  async carregarSalasFiltradas() {
     this.idSalaReservada = this.salas.map((reserva) => reserva.room_id);
-    return new Promise<void>((resolve) => {
-      this.salaDataService.salaData$.subscribe((salas) => {
-        this.salasFiltradas = salas.filter((sala) => this.idSalaReservada.includes(sala._id));
-        this.numeroSala = this.salasFiltradas.map((sala) => sala.number);
-        this.substituirRoomIdPorNumero().then(() => {
-          this.substituirUserIdPorNome().then(() => {
-            this.substituirClassIdPorNome().then(resolve);
-          });
-        });
-      });
-    });
+    this.salasFiltradas = await firstValueFrom(this.salaDataService.salaData$);
+    this.salasFiltradas = this.salasFiltradas.filter((sala) => this.idSalaReservada.includes(sala._id));
+    this.numeroSala = this.salasFiltradas.map((sala) => sala.number);
   }
   
   async substituirRoomIdPorNumero() {
@@ -86,23 +84,21 @@ export class TelaReservasFeitasComponent {
   }
   
   async substituirClassIdPorNome() {
-    return new Promise<void>((resolve) => {
-      this.salaDataService.classData$.subscribe((classes) => {
-        this.classes = classes;
-        this.salas.forEach((reserva) => {
-          const classeCorrespondente = this.classes.find((classe) => classe._id === reserva.class_id);
-          if (classeCorrespondente) {
-            reserva.class_id = classeCorrespondente.name;
-          }
-        });
-        resolve();
+    try {
+      this.classes = await firstValueFrom(this.salaDataService.classData$);
+      this.salas.forEach((reserva) => {
+        const classeCorrespondente = this.classes.find((classe) => classe._id === reserva.class_id);
+        if (classeCorrespondente) {
+          reserva.class_id = classeCorrespondente.name;
+        }
       });
-    });
+    } catch (error) {
+      console.error("Erro ao substituir class_id por nome:", error);
+    }
   }
   
   openLoginSignUp() {
     const dialogRef = this.dialog.open(TelaLoginCadastroComponent);
-
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
@@ -110,7 +106,6 @@ export class TelaReservasFeitasComponent {
 
   openReservas() {
     const dialogRef = this.dialog.open(TelaReservasComponent);
-
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
@@ -118,7 +113,6 @@ export class TelaReservasFeitasComponent {
 
   openSalas() {
     const dialogRef = this.dialog.open(TelaSalasComponent);
-
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
