@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
 import { TelaReservasComponent } from '../tela-reservas.component';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
-import { firstValueFrom } from 'rxjs';
 
 interface Sala {
   room_id: string;
@@ -67,21 +66,21 @@ export class TelaReservasFeitasComponent {
   }
   
   async substituirUserIdPorNome() {
-    try {
-        this.professores = await firstValueFrom(this.salaDataService.teacherData$) || [];
-        
-        for (let reserva of this.salas) {
-            const professorCorrespondente = this.professores.find(prof => prof._id === reserva.user_id);
+    return new Promise<void>((resolve) => {
+        this.salaDataService.teacherData$.subscribe((professores) => {
+            this.professores = professores;
+        });
+        const substituicoesPromises = this.salas.map(async (reserva) => {
+            const professorCorrespondente = this.professores.find((prof) => prof._id === reserva.user_id);
             if (professorCorrespondente) {
                 reserva.user_id = professorCorrespondente.name;
             }
-        }
-
-        await this.substituirClassIdPorNome();
-    } catch (error) {
-        console.error('Erro ao substituir user_id por nome:', error);
-    }
-}
+        });
+        Promise.all(substituicoesPromises).then(() => {
+            this.substituirClassIdPorNome().then(resolve);
+        });
+    });
+} 
   
   async substituirClassIdPorNome() {
     return new Promise<void>((resolve) => {
