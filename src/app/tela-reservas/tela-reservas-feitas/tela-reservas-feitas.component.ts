@@ -42,7 +42,7 @@ export class TelaReservasFeitasComponent {
       console.log(this.dataSource.data)
     });
   }
-  
+
   numeroReservas() {
     this.idSalaReservada = this.salas.map((reserva) => reserva.room_id);
     this.salaDataService.salaData$.subscribe((salas) => {
@@ -62,18 +62,33 @@ export class TelaReservasFeitasComponent {
     this.substituirUserIdPorNome();
   }
   
-  substituirUserIdPorNome() {
-    this.salaDataService.teacherData$.subscribe((professores) => {
-      this.professores = professores;
+  async substituirUserIdPorNome() {
+    try {
+      const professores = await this.salaDataService.teacherData$.toPromise();
+      const salas = await this.salaDataService.salaData$.toPromise();
+  
+      this.professores = professores || []; // Garantir que seja um array
+      this.salas = salas || []; // Garantir que seja um array
+  
+      console.log("Professores: ", this.professores);
+      console.log("Salas: ", this.salas);
+  
       this.salas.forEach((reserva) => {
         const professorCorrespondente = this.professores.find((prof) => prof._id === reserva.user_id);
         if (professorCorrespondente) {
           reserva.user_id = professorCorrespondente.name;
+        } else {
+          console.warn(`Professor não encontrado para o user_id: ${reserva.user_id}`);
         }
       });
+  
+      console.log("Salas após substituição: ", this.salas);
       this.substituirClassIdPorNome();
-    });
+    } catch (error) {
+      console.error("Erro ao substituir user_id por nome: ", error);
+    }
   }
+  
   
   substituirClassIdPorNome() {
     this.salaDataService.classData$.subscribe((classes) => {
