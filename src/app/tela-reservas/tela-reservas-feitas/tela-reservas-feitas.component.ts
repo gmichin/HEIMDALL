@@ -42,6 +42,7 @@ export class TelaReservasFeitasComponent {
       this.salas = reservas;
       await this.carregarDados();
       console.log(this.salas);
+      this.dataSource.data = this.salas;
     });
   }
   
