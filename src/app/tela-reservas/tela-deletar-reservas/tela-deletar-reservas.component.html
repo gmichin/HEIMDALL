@@ -53,7 +53,7 @@
   <mat-form-field class="boxSize" *ngIf="escolha=='professor'">
     <mat-label>Professor:</mat-label>
     <mat-select [(value)]="sala" (selectionChange)="procurarSala($event.value)">
-      <mat-option *ngFor="let nome of professor" [value]="nome">{{ nome }}</mat-option>
+      <mat-option *ngFor="let nome of professorNomes" [value]="nome">{{ nome }}</mat-option>
     </mat-select>
   </mat-form-field>
 
@@ -61,7 +61,7 @@
   <mat-form-field class="boxSize" *ngIf="escolha=='materia'">
     <mat-label>Matéria:</mat-label>
     <mat-select [(value)]="sala" (selectionChange)="procurarSala($event.value)">
-      <mat-option *ngFor="let materias of materiaName" [value]="materias">{{ materias }}</mat-option>
+      <mat-option *ngFor="let materias of materia" [value]="materias">{{ materias }}</mat-option>
     </mat-select>
   </mat-form-field>
 
@@ -103,12 +103,16 @@
     
       <ng-container matColumnDef="professor">
         <mat-header-cell *matHeaderCellDef>Nome do Professor</mat-header-cell>
-        <mat-cell *matCellDef="let sala">{{ sala.user_id }}</mat-cell>
+        <mat-cell *matCellDef="let sala">
+          <span *ngIf="professor">{{ professor.name }}</span>
+          </mat-cell>
       </ng-container>
     
       <ng-container matColumnDef="materia">
         <mat-header-cell *matHeaderCellDef>Matéria</mat-header-cell>
-        <mat-cell *matCellDef="let sala">{{ sala.class_id }}</mat-cell>
+        <mat-cell *matCellDef="let sala">
+          <span *ngIf="materiaName">{{ materiaName.name }}</span>
+          </mat-cell>
       </ng-container>
     
       <ng-container matColumnDef="dia">

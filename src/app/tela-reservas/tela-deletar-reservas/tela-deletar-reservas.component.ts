@@ -38,15 +38,14 @@ export class TelaDeletarReservasComponent {
   materiaName: any;
   idMateriaReservada: string[] = [];
   materia: string[] = [];
+  classFiltrado: any[] = [];
 
   dia: string[] = [];
+
   reservasAchadas: Sala[] = [];
   todasReservas: any[] = [];
-
   displayedColumns: string[] = ['selecionar','numero', 'professor', 'materia', 'dia', 'remove'];
-
   selection = new SelectionModel<any>(true, []);
-  classFiltrado: any[] = [];
 
   constructor(
     public dialog: MatDialog,
