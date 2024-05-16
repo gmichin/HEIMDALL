@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
 import { TelaReservasComponent } from '../tela-reservas.component';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
+import { forkJoin } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 interface Sala {
   room_id: string;
@@ -25,74 +27,57 @@ export class TelaReservasFeitasComponent {
   displayedColumns: string[] = ['numero', 'professor', 'materia', 'dia', 'remove'];
   dataSource = new MatTableDataSource<Sala>(this.salas);
   idSalaReservada: any[] = [];
-  salasFiltradas: any[] = [];
-  numeroSala: any[] = [];
-  professores: any[] = [];
-  classes: any[] = [];
-  salasTransformadas: Sala[] = [];
 
   constructor(
     private salaDataService: SalaDataService,
     public dialog: MatDialog,
     private router: Router
   ) {
-    this.salaDataService.salaReservaData$.subscribe((reservas) => {
-      this.salas = reservas;
-      this.numeroReservas();
-    });
-  }
-  
-  numeroReservas() {
-    this.idSalaReservada = this.salas.map((reserva) => reserva.room_id);
-    this.salaDataService.salaData$.subscribe((salas) => {
-      this.salasFiltradas = salas.filter((sala) => this.idSalaReservada.includes(sala._id));
-      this.numeroSala = this.salasFiltradas.map((sala) => sala.number);
-      this.substituirRoomIdPorNumero();
-    });
-  }
-  
-  substituirRoomIdPorNumero() {
-    this.salasTransformadas = this.salas.map((reserva) => {
-      const salaCorrespondente = this.salasFiltradas.find((sala) => sala._id === reserva.room_id);
-      const reservaTransformada = { ...reserva };
-      if (salaCorrespondente) {
-        reservaTransformada.room_id = salaCorrespondente.number;
-      }
-      return reservaTransformada;
-    });
-    this.substituirUserIdPorNome();
-  }
-  
-  substituirUserIdPorNome() {
-    this.salaDataService.teacherData$.subscribe((professores) => {
-      this.professores = professores;
-      this.salasTransformadas = this.salasTransformadas.map((reserva) => {
-        const professorCorrespondente = this.professores.find((prof) => prof._id === reserva.user_id);
-        const reservaTransformada = { ...reserva };
-        if (professorCorrespondente) {
-          reservaTransformada.user_id = professorCorrespondente.name;
-        }
-        return reservaTransformada;
+    this.salaDataService.salaReservaData$
+      .pipe(
+        switchMap((reservas) => {
+          this.salas = reservas;
+          this.idSalaReservada = reservas.map((reserva) => reserva.room_id);
+
+          return forkJoin([
+            this.salaDataService.salaData$,
+            this.salaDataService.teacherData$,
+            this.salaDataService.classData$
+          ]);
+        }),
+        map(([salas, professores, classes]) => {
+          const salasFiltradas = salas.filter((sala) => this.idSalaReservada.includes(sala._id));
+          const numeroSala = salasFiltradas.map((sala) => ({ id: sala._id, number: sala.number }));
+          const professoresMap = professores.reduce((acc, prof) => {
+            acc[prof._id] = prof.name;
+            return acc;
+          }, {});
+          const classesMap = classes.reduce((acc, classe) => {
+            acc[classe._id] = classe.name;
+            return acc;
+          }, {});
+
+          return { salasFiltradas, numeroSala, professoresMap, classesMap };
+        })
+      )
+      .subscribe(({ salasFiltradas, numeroSala, professoresMap, classesMap }) => {
+        this.salas.forEach((reserva) => {
+          const salaCorrespondente = salasFiltradas.find((sala) => sala._id === reserva.room_id);
+          if (salaCorrespondente) {
+            reserva.room_id = salaCorrespondente.number;
+          }
+          if (professoresMap[reserva.user_id]) {
+            reserva.user_id = professoresMap[reserva.user_id];
+          }
+          if (classesMap[reserva.class_id]) {
+            reserva.class_id = classesMap[reserva.class_id];
+          }
+        });
+        this.dataSource.data = this.salas;
+        console.log(this.dataSource.data);
       });
-      this.substituirClassIdPorNome();
-    });
   }
-  
-  substituirClassIdPorNome() {
-    this.salaDataService.classData$.subscribe((classes) => {
-      this.classes = classes;
-      this.salasTransformadas = this.salasTransformadas.map((reserva) => {
-        const classeCorrespondente = this.classes.find((classe) => classe._id === reserva.class_id);
-        const reservaTransformada = { ...reserva };
-        if (classeCorrespondente) {
-          reservaTransformada.class_id = classeCorrespondente.name;
-        }
-        return reservaTransformada;
-      });
-      this.dataSource.data = this.salasTransformadas;
-    });
-  }
-  
+
   openLoginSignUp() {
     const dialogRef = this.dialog.open(TelaLoginCadastroComponent);
 
@@ -100,7 +85,7 @@ export class TelaReservasFeitasComponent {
       console.log(`Dialog result: ${result}`);
     });
   }
-  
+
   openReservas() {
     const dialogRef = this.dialog.open(TelaReservasComponent);
 
@@ -116,12 +101,12 @@ export class TelaReservasFeitasComponent {
       console.log(`Dialog result: ${result}`);
     });
   }
-  
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  
+
   @ViewChild(MatTable)
   table!: MatTable<Sala>;
 
@@ -135,7 +120,7 @@ export class TelaReservasFeitasComponent {
 
   removeRow(sala: Sala){
     const index = this.salas.findIndex(item => item === sala);
-    
+
     if (index !== -1) {
       this.salas.splice(index, 1);
       this.dataSource.data = [...this.salas]; 
