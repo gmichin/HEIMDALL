@@ -66,21 +66,22 @@ export class TelaReservasFeitasComponent {
   }
   
   async substituirUserIdPorNome() {
-    return new Promise<void>((resolve) => {
-        this.salaDataService.teacherData$.subscribe((professores) => {
-            this.professores = professores;
-            const substituicoesPromises = this.salas.map(async (reserva) => {
-                const professorCorrespondente = this.professores.find((prof) => prof._id === reserva.user_id);
-                if (professorCorrespondente) {
-                    reserva.user_id = professorCorrespondente.name;
-                }
-            });
-            Promise.all(substituicoesPromises).then(() => {
-                this.substituirClassIdPorNome().then(resolve);
-            });
-        });
-    });
-} 
+    try {
+        this.professores = await this.salaDataService.teacherData$.toPromise() || []; // Inicializa com um array vazio se o observable não emitir nenhum valor
+        
+        for (let reserva of this.salas) {
+            const professorCorrespondente = this.professores.find(prof => prof._id === reserva.user_id);
+            if (professorCorrespondente) {
+                reserva.user_id = professorCorrespondente.name;
+            }
+        }
+
+        await this.substituirClassIdPorNome();
+    } catch (error) {
+        console.error('Erro ao substituir user_id por nome:', error);
+    }
+}
+
   
   async substituirClassIdPorNome() {
     return new Promise<void>((resolve) => {
