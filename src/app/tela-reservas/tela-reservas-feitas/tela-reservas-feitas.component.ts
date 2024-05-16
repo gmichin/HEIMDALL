@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SalaDataService } from 'src/app/services/sala-data.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatTable } from '@angular/material/table'; 
+import { MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
 import { TelaReservasComponent } from '../tela-reservas.component';
@@ -36,7 +36,7 @@ export class TelaReservasFeitasComponent {
     this.salaDataService.salaReservaData$
       .pipe(
         switchMap((reservas) => {
-          console.log('Reservas:', reservas); // Verificar as reservas
+          console.log('Reservas:', reservas);
           this.salas = reservas;
           this.idSalaReservada = reservas.map((reserva) => reserva.room_id);
 
@@ -47,12 +47,11 @@ export class TelaReservasFeitasComponent {
           ]);
         }),
         map(([salas, professores, classes]) => {
-          console.log('Salas:', salas); // Verificar as salas
-          console.log('Professores:', professores); // Verificar os professores
-          console.log('Classes:', classes); // Verificar as classes
+          console.log('Salas:', salas);
+          console.log('Professores:', professores);
+          console.log('Classes:', classes);
 
           const salasFiltradas = salas.filter((sala) => this.idSalaReservada.includes(sala._id));
-          const numeroSala = salasFiltradas.map((sala) => ({ id: sala._id, number: sala.number }));
           const professoresMap = professores.reduce((acc, prof) => {
             acc[prof._id] = prof.name;
             return acc;
@@ -62,14 +61,13 @@ export class TelaReservasFeitasComponent {
             return acc;
           }, {});
 
-          return { salasFiltradas, numeroSala, professoresMap, classesMap };
+          return { salasFiltradas, professoresMap, classesMap };
         })
       )
-      .subscribe(({ salasFiltradas, numeroSala, professoresMap, classesMap }) => {
-        console.log('Salas Filtradas:', salasFiltradas); // Verificar as salas filtradas
-        console.log('Numero Sala:', numeroSala); // Verificar os números de salas
-        console.log('Professores Map:', professoresMap); // Verificar o mapa de professores
-        console.log('Classes Map:', classesMap); // Verificar o mapa de classes
+      .subscribe(({ salasFiltradas, professoresMap, classesMap }) => {
+        console.log('Salas Filtradas:', salasFiltradas);
+        console.log('Professores Map:', professoresMap);
+        console.log('Classes Map:', classesMap);
 
         this.salas.forEach((reserva) => {
           const salaCorrespondente = salasFiltradas.find((sala) => sala._id === reserva.room_id);
@@ -84,7 +82,7 @@ export class TelaReservasFeitasComponent {
           }
         });
         this.dataSource.data = this.salas;
-        console.log('Data Source Data:', this.dataSource.data); // Verificar os dados da fonte de dados
+        console.log('Data Source Data:', this.dataSource.data);
       });
   }
 
@@ -128,12 +126,12 @@ export class TelaReservasFeitasComponent {
     this.router.navigate(['/tela-deletar-reservas']);
   }
 
-  removeRow(sala: Sala){
+  removeRow(sala: Sala) {
     const index = this.salas.findIndex(item => item === sala);
 
     if (index !== -1) {
       this.salas.splice(index, 1);
-      this.dataSource.data = [...this.salas]; 
+      this.dataSource.data = [...this.salas];
     }
   }
 }
