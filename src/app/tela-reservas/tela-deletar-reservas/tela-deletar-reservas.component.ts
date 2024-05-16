@@ -1,4 +1,3 @@
-import { getUserRequest } from './../../models/login.model';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
@@ -122,9 +121,6 @@ export class TelaDeletarReservasComponent {
     this.reservasAchadas = [];
     this.todasReservas.forEach(reserva => {
       if (this.escolha === "numero") {
-        const teacherFiltrado = this.teacherFiltrado.find(teacher => reserva.getUserRequest_id === teacher._id);
-        this.professor = this.teacherFiltrado.find(teacher => teacher.name === teacherFiltrado.name);
-
         this.salaName = this.salasFiltradas.find(sala => sala.number === selectedValue);
         if (this.salaName && reserva.room_id === this.salaName._id) {
           this.reservasAchadas.push(reserva);
