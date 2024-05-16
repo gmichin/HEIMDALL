@@ -64,7 +64,7 @@ export class TelaDeletarReservasComponent {
 
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.idMateriaReservada = salas.map((sala) => sala.class_id);
-      console.log("id das materias reservadas: ",this.idProfessoresReservados);
+      console.log("id das materias reservadas: ",this.idMateriaReservada);
       this.materiasReserva();
     });
 
@@ -79,9 +79,9 @@ export class TelaDeletarReservasComponent {
 
   materiasReserva(){
     this.salaDataService.classData$.subscribe((classes) => {
-      this.classFiltrado = classes.filter((classe) => this.idProfessoresReservados.includes(classe._id));
+      this.classFiltrado = classes.filter((classe) => this.idMateriaReservada.includes(classe._id));
       console.log("filtro de classes: ", this.classFiltrado);
-      this.professorNomes = this.classFiltrado.map((classe) => classe.name);
+      this.materia = this.classFiltrado.map((classe) => classe.name);
     });
   }
   nomeProfessores(){
