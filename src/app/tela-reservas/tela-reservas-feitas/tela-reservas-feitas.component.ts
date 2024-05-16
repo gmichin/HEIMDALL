@@ -38,7 +38,7 @@ export class TelaReservasFeitasComponent {
     private router: Router
   ) {
     this.salaDataService.salaReservaData$.subscribe(async (reservas) => {
-      this.salas = reservas;
+      this.salas = await reservas;
       this.idSalaReservada = this.salas.map((reserva) => reserva.room_id);
       this.salaDataService.salaData$.subscribe(async (salas) => {
         this.salasFiltradas = salas.filter((sala) => this.idSalaReservada.includes(sala._id));
