@@ -47,12 +47,12 @@ export class TelaReservasFeitasComponent {
         const sala = salas.find(s => s._id === reserva.room_id);
         const teacher = teachers.find(t => t._id === reserva.user_id);
         const classInfo = classes.find(c => c._id === reserva.class_id);
-
+      
         return {
           ...reserva,
-          room_id: sala ? sala.number : reserva.room_id,
-          user_id: teacher ? teacher.name : reserva.user_id,
-          class_id: classInfo ? classInfo.name : reserva.class_id
+          room_id: sala ? sala.number : undefined,
+          user_id: teacher ? teacher.name : undefined,
+          class_id: classInfo ? classInfo.name : undefined
         };
       });
 
