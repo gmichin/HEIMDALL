@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
 import { TelaReservasComponent } from '../tela-reservas.component';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
-import { forkJoin } from 'rxjs';
 
 interface Sala {
   room_id: string;
@@ -64,26 +63,14 @@ export class TelaReservasFeitasComponent {
   }
   
   substituirUserIdPorNome() {
-    forkJoin({
-      professores: this.salaDataService.teacherData$,
-      salas: this.salaDataService.salaData$ // Supondo que você tem um observable para as salas também
-    }).subscribe(({ professores, salas }) => {
-      this.professores = professores || []; // Garantir que seja um array
-      this.salas = salas || []; // Garantir que seja um array
-
-      console.log("Professores: ", this.professores);
-      console.log("Salas: ", this.salas);
-
+    this.salaDataService.teacherData$.subscribe((professores) => {
+      this.professores = professores;
       this.salas.forEach((reserva) => {
         const professorCorrespondente = this.professores.find((prof) => prof._id === reserva.user_id);
         if (professorCorrespondente) {
           reserva.user_id = professorCorrespondente.name;
-        } else {
-          console.warn(`Professor não encontrado para o user_id: ${reserva.user_id}`);
         }
       });
-
-      console.log("Salas após substituição: ", this.salas);
       this.substituirClassIdPorNome();
     });
   }
