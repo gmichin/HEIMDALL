@@ -121,8 +121,8 @@ export class TelaDeletarReservasComponent {
     this.reservasAchadas = [];
     this.todasReservas.forEach(reserva => {
       if (this.escolha === "numero") {
-        const professorName = this.teacherFiltrado.find(teacher => reserva.room_id === teacher._id);
-        this.professor = this.teacherFiltrado.find(sala => sala.name === professorName.name);
+        const professorName = this.teacherFiltrado.find(teacher => reserva.user_id === teacher._id);
+        console.log(professorName);
 
         this.salaName = this.salasFiltradas.find(sala => sala.number === selectedValue);
         if (this.salaName && reserva.room_id === this.salaName._id) {
