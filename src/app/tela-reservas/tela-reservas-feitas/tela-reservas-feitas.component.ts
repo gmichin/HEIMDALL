@@ -40,8 +40,8 @@ export class TelaReservasFeitasComponent {
     this.salaDataService.salaReservaData$.subscribe(async (reservas) => {
       this.salas = reservas;
       await this.numeroReservas();
+      console.log(this.salas);
       this.dataSource.data = this.salas;
-      console.log(this.dataSource.data);
     });
   }
   
@@ -51,7 +51,11 @@ export class TelaReservasFeitasComponent {
       this.salaDataService.salaData$.subscribe((salas) => {
         this.salasFiltradas = salas.filter((sala) => this.idSalaReservada.includes(sala._id));
         this.numeroSala = this.salasFiltradas.map((sala) => sala.number);
-        this.substituirRoomIdPorNumero().then(resolve);
+        this.substituirRoomIdPorNumero().then(() => {
+          this.substituirUserIdPorNome().then(() => {
+            this.substituirClassIdPorNome().then(resolve);
+          });
+        });
       });
     });
   }
@@ -63,29 +67,23 @@ export class TelaReservasFeitasComponent {
         reserva.room_id = salaCorrespondente.number;
       }
     });
-    return this.substituirUserIdPorNome();
   }
   
   async substituirUserIdPorNome() {
     try {
-        this.professores = await firstValueFrom(this.salaDataService.teacherData$);
-        console.log("professores: ", this.professores);
-        console.log("salas: ", this.salas);
-
-        this.salas.forEach((reserva) => {
-            const professorCorrespondente = this.professores.find((prof) => prof._id === reserva.user_id);
-            if (professorCorrespondente) {
-                reserva.user_id = professorCorrespondente.name;
-            } else {
-                reserva.user_id = undefined;
-            }
-        });
-
-        await this.substituirClassIdPorNome();
+      this.professores = await firstValueFrom(this.salaDataService.teacherData$);
+      this.salas.forEach((reserva) => {
+        const professorCorrespondente = this.professores.find((prof) => prof._id === reserva.user_id);
+        if (professorCorrespondente) {
+          reserva.user_id = professorCorrespondente.name;
+        } else {
+          reserva.user_id = undefined;
+        }
+      });
     } catch (error) {
-        console.error("Erro ao substituir user_id por nome:", error);
+      console.error("Erro ao substituir user_id por nome:", error);
     }
-}
+  }
   
   async substituirClassIdPorNome() {
     return new Promise<void>((resolve) => {
