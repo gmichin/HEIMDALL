@@ -37,17 +37,14 @@ export class TelaReservasFeitasComponent {
   ) {
     this.salaDataService.salaReservaData$.subscribe((reservas) => {
       this.salas = reservas;
-      this.processarReservas();
+      this.numeroReservas();
       this.dataSource.data = this.salas;
       console.log(this.dataSource.data)
     });
   }
-  processarReservas() {
-    this.idSalaReservada = this.salas.map((reserva) => reserva.room_id);
-    this.numeroReservas();
-  }
   
   numeroReservas() {
+    this.idSalaReservada = this.salas.map((reserva) => reserva.room_id);
     this.salaDataService.salaData$.subscribe((salas) => {
       this.salasFiltradas = salas.filter((sala) => this.idSalaReservada.includes(sala._id));
       this.numeroSala = this.salasFiltradas.map((sala) => sala.number);
