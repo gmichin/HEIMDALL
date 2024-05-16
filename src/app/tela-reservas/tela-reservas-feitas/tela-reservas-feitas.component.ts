@@ -47,7 +47,7 @@ export class TelaReservasFeitasComponent {
         const sala = salas.find(s => s._id === reserva.room_id);
         const teacher = teachers.find(t => t._id === reserva.user_id);
         const classInfo = classes.find(c => c._id === reserva.class_id);
-    
+
         return {
           ...reserva,
           room_id: sala ? sala.number : reserva.room_id,
@@ -55,9 +55,10 @@ export class TelaReservasFeitasComponent {
           class_id: classInfo ? classInfo.name : reserva.class_id
         };
       });
+
+      console.log(this.salas);
+      this.dataSource.data = this.salas;
     });
-    console.log(this.salas);
-    this.dataSource.data = this.salas;
   }
 
   openLoginSignUp() {
