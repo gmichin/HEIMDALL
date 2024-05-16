@@ -9,7 +9,7 @@ import { TelaReservasComponent } from '../tela-reservas.component';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
 
 interface Sala {
-  room_id: number;
+  room_id: string;
   user_id: string;
   class_id: string;
   start_time: Date;
@@ -73,8 +73,6 @@ export class TelaReservasFeitasComponent {
         const professorCorrespondente = this.professores.find((prof) => prof._id === reserva.user_id);
         if (professorCorrespondente) {
           reserva.user_id = professorCorrespondente.name;
-        } else {
-          reserva.user_id = 'não encontrado';
         }
       });
       this.dataSource.data = this.salas; 
@@ -89,8 +87,6 @@ export class TelaReservasFeitasComponent {
         const classeCorrespondente = this.classes.find((classe) => classe._id === reserva.class_id);
         if (classeCorrespondente) {
           reserva.class_id = classeCorrespondente.name;
-        } else {
-          reserva.class_id = reserva.class_id || 'não encontrado';
         }
       });
       this.dataSource.data = this.salas;
