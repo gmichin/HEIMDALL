@@ -47,7 +47,12 @@ export class TelaReservasFeitasComponent {
       console.log('Salas:', salas);
       console.log('Professores:', teachers);
       console.log('Classes:', classes);
-    
+
+      if (reservas.length === 0) {
+        console.error('Nenhum dado de reserva encontrado.');
+        return; // Saia da função se não houver dados de reserva
+      }
+      
       this.salas = reservas.map(reserva => {
         const sala = salas.find(s => s._id === reserva.room_id);
         const teacher = teachers.find(t => t._id === reserva.user_id);
