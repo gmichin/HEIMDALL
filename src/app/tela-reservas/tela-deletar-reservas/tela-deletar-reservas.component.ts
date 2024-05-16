@@ -88,6 +88,7 @@ export class TelaDeletarReservasComponent {
       this.teacherFiltrado = teachers.filter((teacher) => this.idProfessoresReservados.includes(teacher._id));
       console.log("filtro de professores: ",this.teacherFiltrado);
       this.professorNomes = this.teacherFiltrado.map((teacher) => teacher.name);
+      console.log("Nomes dos professores: ", this.professorNomes);
     });
   }
   numeroReservas(){
