@@ -52,10 +52,14 @@
   <h5 *ngIf="escolha=='professor'">Escolha o professor que possui uma reserva que deseja deletar:</h5>
   <mat-form-field class="boxSize" *ngIf="escolha=='professor'">
     <mat-label>Professor:</mat-label>
+    <!-- Adicione esta linha -->
+    <div>Professores: {{ professorNomes }}</div>
+    <!-- Fim da linha adicionada -->
     <mat-select [(value)]="sala" (selectionChange)="procurarSala($event.value)">
       <mat-option *ngFor="let nome of professorNomes" [value]="nome">{{ nome }}</mat-option>
     </mat-select>
   </mat-form-field>
+  
 
   <h5 *ngIf="escolha=='materia'">Escolha a matéria que possui uma reserva que deseja deletar:</h5>
   <mat-form-field class="boxSize" *ngIf="escolha=='materia'">
