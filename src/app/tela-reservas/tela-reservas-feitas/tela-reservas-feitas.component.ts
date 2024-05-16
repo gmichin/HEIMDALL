@@ -69,7 +69,8 @@ export class TelaReservasFeitasComponent {
   async substituirUserIdPorNome() {
     try {
         this.professores = await firstValueFrom(this.salaDataService.teacherData$);
-        console.log(this.professores); // Verifique se os dados dos professores estão sendo carregados corretamente
+        console.log("professores: ",this.professores);
+        console.log("salas: ",this.salas);
 
         this.salas.forEach((reserva) => {
             const professorCorrespondente = this.professores.find((prof) => prof._id === reserva.user_id);
@@ -77,8 +78,6 @@ export class TelaReservasFeitasComponent {
                 reserva.user_id = professorCorrespondente.name;
             }
         });
-
-        // Continue com o próximo passo após a substituição do user_id
         await this.substituirClassIdPorNome();
     } catch (error) {
         console.error("Erro ao substituir user_id por nome:", error);
