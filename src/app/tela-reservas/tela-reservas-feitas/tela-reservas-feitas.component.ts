@@ -31,6 +31,7 @@ export class TelaReservasFeitasComponent {
   numeroSala: any[] = [];
   professores: any[] = [];
   classes: any[] = [];
+  dataCarregada: boolean = false;
 
   constructor(
     private salaDataService: SalaDataService,
@@ -39,14 +40,21 @@ export class TelaReservasFeitasComponent {
   ) {
     this.salaDataService.salaReservaData$.subscribe(async (reservas) => {
       this.salas = reservas;
-      await this.carregarSalasFiltradas();
-      await this.substituirRoomIdPorNumero();
-      await this.substituirUserIdPorNome();
-      await this.substituirClassIdPorNome();
+      await this.carregarDados();
       console.log(this.salas);
     });
   }
   
+  async carregarDados() {
+    await this.carregarSalasFiltradas();
+    await this.substituirRoomIdPorNumero();
+    if (!this.dataCarregada) {
+      await this.substituirUserIdPorNome();
+      await this.substituirClassIdPorNome();
+      this.dataCarregada = true;
+    }
+  }
+
   async carregarSalasFiltradas() {
     this.idSalaReservada = this.salas.map((reserva) => reserva.room_id);
     this.salasFiltradas = await firstValueFrom(this.salaDataService.salaData$);
