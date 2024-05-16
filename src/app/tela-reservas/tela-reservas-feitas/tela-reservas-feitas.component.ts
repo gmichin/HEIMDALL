@@ -41,6 +41,7 @@ export class TelaReservasFeitasComponent {
       this.salas = reservas;
       await this.processarSalas();
       console.log(this.salas);
+      this.dataSource.data = this.salas;
     });
   }
   
@@ -90,6 +91,8 @@ export class TelaReservasFeitasComponent {
         const classeCorrespondente = this.classes.find((classe) => classe._id === reserva.class_id);
         if (classeCorrespondente) {
           reserva.class_id = classeCorrespondente.name;
+        } else {
+          reserva.class_id = undefined; // Alterado para undefined se não houver correspondência
         }
       });
     } catch (error) {
