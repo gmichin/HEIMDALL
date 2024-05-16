@@ -39,19 +39,14 @@ export class TelaReservasFeitasComponent {
   ) {
     this.salaDataService.salaReservaData$.subscribe(async (reservas) => {
       this.salas = reservas;
-      await this.processarSalas();
+      await this.carregarSalasFiltradas();
+      await this.substituirRoomIdPorNumero();
+      await this.substituirUserIdPorNome();
+      await this.substituirClassIdPorNome();
       console.log(this.salas);
-      this.dataSource.data = this.salas;
     });
   }
   
-  async processarSalas() {
-    await this.carregarSalasFiltradas();
-    await this.substituirRoomIdPorNumero();
-    await this.substituirUserIdPorNome();
-    await this.substituirClassIdPorNome();
-  }
-
   async carregarSalasFiltradas() {
     this.idSalaReservada = this.salas.map((reserva) => reserva.room_id);
     this.salasFiltradas = await firstValueFrom(this.salaDataService.salaData$);
@@ -92,7 +87,7 @@ export class TelaReservasFeitasComponent {
         if (classeCorrespondente) {
           reserva.class_id = classeCorrespondente.name;
         } else {
-          reserva.class_id = undefined; // Alterado para undefined se não houver correspondência
+          reserva.class_id = undefined;
         }
       });
     } catch (error) {
