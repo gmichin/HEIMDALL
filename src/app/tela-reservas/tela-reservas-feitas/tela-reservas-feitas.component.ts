@@ -29,6 +29,7 @@ export class TelaReservasFeitasComponent {
   numeroSala: any[] = [];
   professores: any[] = [];
   classes: any[] = [];
+  salasTransformadas: Sala[] = [];
 
   constructor(
     private salaDataService: SalaDataService,
@@ -38,8 +39,6 @@ export class TelaReservasFeitasComponent {
     this.salaDataService.salaReservaData$.subscribe((reservas) => {
       this.salas = reservas;
       this.numeroReservas();
-      this.dataSource.data = this.salas;
-      console.log(this.dataSource.data)
     });
   }
   
@@ -53,11 +52,13 @@ export class TelaReservasFeitasComponent {
   }
   
   substituirRoomIdPorNumero() {
-    this.salas.forEach((reserva) => {
+    this.salasTransformadas = this.salas.map((reserva) => {
       const salaCorrespondente = this.salasFiltradas.find((sala) => sala._id === reserva.room_id);
+      const reservaTransformada = { ...reserva };
       if (salaCorrespondente) {
-        reserva.room_id = salaCorrespondente.number;
+        reservaTransformada.room_id = salaCorrespondente.number;
       }
+      return reservaTransformada;
     });
     this.substituirUserIdPorNome();
   }
@@ -65,11 +66,13 @@ export class TelaReservasFeitasComponent {
   substituirUserIdPorNome() {
     this.salaDataService.teacherData$.subscribe((professores) => {
       this.professores = professores;
-      this.salas.forEach((reserva) => {
+      this.salasTransformadas = this.salasTransformadas.map((reserva) => {
         const professorCorrespondente = this.professores.find((prof) => prof._id === reserva.user_id);
+        const reservaTransformada = { ...reserva };
         if (professorCorrespondente) {
-          reserva.user_id = professorCorrespondente.name;
+          reservaTransformada.user_id = professorCorrespondente.name;
         }
+        return reservaTransformada;
       });
       this.substituirClassIdPorNome();
     });
@@ -78,12 +81,15 @@ export class TelaReservasFeitasComponent {
   substituirClassIdPorNome() {
     this.salaDataService.classData$.subscribe((classes) => {
       this.classes = classes;
-      this.salas.forEach((reserva) => {
+      this.salasTransformadas = this.salasTransformadas.map((reserva) => {
         const classeCorrespondente = this.classes.find((classe) => classe._id === reserva.class_id);
+        const reservaTransformada = { ...reserva };
         if (classeCorrespondente) {
-          reserva.class_id = classeCorrespondente.name;
+          reservaTransformada.class_id = classeCorrespondente.name;
         }
+        return reservaTransformada;
       });
+      this.dataSource.data = this.salasTransformadas;
     });
   }
   
@@ -94,6 +100,7 @@ export class TelaReservasFeitasComponent {
       console.log(`Dialog result: ${result}`);
     });
   }
+  
   openReservas() {
     const dialogRef = this.dialog.open(TelaReservasComponent);
 
@@ -126,7 +133,6 @@ export class TelaReservasFeitasComponent {
     this.router.navigate(['/tela-deletar-reservas']);
   }
 
-  
   removeRow(sala: Sala){
     const index = this.salas.findIndex(item => item === sala);
     
