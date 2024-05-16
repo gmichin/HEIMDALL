@@ -25,6 +25,7 @@ export class TelaDeletarReservasComponent {
   sala: string = ''; 
   salaSelecionada: string = '';
 
+  professor: any;
   idProfessoresReservados: string[] = [];
   professorNomes: string[] = [];
   teacherFiltrado: any[] = [];
@@ -34,6 +35,7 @@ export class TelaDeletarReservasComponent {
   numeroSala: string[] = [];
   salasFiltradas: any[] = [];
 
+  materiaName: any;
   idMateriaReservada: string[] = [];
   materia: string[] = [];
 
@@ -132,13 +134,17 @@ export class TelaDeletarReservasComponent {
       } else if (this.escolha === "professor") {
         const salasNumber = this.salasFiltradas.find(sala => reserva.room_id === sala._id);
         this.salaName = this.salasFiltradas.find(sala => sala.number === salasNumber.number);
-        const professor = this.teacherFiltrado.find(teacher => teacher.name === selectedValue);
-        if (professor && reserva.user_id === professor._id) {
+
+        this.professor = this.teacherFiltrado.find(teacher => teacher.name === selectedValue);
+        if (this.professor && reserva.user_id === this.professor._id) {
           this.reservasAchadas.push(reserva);
         }
       } else if (this.escolha === "materia") {
-        const materia = this.classFiltrado.find(classe => classe._id === selectedValue);
-        if (materia && reserva.class_id === materia._id) {
+        const salasNumber = this.salasFiltradas.find(sala => reserva.room_id === sala._id);
+        this.salaName = this.salasFiltradas.find(sala => sala.number === salasNumber.number);
+        
+        this.materiaName = this.classFiltrado.find(classe => classe.name === selectedValue);
+        if (this.materiaName && reserva.class_id === this.materiaName._id) {
           this.reservasAchadas.push(reserva);
         }
       } else if (this.escolha === "dia" && reserva.start_time === selectedValue) {
