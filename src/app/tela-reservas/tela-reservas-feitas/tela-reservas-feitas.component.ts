@@ -39,21 +39,21 @@ export class TelaReservasFeitasComponent {
   ) {
     this.salaDataService.salaReservaData$.subscribe(async (reservas) => {
       this.salas = reservas;
-      this.idSalaReservada = this.salas.map((reserva) => reserva.room_id);
-        return new Promise<void>((resolve) => {
-          this.salaDataService.salaData$.subscribe((salas) => {
-            this.salasFiltradas = salas.filter((sala) => this.idSalaReservada.includes(sala._id));
-            this.numeroSala = this.salasFiltradas.map((sala) => sala.number);
-            this.substituirRoomIdPorNumero().then(resolve);
-          });
-      });
+      await this.numeroReservas();
       this.dataSource.data = this.salas;
       console.log(this.dataSource.data);
     });
   }
   
   async numeroReservas() {
-    
+    this.idSalaReservada = this.salas.map((reserva) => reserva.room_id);
+    return new Promise<void>((resolve) => {
+      this.salaDataService.salaData$.subscribe((salas) => {
+        this.salasFiltradas = salas.filter((sala) => this.idSalaReservada.includes(sala._id));
+        this.numeroSala = this.salasFiltradas.map((sala) => sala.number);
+        this.substituirRoomIdPorNumero().then(resolve);
+      });
+    });
   }
   
   async substituirRoomIdPorNumero() {
