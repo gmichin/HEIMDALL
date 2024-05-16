@@ -54,19 +54,16 @@ export class TelaDeletarReservasComponent {
   ) {
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.idSalaReservada = salas.map((sala) => sala.room_id);
-      console.log("id salas reservas: ",this.idSalaReservada);
       this.numeroReservas();
     });
     
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.idProfessoresReservados = salas.map((sala) => sala.user_id);
-      console.log("id reservas de professores: ",this.idProfessoresReservados);
       this.nomeProfessores();
     });
 
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.idMateriaReservada = salas.map((sala) => sala.class_id);
-      console.log("id das materias reservadas: ",this.idMateriaReservada);
       this.materiasReserva();
     });
 
@@ -82,21 +79,19 @@ export class TelaDeletarReservasComponent {
   materiasReserva(){
     this.salaDataService.classData$.subscribe((classes) => {
       this.classFiltrado = classes.filter((classe) => this.idMateriaReservada.includes(classe._id));
-      console.log("filtro de classes: ", this.classFiltrado);
       this.materia = this.classFiltrado.map((classe) => classe.name);
+      console.log(this.materia);
     });
   }
   nomeProfessores(){
     this.salaDataService.teacherData$.subscribe((teachers) => {
       this.teacherFiltrado = teachers.filter((teacher) => this.idProfessoresReservados.includes(teacher._id));
-      console.log("filtro de professores: ",this.teacherFiltrado);
       this.professorNomes = this.teacherFiltrado.map((teacher) => teacher.name);
     });
   }
   numeroReservas(){
     this.salaDataService.salaData$.subscribe((salas) => {
       this.salasFiltradas = salas.filter((sala) => this.idSalaReservada.includes(sala._id));
-      console.log("filtro de salas: ",this.salasFiltradas);
       this.numeroSala = this.salasFiltradas.map((sala) => sala.number);
     });
   }
@@ -142,7 +137,7 @@ export class TelaDeletarReservasComponent {
       } else if (this.escolha === "materia") {
         const salasNumber = this.salasFiltradas.find(sala => reserva.room_id === sala._id);
         this.salaName = this.salasFiltradas.find(sala => sala.number === salasNumber.number);
-        
+
         this.materiaName = this.classFiltrado.find(classe => classe.name === selectedValue);
         if (this.materiaName && reserva.class_id === this.materiaName._id) {
           this.reservasAchadas.push(reserva);
