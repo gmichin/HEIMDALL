@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
 import { TelaReservasComponent } from '../tela-reservas.component';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
+import { forkJoin } from 'rxjs';
 
 interface Sala {
   room_id: string;
@@ -42,7 +43,7 @@ export class TelaReservasFeitasComponent {
       console.log(this.dataSource.data)
     });
   }
-
+  
   numeroReservas() {
     this.idSalaReservada = this.salas.map((reserva) => reserva.room_id);
     this.salaDataService.salaData$.subscribe((salas) => {
@@ -62,17 +63,17 @@ export class TelaReservasFeitasComponent {
     this.substituirUserIdPorNome();
   }
   
-  async substituirUserIdPorNome() {
-    try {
-      const professores = await this.salaDataService.teacherData$.toPromise();
-      const salas = await this.salaDataService.salaData$.toPromise();
-  
+  substituirUserIdPorNome() {
+    forkJoin({
+      professores: this.salaDataService.teacherData$,
+      salas: this.salaDataService.salaData$ // Supondo que você tem um observable para as salas também
+    }).subscribe(({ professores, salas }) => {
       this.professores = professores || []; // Garantir que seja um array
       this.salas = salas || []; // Garantir que seja um array
-  
+
       console.log("Professores: ", this.professores);
       console.log("Salas: ", this.salas);
-  
+
       this.salas.forEach((reserva) => {
         const professorCorrespondente = this.professores.find((prof) => prof._id === reserva.user_id);
         if (professorCorrespondente) {
@@ -81,14 +82,11 @@ export class TelaReservasFeitasComponent {
           console.warn(`Professor não encontrado para o user_id: ${reserva.user_id}`);
         }
       });
-  
+
       console.log("Salas após substituição: ", this.salas);
       this.substituirClassIdPorNome();
-    } catch (error) {
-      console.error("Erro ao substituir user_id por nome: ", error);
-    }
+    });
   }
-  
   
   substituirClassIdPorNome() {
     this.salaDataService.classData$.subscribe((classes) => {
