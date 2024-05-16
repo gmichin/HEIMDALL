@@ -14,7 +14,6 @@ interface Sala {
   start_time: string;
   end_time: string;
 }
-
 @Component({
   selector: 'app-tela-deletar-reservas',
   templateUrl: './tela-deletar-reservas.component.html',
