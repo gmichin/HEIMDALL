@@ -71,9 +71,7 @@ export class TelaReservasFeitasComponent {
       this.professores = professores;
       this.salas.forEach((reserva) => {
         const professorCorrespondente = this.professores.find((prof) => prof._id === reserva.user_id);
-        if (professorCorrespondente) {
           reserva.user_id = professorCorrespondente.name;
-        }
       });
       this.dataSource.data = this.salas; 
       this.substituirClassIdPorNome();
