@@ -11,8 +11,8 @@ import { firstValueFrom } from 'rxjs';
 
 interface Sala {
   room_id: string;
-  user_id: string;
-  class_id: string;
+  user_id: string | undefined;
+  class_id: string | undefined;
   start_time: Date;
   end_time: Date;
 }
@@ -69,35 +69,39 @@ export class TelaReservasFeitasComponent {
   async substituirUserIdPorNome() {
     try {
         this.professores = await firstValueFrom(this.salaDataService.teacherData$);
-        console.log("professores: ",this.professores);
-        console.log("salas: ",this.salas);
+        console.log("professores: ", this.professores);
+        console.log("salas: ", this.salas);
 
         this.salas.forEach((reserva) => {
             const professorCorrespondente = this.professores.find((prof) => prof._id === reserva.user_id);
             if (professorCorrespondente) {
                 reserva.user_id = professorCorrespondente.name;
+            } else {
+                reserva.user_id = undefined;
             }
         });
+
         await this.substituirClassIdPorNome();
     } catch (error) {
         console.error("Erro ao substituir user_id por nome:", error);
     }
-  }
-  
-  async substituirClassIdPorNome() {
-    return new Promise<void>((resolve) => {
-      this.salaDataService.classData$.subscribe((classes) => {
-        this.classes = classes;
+}
+
+async substituirClassIdPorNome() {
+    try {
+        this.classes = await firstValueFrom(this.salaDataService.classData$);
+        console.log("classes: ", this.classes);
+
         this.salas.forEach((reserva) => {
-          const classeCorrespondente = this.classes.find((classe) => classe._id === reserva.class_id);
-          if (classeCorrespondente) {
-            reserva.class_id = classeCorrespondente.name;
-          }
+            const classeCorrespondente = this.classes.find((classe) => classe._id === reserva.class_id);
+            if (classeCorrespondente) {
+                reserva.class_id = classeCorrespondente.name;
+            }
         });
-        resolve();
-      });
-    });
-  }
+    } catch (error) {
+        console.error("Erro ao substituir class_id por nome:", error);
+    }
+}
   
   openLoginSignUp() {
     const dialogRef = this.dialog.open(TelaLoginCadastroComponent);
