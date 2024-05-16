@@ -67,18 +67,20 @@ export class TelaReservasFeitasComponent {
   
   async substituirUserIdPorNome() {
     return new Promise<void>((resolve) => {
-      this.salaDataService.teacherData$.subscribe((professores) => {
-        this.professores = professores;
-        this.salas.forEach((reserva) => {
-          const professorCorrespondente = this.professores.find((prof) => prof._id === reserva.user_id);
-          if (professorCorrespondente) {
-            reserva.user_id = professorCorrespondente.name;
-          }
+        this.salaDataService.teacherData$.subscribe((professores) => {
+            this.professores = professores;
+            const substituicoesPromises = this.salas.map(async (reserva) => {
+                const professorCorrespondente = this.professores.find((prof) => prof._id === reserva.user_id);
+                if (professorCorrespondente) {
+                    reserva.user_id = professorCorrespondente.name;
+                }
+            });
+            Promise.all(substituicoesPromises).then(() => {
+                this.substituirClassIdPorNome().then(resolve);
+            });
         });
-        this.substituirClassIdPorNome().then(resolve);
-      });
     });
-  }
+  } 
   
   async substituirClassIdPorNome() {
     return new Promise<void>((resolve) => {
