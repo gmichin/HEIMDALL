@@ -80,7 +80,7 @@ export class TelaReservasFeitasComponent {
             });
         });
     });
-  } 
+} 
   
   async substituirClassIdPorNome() {
     return new Promise<void>((resolve) => {
