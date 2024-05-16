@@ -43,39 +43,21 @@ export class TelaReservasFeitasComponent {
       this.salaDataService.teacherData$,
       this.salaDataService.classData$
     ]).subscribe(([reservas, salas, teachers, classes]) => {
-      console.log('Reservas:', reservas);
-      console.log('Salas:', salas);
-      console.log('Professores:', teachers);
-      console.log('Classes:', classes);
-
-      if (reservas.length === 0) {
-        console.error('Nenhum dado de reserva encontrado.');
-        return; // Saia da função se não houver dados de reserva
-      }
-      
-      
-  console.log('Processamento de dados de reserva iniciado...');
-
-  this.salas = reservas.map(reserva => {
-    const sala = salas.find(s => s._id === reserva.room_id);
-    const teacher = teachers.find(t => t._id === reserva.user_id);
-    const classInfo = classes.find(c => c._id === reserva.class_id);
-    const updatedReserva = {
-      ...reserva,
-      room_id: sala ? sala.number : reserva.room_id,
-      user_id: teacher ? teacher.name : reserva.user_id,
-      class_id: classInfo ? classInfo.name : reserva.class_id
-    };
-
-    console.log('Reserva Original:', reserva);
-    console.log('Reserva Atualizada:', updatedReserva);
-
-    return updatedReserva;
-  });
-
-  console.log('Salas Atualizadas:', this.salas);
-  this.dataSource.data = this.salas;
+      this.salas = reservas.map(reserva => {
+        const sala = salas.find(s => s._id === reserva.room_id);
+        const teacher = teachers.find(t => t._id === reserva.user_id);
+        const classInfo = classes.find(c => c._id === reserva.class_id);
+    
+        return {
+          ...reserva,
+          room_id: sala ? sala.number : reserva.room_id,
+          user_id: teacher ? teacher.name : reserva.user_id,
+          class_id: classInfo ? classInfo.name : reserva.class_id
+        };
+      });
     });
+    console.log(this.salas);
+    this.dataSource.data = this.salas;
   }
 
   openLoginSignUp() {
