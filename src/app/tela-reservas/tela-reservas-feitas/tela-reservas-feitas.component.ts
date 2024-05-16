@@ -94,6 +94,7 @@ export class TelaReservasFeitasComponent {
       console.log(`Dialog result: ${result}`);
     });
   }
+  
   openReservas() {
     const dialogRef = this.dialog.open(TelaReservasComponent);
 
@@ -126,10 +127,8 @@ export class TelaReservasFeitasComponent {
     this.router.navigate(['/tela-deletar-reservas']);
   }
 
-  
-  removeRow(sala: Sala){
+  removeRow(sala: Sala) {
     const index = this.salas.findIndex(item => item === sala);
-    
     if (index !== -1) {
       this.salas.splice(index, 1);
       this.dataSource.data = [...this.salas]; 
