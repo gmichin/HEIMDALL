@@ -47,32 +47,32 @@
     <ng-container matColumnDef="numero">
       <mat-header-cell *matHeaderCellDef>Número da Sala</mat-header-cell>
       <mat-cell *matCellDef="let sala">
-        <span *ngIf="sala.room_id==undefined">não encontrado</span>
-        <span *ngIf="sala.room_id!=undefined">{{ sala.room_id }}</span>
+        <span *ngIf="sala.room_id==undefined||sala.room_id==null">não encontrado</span>
+        <span *ngIf="sala.room_id!=undefined&&sala.room_id!=null">{{ sala.room_id }}</span>
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="professor">
       <mat-header-cell *matHeaderCellDef>Nome do Professor</mat-header-cell>
       <mat-cell *matCellDef="let sala">
-        <span *ngIf="sala.user_id==undefined">não encontrado</span>
-        <span *ngIf="sala.user_id!=undefined">{{ sala.user_id }}</span>
+        <span *ngIf="sala.user_id==undefined||sala.user_id==null">não encontrado</span>
+        <span *ngIf="sala.user_id!=undefined&&sala.user_id!=null">{{ sala.user_id }}</span>
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="materia">
       <mat-header-cell *matHeaderCellDef>Matéria</mat-header-cell>
       <mat-cell *matCellDef="let sala">
-        <span *ngIf="sala.class_id==undefined">não encontrado</span>
-        <span *ngIf="sala.class_id!=undefined">{{ sala.class_id }}</span>
+        <span *ngIf="sala.class_id==undefined||sala.class_id==null">não encontrado</span>
+        <span *ngIf="sala.class_id!=undefined&&sala.class_id!=null">{{ sala.class_id }}</span>
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="dia">
       <mat-header-cell *matHeaderCellDef>Dia</mat-header-cell>
       <mat-cell *matCellDef="let sala">
-        <span *ngIf="sala.start_time==undefined">não encontrado</span>
-        <span *ngIf="sala.start_time!=undefined">{{ sala.start_time | date:'medium' }}</span>
+        <span *ngIf="sala.start_time==undefined||sala.start_time==null">não encontrado</span>
+        <span *ngIf="sala.start_time!=undefined&&sala.start_time!=null">{{ sala.start_time | date:'medium' }}</span>
       </mat-cell>
     </ng-container>
 
