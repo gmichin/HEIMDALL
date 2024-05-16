@@ -86,22 +86,21 @@ export class TelaReservasFeitasComponent {
         console.error("Erro ao substituir user_id por nome:", error);
     }
 }
-
-async substituirClassIdPorNome() {
-    try {
-        this.classes = await firstValueFrom(this.salaDataService.classData$);
-        console.log("classes: ", this.classes);
-
+  
+  async substituirClassIdPorNome() {
+    return new Promise<void>((resolve) => {
+      this.salaDataService.classData$.subscribe((classes) => {
+        this.classes = classes;
         this.salas.forEach((reserva) => {
-            const classeCorrespondente = this.classes.find((classe) => classe._id === reserva.class_id);
-            if (classeCorrespondente) {
-                reserva.class_id = classeCorrespondente.name;
-            }
+          const classeCorrespondente = this.classes.find((classe) => classe._id === reserva.class_id);
+          if (classeCorrespondente) {
+            reserva.class_id = classeCorrespondente.name;
+          }
         });
-    } catch (error) {
-        console.error("Erro ao substituir class_id por nome:", error);
-    }
-}
+        resolve();
+      });
+    });
+  }
   
   openLoginSignUp() {
     const dialogRef = this.dialog.open(TelaLoginCadastroComponent);
