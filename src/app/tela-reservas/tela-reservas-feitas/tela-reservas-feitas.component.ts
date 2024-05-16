@@ -70,8 +70,6 @@ export class TelaReservasFeitasComponent {
         this.salaDataService.teacherData$.subscribe((professores) => {
             this.professores = professores;
         });
-        console.log(this.professores);
-        console.log(this.salas);
         const substituicoesPromises = this.salas.map(async (reserva) => {
             const professorCorrespondente = this.professores.find((prof) => prof._id === reserva.user_id);
             if (professorCorrespondente) {
