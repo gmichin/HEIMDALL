@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
 import { TelaReservasComponent } from '../tela-reservas.component';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
+import { firstValueFrom } from 'rxjs';
 
 interface Sala {
   room_id: string;
@@ -67,7 +68,7 @@ export class TelaReservasFeitasComponent {
   
   async substituirUserIdPorNome() {
     try {
-        this.professores = await this.salaDataService.teacherData$.toPromise() || []; // Inicializa com um array vazio se o observable não emitir nenhum valor
+        this.professores = await firstValueFrom(this.salaDataService.teacherData$) || [];
         
         for (let reserva of this.salas) {
             const professorCorrespondente = this.professores.find(prof => prof._id === reserva.user_id);
@@ -81,7 +82,6 @@ export class TelaReservasFeitasComponent {
         console.error('Erro ao substituir user_id por nome:', error);
     }
 }
-
   
   async substituirClassIdPorNome() {
     return new Promise<void>((resolve) => {
