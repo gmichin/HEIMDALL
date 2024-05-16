@@ -55,10 +55,9 @@ export class TelaReservasFeitasComponent {
           class_id: classInfo ? classInfo.name : reserva.class_id
         };
       });
-    
-      console.log(this.salas);
-      this.dataSource.data = this.salas;
     });
+    console.log(this.salas);
+    this.dataSource.data = this.salas;
   }
 
   openLoginSignUp() {
