@@ -37,8 +37,8 @@ export class TelaReservasFeitasComponent {
   ) {
     this.salaDataService.salaReservaData$.subscribe((reservas) => {
       this.salas = reservas;
-      this.dataSource.data = this.salas; 
       this.processarReservas();
+      this.dataSource.data = this.salas;
       console.log(this.dataSource.data)
     });
   }
@@ -62,7 +62,6 @@ export class TelaReservasFeitasComponent {
         reserva.room_id = salaCorrespondente.number;
       }
     });
-    this.dataSource.data = this.salas;
     this.substituirUserIdPorNome();
   }
   
@@ -71,9 +70,10 @@ export class TelaReservasFeitasComponent {
       this.professores = professores;
       this.salas.forEach((reserva) => {
         const professorCorrespondente = this.professores.find((prof) => prof._id === reserva.user_id);
+        if (professorCorrespondente) {
           reserva.user_id = professorCorrespondente.name;
+        }
       });
-      this.dataSource.data = this.salas; 
       this.substituirClassIdPorNome();
     });
   }
@@ -87,7 +87,6 @@ export class TelaReservasFeitasComponent {
           reserva.class_id = classeCorrespondente.name;
         }
       });
-      this.dataSource.data = this.salas;
     });
   }
   
