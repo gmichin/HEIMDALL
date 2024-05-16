@@ -39,35 +39,16 @@ export class TelaReservasFeitasComponent {
   ) {
     this.salaDataService.salaReservaData$.subscribe(async (reservas) => {
       this.salas = reservas;
-      await this.numeroReservas();
-      this.dataSource.data = this.salas;
-      console.log(this.dataSource.data);
-    });
-  }
-  
-  async numeroReservas() {
-    this.idSalaReservada = this.salas.map((reserva) => reserva.room_id);
-    return new Promise<void>((resolve) => {
-      this.salaDataService.salaData$.subscribe((salas) => {
+      this.idSalaReservada = this.salas.map((reserva) => reserva.room_id);
+      this.salaDataService.salaData$.subscribe(async (salas) => {
         this.salasFiltradas = salas.filter((sala) => this.idSalaReservada.includes(sala._id));
         this.numeroSala = this.salasFiltradas.map((sala) => sala.number);
-        this.substituirRoomIdPorNumero().then(resolve);
-      });
-    });
-  }
-  
-  async substituirRoomIdPorNumero() {
-    this.salas.forEach((reserva) => {
-      const salaCorrespondente = this.salasFiltradas.find((sala) => sala._id === reserva.room_id);
-      if (salaCorrespondente) {
-        reserva.room_id = salaCorrespondente.number;
-      }
-    });
-    return this.substituirUserIdPorNome();
-  }
-  
-  async substituirUserIdPorNome() {
-    try {
+        this.salas.forEach((reserva) => {
+          const salaCorrespondente = this.salasFiltradas.find((sala) => sala._id === reserva.room_id);
+          if (salaCorrespondente) {
+            reserva.room_id = salaCorrespondente.number;
+          }
+        });
         this.professores = await firstValueFrom(this.salaDataService.teacherData$);
         console.log("professores: ", this.professores);
         console.log("salas: ", this.salas);
@@ -80,28 +61,21 @@ export class TelaReservasFeitasComponent {
                 reserva.user_id = undefined;
             }
         });
-
-        await this.substituirClassIdPorNome();
-    } catch (error) {
-        console.error("Erro ao substituir user_id por nome:", error);
-    }
-}
-  
-  async substituirClassIdPorNome() {
-    return new Promise<void>((resolve) => {
-      this.salaDataService.classData$.subscribe((classes) => {
-        this.classes = classes;
-        this.salas.forEach((reserva) => {
-          const classeCorrespondente = this.classes.find((classe) => classe._id === reserva.class_id);
-          if (classeCorrespondente) {
-            reserva.class_id = classeCorrespondente.name;
-          }
+        this.salaDataService.classData$.subscribe((classes) => {
+          this.classes = classes;
+          this.salas.forEach((reserva) => {
+            const classeCorrespondente = this.classes.find((classe) => classe._id === reserva.class_id);
+            if (classeCorrespondente) {
+              reserva.class_id = classeCorrespondente.name;
+            }
+          });
         });
-        resolve();
       });
+      this.dataSource.data = this.salas;
+      console.log(this.dataSource.data);
     });
   }
-  
+
   openLoginSignUp() {
     const dialogRef = this.dialog.open(TelaLoginCadastroComponent);
 
