@@ -79,19 +79,19 @@ export class TelaDeletarReservasComponent {
   materiasReserva(){
     this.salaDataService.classData$.subscribe((classes) => {
       this.classFiltrado = classes.filter((classe) => this.idMateriaReservada.includes(classe._id));
-      this.materia = this.classFiltrado.map((classe) => classe.name).filter(name => typeof name === 'string' && name.trim() !== '');;
+      this.materia = this.classFiltrado.map((classe) => classe.name).filter(name => typeof name === 'string' && name.trim() !== '');
     });
   }
   nomeProfessores(){
     this.salaDataService.teacherData$.subscribe((teachers) => {
       this.teacherFiltrado = teachers.filter((teacher) => this.idProfessoresReservados.includes(teacher._id));
-      this.professorNomes = this.teacherFiltrado.map((teacher) => teacher.name);
+      this.professorNomes = this.teacherFiltrado.map((teacher) => teacher.name).filter(name => typeof name === 'string' && name.trim() !== '');;
     });
   }
   numeroReservas(){
     this.salaDataService.salaData$.subscribe((salas) => {
       this.salasFiltradas = salas.filter((sala) => this.idSalaReservada.includes(sala._id));
-      this.numeroSala = this.salasFiltradas.map((sala) => sala.number);
+      this.numeroSala = this.salasFiltradas.map((sala) => sala.number);;
     });
   }
   openLoginSignUp() {
