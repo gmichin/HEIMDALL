@@ -40,6 +40,7 @@ export class TelaReservasFeitasComponent {
   ) {
     this.salaDataService.salaReservaData$.subscribe(async (reservas) => {
       this.salas = reservas;
+      console.log(this.salas);
       await this.carregarDados();
       console.log(this.salas);
       this.dataSource.data = this.salas;
@@ -75,10 +76,12 @@ export class TelaReservasFeitasComponent {
   async substituirUserIdPorNome() {
     try {
       this.professores = await firstValueFrom(this.salaDataService.teacherData$);
+      console.log(this.professores);
       this.salas.forEach((reserva) => {
         const professorCorrespondente = this.professores.find((prof) => prof._id === reserva.user_id);
         if (professorCorrespondente) {
           reserva.user_id = professorCorrespondente.name;
+          console.log(this.professores);
         } else {
           reserva.user_id = undefined;
         }
@@ -91,10 +94,12 @@ export class TelaReservasFeitasComponent {
   async substituirClassIdPorNome() {
     try {
       this.classes = await firstValueFrom(this.salaDataService.classData$);
+      console.log(this.classes);
       this.salas.forEach((reserva) => {
         const classeCorrespondente = this.classes.find((classe) => classe._id === reserva.class_id);
         if (classeCorrespondente) {
           reserva.class_id = classeCorrespondente.name;
+          console.log(this.classes);
         } else {
           reserva.class_id = undefined;
         }
