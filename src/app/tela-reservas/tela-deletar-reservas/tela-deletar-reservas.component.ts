@@ -71,6 +71,7 @@ export class TelaDeletarReservasComponent {
     });
     this.salaDataService.salaReservaData$.subscribe((salas) => {
       this.todasReservas = salas;
+      console.log(this.todasReservas);
     })
   }
 
@@ -83,7 +84,7 @@ export class TelaDeletarReservasComponent {
   nomeProfessores(){
     this.salaDataService.teacherData$.subscribe((teachers) => {
       this.teacherFiltrado = teachers.filter((teacher) => this.idProfessoresReservados.includes(teacher._id));
-      console.log(this.teacherFiltrado);
+      console.log(this.teacherFiltrado)
       this.professorNomes = this.teacherFiltrado.map((teacher) => teacher.name).filter(name => typeof name === 'string' && name.trim() !== '');;
     });
   }
@@ -120,7 +121,7 @@ export class TelaDeletarReservasComponent {
     this.reservasAchadas = [];
     this.todasReservas.forEach(reserva => {
       if (this.escolha === "numero") {
-        const professorName = this.teacherFiltrado.find(teacher => reserva.user_id === teacher._id);
+        const professorName = this.teacherFiltrado.find(teacher => reserva.room_id === teacher._id);
         this.professor = this.teacherFiltrado.find(sala => sala.name === professorName.name);
 
         this.salaName = this.salasFiltradas.find(sala => sala.number === selectedValue);
@@ -138,9 +139,6 @@ export class TelaDeletarReservasComponent {
       } else if (this.escolha === "materia") {
         const salasNumber = this.salasFiltradas.find(sala => reserva.room_id === sala._id);
         this.salaName = this.salasFiltradas.find(sala => sala.number === salasNumber.number);
-        
-        const professorName = this.teacherFiltrado.find(teacher => reserva.user_id === teacher._id);
-        this.professor = this.teacherFiltrado.find(sala => sala.name === professorName.name);
 
         this.materiaName = this.classFiltrado.find(classe => classe.name === selectedValue);
         if (this.materiaName && reserva.class_id === this.materiaName._id) {
