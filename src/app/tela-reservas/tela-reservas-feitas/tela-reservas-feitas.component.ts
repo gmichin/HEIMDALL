@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
 import { TelaReservasComponent } from '../tela-reservas.component';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
-import { firstValueFrom } from 'rxjs';
+import { combineLatest, firstValueFrom } from 'rxjs';
 
 interface Sala {
   room_id: string;
@@ -37,8 +37,25 @@ export class TelaReservasFeitasComponent {
     public dialog: MatDialog,
     private router: Router
   ) {
-    this.salaDataService.salaReservaData$.subscribe((reservas) => {
-      this.salas = reservas;
+    combineLatest([
+      this.salaDataService.salaReservaData$,
+      this.salaDataService.salaData$,
+      this.salaDataService.teacherData$,
+      this.salaDataService.classData$
+    ]).subscribe(([reservas, salas, teachers, classes]) => {
+      this.salas = reservas.map(reserva => {
+        const sala = salas.find(s => s._id === reserva.room_id);
+        const teacher = teachers.find(t => t._id === reserva.user_id);
+        const classInfo = classes.find(c => c._id === reserva.class_id);
+    
+        return {
+          ...reserva,
+          room_id: sala ? sala.number : reserva.room_id,
+          user_id: teacher ? teacher.name : reserva.user_id,
+          class_id: classInfo ? classInfo.name : reserva.class_id
+        };
+      });
+    
       console.log(this.salas);
       this.dataSource.data = this.salas;
     });
