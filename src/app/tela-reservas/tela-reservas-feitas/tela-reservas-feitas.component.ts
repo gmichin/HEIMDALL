@@ -36,6 +36,7 @@ export class TelaReservasFeitasComponent {
     this.salaDataService.salaReservaData$
       .pipe(
         switchMap((reservas) => {
+          console.log('Reservas:', reservas); // Verificar as reservas
           this.salas = reservas;
           this.idSalaReservada = reservas.map((reserva) => reserva.room_id);
 
@@ -46,6 +47,10 @@ export class TelaReservasFeitasComponent {
           ]);
         }),
         map(([salas, professores, classes]) => {
+          console.log('Salas:', salas); // Verificar as salas
+          console.log('Professores:', professores); // Verificar os professores
+          console.log('Classes:', classes); // Verificar as classes
+
           const salasFiltradas = salas.filter((sala) => this.idSalaReservada.includes(sala._id));
           const numeroSala = salasFiltradas.map((sala) => ({ id: sala._id, number: sala.number }));
           const professoresMap = professores.reduce((acc, prof) => {
@@ -61,6 +66,11 @@ export class TelaReservasFeitasComponent {
         })
       )
       .subscribe(({ salasFiltradas, numeroSala, professoresMap, classesMap }) => {
+        console.log('Salas Filtradas:', salasFiltradas); // Verificar as salas filtradas
+        console.log('Numero Sala:', numeroSala); // Verificar os números de salas
+        console.log('Professores Map:', professoresMap); // Verificar o mapa de professores
+        console.log('Classes Map:', classesMap); // Verificar o mapa de classes
+
         this.salas.forEach((reserva) => {
           const salaCorrespondente = salasFiltradas.find((sala) => sala._id === reserva.room_id);
           if (salaCorrespondente) {
@@ -74,7 +84,7 @@ export class TelaReservasFeitasComponent {
           }
         });
         this.dataSource.data = this.salas;
-        console.log(this.dataSource.data);
+        console.log('Data Source Data:', this.dataSource.data); // Verificar os dados da fonte de dados
       });
   }
 
