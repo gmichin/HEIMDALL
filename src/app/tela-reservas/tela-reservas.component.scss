@@ -1,4 +1,5 @@
 .demo-button {
+  background: rgb(245, 245, 101);
   margin: 1cm;
 }
 
@@ -7,8 +8,10 @@
   justify-content: center;
   align-items: center;
   text-align: center;
+  background-color: rgb(0, 0, 0);
+  border: 3px solid yellow;
 }
 
 .reservas-button{
-  background: #ffd740de;
+  background: rgb(0, 0, 0);
 }

@@ -24,6 +24,19 @@
   min-height: 300px;
 }
 
+@media (max-width: 768px) {
+  .example-cardLoginCadastro {
+    max-width: 100%; /* Allow full width on smaller screens */
+    min-width: 100%;
+    padding: 10px; /* Add padding for better spacing on smaller screens */
+    min-height: unset; /* Remove minimum height for better content flow */
+  }
+
+  .mat-form-field {
+    margin-top: 0.5cm; /* Adjust form field margin for smaller screens */
+  }
+}
+
 ::ng-deep .center-content .mat-mdc-tab-body-content {
   overflow: hidden;
 }

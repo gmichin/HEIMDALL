@@ -1,19 +1,6 @@
-.example-spacer {
-  flex: 1 1 auto;
-}
-
-.manuSpacer {
-  margin: 0 2%;
-  width: 13%;
-  display: flex;
-  a {
-    margin: 0 3%;
-  }
-}
-
 .mat-toolbar {
-  background: #ffd740de;
-  color: var(--mat-toolbar-container-text-color);
+  background: rgb(20, 20, 20);
+  color: yellow;
 }
 
 .box-container {
@@ -21,6 +8,8 @@
   align-items: center;
   justify-content: center;
   margin-top: 10%;
+  background-color: rgb(20, 20, 20); /* Cor de fundo do container definida como preto */
+
   .logo-central {
     z-index: 999;
     width: 225px;
@@ -28,39 +17,66 @@
     margin-right: 5%;
     background-image: url(../../assets/images/heimdall.logo.png);
   }
+
   .tryNow {
     display: flex;
     flex-direction: column;
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgb(20, 20, 20); /* Use preto para fundo transparente */
     padding: 5%;
     border-radius: 10px;
     z-index: 999;
     justify-content: center;
     width: 20%;
+
     p {
       font-size: 1.2em;
       width: 80%;
       margin: 0 0 8% 15%;
       font-weight: 700;
+      color: yellow; /* Cor do texto amarela */
     }
-    ::ng-deep {
-      button {
-        .mdc-button__label {
-          font-weight: 900 !important;
-          font-family: sans-serif !important;
-          font-size: 1.2em !important;
-        }
-      }
+
+    button {
+      background-color: #ffff00; /* Cor de fundo do botão amarela */
+      color: rgb(0, 0, 0); /* Cor do texto do botão preta */
+      font-weight: 900 !important;
+      font-family: sans-serif !important;
+      font-size: 1.2em !important;
     }
   }
 }
 
 .tituloH {
   font-size: 2em;
+  font-family: Copperplate, Copperplate Gothic Light, fantasy;
+  color: yellow; /* Cor do texto do título amarela */
+}
+
+@media (max-width: 768px) {
+  .box-container {
+    flex-direction: column;
+    margin-top: 30%;
+    padding: 5%;
+    .logo-central {
+      margin-right: 0;
+      margin-bottom: 5%;
+    }
+    .tryNow {
+      width: 100%;
+      padding: 10%;
+      p {
+        font-size: 1.5em;
+        align-self: center;
+      }
+    }
+  }
 }
 
 ::ng-deep .mat-mdc-menu-trigger .mat-icon {
   height: 50px;
   width: 29px;
   font-size: 33px;
+  color: yellow; /* Cor do ícone do menu amarela */
 }
+
+

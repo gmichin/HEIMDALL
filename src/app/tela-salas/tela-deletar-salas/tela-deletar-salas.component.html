@@ -27,11 +27,11 @@
   
   <h1>DELETAR CADASTRO DE SALAS</h1>
   
-  <h3 style="color: red; text-align: center;">Toda remoção será permanente!</h3>
+  <h3 style="color: yellow; text-align: center;">Toda remoção será permanente!</h3>
   
   <div class="insertData">
   
-    <h5>Escolha a sala que deseja deletar:</h5>
+    <h4 style="color: yellow;">Escolha a sala que deseja deletar:</h4>
     <mat-form-field class="boxSize">
       <mat-label>Sala:</mat-label>
       <mat-select [(value)]="sala" (selectionChange)="procurarSala($event.value)">
@@ -107,5 +107,5 @@
     </div>
   
    <br>
-    <button (click)="deleteReserva()" class="deleteButton">Delete</button>
+    <button (click)="deleteReserva()" class="deleteButton">Deletar</button>
   </div>

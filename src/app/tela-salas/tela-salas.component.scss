@@ -1,15 +1,17 @@
 .demo-button {
-    margin: 1cm;
-  }
-  
-  .button-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
-  
-  .reservas-button{
-    background: #ffd740de;
-  }
-  
+  background: rgb(245, 245, 101);
+  margin: 1cm;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: rgb(0, 0, 0);
+  border: 3px solid yellow;
+}
+
+.reservas-button{
+  background: rgb(0, 0, 0);
+}

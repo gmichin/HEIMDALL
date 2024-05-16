@@ -3,8 +3,8 @@
   }
   
   .mat-toolbar {
-    background: #ffd740de;
-    color: var(--mat-toolbar-container-text-color);
+    background: rgb(20, 20, 20);
+    color: yellow;
   }
   
   .logo-central {
@@ -18,11 +18,13 @@
   
   .tituloH {
     font-size: 2em;
+    font-family: Copperplate, Copperplate Gothic Light, fantasy;
   }
   
   h1{
     text-align: center;
     margin: 1cm;
+    color: yellow;
   }
   
   .insertData{
@@ -44,8 +46,8 @@
     padding-bottom: 20px;
     padding-top: 20px;
     margin-right: 1cm;
-    background-color: black;
-    color: white;
+    background-color: yellow;
+    color: black;
     cursor: pointer;
     margin-bottom: 20px;
   }
@@ -59,7 +61,7 @@
 }
 
 mat-table{
-  background-color: #ffd740de;
+  background-color: rgb(247, 247, 173);
 }
 
 .demo-button-container{

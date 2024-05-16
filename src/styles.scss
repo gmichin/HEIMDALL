@@ -37,5 +37,9 @@ $my-app-theme: mat.define-light-theme(
 @include mat.all-component-themes($my-app-theme);
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { 
+  margin: 0; 
+  font-family: Roboto, "Helvetica Neue", sans-serif; 
+  background-color: rgb(20, 20, 20);
+}
 
