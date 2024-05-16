@@ -66,8 +66,8 @@ export class TelaReservasFeitasComponent {
   }
   
   async substituirUserIdPorNome() {
-    return new Promise<void>((resolve) => {
-        this.salaDataService.teacherData$.subscribe((professores) => {
+    return new Promise<void>(async (resolve) => {
+        await this.salaDataService.teacherData$.subscribe((professores) => {
             this.professores = professores;
         });
         console.log(this.professores);
