@@ -49,6 +49,8 @@ import { TelaNovasSalasComponent } from './tela-salas/tela-novas-salas/tela-nova
 import { RoleTeacherModule } from './role-teacher/role-teacher.module';
 import { RoleStudentModule } from './role-student/role-student.module';
 import { TelaSolicitacoesRegistroComponent } from './tela-solicitacoes-registro/tela-solicitacoes-registro.component';
+import { MatPaginatorModule} from '@angular/material/paginator';
+import { TelaSolicitacoesRegistroResolver } from './tela-solicitacoes-registro/tela-solicitacoes-registro.resolver';
 
 @NgModule({
   declarations: [	
@@ -99,7 +101,8 @@ import { TelaSolicitacoesRegistroComponent } from './tela-solicitacoes-registro/
     MatFormFieldModule,
     MatNativeDateModule,
     MatTableModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatPaginatorModule,
     
   ],
   providers: [
@@ -107,6 +110,7 @@ import { TelaSolicitacoesRegistroComponent } from './tela-solicitacoes-registro/
     RegisterUserService,
     LoaderService, 
     TelaPerfilResolver,
+    TelaSolicitacoesRegistroResolver
   ],
   bootstrap: [AppComponent],
 })
