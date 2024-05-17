@@ -9,7 +9,9 @@ import { TelaSalasComponent } from '../tela-salas/tela-salas.component';
   styleUrls: ['./tela-inicial.component.scss'],
 })
 export class TelaInicialComponent {
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog) {
+    sessionStorage.clear()
+  }
 
   openLoginSignUp() {
     const dialogRef = this.dialog.open(TelaLoginCadastroComponent);
