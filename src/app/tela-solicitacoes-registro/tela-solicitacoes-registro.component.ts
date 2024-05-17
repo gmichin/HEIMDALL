@@ -5,6 +5,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
+import { ActivatedRoute } from '@angular/router';
+import { RegisterUserResponse, RequestRegistrationUserResponse } from '../models/register.models';
+import { ResgistrationRequestsService } from '../services/resgistration-requests.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ReloadService } from '../services/reload.service';
 
 @Component({
   selector: 'app-tela-solicitacoes-registro',
@@ -20,15 +25,20 @@ export class TelaSolicitacoesRegistroComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  selectionAprove = new SelectionModel<UserData>(true, []);
-  selectionReject = new SelectionModel<UserData>(true, []);
+  selectionAprove = new SelectionModel<RequestRegistrationUserResponse>(true, []);
+  selectionReject = new SelectionModel<RequestRegistrationUserResponse>(true, []);
   
   constructor(
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private _activatedRoute: ActivatedRoute,
+    private readonly _registrationService: ResgistrationRequestsService,
+    private snackBar: MatSnackBar,
+    private reload: ReloadService,
   ) {
-   //pegar array de usuarios para transformar em tabela
-    const users: any[] = []
-    this.dataSource = new MatTableDataSource(users);
+    const users: RegisterUserResponse[] = this._activatedRoute.snapshot.data['dados'];
+    if(users.length > 0) {
+      this.dataSource = new MatTableDataSource(users);
+    }
   }
 
   ngAfterViewInit() {
@@ -49,13 +59,37 @@ export class TelaSolicitacoesRegistroComponent implements OnInit {
   ngOnInit() {
   }
 
+  public enviarLista() {
+
+    this.selectionAprove.selected.forEach(request => {
+      request.status = 'CONFIRMED';
+    });
+    this.selectionReject.selected.forEach(request => {
+      request.status = 'REJECTED';
+    });
+
+    this._registrationService.sendResquestResponse([...this.selectionAprove.selected, ...this.selectionReject.selected]).subscribe({
+      next: (res) => {
+        this.snackBar.open(`Respostas enviadas com sucesso`, '', {
+          duration: 5000,
+        });
+        this.reload.reoladPage(['tela-solicitacoes-registro'])
+      },
+      error: (err) => {
+        this.snackBar.open(`Ocorreu um erro durante sua solicitação.`, '', {
+          duration: 2000,
+        });
+      },
+    })
+  }
+
   public redirectProfile() {
     const dialogT = this.dialog.open(TelaPerfilComponent, {
       width: '400px',
     });
   }
 
-  validateAllSelected(selection: SelectionModel<UserData>) {
+  validateAllSelected(selection: SelectionModel<RequestRegistrationUserResponse>) {
     const numSelected = selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;

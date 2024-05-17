@@ -16,7 +16,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { TelaPerfilResolver } from '../tela-perfil/tela-perfil.resolver';
-import { ReloadComponent } from './reload/reload.component';
+import { ReloadComponent } from '../reload/reload.component';
 import { RoleAdmRoutingModule } from './role-adm-routing.module';
 import { TelaCreateAdmComponent } from './tela-create-adm/tela-create-adm.component';
 import { TelaCreateCourseComponent } from './tela-create-course/tela-create-course.component';

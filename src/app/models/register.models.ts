@@ -40,7 +40,7 @@ export class RegisterUserResponse {
   instituition!: Instituition;
   class!: Class[];
   registration_number: string = '';
-
+  
   constructor(data: RegisterUserRequest) {
     this._id = uuidv4();
     this.email = data.email;
@@ -50,6 +50,10 @@ export class RegisterUserResponse {
     this.role = data.role._id;
     this.instituition._id = data.instituition._id;
   }
+}
+export class RequestRegistrationUserResponse extends RegisterUserRequest {
+  status: 'IDLE' | 'REJECTED' | 'CONFIRMED' = 'IDLE';
+  Instituition_id!: string;
 }
 
 export class RegisterInstitutionRequest {

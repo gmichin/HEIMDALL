@@ -14,8 +14,8 @@
 <div class="container-table">
   
 <mat-form-field>
-  <mat-label>Filter</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+  <mat-label>Filtro por palavras chaves</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex: SP000000" #input>
 </mat-form-field>
 
 <div class="mat-elevation-z4">
@@ -29,7 +29,7 @@
         [indeterminate]="selectionAprove.hasValue() && !isAllAproveSelected()"
         [disabled]="validateAllSelected(selectionReject)"
         ></mat-checkbox>
-        Selecione para aprovar
+        Aprovar
       </th>
       <td class="select" mat-cell *matCellDef="let row">
         <mat-checkbox (click)="$event.stopPropagation()"
@@ -46,7 +46,7 @@
       [indeterminate]="selectionReject.hasValue() && !isAllRejectSelected()"
       [disabled]="validateAllSelected(selectionAprove)"
       ></mat-checkbox>
-      Selecione para rejeitar
+      Rejeitar
     </th>
     <td class="select" mat-cell *matCellDef="let row">
       <mat-checkbox (click)="$event.stopPropagation()"
@@ -59,12 +59,12 @@
 
     <ng-container matColumnDef="registrationNumber">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> MATRÍCULA </th>
-      <td class="registrationNumber" mat-cell *matCellDef="let row"> {{ row.registrationNumber }} </td>
+      <td class="registrationNumber" mat-cell *matCellDef="let row"> {{ row.registration_number }} </td>
     </ng-container>
     
     <ng-container matColumnDef="nome">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> NOME </th>
-      <td class="nome" mat-cell *matCellDef="let row"> {{ row.nome }} </td>
+      <td class="nome" mat-cell *matCellDef="let row"> {{ row.name }} </td>
     </ng-container>
 
     <ng-container matColumnDef="email">
@@ -83,5 +83,10 @@
 
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
 </div>
+
+<div class="buttons">
+  <button [disabled]="selectionAprove.selected.length == 0 && selectionReject.selected.length == 0" mat-flat-button color="primary" (click)="enviarLista()">Confirmar</button>
+</div>
+
 </div>
 

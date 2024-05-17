@@ -17,9 +17,14 @@ import { TelaDeletarSalasComponent } from './tela-salas/tela-deletar-salas/tela-
 import { TelaPermissaoSalasComponent } from './tela-salas/tela-permissao-salas/tela-permissao-salas.component';
 import { TelaSolicitacoesRegistroComponent } from './tela-solicitacoes-registro/tela-solicitacoes-registro.component';
 import { TelaSolicitacoesRegistroResolver } from './tela-solicitacoes-registro/tela-solicitacoes-registro.resolver';
+import { ReloadComponent } from './reload/reload.component';
 
 const routes: Routes = [
   { path: '', component: TelaInicialComponent },
+  {
+    path: 'reload',
+    component: ReloadComponent,
+  },
   {
     path: 'redirecionar',
     component: TelaRedirecionarUsuarioComponent,
@@ -57,7 +62,7 @@ const routes: Routes = [
   { path: 'tela-permissao-salas', component: TelaPermissaoSalasComponent},
 
 
-  { path: 'tela-solicitacoes-registro', component: TelaSolicitacoesRegistroComponent, resolve:{data:TelaSolicitacoesRegistroResolver}},
+  { path: 'tela-solicitacoes-registro', component: TelaSolicitacoesRegistroComponent, resolve:{dados:TelaSolicitacoesRegistroResolver}},
 ];
 
 @NgModule({

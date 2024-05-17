@@ -14,6 +14,7 @@ import { TelaCreateTeacherComponent } from '../tela-create-teacher/tela-create-t
 import { TelaEditAdmComponent } from '../tela-edit-adm/tela-edit-adm.component';
 import { TelaEditCourseComponent } from '../tela-edit-course/tela-edit-course.component';
 import { TelaEditTeacherComponent } from '../tela-edit-teacher/tela-edit-teacher.component';
+import { ReloadService } from 'src/app/services/reload.service';
 
 @Component({
   selector: 'app-tela-home-adm',
@@ -33,7 +34,7 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     public dialog: MatDialog,
     private sessionService: SessionService,
-    private roleService: RoleService
+    private reload: ReloadService
   ) {}
   ngOnDestroy(): void {}
 
@@ -97,7 +98,7 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
   }
 
   private dialogCloseSubs() {
-    this.router.navigate(['reload']);
+    this.reload.reoladPage(['home-adm']);
   }
   public seeMore(items: CourseModelResponse[] & RegisterUserResponse[]): void {}
 }
