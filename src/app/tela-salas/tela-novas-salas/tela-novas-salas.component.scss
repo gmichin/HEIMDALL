@@ -12,8 +12,8 @@
   }
   
   .mat-toolbar {
-    background: #ffd740de;
-    color: var(--mat-toolbar-container-text-color);
+    background: rgb(20, 20, 20);
+    color: yellow;
     margin-bottom: 1cm;
   }
   
@@ -58,22 +58,23 @@
   
   .tituloH {
     font-size: 2em;
+    font-family: Copperplate, Copperplate Gothic Light, fantasy;
   }
   
   mat-card{
-    background-color: #ffd740de;
-    border: 2px solid rgb(0, 0, 0);
+    background-color: rgb(20, 20, 20);
+    border: 3px solid yellow;
     width: 50%;
     margin: auto;
     padding: 1cm;
   }
   mat-form-field{
-    background-color: #ffd740de;
     margin-left: 2cm;
   }
   mat-card-title{
     margin-bottom: 1cm;
     text-align: center;
+    color: yellow;
   }
 
   .saveButton{
@@ -85,10 +86,43 @@
     padding-bottom: 20px;
     padding-top: 20px;
     margin-right: 1cm;
-    background-color: black;
-    color: white;
+    background-color: yellow;
+    color: black;
     cursor: pointer;
     float: right;
     margin-right: 1cm;
     margin-bottom: 20px;
+  }
+
+  @media (max-width: 768px) {
+
+    /* Estilos para telas menores que 768px */
+  
+    .mat-toolbar {
+      flex-wrap: wrap; /* Quebrar conteúdo da barra de ferramentas em mobile */
+    }
+  
+    .mat-toolbar .mat-icon-button {
+      margin-right: 10px; /* Adicionar espaçamento entre botão de menu e título em mobile */
+    }
+  
+    .tituloH {
+      font-size: 1.5em; /* Aumentar tamanho da fonte do título para melhor legibilidade em mobile */
+    }
+  
+    mat-card {
+      width: 100%; /* Tornar o card com largura total em mobile */
+      border: 10% solid yellow;
+      padding: 20px; /* Ajustar preenchimento para melhor layout em mobile */
+    }
+  
+    mat-form-field {
+      margin-left: 0; /* Remover margem esquerda nos campos de formulário para melhor espaçamento */
+      margin-bottom: 10px; /* Adicionar espaço entre campos de formulário */
+    }
+  
+    .saveButton {
+      width: 100%; /* Tornar o botão com largura total em mobile */
+      margin: 10px 0; /* Adicionar espaço ao redor do botão */
+    }
   }

@@ -71,3 +71,42 @@ mat-table{
 .demo-button + .demo-button {
   margin-left: 8px;
 }
+
+@media (max-width: 768px) {
+  .mat-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .tituloH {
+    font-size: 1.5em;
+  }
+
+  .insertData {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .boxSize {
+    width: 100%;
+  }
+
+  .deleteButton {
+    padding: 10px 10px;
+    width: 80%;
+    margin: 0;
+    align-self: center;
+  }
+
+  .table-container {
+    width: 100%;
+  }
+
+  h4, h3{
+    text-align: center;
+  }
+}
