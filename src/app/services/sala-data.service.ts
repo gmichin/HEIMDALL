@@ -24,10 +24,10 @@ export class SalaDataService {
   ) {
     this.carregarDadosSalas();
     this.carregarDadosProfessores();
-    this.carregarDiasDesabilitados();
+    /* this.carregarDiasDesabilitados(); */
     this.carregarDadosSalasReservadas();
-    this.carregarDadosReservasRequests();
-    this.carregarDadosSalasRequests();
+    /* this.carregarDadosReservasRequests();
+    this.carregarDadosSalasRequests(); */
     this.carregarDadosCourses();
     this.carregarDadosClasses();
   }
@@ -61,7 +61,7 @@ export class SalaDataService {
   }
 
   private carregarDadosReservasRequests() {
-    this.http.get<any[]>('/assets/jsons/reservas-request.json').subscribe((data) => {
+    this.http.get<any[]>('').subscribe((data) => {
       this.sessionService.setItem('reservas-request', data);
       this.reservasRequestDataSubject.next(
         this.sessionService.getSessionData('reservas-request').retorno as any[]
@@ -70,7 +70,7 @@ export class SalaDataService {
   }
 
   private carregarDadosSalasRequests() {
-    this.http.get<any[]>('/assets/jsons/salas-request.json').subscribe((data) => {
+    this.http.get<any[]>('').subscribe((data) => {
       this.sessionService.setItem('salas-request', data);
       this.salasRequestDataSubject.next(
         this.sessionService.getSessionData('salas-request').retorno as any[]
@@ -89,7 +89,7 @@ export class SalaDataService {
   }
 
   carregarDiasDesabilitados(): void {
-    this.http.get<any>('/assets/jsons/feriados.json').subscribe(data => {
+    this.http.get<any>('').subscribe(data => {
         this.sessionService.setItem('salas', data);
         this.diasDesabilitadosSubject.next(
           this.sessionService.getSessionData('salas').retorno as any[]
