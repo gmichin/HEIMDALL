@@ -24,10 +24,10 @@ export class SalaDataService {
   ) {
     this.carregarDadosSalas();
     this.carregarDadosProfessores();
-    this.carregarDiasDesabilitados();
+    /* this.carregarDiasDesabilitados(); */
     this.carregarDadosSalasReservadas();
-    this.carregarDadosReservasRequests();
-    this.carregarDadosSalasRequests();
+    /* this.carregarDadosReservasRequests();
+    this.carregarDadosSalasRequests(); */
     this.carregarDadosCourses();
     this.carregarDadosClasses();
   }
