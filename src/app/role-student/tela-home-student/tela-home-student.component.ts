@@ -25,8 +25,6 @@ export class TelaHomeStudentComponent implements OnInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     public dialog: MatDialog,
-    private sessionService: SessionService,
-    private roleService: RoleService
   ) {}
   ngOnDestroy(): void {}
 

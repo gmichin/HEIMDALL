@@ -1,0 +1,13 @@
+<mat-toolbar>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button (click)="redirectProfile()" mat-menu-item>
+      <mat-icon> account_circle </mat-icon>
+      <span>Perfil</span>
+    </button>
+  </mat-menu>
+
+  <span class="tituloH">HEIMDALL</span>
+</mat-toolbar>

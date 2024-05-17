@@ -40,6 +40,10 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
   ngOnInit() {
   }
 
+  public redirectRegistrationList() {
+    this.router.navigate(['tela-solicitacoes-registro']);
+  }
+
   public redirectProfile() {
     const dialogT = this.dialog.open(TelaPerfilComponent, {
       width: '400px',
