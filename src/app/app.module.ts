@@ -48,9 +48,10 @@ import { TelaSalasFeitasComponent } from './tela-salas/tela-salas-feitas/tela-sa
 import { TelaNovasSalasComponent } from './tela-salas/tela-novas-salas/tela-novas-salas.component';
 import { RoleTeacherModule } from './role-teacher/role-teacher.module';
 import { RoleStudentModule } from './role-student/role-student.module';
+import { TelaSolicitacoesRegistroComponent } from './tela-solicitacoes-registro/tela-solicitacoes-registro.component';
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     TelaInicialComponent,
     TelaLoginCadastroComponent,
@@ -66,8 +67,10 @@ import { RoleStudentModule } from './role-student/role-student.module';
     TelaDeletarSalasComponent,
     TelaPermissaoSalasComponent,
     TelaSalasFeitasComponent,
-    TelaNovasSalasComponent
-  ],
+    TelaNovasSalasComponent,
+    TelaSolicitacoesRegistroComponent,
+    
+   ],
   imports: [
     AppRoutingModule,
     BrowserAnimationsModule,

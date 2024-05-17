@@ -1,0 +1,19 @@
+.mat-toolbar {
+    background: #e6b60ade;
+    color: var(--mat-toolbar-container-text-color);
+    border-bottom: 2px solid black;
+  }
+  
+  .header {
+    background: #ffc802de;
+    display: flex;
+    padding: 1% 0 0 10%;
+  }
+  
+  .container {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 2%;
+  }
