@@ -28,10 +28,11 @@ export class TelaHomeTeacherComponent implements OnInit, OnDestroy {
     private sessionService: SessionService,
     private roleService: RoleService
   ) {}
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    console.log(this.data);
+  }
 
   ngOnInit() {
-    console.log(this.data);
   }
 
   public redirectHorarios() {
