@@ -28,13 +28,14 @@ export class TelaHomeTeacherComponent implements OnInit, OnDestroy {
     private sessionService: SessionService,
     private roleService: RoleService
   ) {}
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+  }
 
   ngOnInit() {
   }
 
   public redirectHorarios() {
-
+    this.router.navigate(['/tela-mapa-horario-salas']);
   }
   
   public redirectReserve() {
