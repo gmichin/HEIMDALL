@@ -31,6 +31,7 @@ export class TelaHomeTeacherComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   ngOnInit() {
+    console.log(this.data);
   }
 
   public redirectHorarios() {
