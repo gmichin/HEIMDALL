@@ -13,6 +13,7 @@ export class TelaMapaHorarioAulasComponent {
   public id = this.dataUser._id;
   public name = this.dataUser.name;
   public email = this.dataUser.email;
+  public class = this.dataUser.class;
 
   constructor(
     private sessionService: SessionService
@@ -20,5 +21,6 @@ export class TelaMapaHorarioAulasComponent {
     console.log(this.id);
     console.log(this.name);
     console.log(this.email);
+    console.log(this.class);
   }
 }
