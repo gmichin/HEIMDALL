@@ -29,7 +29,6 @@ export class TelaHomeTeacherComponent implements OnInit, OnDestroy {
     private roleService: RoleService
   ) {}
   ngOnDestroy(): void {
-    console.log(this.data);
   }
 
   ngOnInit() {
