@@ -53,6 +53,7 @@ import { MatPaginatorModule} from '@angular/material/paginator';
 import { TelaSolicitacoesRegistroResolver } from './tela-solicitacoes-registro/tela-solicitacoes-registro.resolver';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { TelaMapaHorarioAulasComponent } from './tela-mapa-horario-aulas/tela-mapa-horario-aulas.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [	
@@ -114,6 +115,7 @@ import { TelaMapaHorarioAulasComponent } from './tela-mapa-horario-aulas/tela-ma
     LoaderService, 
     TelaPerfilResolver,
     TelaSolicitacoesRegistroResolver,
+    DatePipe,
     provideAnimationsAsync()
   ],
   bootstrap: [AppComponent],
