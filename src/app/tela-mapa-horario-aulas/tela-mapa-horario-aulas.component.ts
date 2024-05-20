@@ -22,5 +22,6 @@ export class TelaMapaHorarioAulasComponent {
     console.log(this.name);
     console.log(this.email);
     console.log(this.class);
+    console.log(this.dataUser);
   }
 }
