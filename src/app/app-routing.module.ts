@@ -18,6 +18,7 @@ import { TelaPermissaoSalasComponent } from './tela-salas/tela-permissao-salas/t
 import { TelaSolicitacoesRegistroComponent } from './tela-solicitacoes-registro/tela-solicitacoes-registro.component';
 import { TelaSolicitacoesRegistroResolver } from './tela-solicitacoes-registro/tela-solicitacoes-registro.resolver';
 import { ReloadComponent } from './reload/reload.component';
+import { TelaMapaHorarioAulasComponent } from './tela-mapa-horario-aulas/tela-mapa-horario-aulas.component';
 
 const routes: Routes = [
   { path: '', component: TelaInicialComponent },
@@ -60,6 +61,9 @@ const routes: Routes = [
   { path: 'tela-salas-feitas', component: TelaSalasFeitasComponent},
   { path: 'tela-deletar-salas', component: TelaDeletarSalasComponent},
   { path: 'tela-permissao-salas', component: TelaPermissaoSalasComponent},
+
+
+  { path: 'tela-mapa-horario-salas', component: TelaMapaHorarioAulasComponent},
 
 
   { path: 'tela-solicitacoes-registro', component: TelaSolicitacoesRegistroComponent, resolve:{dados:TelaSolicitacoesRegistroResolver}},

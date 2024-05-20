@@ -34,7 +34,7 @@ export class TelaHomeTeacherComponent implements OnInit, OnDestroy {
   }
 
   public redirectHorarios() {
-
+    this.router.navigate(['/tela-mapa-horario-salas']);
   }
   
   public redirectReserve() {
