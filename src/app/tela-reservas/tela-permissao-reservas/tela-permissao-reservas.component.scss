@@ -3,8 +3,9 @@
   }
   
   .mat-toolbar {
-    background: #ffd740de;
-    color: var(--mat-toolbar-container-text-color);
+    background: rgb(20, 20, 20);
+    color: yellow;
+    margin-bottom: 1cm;
   }
   
   .logo-central {
@@ -18,8 +19,9 @@
   
   .tituloH {
     font-size: 2em;
+    font-family: Copperplate, Copperplate Gothic Light, fantasy;
   }
-  
+
   h1{
     text-align: center;
     margin: 1cm;

@@ -3,8 +3,9 @@
   }
   
   .mat-toolbar {
-    background: #ffd740de;
-    color: var(--mat-toolbar-container-text-color);
+    background: rgb(20, 20, 20);
+    color: yellow;
+    margin-bottom: 1cm;
   }
   
   .logo-central {
@@ -18,17 +19,17 @@
   
   .tituloH {
     font-size: 2em;
+    font-family: Copperplate, Copperplate Gothic Light, fantasy;
   }
   
   .calendario-personalizado {
-    max-width: 600px; 
-    margin: 0 auto;
-    border: 1px solid rgb(0, 0, 0);
+    margin: 10px auto;
+    border: 1px solid rgb(212, 212, 18);
+    padding: 5px;
     border-radius: 5px;
     overflow: hidden; 
-    margin-right: 1cm;
-    padding-right: 10cm;
-    float: right;
+    color: yellow;
+    width: 100%;
   }
   
   ::ng-deep .mat-calendar {
@@ -42,38 +43,118 @@
   h1{
     text-align: center;
     margin: 1cm;
+    color: yellow;
   }
-  
+
+  h4{
+    color: yellow; 
+    text-align: center;
+  }
+
   .dia-desabilitado {
     pointer-events: none;
   }
   
   .saveButton{
     border-radius: 5px;
-    font-family:monospace;
+    font-family: monospace;
     font-size: 16px;
-    padding-left: 2.5cm;
-    padding-right: 2.5cm;
+    padding-left: calc(50% - (50px / 2));
+    padding-right: calc(50% - (50px / 2));
     padding-bottom: 20px;
     padding-top: 20px;
-    margin-right: 1cm;
-    background-color: black;
-    color: white;
+    background-color: yellow;
+    color: black;
     cursor: pointer;
-    float: right;
-    margin-right: 1cm;
-    margin-bottom: 20px;
   }
+  
   .saveButton:disabled {
     background-color: #665925; 
     color: #888;
     cursor: not-allowed;
   }
+  
   .insertData{
-    width: 20cm;
-    margin-left: 1cm;
+    color: yellow;
   }
   
   .boxSize{
-    width: 33%;
+    flex: auto;
+    min-width: 0;
+    width: 220px;
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  .boxSizeAppear{
+    flex: auto;
+    min-width: 0;
+    width: 220px;
+    position: relative;
+    box-sizing: border-box;
+    margin-left: 1cm;
+  }
+
+  mat-card{
+    background-color: rgb(20, 20, 20);
+    border: 3px solid yellow;
+    width: 50%;
+    margin: auto;
+    padding: 1cm;
+  }
+
+  mat-card-title{
+    margin-bottom: 1cm;
+    text-align: center;
+    color: yellow;
+  }
+
+
+  @media (max-width: 768px) {
+    .tituloH {
+      font-size: 1.5em; /* Aumentar tamanho da fonte do título para melhor legibilidade em mobile */
+    }
+
+    .calendario-personalizado {
+      width: 100%; /* Adjust width to 100% for smaller screens */
+      float: none; /* Remove float for smaller screens */
+      margin: 0 auto; /* Center the element */
+      padding-right: 0;
+    }
+  
+    .insertData {
+      width: 100%; /* Adjust width to 100% for smaller screens */
+      margin-left: 0; /* Remove margin-left for smaller screens */
+    }
+  
+    .boxSize {
+      width: 100%; /* Adjust width to 100% for smaller screens */
+    }
+
+    .boxSizeAppear {
+      width: 100%;
+      margin-left: 0;
+    }
+  
+    .saveButton {
+      float: none; /* Remove float for smaller screens */
+      margin: 0 auto; /* Center the button */
+      width: 50%; /* Adjust width for smaller screens */
+    }
+
+    mat-card{
+      width: 100%;
+      border: 10% solid yellow;
+      padding: 20px; /* Ajustar preenchimento para melhor layout em mobile */
+    }
+
+    mat-form-field {
+      margin-left: 0; /* Remover margem esquerda nos campos de formulário para melhor espaçamento */
+      margin-bottom: 10px; /* Adicionar espaço entre campos de formulário */
+    }
+
+    .saveButton {
+      width: 100%; /* Tornar o botão com largura total em mobile */
+      margin: 10px 0; /* Adicionar espaço ao redor do botão */
+    }
   }

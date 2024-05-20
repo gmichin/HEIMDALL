@@ -3,8 +3,9 @@
   }
   
   .mat-toolbar {
-    background: #ffd740de;
-    color: var(--mat-toolbar-container-text-color);
+    background: rgb(20, 20, 20);
+    color: yellow;
+    margin-bottom: 1cm;
   }
   
   .logo-central {
@@ -18,6 +19,7 @@
   
   .tituloH {
     font-size: 2em;
+    font-family: Copperplate, Copperplate Gothic Light, fantasy;
   }
   
   h1{
@@ -26,12 +28,15 @@
   }
   
   .insertData{
-    width: 20cm;
-    margin-left: 1cm;
+    color: yellow;
   }
   
   .boxSize{
-    width: 33%;
+    flex: auto;
+    min-width: 0;
+    width: 180px;
+    position: relative;
+    box-sizing: border-box;
   }
 
   
@@ -62,10 +67,83 @@ mat-table{
   background-color: #ffd740de;
 }
 
-.demo-button-container{
+/*.demo-button-container{
   position: absolute;
   margin-left: 2cm;
 }
+
 .demo-button + .demo-button {
   margin-left: 8px;
+}*/
+
+.deleteButton{
+  border-radius: 5px;
+    font-family:monospace;
+    font-size: 16px;
+    padding-left: 2.5cm;
+    padding-right: 2.5cm;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    margin-right: 1cm;
+    background-color: yellow;
+    color: black;
+    cursor: pointer;
+    margin-right: 1cm;
+    margin-bottom: 20px;
+}
+
+mat-card{
+  background-color: rgb(20, 20, 20);
+  border: 3px solid yellow;
+  width: 30%;
+  margin: auto;
+  padding: 1cm;
+}
+
+mat-card-title{
+  margin-bottom: 1cm;
+  text-align: center;
+  color: yellow;
+}
+
+mat-card h3{
+  color: yellow;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .tituloH {
+    font-size: 1.5em; /* Aumentar tamanho da fonte do título para melhor legibilidade em mobile */
+  }
+
+  .insertData {
+    width: 100%; /* Adjust width to 100% for smaller screens */
+    margin-left: 0; /* Remove margin-left for smaller screens */
+  }
+
+  .boxSize {
+    width: 100%; /* Adjust width to 100% for smaller screens */
+  }
+
+  .saveButton {
+    float: none; /* Remove float for smaller screens */
+    margin: 0 auto; /* Center the button */
+    width: 50%; /* Adjust width for smaller screens */
+  }
+
+  mat-card{
+    width: 100%;
+    border: 10% solid yellow;
+    padding: 20px; /* Ajustar preenchimento para melhor layout em mobile */
+  }
+
+  mat-form-field {
+    margin-left: 0; /* Remover margem esquerda nos campos de formulário para melhor espaçamento */
+    margin-bottom: 10px; /* Adicionar espaço entre campos de formulário */
+  }
+
+  .deleteButton {
+    width: 100%; /* Tornar o botão com largura total em mobile */
+    margin: 10px 0; /* Adicionar espaço ao redor do botão */
+  }
 }
