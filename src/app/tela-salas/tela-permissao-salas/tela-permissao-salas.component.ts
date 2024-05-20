@@ -30,7 +30,7 @@ export class TelaPermissaoSalasComponent {
     public dialog: MatDialog,
     private salaDataService: SalaDataService
   ){    
-    this.salaDataService.salasRequestData$.subscribe((salas) => {
+    this.salaDataService.carregarDadosSalas().subscribe((salas) => {
       this.requests = salas;
       this.dataSource.data = this.requests; 
     });
