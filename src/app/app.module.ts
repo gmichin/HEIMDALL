@@ -51,6 +51,7 @@ import { RoleStudentModule } from './role-student/role-student.module';
 import { TelaSolicitacoesRegistroComponent } from './tela-solicitacoes-registro/tela-solicitacoes-registro.component';
 import { MatPaginatorModule} from '@angular/material/paginator';
 import { TelaSolicitacoesRegistroResolver } from './tela-solicitacoes-registro/tela-solicitacoes-registro.resolver';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({
   declarations: [	
@@ -110,7 +111,8 @@ import { TelaSolicitacoesRegistroResolver } from './tela-solicitacoes-registro/t
     RegisterUserService,
     LoaderService, 
     TelaPerfilResolver,
-    TelaSolicitacoesRegistroResolver
+    TelaSolicitacoesRegistroResolver,
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent],
 })
