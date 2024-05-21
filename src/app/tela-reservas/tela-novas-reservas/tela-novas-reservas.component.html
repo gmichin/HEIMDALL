@@ -24,94 +24,101 @@
   <span class="tituloH">HEIMDALL</span>
 
 </mat-toolbar>
-<h1>RESERVA DE SALAS</h1>
 
-<h3 style="color: red; text-align: center;">Os dias desabilitados não estarão disponíveis apenas no horário escolhido, caso mude o horario,
-existe uma chance de haver o dia desejado disponível</h3>
+<mat-card>
+  <mat-card-title>Reserva de Salas</mat-card-title>
+  <mat-card-content>
+    <h4>Os dias desabilitados não estarão disponíveis apenas no horário escolhido, caso mude o horario,
+      existe uma chance de haver o dia desejado disponível</h4>
+      
+      <div class="calendario-personalizado">
+        <h2>Dias e Horários Selecionados:</h2>
+        <ul>
+          <li *ngFor="let selectedDateTime of diasSelecionados">
+            {{ selectedDateTime | date: 'medium' }}
+          </li>
+        </ul>
+      </div>
+      
+      <div class="insertData">
+      
+        <h5>Escolha a sala que deseja reservar:</h5>
+        <mat-form-field class="boxSize">
+          <mat-label>Sala:</mat-label>
+          <mat-select (selectionChange)="selectSala($event.value)">
+            <mat-option *ngFor="let numero of numeroSala" [value]="numero">{{ numero }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      
+        <h5>Reserve os horários requeridos:</h5>
+        <mat-form-field class="boxSize">
+          <mat-label>Hora de Início:</mat-label>
+          <mat-select [(ngModel)]="startTime" (ngModelChange)="filtroCalendar()">
+            <mat-option *ngFor="let hour of hours" [value]="hour">{{ hour }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+        <mat-form-field *ngIf="startTime&&!error" class="boxSizeAppear">
+          <mat-label>Hora de Término:</mat-label>
+          <mat-select [(ngModel)]="endTime" (ngModelChange)="filtroCalendar()">
+            <mat-option *ngFor="let hour of hours" [value]="hour">{{ hour }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      
+      
+        <div *ngIf="error" style="color: red;margin-bottom: 1cm;">{{ error }}</div>
+        <div *ngIf="showPickers">
+          <h5 *ngIf="startTime&&endTime">Há dois campos abaixo, você pode tanto escrever as datas manualmente quanto selecioná-las clicando no ícone de calendário. 
+            O campo da esquerda é referente a reserva de dias indíviduais enquanto o da direita é sobre a reserva de períodos inteiros:</h5>
+          <mat-form-field class="boxSize" *ngIf="startTime&&endTime">
+            <mat-label>Selecione uma data</mat-label>
+            <input matInput [matDatepicker]="picker" placeholder="Escolha uma data" [(ngModel)]="singleDate" [matDatepickerFilter]="dateFilter">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker>
+              <mat-datepicker-actions>
+                <button mat-button matDateRangePickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDateRangePickerApply (click)="applyDate()">Apply</button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
+            <mat-hint>MM/DD/YYYY</mat-hint>
+          </mat-form-field>
+      
+          <mat-form-field *ngIf="startTime&&endTime" class="boxSizeAppear">
+            <mat-label>Selecione um periodo</mat-label>
+            <mat-date-range-input [rangePicker]="rangePicker" [dateFilter]="dateFilter">
+              <input matStartDate placeholder="Start date" [(ngModel)]="startDate">
+              <input matEndDate placeholder="End date" [(ngModel)]="endDate">
+            </mat-date-range-input>
+            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="rangePicker"></mat-datepicker-toggle>
+            <mat-date-range-picker #rangePicker>
+              <mat-date-range-picker-actions>
+                <button mat-button matDateRangePickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDateRangePickerApply (click)="applyDateRange()">Apply</button>
+              </mat-date-range-picker-actions>
+            </mat-date-range-picker>
+          </mat-form-field>    
+        </div>
 
-<div class="calendario-personalizado">
-  <h2>Dias e Horários Selecionados:</h2>
-  <ul>
-    <li *ngFor="let selectedDateTime of diasSelecionados">
-      {{ selectedDateTime | date: 'medium' }}
-    </li>
-  </ul>
-</div>
-
-<div class="insertData">
-
-  <h5>Escolha a sala que deseja reservar:</h5>
-  <mat-form-field class="boxSize">
-    <mat-label>Sala:</mat-label>
-    <mat-select (selectionChange)="selectSala($event.value)">
-      <mat-option *ngFor="let numero of numeroSala" [value]="numero">{{ numero }}</mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <h5>Reserve os horários requeridos:</h5>
-  <mat-form-field class="boxSize">
-    <mat-label>Hora de Início:</mat-label>
-    <mat-select [(ngModel)]="startTime" (ngModelChange)="filtroCalendar()">
-      <mat-option *ngFor="let hour of hours" [value]="hour">{{ hour }}</mat-option>
-    </mat-select>
-  </mat-form-field>
+        <h5>Selecione o professor para quem a sala estará reservada</h5>
+        <mat-form-field class="boxSize">
+          <mat-label>Nome do Professor:</mat-label>
+          <mat-select (selectionChange)="selectProfessor($event.value)">
+            <mat-option *ngFor="let name of professorNomes" [value]="name">{{ name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+        <mat-form-field *ngIf="materiasPorProfessor.length > 0" class="boxSize" style="margin-left: 1cm;">
+          <mat-label>Materia:</mat-label>
+          <mat-select (selectionChange)="selectMateria($event.value)">
+            <mat-option *ngFor="let materia of materiasPorProfessor" [value]="materia">{{ materia }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+      </div>
+      <br>
   
-  <mat-form-field *ngIf="startTime&&!error" class="boxSize" style="margin-left: 1cm;">
-    <mat-label>Hora de Término:</mat-label>
-    <mat-select [(ngModel)]="endTime" (ngModelChange)="filtroCalendar()">
-      <mat-option *ngFor="let hour of hours" [value]="hour">{{ hour }}</mat-option>
-    </mat-select>
-  </mat-form-field>
 
-
-  <div *ngIf="error" style="color: red;margin-bottom: 1cm;">{{ error }}</div>
-  <div *ngIf="showPickers">
-    <h5 *ngIf="startTime&&endTime">Há dois campos abaixo, você pode tanto escrever as datas manualmente quanto selecioná-las clicando no ícone de calendário. 
-      O campo da esquerda é referente a reserva de dias indíviduais enquanto o da direita é sobre a reserva de períodos inteiros:</h5>
-    <mat-form-field class="date-picker" *ngIf="startTime&&endTime">
-      <mat-label>Selecione uma data</mat-label>
-      <input matInput [matDatepicker]="picker" placeholder="Escolha uma data" [(ngModel)]="singleDate" [matDatepickerFilter]="dateFilter">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker>
-        <mat-datepicker-actions>
-          <button mat-button matDateRangePickerCancel>Cancel</button>
-          <button mat-raised-button color="primary" matDateRangePickerApply (click)="applyDate()">Apply</button>
-        </mat-datepicker-actions>
-      </mat-datepicker>
-      <mat-hint>MM/DD/YYYY</mat-hint>
-    </mat-form-field>
-
-    <mat-form-field *ngIf="startTime&&endTime" style="margin-left: 1cm;">
-      <mat-label>Selecione um periodo</mat-label>
-      <mat-date-range-input [rangePicker]="rangePicker" [dateFilter]="dateFilter">
-        <input matStartDate placeholder="Start date" [(ngModel)]="startDate">
-        <input matEndDate placeholder="End date" [(ngModel)]="endDate">
-      </mat-date-range-input>
-      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-      <mat-datepicker-toggle matIconSuffix [for]="rangePicker"></mat-datepicker-toggle>
-      <mat-date-range-picker #rangePicker>
-        <mat-date-range-picker-actions>
-          <button mat-button matDateRangePickerCancel>Cancel</button>
-          <button mat-raised-button color="primary" matDateRangePickerApply (click)="applyDateRange()">Apply</button>
-        </mat-date-range-picker-actions>
-      </mat-date-range-picker>
-    </mat-form-field>    
-  </div>
-  <h5>Selecione o professor para quem a sala estará reservada</h5>
-  <mat-form-field class="boxSize">
-    <mat-label>Nome do Professor:</mat-label>
-    <mat-select (selectionChange)="selectProfessor($event.value)">
-      <mat-option *ngFor="let name of professorNomes" [value]="name">{{ name }}</mat-option>
-    </mat-select>
-  </mat-form-field>
-  
-  <mat-form-field *ngIf="materiasPorProfessor.length > 0" class="boxSize" style="margin-left: 1cm;">
-    <mat-label>Materia:</mat-label>
-    <mat-select (selectionChange)="selectMateria($event.value)">
-      <mat-option *ngFor="let materia of materiasPorProfessor" [value]="materia">{{ materia }}</mat-option>
-    </mat-select>
-  </mat-form-field>
-  
-</div>
-<br>
-<button (click)="saveDate()" class="saveButton" [disabled]="!(materiaSelecionada&&professorSelecionado&&numeroSalaSelecionada&&diasSelecionados.length>0)">SALVAR</button>
+<button (click)="saveDate()" class="saveButton" [disabled]="!(materiaSelecionada&&professorSelecionado&&numeroSalaSelecionada&&diasSelecionados.length>0)">Reservar</button>
+</mat-card-content>
+</mat-card>

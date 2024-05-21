@@ -32,7 +32,7 @@ export class TelaHomeStudentComponent implements OnInit, OnDestroy {
   }
 
   public redirectHorarios() {
-
+    this.router.navigate(['/tela-mapa-horario-salas']);
   }
 
   public redirectProfile() {
