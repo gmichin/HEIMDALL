@@ -57,9 +57,9 @@
 
   
 .table-container {
-  width: 180%;
-  margin: auto;
-  margin-top: 1cm;
+  width: 100%; /* Take up full available width within `mat-card` */
+  margin: auto; /* Center horizontally */
+  margin-top: 1cm; /* Maintain top margin */
   border: 2px solid rgb(0, 0, 0);
 }
 
@@ -95,9 +95,10 @@ mat-table{
 mat-card{
   background-color: rgb(20, 20, 20);
   border: 3px solid yellow;
-  width: 30%;
+  width: 50%;
   margin: auto;
   padding: 1cm;
+  display: flex;
 }
 
 mat-card-title{
@@ -145,5 +146,23 @@ mat-card h3{
   .deleteButton {
     width: 100%; /* Tornar o botão com largura total em mobile */
     margin: 10px 0; /* Adicionar espaço ao redor do botão */
+  }
+}
+
+@media (max-width: 480px) {
+  .tituloH {
+    font-size: 1.5em; /* Reduzir tamanho da fonte do título */
+  }
+
+  .mat-header-cell, .mat-cell {
+    font-size: 12px; /* Reduzir tamanho da fonte na tabela */
+  }
+
+  .mat-mdc-header-cell, .mat-mdc-cell {
+    font-size: 12px; /* Reduzir tamanho da fonte na tabela */
+  }
+
+  .mat-column-materia {
+    display: none;
   }
 }
