@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CourseModelResponse } from 'src/app/models/course.model';
+import { CourseModelRequest, CourseModelResponse } from 'src/app/models/course.model';
 import { RegisterUserResponse } from 'src/app/models/register.models';
+import { CourseService } from 'src/app/services/course.service';
 import { RegisterUserService } from 'src/app/services/register-user.service';
 import { SessionService } from 'src/app/services/session.service';
 
@@ -18,7 +19,7 @@ export class TelaCreateCourseComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private registerUserService: RegisterUserService,
+    private courseService: CourseService,
     private sessionService: SessionService,
     public dialogRef: MatDialogRef<TelaCreateCourseComponent>
   ) {
@@ -42,24 +43,28 @@ export class TelaCreateCourseComponent implements OnInit {
       });
       return;
     }
-    const institution_id =
+    const instituition=
       this.sessionService.getSessionData<string>('idInstitution').retorno;
-    const cursos =
-      this.sessionService.getSessionData<CourseModelResponse[]>('courses');
-    const curso = new CourseModelResponse({
-      institution_id,
+
+    const curso = new CourseModelRequest({
+      instituition,
       name: this.form.get('nome')?.value,
       adm_id: this.form.get('adm')?.value,
     });
-    if (!cursos.valido) {
-      cursos.retorno = [];
-    }
-    cursos.retorno.push(curso);
-    this.sessionService.setItem('courses', cursos.retorno);
 
-    this.snackBar.open('Dados cadastrados com sucesso.', '', {
-      duration: 1000,
-    });
+    this.courseService.createCourse(curso).subscribe({
+      next: res => {
+        this.snackBar.open('Dados cadastrados com sucesso.', '', {
+          duration: 2000,
+        });
+      },
+      error: err => {
+        this.snackBar.open('Ocorreu um erro durante sua solicitação.', '', {
+          duration: 2000,
+        });
+      }
+    })
     this.dialogRef.close();
+
   }
 }
