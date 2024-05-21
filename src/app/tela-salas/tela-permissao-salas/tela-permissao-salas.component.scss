@@ -1,49 +1,52 @@
 .example-spacer {
-    flex: 1 1 auto;
-  }
-  
-  .mat-toolbar {
-    background: #ffd740de;
-    color: var(--mat-toolbar-container-text-color);
-  }
-  
-  .logo-central {
-    width: 50px;
-    height: 50px;
-    background-image: url(/src/assets/images/heimdall.logo.png);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-  
-  .tituloH {
-    font-size: 2em;
-  }
-  
-  h1{
-    text-align: center;
-    margin: 1cm;
-  }
-  
-  .insertData{
-    width: 20cm;
-    margin-left: 1cm;
-  }
-  
-  .boxSize{
-    width: 33%;
-  }
+  flex: 1 1 auto;
+}
 
-  
+.mat-toolbar {
+  background: black;
+  color: yellow;
+}
+
+.logo-central {
+  width: 50px;
+  height: 50px;
+  background-image: url(/src/assets/images/heimdall.logo.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.tituloH {
+  font-size: 2em;
+  font-family: Copperplate, Copperplate Gothic Light, fantasy;
+}
+
+h1 {
+  text-align: center;
+  margin: 1cm;
+}
+
+.insertData {
+  width: 20cm;
+  margin-left: 1cm;
+}
+
+.boxSize {
+  width: 33%;
+}
+
 .table-container {
   width: 90%;
   margin: auto;
   margin-top: 1cm;
   border: 2px solid rgb(0, 0, 0);
+  overflow-x: auto; /* Enable horizontal scrolling */
 }
 
-mat-table{
+mat-table {
   background-color: #ffd740de;
+  width: 100%;
+  display: block; /* Make the table block to enable overflow */
 }
 
 .mat-mdc-form-field {
@@ -52,10 +55,55 @@ mat-table{
   margin-bottom: -20px;
 }
 
-.demo-button-container{
+.demo-button-container {
   position: absolute;
   margin-left: 2cm;
 }
+
 .demo-button + .demo-button {
   margin-left: 8px;
+}
+
+.cards-container {
+  width: 90%;
+  margin: auto;
+  margin-top: 1cm;
+}
+
+.card {
+  margin-bottom: 1em;
+}
+
+@media (max-width: 768px) {
+  .mat-toolbar .mat-icon-button {
+    margin-right: 10px; /* Add spacing between menu button and title on mobile */
+  }
+
+  .tituloH {
+    font-size: 1.5em; /* Increase title size for mobile readability */
+  }
+
+  .table-container,
+  .cards-container {
+    width: 100%; /* Make containers full width on mobile */
+    margin: 0; /* Remove margin on mobile */
+  }
+
+  .mat-form-field {
+    width: 100%; /* Make filter field full width on mobile */
+  }
+
+  mat-table {
+    /* Adjust table layout for mobile responsiveness */
+    display: block;
+    overflow-x: auto; /* Enable horizontal scrolling */
+  }
+
+  .mat-header-cell, .mat-cell {
+    /* Adjust column width for better readability on mobile */
+    flex: 1 0 auto;
+    white-space: nowrap; /* Prevent text wrapping within table cells */
+    overflow: hidden; /* Hide overflowing content */
+    text-overflow: ellipsis; /* Show ellipsis (...) for overflowing text */
+  }
 }
