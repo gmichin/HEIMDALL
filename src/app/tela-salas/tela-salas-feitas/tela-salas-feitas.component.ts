@@ -23,11 +23,11 @@ interface Sala {
 @Component({
   selector: 'app-tela-salas-feitas',
   templateUrl: './tela-salas-feitas.component.html',
-  styleUrl: './tela-salas-feitas.component.scss'
+  styleUrls: ['./tela-salas-feitas.component.scss']
 })
 export class TelaSalasFeitasComponent {
   salas: Sala[] = [];
-  displayedColumns: string[] = ['numero', 'cadeiras','mesas','cadeirasPorMesa','computadores','lousa','projetor','status','remove'];
+  displayedColumns: string[] = ['numero', 'cadeiras', 'mesas', 'cadeirasPorMesa', 'computadores', 'lousa', 'projetor', 'status', 'remove'];
   dataSource = new MatTableDataSource<Sala>(this.salas);
 
   constructor(
@@ -37,7 +37,7 @@ export class TelaSalasFeitasComponent {
   ) {
     this.salaDataService.salaData$.subscribe((salas) => {
       this.salas = salas;
-      this.dataSource.data = this.salas; 
+      this.dataSource.data = this.salas;
     });
   }
 
@@ -48,6 +48,7 @@ export class TelaSalasFeitasComponent {
       console.log(`Dialog result: ${result}`);
     });
   }
+
   openReservas() {
     const dialogRef = this.dialog.open(TelaReservasComponent);
 
@@ -63,12 +64,12 @@ export class TelaSalasFeitasComponent {
       console.log(`Dialog result: ${result}`);
     });
   }
-  
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  
+
   @ViewChild(MatTable)
   table!: MatTable<Sala>;
 
@@ -80,13 +81,12 @@ export class TelaSalasFeitasComponent {
     this.router.navigate(['/tela-deletar-salas']);
   }
 
-  
-  removeRow(sala: Sala){
+  removeRow(sala: Sala) {
     const index = this.salas.findIndex(item => item === sala);
-    
+
     if (index !== -1) {
       this.salas.splice(index, 1);
-      this.dataSource.data = [...this.salas]; 
+      this.dataSource.data = [...this.salas];
     }
   }
 }

@@ -24,23 +24,11 @@
     <span class="tituloH">HEIMDALL</span>
   
   </mat-toolbar>
-  
-  <div class="demo-button-container">
-    <button mat-raised-button (click)="addData()" class="demo-button">
-      CRIAR NOVAS SALAS
-    </button>
-    <button
-        mat-raised-button
-        [disabled]="!salas.length"
-        (click)="removeData()"
-        class="demo-button">
-      EXCLUIR SALAS
-    </button>
-  </div>
+
   <div class="table-container">
     <mat-form-field>
       <mat-label>Filter</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. profess" #input>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. professor" #input>
     </mat-form-field>
   
     <mat-table [dataSource]="dataSource">
@@ -51,19 +39,19 @@
           </ng-container>
   
           <ng-container matColumnDef="cadeiras">
-            <mat-header-cell *matHeaderCellDef>Qte. de cadeiras</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef>Cadeiras</mat-header-cell>
             <mat-cell *matCellDef="let sala">{{ sala.chairs }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="mesas">
-            <mat-header-cell *matHeaderCellDef>Qte. de mesas</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef>Mesas</mat-header-cell>
             <mat-cell *matCellDef="let sala">{{ sala.tables }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="cadeirasPorMesa">
-            <mat-header-cell *matHeaderCellDef>Qte. de cadeiras por mesas</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef>Cadeiras por mesas</mat-header-cell>
             <mat-cell *matCellDef="let sala">{{ sala.chairByTables }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="computadores">
-            <mat-header-cell *matHeaderCellDef>Qte. de computadores</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef>Computadores</mat-header-cell>
             <mat-cell *matCellDef="let sala">{{ sala.computers }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="lousa">
@@ -71,11 +59,11 @@
             <mat-cell *matCellDef="let sala">{{ sala.capacity }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="projetor">
-            <mat-header-cell *matHeaderCellDef>Qte de projetores</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef>Projetores</mat-header-cell>
             <mat-cell *matCellDef="let sala">{{ sala.projectors }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="status">
-            <mat-header-cell *matHeaderCellDef>Sala esta utilizavel?</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef>Utilizavel?</mat-header-cell>
             <mat-cell *matCellDef="let sala">{{ sala.status }}</mat-cell>
           </ng-container>
   
@@ -91,4 +79,12 @@
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
+    </div>
+    <div class="demo-button-container">
+      <button mat-raised-button (click)="addData()" class="demo-button">
+        CRIAR NOVAS SALAS
+      </button>
+      <button mat-raised-button [disabled]="!salas.length" (click)="removeData()" class="demo-button">
+        EXCLUIR SALAS
+      </button>
   </div>

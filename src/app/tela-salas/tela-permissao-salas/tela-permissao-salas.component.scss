@@ -36,7 +36,7 @@ h1 {
 }
 
 .table-container {
-  width: 90%;
+  width: 95%;
   margin: auto;
   margin-top: 1cm;
   border: 2px solid rgb(0, 0, 0);
@@ -75,35 +75,36 @@ mat-table {
 }
 
 @media (max-width: 768px) {
-  .mat-toolbar .mat-icon-button {
-    margin-right: 10px; /* Add spacing between menu button and title on mobile */
-  }
-
   .tituloH {
-    font-size: 1.5em; /* Increase title size for mobile readability */
+    font-size: 1.5em; /* Reduzir tamanho da fonte do título */
   }
-
-  .table-container,
-  .cards-container {
-    width: 100%; /* Make containers full width on mobile */
-    margin: 0; /* Remove margin on mobile */
+  .mat-header-cell, .mat-cell {
+    padding: 6px; /* Reduzir padding em telas pequenas */
   }
-
   .mat-form-field {
-    width: 100%; /* Make filter field full width on mobile */
+    width: 100%; /* Form field ocupa toda a largura */
   }
+  .table-container{
+    width: 100%;
+  }
+}
 
-  mat-table {
-    /* Adjust table layout for mobile responsiveness */
-    display: block;
-    overflow-x: auto; /* Enable horizontal scrolling */
+@media (max-width: 480px) {
+  .tituloH {
+    font-size: 1.5em; /* Reduzir tamanho da fonte do título */
   }
 
   .mat-header-cell, .mat-cell {
-    /* Adjust column width for better readability on mobile */
-    flex: 1 0 auto;
-    white-space: nowrap; /* Prevent text wrapping within table cells */
-    overflow: hidden; /* Hide overflowing content */
-    text-overflow: ellipsis; /* Show ellipsis (...) for overflowing text */
+    font-size: 12px; /* Reduzir tamanho da fonte na tabela */
+  }
+
+  .mat-mdc-header-cell, .mat-mdc-cell {
+    font-size: 12px; /* Reduzir tamanho da fonte na tabela */
+  }
+
+  /* Esconder colunas menos importantes em telas pequenas */
+  .mat-column-cadeiras, .mat-column-mesas, .mat-column-cadeirasPorMesa,
+  .mat-column-computadores, .mat-column-capacidade, .mat-column-projetor {
+    display: none;
   }
 }
