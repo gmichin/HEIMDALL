@@ -3,7 +3,7 @@ import { RegisterUserResponse } from '../models/register.models';
 import { SessionService } from './../services/session.service';
 import { SalaDataService } from '../services/sala-data.service';
 import { forkJoin } from 'rxjs';
-import { parseISO, eachHourOfInterval } from 'date-fns';
+import { eachHourOfInterval } from 'date-fns';
 
 class Reservation {
   _id: string = '';
@@ -64,8 +64,8 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
 
   processReservations() {
     this.schedule = this.userReservations.flatMap(reservation => {
-      const start = parseISO(reservation.start_time);
-      const end = parseISO(reservation.end_time);
+      const start = this.parseDate(reservation.start_time);
+      const end = this.parseDate(reservation.end_time);
 
       console.log(`Start Time (original): ${reservation.start_time}`);
       console.log(`End Time (original): ${reservation.end_time}`);
@@ -88,6 +88,12 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
       return slots;
     });
     console.log('Processed schedule:', this.schedule);
+  }
+
+  parseDate(dateStr: string): Date {
+    // Remover prefixo indesejado (ex: "027 ") e criar objeto Date
+    const cleanedDateStr = dateStr.replace(/^\d{3}\s/, '');
+    return new Date(cleanedDateStr);
   }
 
   getReservation(day: string, hour: number): string {
