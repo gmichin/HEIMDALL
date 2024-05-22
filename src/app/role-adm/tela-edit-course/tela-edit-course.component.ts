@@ -2,8 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CourseModelResponse } from 'src/app/models/course.model';
+import { CourseModelRequest, CourseModelResponse } from 'src/app/models/course.model';
 import { RegisterUserResponse } from 'src/app/models/register.models';
+import { CourseService } from 'src/app/services/course.service';
 import { RegisterUserService } from 'src/app/services/register-user.service';
 import { SessionService } from 'src/app/services/session.service';
 
@@ -20,7 +21,7 @@ export class TelaEditCourseComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private registerUserService: RegisterUserService,
+    private courseService: CourseService,
     private sessionService: SessionService,
     public dialogRef: MatDialogRef<TelaEditCourseComponent>,
     @Inject(MAT_DIALOG_DATA) public data: CourseModelResponse
@@ -47,18 +48,24 @@ export class TelaEditCourseComponent implements OnInit {
       });
       return;
     }
-    const cursos =
-      this.sessionService.getSessionData<CourseModelResponse[]>('courses');
-    cursos.retorno.forEach((c) => {
-      if (c._id == this.data._id) {
-        c.name = this.form.get('nome')?.value;
-        c.adm_id = this.form.get('adm')?.value;
-      }
+    const instituition = this.sessionService.getSessionData<string>('idInstitution').retorno;
+  
+    const curso = new CourseModelResponse({
+      instituition,
+      name: this.form.get('nome')?.value,
+      adm_id: this.form.get('adm')?.value,
     });
-    this.sessionService.setItem('courses', cursos.retorno);
-
-    this.snackBar.open('Dados atualizados com sucesso.', '', {
-      duration: 1000,
+    this.courseService.updateCourse(curso).subscribe({
+      next: res => {
+        this.snackBar.open('Dados cadastrados com sucesso.', '', {
+          duration: 2000,
+        });
+      },
+      error: err => {
+        this.snackBar.open('Ocorreu um erro durante sua solicitação.', '', {
+          duration: 2000,
+        });
+      }
     });
     this.dialogRef.close();
   }

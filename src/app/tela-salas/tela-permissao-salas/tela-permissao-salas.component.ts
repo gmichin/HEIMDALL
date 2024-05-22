@@ -33,19 +33,13 @@ export class TelaPermissaoSalasComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     public dialog: MatDialog,
     private salaDataService: SalaDataService
-  ) {}
-
-  ngOnInit() {
-    // Observa mudanças no tamanho da tela para detectar se é um dispositivo móvel
-    this.breakpointObserver.observe([Breakpoints.Handset]).subscribe(result => {
-      this.isMobile = result.matches;
-    });
-
-    // Inscreve-se no serviço de dados para obter as solicitações de salas
-    this.salaDataService.salasRequestData$.subscribe((salas) => {
+  ){    
+    this.salaDataService.carregarDadosSalas().subscribe((salas) => {
       this.requests = salas;
       this.dataSource.data = this.requests;
     });
+  }
+  ngOnInit(): void {
   }
 
   openLoginSignUp() {

@@ -31,13 +31,11 @@ export class TelaDeletarSalasComponent {
     public dialog: MatDialog,
     private salaDataService: SalaDataService
   ) {
-    this.salaDataService.salaData$.subscribe((salas) => {
+    this.salaDataService.carregarDadosSalas().subscribe((salas) => {
       this.numeroSala = salas.map((sala) => sala.number).filter((value, index, self) => self.indexOf(value) === index);
+      this.todasSalas = salas;
     });
     
-    this.salaDataService.salaData$.subscribe((salas) => {
-      this.todasSalas = salas;
-    })
   }
   openLoginSignUp() {
     const dialogRef = this.dialog.open(TelaLoginCadastroComponent);

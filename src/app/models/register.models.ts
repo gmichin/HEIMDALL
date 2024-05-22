@@ -10,7 +10,7 @@ export class RegisterUserRequest {
   registration_number: string = '';
 
   constructor(data: any) {
-    this.registration_number = uuidv4();
+    this.registration_number = data.matricula ?? uuidv4();
     this.name = data.name;
     this.email = data.email;
     this.encrypted_password = data.encrypted_password;

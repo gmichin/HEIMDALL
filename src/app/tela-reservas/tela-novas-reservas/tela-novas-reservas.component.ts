@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import { TelaReservasComponent } from '../tela-reservas.component';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
+import { InternsService } from 'src/app/services/interns.service';
 
 
 @Component({
@@ -40,18 +41,16 @@ export class TelaNovasReservasComponent implements OnInit{
     private router: Router,
     public dialog: MatDialog,
     private salaDataService: SalaDataService,
+    private internsService: InternsService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.salaDataService.teacherData$.subscribe((professores) => {
-      this.professorNomes = professores
-      .filter(professor => professor.instituition !== undefined && professor.instituition !== null && professor.role === "65f5c07e489c8ea56ac6ff5b")
-      .map(professor => professor.name)
+    this.internsService.getAllTeachers().subscribe((professores) => {
+      this.professorNomes = professores.map(professor => professor.name);
     });
-    this.salaDataService.salaData$.subscribe((salas) => {
-      this.numeroSala = salas.map((sala) => sala.number).filter((value, index, self) => {
-        return self.indexOf(value) === index;
-      });
-    });    
+    
+    this.salaDataService.carregarDadosSalas().subscribe((salas) => {
+      this.numeroSala = salas.map((sala) => sala.number)
+    }); 
   }
 
   openLoginSignUp() {
@@ -94,7 +93,7 @@ export class TelaNovasReservasComponent implements OnInit{
   }
 
   carregarDiasDesabilitados(startTime: string, endTime: string): void {
-    this.salaDataService.salaReservaData$.subscribe((diasDesabilitados) => {
+    this.salaDataService.carregarDiasDesabilitados().subscribe((diasDesabilitados) => {
       this.diasDesabilitados = diasDesabilitados.map((obj: any) => {
         return { ...obj, dia: new Date(obj.dia) };
       });
@@ -272,34 +271,8 @@ export class TelaNovasReservasComponent implements OnInit{
     this.professores = [];
     this.materia = [];
     this.materiasPorProfessor = [];
-
-    this.salaDataService.teacherData$.subscribe(users => {
-        users.forEach(prof => {
-            if (prof.name === nomeProfessor && prof.instituition) {
-                const professor = {
-                    professor: prof.name,
-                    id: prof._id
-                };
-                this.professores.push(professor);
-            }
-        });
-
-        this.salaDataService.classData$.subscribe(classes => {
-            classes.forEach(classe => {
-                // Verifique se os dados da classe têm um nome e um id de professor válido
-                if (classe.name && classe.teachers_id) {
-                    const cour = {
-                        class: classe.name,
-                        id: classe.teachers_id
-                    };
-                    this.materia.push(cour);
-                }
-            });
-
-            // Processa os dados após garantir que both subscriptions have completed
-            this.processarMateriasPorProfessor();
-        });
-    });
+    //pegar apenas id professor e id sala    
+    this.processarMateriasPorProfessor();
 }
 
 processarMateriasPorProfessor() {

@@ -35,7 +35,7 @@ export class TelaSalasFeitasComponent {
     public dialog: MatDialog,
     private router: Router
   ) {
-    this.salaDataService.salaData$.subscribe((salas) => {
+    this.salaDataService.carregarDadosSalas().subscribe((salas) => {
       this.salas = salas;
       this.dataSource.data = this.salas;
     });

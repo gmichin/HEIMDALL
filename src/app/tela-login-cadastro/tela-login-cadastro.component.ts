@@ -47,6 +47,7 @@ export class TelaLoginCadastroComponent {
         email: ['', [Validators.required, this.emailValidator]],
         password: ['', [Validators.required], Validators.minLength(6)],
         confirmPassword: ['', [Validators.required]],
+        matricula: ['', [Validators.required]],
         nameInstitution: ['', [Validators.required], [this.validateNameInst()]],
       },
       { validator: this.passwordMatchValidator }
@@ -79,9 +80,10 @@ export class TelaLoginCadastroComponent {
       name: this.resgiterStudentForm.get('nome')?.value,
       email: this.resgiterStudentForm.get('email')?.value,
       encrypted_password: this.resgiterStudentForm.get('password')?.value,
+      matricula: this.resgiterStudentForm.get('matricula')?.value,
       role: {_id: RoleId.ALUNO},
-      instituition: {_id: this.idInstByName }
     });
+    request.instituition = {_id: this.idInstByName }
     this.registerUserService.inviteStudent(request).subscribe({
       next:() => {
         this.snackBar.open(`Solicitação enviada com sucesso, aguarde análise.`, '', {
