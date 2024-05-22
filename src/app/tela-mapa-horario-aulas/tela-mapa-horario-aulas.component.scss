@@ -1,58 +1,59 @@
 .table-container {
     width: 100%;
     border-collapse: collapse;
-    font-family: Arial, sans-serif;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+    background-color: #ffffe0; /* yellow light background */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .table-container thead {
+    background-color: #ffff00; /* yellow header */
+    color: #333;
   }
   
   .table-container th,
   .table-container td {
-    border: 1px solid #dcdcdc;
-    padding: 8px;
-    text-align: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
   }
   
-  .table-container th {
-    background-color: #ffff00; /* Base color */
-    color: #333;
-    font-weight: bold;
-    text-transform: uppercase;
+  .table-container th:first-child,
+  .table-container td:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
   }
   
-  .table-container td {
+  .table-container th:last-child,
+  .table-container td:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+  
+  .table-container tbody tr:nth-child(even) {
     background-color: #f9f9f9;
   }
   
-  .table-container tbody tr:nth-child(odd) td {
-    background-color: #fff;
+  .table-container tbody tr:hover {
+    background-color: #f1f1f1;
   }
   
-  .table-container .reservation {
+  .reservation {
     white-space: pre-line;
-    background-color: #ff0; /* Slightly lighter shade of yellow */
+    padding: 8px;
+    background-color: #fffacd; /* light yellow for reservations */
     border-radius: 4px;
-    padding: 4px;
-    margin: 2px;
-  }
-  
-  .table-container .reservation::before {
-    content: "Sala ";
-    font-weight: bold;
-  }
-  
-  .table-container .reservation::after {
-    content: "\a Aula ";
-    font-weight: bold;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   }
   
   .exceptions {
     margin-top: 20px;
-    font-family: Arial, sans-serif;
   }
   
   .exceptions h3 {
     color: #333;
-    font-weight: bold;
-    text-transform: uppercase;
   }
   
   .exceptions ul {
@@ -61,10 +62,10 @@
   }
   
   .exceptions li {
-    background-color: #ffef99; /* Light yellow background for exceptions */
-    border: 1px solid #dcdcdc;
-    margin: 4px 0;
-    padding: 8px;
+    background-color: #fffacd; /* light yellow for exceptions */
+    margin: 5px 0;
+    padding: 10px;
     border-radius: 4px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   }
   
