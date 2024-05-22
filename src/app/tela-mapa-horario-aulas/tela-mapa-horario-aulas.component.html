@@ -1,16 +1,28 @@
-<div>
-  <mat-calendar [selected]="selectedDate" (selectedChange)="dateSelected($event)"></mat-calendar>
-  <div *ngIf="selectedDate">
-    <h2>Agenda do Dia {{ selectedDate | date: 'dd/MM/yyyy' }}</h2>
-    <div *ngFor="let slot of schedule">
-      <div *ngIf="slot.date.getTime() === selectedDate.getTime()">
-        <div class="reservation-info">
-          <h2>Detalhes da Reserva</h2>
-          <p>Classe: {{ slot.classId }}</p>
-          <p>Sala: {{ slot.roomId }}</p>
-          <p>Data de Início: {{ slot.date | date: 'dd/MM/yyyy HH:mm' }}</p>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Horário</th>
+        <th>Seg</th>
+        <th>Ter</th>
+        <th>Qua</th>
+        <th>Qui</th>
+        <th>Sex</th>
+        <th>Sáb</th>
+        <th>Dom</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let hour of hours">
+        <td>{{ hour }}</td>
+        <td *ngFor="let day of days">{{ getClassAndRoom(hour, day) }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="exceptions">
+  <h3>Exceções</h3>
+  <ul>
+    <li *ngFor="let exception of exceptions">{{ exception | json }}</li>
+  </ul>
 </div>

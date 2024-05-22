@@ -14,7 +14,8 @@ class Reservation {
 }
 
 interface ScheduleSlot {
-  date: Date;
+  dateIni: Date;
+  dateFim: Date;
   classId: string;
   roomId: string;
 }
@@ -24,16 +25,18 @@ interface ScheduleSlot {
   templateUrl: './tela-mapa-horario-aulas.component.html',
   styleUrls: ['./tela-mapa-horario-aulas.component.scss']
 })
-export class TelaMapaHorarioAulasComponent implements OnInit{
+export class TelaMapaHorarioAulasComponent implements OnInit {
   public dataUser = <RegisterUserResponse>this.sessionService.getSessionData('user').retorno;
 
   public id = this.dataUser._id;
 
-  public reservations: Reservation[] = [];
-  public userReservations: Reservation[] = [];
-
+  public reservations: any[] = [];
+  public userReservations: any[] = [];
   public schedule: ScheduleSlot[] = [];
-  public selectedDate: Date | undefined;
+  public days = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
+  public hours = Array.from({ length: 19 }, (_, i) => `${i + 5}:00`);
+  public timetable: { [key: string]: { [key: string]: string } } = {};
+  public exceptions: ScheduleSlot[] = [];
 
   constructor(
     private sessionService: SessionService,
@@ -54,13 +57,49 @@ export class TelaMapaHorarioAulasComponent implements OnInit{
 
   processReservations() {
     this.schedule = this.userReservations.map(reservation => ({
-      date: new Date(reservation.start_time),
+      dateIni: new Date(reservation.start_time),
+      dateFim: new Date(reservation.end_time),
       classId: reservation.class_id,
       roomId: reservation.room_id
     }));
-    console.log(this.schedule);
+    this.populateTimetable();
   }
-  dateSelected(date: Date) {
-    this.selectedDate = date;
+
+  populateTimetable() {
+    const dayHourCount: { [key: string]: number } = {};
+    this.schedule.forEach(slot => {
+      const day = slot.dateIni.getDay();
+      const hour = slot.dateIni.getHours();
+      const key = `${day}-${hour}`;
+      if (dayHourCount[key]) {
+        dayHourCount[key]++;
+      } else {
+        dayHourCount[key] = 1;
+      }
+    });
+
+    this.schedule.forEach(slot => {
+      const day = slot.dateIni.getDay();
+      const hour = slot.dateIni.getHours();
+      const key = `${day}-${hour}`;
+      if (dayHourCount[key] > 1) {
+        this.addToTimetable(slot, day, hour);
+      } else {
+        this.exceptions.push(slot);
+      }
+    });
+  }
+
+  addToTimetable(slot: ScheduleSlot, day: number, hour: number) {
+    const dayStr = this.days[day - 1];
+    const hourStr = `${hour}:00`;
+    if (!this.timetable[hourStr]) {
+      this.timetable[hourStr] = {};
+    }
+    this.timetable[hourStr][dayStr] = `${slot.roomId} - ${slot.classId}`;
+  }
+
+  getClassAndRoom(hour: string, day: string): string {
+    return this.timetable[hour]?.[day] || '';
   }
 }
