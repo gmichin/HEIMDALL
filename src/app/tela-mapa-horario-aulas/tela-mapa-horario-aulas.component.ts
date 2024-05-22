@@ -3,6 +3,7 @@ import { RegisterUserResponse } from '../models/register.models';
 import { SessionService } from './../services/session.service';
 import { SalaDataService } from '../services/sala-data.service';
 import { forkJoin } from 'rxjs';
+import { parseISO, eachHourOfInterval } from 'date-fns';
 
 class Reservation {
   _id: string = '';
@@ -63,28 +64,23 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
 
   processReservations() {
     this.schedule = this.userReservations.flatMap(reservation => {
-      const start = new Date(Date.parse(reservation.start_time));
-      const end = new Date(Date.parse(reservation.end_time));
+      const start = parseISO(reservation.start_time);
+      const end = parseISO(reservation.end_time);
 
       console.log(`Start Time (original): ${reservation.start_time}`);
       console.log(`End Time (original): ${reservation.end_time}`);
       console.log(`Start Time (Date object): ${start}`);
       console.log(`End Time (Date object): ${end}`);
 
-      const slots = [];
-
-      // Iterar por cada hora entre start e end
-      for (let d = new Date(start.getTime()); d < end; d.setHours(d.getHours() + 1)) {
-        slots.push({
-          date: new Date(d),
-          classId: reservation.class_id,
-          roomId: reservation.room_id
-        });
-      }
+      const slots = eachHourOfInterval({ start, end: new Date(end.getTime() - 1) }).map(date => ({
+        date,
+        classId: reservation.class_id,
+        roomId: reservation.room_id
+      }));
 
       // Adicionar a última hora
       slots.push({
-        date: new Date(end),
+        date: end,
         classId: reservation.class_id,
         roomId: reservation.room_id
       });
