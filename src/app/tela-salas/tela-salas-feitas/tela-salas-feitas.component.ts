@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
 import { TelaReservasComponent } from 'src/app/tela-reservas/tela-reservas.component';
+import { SelectionModel } from '@angular/cdk/collections';
+import { RoomsModel } from 'src/app/models/rooms.model';
 
 
 interface Sala {
@@ -23,21 +25,25 @@ interface Sala {
 @Component({
   selector: 'app-tela-salas-feitas',
   templateUrl: './tela-salas-feitas.component.html',
-  styleUrl: './tela-salas-feitas.component.scss'
+  styleUrls: ['./tela-salas-feitas.component.scss']
 })
 export class TelaSalasFeitasComponent {
   salas: Sala[] = [];
-  displayedColumns: string[] = ['numero', 'cadeiras','mesas','cadeirasPorMesa','computadores','lousa','projetor','status','remove'];
+  displayedColumns: string[] = ['select','numero', 'cadeiras', 'mesas', 'cadeirasPorMesa', 'computadores', 'lousa', 'projetor', 'status', 'remove'];
   dataSource = new MatTableDataSource<Sala>(this.salas);
+  selection = new SelectionModel<RoomsModel>(true, []);
+  selectionReject = new SelectionModel<RoomsModel>(true, []);
+
+
 
   constructor(
     private salaDataService: SalaDataService,
     public dialog: MatDialog,
     private router: Router
   ) {
-    this.salaDataService.salaData$.subscribe((salas) => {
+    this.salaDataService.carregarDadosSalas().subscribe((salas) => {
       this.salas = salas;
-      this.dataSource.data = this.salas; 
+      this.dataSource.data = this.salas;
     });
   }
 
@@ -48,6 +54,7 @@ export class TelaSalasFeitasComponent {
       console.log(`Dialog result: ${result}`);
     });
   }
+
   openReservas() {
     const dialogRef = this.dialog.open(TelaReservasComponent);
 
@@ -63,12 +70,12 @@ export class TelaSalasFeitasComponent {
       console.log(`Dialog result: ${result}`);
     });
   }
-  
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  
+
   @ViewChild(MatTable)
   table!: MatTable<Sala>;
 
@@ -80,13 +87,23 @@ export class TelaSalasFeitasComponent {
     this.router.navigate(['/tela-deletar-salas']);
   }
 
-  
-  removeRow(sala: Sala){
+  removeRow(sala: Sala) {
     const index = this.salas.findIndex(item => item === sala);
-    
+
     if (index !== -1) {
       this.salas.splice(index, 1);
-      this.dataSource.data = [...this.salas]; 
+      this.dataSource.data = [...this.salas];
     }
+  }
+
+  toggleAllRowsReject() {
+    if (this.isAllRejectSelected()) {
+      this.selectionReject.clear();
+      return;
+    }
+  }
+
+  isAllRejectSelected() {
+    return this.selectionReject.selected.length > 0;
   }
 }

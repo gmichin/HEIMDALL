@@ -25,22 +25,10 @@
 
 </mat-toolbar>
 
-<div class="demo-button-container">
-  <button mat-raised-button (click)="addData()" class="demo-button">
-    FAZER NOVAS RESERVAS
-  </button>
-  <button
-      mat-raised-button
-      [disabled]="!salas.length"
-      (click)="removeData()"
-      class="demo-button">
-    DELETAR RESERVAS
-  </button>
-</div>
 <div class="table-container">
   <mat-form-field>
     <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. profess" #input>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. professor" #input>
   </mat-form-field>
 
   <mat-table [dataSource]="dataSource">
@@ -77,7 +65,7 @@
     </ng-container>
 
     <ng-container matColumnDef="remove">
-      <mat-header-cell *matHeaderCellDef>Remove</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>Remover</mat-header-cell>
       <mat-cell *matCellDef="let sala">
         <button mat-icon-button (click)="removeRow(sala)">
           <mat-icon>delete</mat-icon>
@@ -88,4 +76,17 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
+</div>
+
+<div class="demo-button-container">
+  <button mat-raised-button (click)="addData()" class="demo-button">
+    FAZER NOVAS RESERVAS
+  </button>
+  <button
+      mat-raised-button
+      [disabled]="!salas.length"
+      (click)="removeData()"
+      class="demo-button">
+    DELETAR RESERVAS
+  </button>
 </div>

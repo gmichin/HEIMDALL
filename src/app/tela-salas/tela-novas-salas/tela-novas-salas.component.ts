@@ -1,27 +1,61 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
 import { TelaReservasComponent } from 'src/app/tela-reservas/tela-reservas.component';
 import { TelaSalasComponent } from '../tela-salas.component';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CourseService } from 'src/app/services/course.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { RoomsModel } from 'src/app/models/rooms.model';
+import { CourseModelResponse } from 'src/app/models/course.model';
 
 @Component({
   selector: 'app-tela-novas-salas',
   templateUrl: './tela-novas-salas.component.html',
   styleUrl: './tela-novas-salas.component.scss'
 })
-export class TelaNovasSalasComponent {
-numeroSalas: number = 0;
-numeroCadeiras: number = 0;
-numeroMesas: number = 0;
-cadeirasPorMesa: number = 0;
-numeroComputadores: number = 0;
-capacidade: number = 0;
-projetor: number = 0;
-status: boolean = true;
+export class TelaNovasSalasComponent implements OnInit {
+  public resgiterForm: FormGroup;
+  public courses: CourseModelResponse[] = [];
 
-newSala: any[] = [];
+  newSala: any[] = [];
 
-  constructor(public dialog: MatDialog) {}
+  constructor(
+    public dialog: MatDialog,
+    private fb: FormBuilder,
+    private courseService: CourseService,
+    private snackBar: MatSnackBar,
+  ) {
+    this.resgiterForm = this.fb.group(
+      {
+        number: [0, [Validators.required]],
+        chairs: [0, [Validators.required]],
+        tables: [0, [Validators.required]],
+        chairByTables: [0, [Validators.required]],
+        computers: [0, [Validators.required]],
+        capacity: [0, [Validators.required]],
+        projectors: [0, [Validators.required]],
+        course: ['', [Validators.required]],
+      }
+    );
+  }
+  ngOnInit(): void {
+    this.courseService.getAllCourses().subscribe({
+      next: res => {
+        this.courses = res;
+        if(res.length == 0) {
+          this.snackBar.open('Ocorreu um erro durante a busca dos cursos, por favor, tente novamente mais tarde.', '', {
+            duration: 4000,
+          });
+        }
+      },
+      error: err => {
+        this.snackBar.open('Ocorreu um erro durante a busca dos cursos, por favor, tente novamente mais tarde.', '', {
+          duration: 2000,
+        });
+      }
+    });
+  }
 
   openLoginSignUp() {
     const dialogRef = this.dialog.open(TelaLoginCadastroComponent);
@@ -45,24 +79,6 @@ newSala: any[] = [];
     });
   }
   save(){
-    this.newSala = [];
-    let available = "";
-    if(this.status==true){
-      available = "available";
-    }else if(this.status==false){
-      available = "unvailable";
-    }
-    const reserva = {
-      number: this.numeroSalas,
-      chairs: this.numeroCadeiras,
-      tables: this.numeroMesas,
-      chairByTables: this.cadeirasPorMesa,
-      computers: this.numeroComputadores,
-      capacity: this.capacidade,
-      projectors: this.projetor,
-      status: available
-    };
-    this.newSala.push(reserva);
-    console.log(this.newSala);
+    
   }
 }

@@ -27,7 +27,7 @@ export class TelaPermissaoReservasComponent {
     private router: Router,
     private salaDataService: SalaDataService
   ){    
-    this.salaDataService.reservasRequestData$.subscribe((salas) => {
+    this.salaDataService.carregarDadosSalasReservadas() .subscribe((salas) => {
       this.requests = salas;
       this.dataSource.data = this.requests; 
     });

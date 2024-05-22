@@ -13,8 +13,6 @@ import { TelaPermissaoReservasComponent } from './tela-reservas/tela-permissao-r
 import { TelaSalasComponent } from './tela-salas/tela-salas.component';
 import { TelaNovasSalasComponent } from './tela-salas/tela-novas-salas/tela-novas-salas.component';
 import { TelaSalasFeitasComponent } from './tela-salas/tela-salas-feitas/tela-salas-feitas.component';
-import { TelaDeletarSalasComponent } from './tela-salas/tela-deletar-salas/tela-deletar-salas.component';
-import { TelaPermissaoSalasComponent } from './tela-salas/tela-permissao-salas/tela-permissao-salas.component';
 import { TelaSolicitacoesRegistroComponent } from './tela-solicitacoes-registro/tela-solicitacoes-registro.component';
 import { TelaSolicitacoesRegistroResolver } from './tela-solicitacoes-registro/tela-solicitacoes-registro.resolver';
 import { ReloadComponent } from './reload/reload.component';
@@ -59,8 +57,6 @@ const routes: Routes = [
   { path: 'tela-salas', component: TelaSalasComponent },
   { path: 'tela-novas-salas', component: TelaNovasSalasComponent},
   { path: 'tela-salas-feitas', component: TelaSalasFeitasComponent},
-  { path: 'tela-deletar-salas', component: TelaDeletarSalasComponent},
-  { path: 'tela-permissao-salas', component: TelaPermissaoSalasComponent},
 
 
   { path: 'tela-mapa-horario-salas', component: TelaMapaHorarioAulasComponent},

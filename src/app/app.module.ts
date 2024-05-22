@@ -42,8 +42,6 @@ import { TelaDeletarReservasComponent } from './tela-reservas/tela-deletar-reser
 import { TelaPermissaoReservasComponent } from './tela-reservas/tela-permissao-reservas/tela-permissao-reservas.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TelaSalasComponent } from './tela-salas/tela-salas.component'
-import { TelaDeletarSalasComponent } from './tela-salas/tela-deletar-salas/tela-deletar-salas.component';
-import { TelaPermissaoSalasComponent } from './tela-salas/tela-permissao-salas/tela-permissao-salas.component';
 import { TelaSalasFeitasComponent } from './tela-salas/tela-salas-feitas/tela-salas-feitas.component';
 import { TelaNovasSalasComponent } from './tela-salas/tela-novas-salas/tela-novas-salas.component';
 import { RoleTeacherModule } from './role-teacher/role-teacher.module';
@@ -69,8 +67,6 @@ import { DatePipe } from '@angular/common';
     TelaDeletarReservasComponent,
     TelaPermissaoReservasComponent,
     TelaSalasComponent,
-    TelaDeletarSalasComponent,
-    TelaPermissaoSalasComponent,
     TelaSalasFeitasComponent,
     TelaNovasSalasComponent,
     TelaSolicitacoesRegistroComponent,

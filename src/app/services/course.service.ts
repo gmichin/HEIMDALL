@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, of, switchMap } from 'rxjs';
-import { CourseModelResponse } from '../models/course.model';
+import { CourseModelRequest, CourseModelResponse } from '../models/course.model';
 import { url_config } from '../url.config';
 import { SessionService } from './session.service';
 
@@ -22,5 +22,13 @@ export class CourseService {
         return of([]);
       })
     );
+  }
+
+  public createCourse(course: CourseModelRequest) {
+    return this.http.post(url_config.url_course, course);
+  }
+
+  public updateCourse(course: CourseModelResponse) {
+    return this.http.patch(`${url_config.url_course}/${course._id}`, course);
   }
 }

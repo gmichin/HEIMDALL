@@ -61,3 +61,51 @@ mat-table{
 .demo-button + .demo-button {
   margin-left: 8px;
 }
+
+@media (max-width: 768px) {
+  .tituloH {
+    font-size: 1.5em; /* Reduzir tamanho da fonte do título */
+  }
+  .mat-header-cell, .mat-cell {
+    padding: 8px; /* Reduzir padding em telas pequenas */
+  }
+
+  .mat-form-field {
+    width: 100%; /* Form field ocupa toda a largura */
+  }
+
+  .demo-button-container {
+    position: relative;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    margin-top: 2%;
+  }
+
+  .demo-button {
+    margin-bottom: 8px;
+    width: 90%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .tituloH {
+    font-size: 1.5em; /* Reduzir tamanho da fonte do título */
+  }
+
+  .mat-header-cell, .mat-cell {
+    font-size: 12px; /* Reduzir tamanho da fonte na tabela */
+  }
+
+  .mat-mdc-header-cell, .mat-mdc-cell {
+    font-size: 12px; /* Reduzir tamanho da fonte na tabela */
+  }
+
+  .mat-column-materia {
+    display: none;
+  }
+}

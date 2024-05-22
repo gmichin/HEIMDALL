@@ -1,6 +1,6 @@
 .mat-toolbar {
-    background: #e6b60ade;
-    color: var(--mat-toolbar-container-text-color);
+    background: #000000;
+    color: yellow;
     border-bottom: 2px solid black;
   }
   
@@ -8,42 +8,116 @@
     background: #ffc802de;
     display: flex;
     padding: 1% 0 0 10%;
-  }
-  
-  .container {
+}
+
+.container {
     margin: 0 auto;
     display: flex;
     justify-content: center;
     align-items: center;
     padding-left: 2%;
-  }
+}
 
-  table {
+table {
     width: 100%;
-  }
-  
-  .mat-mdc-form-field {
+    background-color: #ffd740de;
+}
+
+mat-paginator {
+  background-color: #ffd740de;
+}
+
+.tituloH {
+    font-family: Copperplate, Copperplate Gothic Light, fantasy;
+    font-size: 2em;
+}
+
+.mat-mdc-form-field {
     font-size: 14px;
     width: 100%;
-  }
-  
+}
 
-  .container-table {
+.container-table {
     margin: 5%;
-  }
+}
 
-  .nome{
+.nome {
     width: 35%;
-  }
+}
 
-  .email{
+.email {
     width: 35%;
-  }
+}
 
-  .registrationNumber{
+.registrationNumber {
     width: 20%;
-  }
+}
 
-  .select{
+.select {
     width: 5%;
+}
+
+/* Media Queries para Dispositivos Móveis */
+@media (max-width: 768px) {
+
+    .tituloH {
+        font-size: 1.5em;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 5%;
+    }
+
+    .container {
+        flex-direction: column;
+        padding-left: 0;
+    }
+
+    .container-table {
+        margin: 2%;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    th, td {
+        white-space: nowrap;
+    }
+
+    .buttons {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .tituloH {
+        font-size: 1.5em;
+    }
+
+    .header {
+        padding: 5%;
+    }
+
+    .container-table {
+        margin: 1%;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+
+    .buttons button {
+        margin-bottom: 10px;
+    }
+
+    .mat-mdc-header-cell, .mat-mdc-cell {
+      font-size: 12px;
+      padding: 0 5px;
   }
+}

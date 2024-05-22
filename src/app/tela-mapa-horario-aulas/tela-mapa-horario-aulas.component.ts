@@ -34,7 +34,7 @@ export class TelaMapaHorarioAulasComponent {
     private datePipe: DatePipe
   ){
     this.dataUser = this.sessionService.getSessionData('user').retorno as RegisterUserResponse;
-    this.salaDataService.salaReservaData$.subscribe(reservas => {
+    this.salaDataService.carregarDadosSalasReservadas().subscribe(reservas => {
       this.reservas = reservas;
       this.filterUserReservas();
       this.loadEvents();
