@@ -62,4 +62,9 @@ export class TelaMapaHorarioAulasComponent {
     console.log(action, event);
     alert(`Class ID: ${(event.meta as any).reserva.class_id}\nStart Time: ${event.start}\nEnd Time: ${event.end}`);
   }
+
+  formatDate(date: string): string {
+    return this.datePipe.transform(new Date(date), 'dd MMM yyyy HH:mm') || date;
+  }
+
 }
