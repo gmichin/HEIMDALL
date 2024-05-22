@@ -1,6 +1,6 @@
 body {
-    background-color: #000; /* Fundo preto */
-    color: #fff; /* Texto branco */
+    background-color: #121212; /* Fundo preto suave */
+    color: #e0e0e0; /* Texto claro, mas não branco puro */
     font-family: Arial, sans-serif;
   }
   
@@ -10,20 +10,20 @@ body {
     margin: 20px 0;
     font-size: 18px;
     text-align: left;
-    background-color: #333; /* Fundo da tabela mais escuro */
+    background-color: #1e1e1e; /* Fundo da tabela mais escuro */
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   }
   
   .table-container thead {
-    background-color: #ffff00; /* Cabeçalho amarelo */
-    color: #000; /* Texto escuro para contraste */
+    background-color: #ffeb3b; /* Cabeçalho amarelo */
+    color: #000; /* Texto preto para contraste */
   }
   
   .table-container th,
   .table-container td {
     padding: 12px 15px;
-    border-bottom: 1px solid #555; /* Bordas mais escuras */
+    border-bottom: 1px solid #333; /* Bordas escuras */
   }
   
   .table-container th:first-child,
@@ -39,20 +39,20 @@ body {
   }
   
   .table-container tbody tr:nth-child(even) {
-    background-color: #444; /* Linhas pares mais claras */
+    background-color: #2c2c2c; /* Linhas pares mais claras */
   }
   
   .table-container tbody tr:hover {
-    background-color: #555; /* Cor de fundo ao passar o mouse */
+    background-color: #3a3a3a; /* Cor de fundo ao passar o mouse */
   }
   
   .reservation {
     white-space: pre-line;
     padding: 8px;
-    background-color: #ffff00; /* Amarelo para reservas */
-    color: #000; /* Texto escuro para contraste */
+    background-color: #ffeb3b; /* Amarelo suave para reservas */
+    color: #000; /* Texto preto para contraste */
     border-radius: 4px;
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   }
   
   .exceptions {
@@ -60,7 +60,7 @@ body {
   }
   
   .exceptions h3 {
-    color: #ffff00; /* Título das exceções em amarelo */
+    color: #ffeb3b; /* Título das exceções em amarelo */
   }
   
   .exceptions ul {
@@ -69,11 +69,11 @@ body {
   }
   
   .exceptions li {
-    background-color: #444; /* Fundo mais claro para exceções */
-    color: #ffff00; /* Texto amarelo para contraste */
+    background-color: #2c2c2c; /* Fundo mais claro para exceções */
+    color: #ffeb3b; /* Texto amarelo para contraste */
     margin: 5px 0;
     padding: 10px;
     border-radius: 4px;
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   }
   
