@@ -34,7 +34,7 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
   public userReservations: Reservation[] = [];
   public schedule: ScheduleSlot[] = [];
   public daysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
-  public tableHours = Array.from({ length: 19 }, (_, i) => i + 5); // 5 to 23
+  public tableHours = Array.from({ length: 17 }, (_, i) => i + 6); // 6 to 22
   public exceptions: ScheduleSlot[] = [];
   public table: { [key: string]: { classId: string, roomId: string } } = {};
 
@@ -111,7 +111,7 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
           classId: reservation.classId,
           roomId: reservation.roomId
         };
-        scheduleCount[key] = 0; 
+        scheduleCount[key] = 0; // Reset count to avoid reusing the slot
       } else {
         this.exceptions.push(reservation);
       }
