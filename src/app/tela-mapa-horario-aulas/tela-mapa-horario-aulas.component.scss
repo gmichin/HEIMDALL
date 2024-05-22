@@ -1,23 +1,29 @@
-.table-container {
+body {
+    background-color: #000; /* Fundo preto */
+    color: #fff; /* Texto branco */
+    font-family: Arial, sans-serif;
+  }
+  
+  .table-container {
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
     font-size: 18px;
     text-align: left;
-    background-color: #ffffe0; /* yellow light background */
+    background-color: #333; /* Fundo da tabela mais escuro */
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
   }
   
   .table-container thead {
-    background-color: #ffff00; /* yellow header */
-    color: #333;
+    background-color: #ffff00; /* Cabeçalho amarelo */
+    color: #000; /* Texto escuro para contraste */
   }
   
   .table-container th,
   .table-container td {
     padding: 12px 15px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #555; /* Bordas mais escuras */
   }
   
   .table-container th:first-child,
@@ -33,19 +39,20 @@
   }
   
   .table-container tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #444; /* Linhas pares mais claras */
   }
   
   .table-container tbody tr:hover {
-    background-color: #f1f1f1;
+    background-color: #555; /* Cor de fundo ao passar o mouse */
   }
   
   .reservation {
     white-space: pre-line;
     padding: 8px;
-    background-color: #fffacd; /* light yellow for reservations */
+    background-color: #ffff00; /* Amarelo para reservas */
+    color: #000; /* Texto escuro para contraste */
     border-radius: 4px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
   }
   
   .exceptions {
@@ -53,7 +60,7 @@
   }
   
   .exceptions h3 {
-    color: #333;
+    color: #ffff00; /* Título das exceções em amarelo */
   }
   
   .exceptions ul {
@@ -62,10 +69,11 @@
   }
   
   .exceptions li {
-    background-color: #fffacd; /* light yellow for exceptions */
+    background-color: #444; /* Fundo mais claro para exceções */
+    color: #ffff00; /* Texto amarelo para contraste */
     margin: 5px 0;
     padding: 10px;
     border-radius: 4px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
   }
   
