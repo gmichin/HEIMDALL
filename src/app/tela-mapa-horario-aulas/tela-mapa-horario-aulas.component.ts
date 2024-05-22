@@ -25,15 +25,17 @@ interface ScheduleSlot {
   templateUrl: './tela-mapa-horario-aulas.component.html',
   styleUrls: ['./tela-mapa-horario-aulas.component.scss']
 })
-export class TelaMapaHorarioAulasComponent implements OnInit {
+export class TelaMapaHorarioAulasComponent implements OnInit{
   public dataUser = <RegisterUserResponse>this.sessionService.getSessionData('user').retorno;
 
   public id = this.dataUser._id;
 
-  public reservations: any[] = [];
-  public userReservations: any[] = [];
+  public reservations: Reservation[] = [];
+  public userReservations: Reservation[] = [];
+
   public schedule: ScheduleSlot[] = [];
-  public days = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'];
+  
+  public days = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
   public hours = Array.from({ length: 19 }, (_, i) => `${i + 5}:00`);
   public timetable: { [key: string]: { [key: string]: string } } = {};
   public exceptions: ScheduleSlot[] = [];
@@ -48,7 +50,6 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
       this.reservations = data;
       this.filterUserReservations();
     });
-    console.log(this.schedule);
   }
 
   filterUserReservations() {
@@ -63,7 +64,7 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
       classId: reservation.class_id,
       roomId: reservation.room_id
     }));
-    this.populateTimetable();
+    console.log(this.schedule);
   }
 
   populateTimetable() {
