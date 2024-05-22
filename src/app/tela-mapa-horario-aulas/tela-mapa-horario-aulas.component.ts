@@ -63,8 +63,8 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
 
   processReservations() {
     this.schedule = this.userReservations.flatMap(reservation => {
-      const start = new Date(reservation.start_time);
-      const end = new Date(reservation.end_time);
+      const start = new Date(Date.parse(reservation.start_time));
+      const end = new Date(Date.parse(reservation.end_time));
 
       console.log(`Start Time (original): ${reservation.start_time}`);
       console.log(`End Time (original): ${reservation.end_time}`);
