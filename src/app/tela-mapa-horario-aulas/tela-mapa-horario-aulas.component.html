@@ -1,1 +1,5 @@
-<p>tela-mapa-horario-aulas works!</p>
+<div *ngFor="let slot of schedule">
+  <div>
+    <strong>{{ slot.date | date: 'fullDate' }}:</strong> {{ slot.classId }}
+  </div>
+</div>
