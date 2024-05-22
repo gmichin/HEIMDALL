@@ -35,7 +35,7 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
   public rooms: any[] = [];
   public exceptions: any[] = [];
 
-  public tableHours: number[] = Array.from({ length: 17 }, (_, i) => i + 6); // Horas das 6 às 22
+  public tableHours: number[] = Array.from({ length: 17 }, (_, i) => i + 6);
   public daysOfWeek: string[] = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
 
   constructor(
@@ -63,8 +63,8 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
 
   processReservations() {
     this.schedule = this.userReservations.flatMap(reservation => {
-      const start = new Date(reservation.start_time);
-      const end = new Date(reservation.end_time);
+      const start = reservation.start_time;
+      const end = reservation.end_time;
       const slots = [];
 
       console.log(`Processing reservation from ${start} to ${end}`);
