@@ -1,3 +1,4 @@
+
 <div *ngIf="userReservas.length > 0">
     <h2>Grade Horária de {{ dataUser.name }}</h2>
     <table>
@@ -21,8 +22,3 @@
     <p>Nenhuma reserva encontrada.</p>
   </div>
   
-  <tr *ngFor="let reserva of userReservas">
-    <td>{{ formatDate(reserva.start_time) }}</td>
-    <td>{{ formatDate(reserva.end_time) }}</td>
-    <td>{{ reserva.class_id }}</td>
-  </tr>

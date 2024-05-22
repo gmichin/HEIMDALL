@@ -3,7 +3,8 @@ import { DatePipe } from '@angular/common';
 import { RegisterUserResponse } from '../models/register.models';
 import { SessionService } from './../services/session.service';
 import { SalaDataService } from '../services/sala-data.service';
-
+import { CalendarEvent, CalendarView, CalendarEventTimesChangedEvent } from 'angular-calendar';
+import { startOfDay, endOfDay, format } from 'date-fns';
 interface Reserva {
   _id: string;
   room_id: string;
@@ -23,6 +24,9 @@ export class TelaMapaHorarioAulasComponent {
   public id = this.dataUser._id;
   public reservas: Reserva[] = [];
   public userReservas: Reserva[] = [];
+  viewDate: Date = new Date();
+  view: CalendarView = CalendarView.Month;
+  events: CalendarEvent[] = [];
 
   constructor(
     private sessionService: SessionService,
@@ -33,15 +37,29 @@ export class TelaMapaHorarioAulasComponent {
     this.salaDataService.salaReservaData$.subscribe(reservas => {
       this.reservas = reservas;
       this.filterUserReservas();
+      this.loadEvents();
     });
   }
 
   filterUserReservas() {
     this.userReservas = this.reservas.filter(reserva => reserva.user_id === this.dataUser._id);
-    console.log(this.userReservas);
   }
 
-  formatDate(date: string): string {
-    return this.datePipe.transform(new Date(date), 'dd MMM yyyy HH:mm') || date;
+  loadEvents() {
+    this.events = this.userReservas.map(reserva => {
+      return {
+        start: new Date(reserva.start_time),
+        end: new Date(reserva.end_time),
+        title: `Class ID: ${reserva.class_id}`,
+        meta: {
+          reserva: reserva
+        }
+      };
+    });
+  }
+
+  handleEvent(action: string, event: CalendarEvent): void {
+    console.log(action, event);
+    alert(`Class ID: ${(event.meta as any).reserva.class_id}\nStart Time: ${event.start}\nEnd Time: ${event.end}`);
   }
 }
