@@ -20,6 +20,7 @@ import { ReloadService } from 'src/app/services/reload.service';
 export class TelaNovasSalasComponent implements OnInit {
   public resgiterForm: FormGroup;
   public courses: CourseModelResponse[] = [];
+  public roomToEdit!: {valid: boolean, room: RoomsModel};
 
   newSala: any[] = [];
 
@@ -32,16 +33,18 @@ export class TelaNovasSalasComponent implements OnInit {
     private roomService: RoomService,
     private reloadService: ReloadService
   ) {
+    this.roomToEdit = this.roomService.getRoomToEdit();
+
     this.resgiterForm = this.fb.group(
       {
-        number: [0, [Validators.required]],
-        chairs: [0, [Validators.required]],
-        tables: [0, [Validators.required]],
-        chairByTables: [0, [Validators.required]],
-        computers: [0, [Validators.required]],
-        capacity: [0, [Validators.required]],
-        projectors: [0, [Validators.required]],
-        course: ['', [Validators.required]],
+        number: [this.roomToEdit.valid ? this.roomToEdit.room.number: 0, [Validators.required]],
+        chairs: [this.roomToEdit.valid ? this.roomToEdit.room.chairs : 0, [Validators.required]],
+        tables: [this.roomToEdit.valid ? this.roomToEdit.room.tables : 0, [Validators.required]],
+        chairByTables: [this.roomToEdit.valid ? this.roomToEdit.room.chairByTables : 0, [Validators.required]],
+        computers: [this.roomToEdit.valid ? this.roomToEdit.room.computers : 0, [Validators.required]],
+        capacity: [this.roomToEdit.valid ? this.roomToEdit.room.capacity : 0, [Validators.required]],
+        projectors: [this.roomToEdit.valid ? this.roomToEdit.room.projectors : 0, [Validators.required]],
+        course: [this.roomToEdit.valid ? this.roomToEdit.room.course_id : '', [Validators.required]],
       }
     );
   }
@@ -81,7 +84,6 @@ export class TelaNovasSalasComponent implements OnInit {
 
   openSalas() {
     const dialogRef = this.dialog.open(TelaSalasComponent);
-
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
@@ -106,6 +108,23 @@ export class TelaNovasSalasComponent implements OnInit {
       status: 'DISPONIVEL',
     });
     
+    if(this.roomToEdit.valid) {
+      room._id = this.roomToEdit.room._id;
+      this.roomService.updateRoom(room).subscribe({
+        next: res => {
+          this.snackBar.open('Atualizado com sucesso!', '', {
+            duration: 4000,
+          });
+          this.reloadService.reoladPage(['tela-novas-salas']);
+        },
+        error: err => {
+          this.snackBar.open('Ocorreu um erro durante a atualização, por favor, tente novamente mais tarde.', '', {
+            duration: 4000,
+          });
+        }
+      })
+      return;
+    }
     this.roomService.createRoom(room).subscribe({
       next: res => {
         this.snackBar.open('Cadastrado com sucesso!', '', {
@@ -114,7 +133,7 @@ export class TelaNovasSalasComponent implements OnInit {
         this.reloadService.reoladPage(['tela-novas-salas']);
       },
       error: err => {
-        this.snackBar.open('Ocorreu um erro durante a busca dos cursos, por favor, tente novamente mais tarde.', '', {
+        this.snackBar.open('Ocorreu um erro durante o cadastro, por favor, tente novamente mais tarde.', '', {
           duration: 4000,
         });
       }

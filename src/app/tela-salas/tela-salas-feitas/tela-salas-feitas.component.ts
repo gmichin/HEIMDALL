@@ -10,6 +10,8 @@ import { TelaReservasComponent } from 'src/app/tela-reservas/tela-reservas.compo
 import { SelectionModel } from '@angular/cdk/collections';
 import { RoomsModel } from 'src/app/models/rooms.model';
 import { RoomService } from 'src/app/services/room.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ReloadService } from 'src/app/services/reload.service';
 
 
 interface Sala {
@@ -37,10 +39,10 @@ export class TelaSalasFeitasComponent {
 
 
   constructor(
-    private salaDataService: SalaDataService,
     public dialog: MatDialog,
-    private router: Router,
     private roomService: RoomService,
+    private snackBar: MatSnackBar,
+    private reloadService: ReloadService
   ) {
     this.roomService.getRoomsByInst().subscribe({
       next: salas => {
@@ -82,20 +84,25 @@ export class TelaSalasFeitasComponent {
   table!: MatTable<Sala>;
 
   editSala() {
+    this.roomService.saveRoomToEdit(this.selection.selected[0]);
   }
 
   apagarSalas() {
-    this.router.navigate(['/tela-deletar-salas']);
+    this.roomService.deleteRoom(this.selectionReject.selected).subscribe({
+      next: res => {
+        this.snackBar.open('Removida(s) com sucesso!', '', {
+          duration: 4000,
+        });
+        this.reloadService.reoladPage(['tela-salas-feitas']);
+      },
+      error: err => {
+        this.snackBar.open('Ocorreu um erro durante a solicitação, por favor, tente novamente mais tarde.', '', {
+          duration: 4000,
+        });
+        this.reloadService.reoladPage(['tela-salas-feitas']);
+      }
+    })
   }
-
-  // removeRow(sala: Sala) {
-  //   const index = this.salas.findIndex(item => item === sala);
-
-  //   if (index !== -1) {
-  //     this.salas.splice(index, 1);
-  //     this.dataSource.data = [...this.salas];
-  //   }
-  // }
 
   toggleAllRowsReject() {
     if (this.isAllRejectSelected()) {
