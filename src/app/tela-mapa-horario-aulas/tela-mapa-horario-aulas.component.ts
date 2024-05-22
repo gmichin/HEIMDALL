@@ -16,6 +16,7 @@ class Reservation {
 interface ScheduleSlot {
   date: Date;
   classId: string;
+  roomId: string;
 }
 
 @Component({
@@ -52,8 +53,9 @@ export class TelaMapaHorarioAulasComponent implements OnInit{
 
   processReservations() {
     this.schedule = this.userReservations.map(reservation => ({
-      date: new Date(reservation.start_time),
-      classId: reservation.class_id
+      date: reservation.start_time,
+      classId: reservation.class_id,
+      roomId: reservation.room_id
     }));
     console.log(this.schedule);
   }
