@@ -52,7 +52,11 @@
   color: yellow; /* Cor do texto do título amarela */
 }
 
+
 @media (max-width: 768px) {
+  .tituloH{
+    font-size: 1.5em;
+  }
   .box-container {
     flex-direction: column;
     margin-top: 30%;
@@ -70,13 +74,6 @@
       }
     }
   }
-}
-
-::ng-deep .mat-mdc-menu-trigger .mat-icon {
-  height: 50px;
-  width: 29px;
-  font-size: 33px;
-  color: yellow; /* Cor do ícone do menu amarela */
 }
 
 

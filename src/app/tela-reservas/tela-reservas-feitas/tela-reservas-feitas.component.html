@@ -28,7 +28,7 @@
 <div class="table-container">
   <mat-form-field>
     <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. profess" #input>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. professor" #input>
   </mat-form-field>
 
   <mat-table [dataSource]="dataSource">
@@ -65,7 +65,7 @@
     </ng-container>
 
     <ng-container matColumnDef="remove">
-      <mat-header-cell *matHeaderCellDef>Remove</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>Remover</mat-header-cell>
       <mat-cell *matCellDef="let sala">
         <button mat-icon-button (click)="removeRow(sala)">
           <mat-icon>delete</mat-icon>
