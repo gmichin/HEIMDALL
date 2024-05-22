@@ -3,21 +3,21 @@
       <mat-icon>menu</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <button (click)="openLoginSignUp()" mat-menu-item>
-        <mat-icon>dialpad</mat-icon>
-        <span>Cadastro/Login</span>
-      </button>
-      <button mat-menu-item disabled>
-        <mat-icon>voicemail</mat-icon>
-        <span>Mapa do Site</span>
+      <button (click)="redirectProfile()" mat-menu-item>
+        <mat-icon> account_circle </mat-icon>
+        <span>Perfil</span>
       </button>
       <button (click)="openSalas()" mat-menu-item>
-        <mat-icon>meeting_room</mat-icon>
+        <mat-icon>room</mat-icon>
         <span>Salas</span>
       </button>
       <button (click)="openReservas()" mat-menu-item>
-        <mat-icon>event</mat-icon>
+        <mat-icon>schedule</mat-icon>
         <span>Reservas</span>
+      </button>
+      <button (click)="redirectMaterias()" mat-menu-item>
+        <mat-icon>library_books</mat-icon>
+        <span>Materias</span>
       </button>
     </mat-menu>
   

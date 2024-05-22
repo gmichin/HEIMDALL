@@ -11,6 +11,8 @@ import { CourseModelResponse } from 'src/app/models/course.model';
 import { SessionService } from 'src/app/services/session.service';
 import { RoomService } from 'src/app/services/room.service';
 import { ReloadService } from 'src/app/services/reload.service';
+import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
+import { TelaMateriasComponent } from 'src/app/tela-materias/tela-materias.component';
 
 @Component({
   selector: 'app-tela-novas-salas',
@@ -31,7 +33,8 @@ export class TelaNovasSalasComponent implements OnInit {
     private snackBar: MatSnackBar,
     private sessionService: SessionService,
     private roomService: RoomService,
-    private reloadService: ReloadService
+    private reloadService: ReloadService,
+    private reload: ReloadService
   ) {
     this.roomToEdit = this.roomService.getRoomToEdit();
 
@@ -66,6 +69,26 @@ export class TelaNovasSalasComponent implements OnInit {
     });
   }
 
+  
+  public redirectProfile() {
+    const dialogT = this.dialog.open(TelaPerfilComponent, {
+      width: '400px',
+    });
+    dialogT.afterClosed().subscribe(() => {
+      this.dialogCloseSubs();
+    });
+  }
+  
+  private dialogCloseSubs() {
+    this.reload.reoladPage(['home-adm']);
+  }
+  
+  public redirectMaterias() {
+    const dialogT = this.dialog.open(TelaMateriasComponent, {
+      width: '400px',
+    });
+  }
+  
   openLoginSignUp() {
     const dialogRef = this.dialog.open(TelaLoginCadastroComponent);
 

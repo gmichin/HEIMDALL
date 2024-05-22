@@ -17,6 +17,7 @@ import { CourseService } from 'src/app/services/course.service';
 import { CourseModelResponse } from 'src/app/models/course.model';
 import { ClassService } from 'src/app/services/class.service';
 import { ClassModel } from 'src/app/models/class.model';
+import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 
 
 interface Sala {
@@ -49,6 +50,7 @@ export class TelaMateriasFeitasComponent {
     private snackBar: MatSnackBar,
     private reloadService: ReloadService,
     private classService: ClassService,
+    private reload: ReloadService
   ) {
     this.courseService.getAllCourses().subscribe({
       next: cursos => {
@@ -57,6 +59,18 @@ export class TelaMateriasFeitasComponent {
     });
   }
 
+  public redirectProfile() {
+    const dialogT = this.dialog.open(TelaPerfilComponent, {
+      width: '400px',
+    });
+    dialogT.afterClosed().subscribe(() => {
+      this.dialogCloseSubs();
+    });
+  }
+  
+  private dialogCloseSubs() {
+    this.reload.reoladPage(['home-adm']);
+  }
 
   openReservas() {
     const dialogRef = this.dialog.open(TelaReservasComponent);
