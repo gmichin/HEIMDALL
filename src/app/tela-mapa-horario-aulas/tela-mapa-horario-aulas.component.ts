@@ -59,7 +59,6 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
   filterUserReservations() {
     this.userReservations = this.reservations.filter(reservation => reservation.user_id === this.id);
     this.processReservations();
-    console.log(this.userReservations);
   }
 
   processReservations() {
@@ -68,7 +67,9 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
       const end = new Date(reservation.end_time);
       const slots = [];
 
-      // Iterar por cada hora entre start e end, incluindo a hora final se start < end
+      console.log(`Processing reservation from ${start} to ${end}`);
+
+      // Iterar por cada hora entre start e end
       for (let d = new Date(start.getTime()); d < end; d.setHours(d.getHours() + 1)) {
         slots.push({
           date: new Date(d),
@@ -77,14 +78,12 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
         });
       }
 
-      // Incluir o último horário
-      if (start.getHours() <= end.getHours()) {
-        slots.push({
-          date: new Date(end),
-          classId: reservation.class_id,
-          roomId: reservation.room_id
-        });
-      }
+      // Adicionar a última hora
+      slots.push({
+        date: new Date(end),
+        classId: reservation.class_id,
+        roomId: reservation.room_id
+      });
 
       return slots;
     });
