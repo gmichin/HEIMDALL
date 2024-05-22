@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RegisterUserResponse } from '../models/register.models';
 import { SessionService } from './../services/session.service';
 import { SalaDataService } from '../services/sala-data.service';
+import { forkJoin } from 'rxjs';
 
 class Reservation {
   _id: string = '';
@@ -36,6 +37,8 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
   public daysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
   public tableHours = Array.from({ length: 17 }, (_, i) => i + 6); // 6 to 22
   public exceptions: ScheduleSlot[] = [];
+  public classes: any[] = [];
+  public rooms: any[] = [];
   public table: { [key: string]: { classId: string, roomId: string } } = {};
 
   constructor(
@@ -44,8 +47,14 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.salaDataService.carregarDadosSalasReservadas().subscribe(data => {
-      this.reservations = data;
+    forkJoin({
+      reservations: this.salaDataService.carregarDadosSalasReservadas(),
+      classes: this.salaDataService.carregarDadosClasses(),
+      rooms: this.salaDataService.carregarDadosSalas()
+    }).subscribe(({ reservations, classes, rooms }) => {
+      this.reservations = reservations;
+      this.classes = classes;
+      this.rooms = rooms;
       this.filterUserReservations();
     });
   }
@@ -117,9 +126,16 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
     });
   }
 
-  getReservation(day: string, hour: number) {
-    const key = `${day}-${hour}`;
-    const reservation = this.table[key];
-    return reservation ? `Sala ${reservation.roomId}\nAula ${reservation.classId}` : '';
+  getReservation(day: string, hour: number): string {
+    const reservation = this.schedule.find(slot => {
+      const date = new Date(slot.dateIni);
+      return date.getHours() === hour && this.daysOfWeek[date.getDay() - 1] === day;
+    });
+    if (reservation) {
+      const className = this.classes.find(cls => cls._id === reservation.classId)?.name || 'N/A';
+      const roomNumber = this.rooms.find(room => room._id === reservation.roomId)?.number || 'N/A';
+      return `${className}\nNº da Sala: ${roomNumber}`;
+    }
+    return '';
   }
 }
