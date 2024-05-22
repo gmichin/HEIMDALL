@@ -67,26 +67,33 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
   processReservations() {
     const scheduleCount: { [key: string]: number } = {};
 
-    this.schedule = this.userReservations.map(reservation => {
+    this.schedule = this.userReservations.flatMap(reservation => {
       const startDate = new Date(reservation.start_time);
       const endDate = new Date(reservation.end_time);
+      const startHour = this.getHour(startDate);
+      const endHour = this.getHour(endDate);
       const dayOfWeek = this.getDayOfWeek(startDate);
-      const hour = this.getHour(startDate);
-      const key = `${dayOfWeek}-${hour}`;
+      const slots: ScheduleSlot[] = [];
 
-      if (!scheduleCount[key]) {
-        scheduleCount[key] = 0;
+      for (let hour = startHour; hour <= endHour; hour++) {
+        const key = `${dayOfWeek}-${hour}`;
+
+        if (!scheduleCount[key]) {
+          scheduleCount[key] = 0;
+        }
+        scheduleCount[key]++;
+
+        slots.push({
+          dateIni: startDate,
+          dateFim: endDate,
+          classId: reservation.class_id,
+          roomId: reservation.room_id,
+          dayOfWeek,
+          hour
+        });
       }
-      scheduleCount[key]++;
 
-      return {
-        dateIni: startDate,
-        dateFim: endDate,
-        classId: reservation.class_id,
-        roomId: reservation.room_id,
-        dayOfWeek,
-        hour
-      };
+      return slots;
     });
 
     this.fillTable(scheduleCount);
@@ -104,7 +111,7 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
           classId: reservation.classId,
           roomId: reservation.roomId
         };
-        scheduleCount[key] = 0; // Reset count to avoid reusing the slot
+        scheduleCount[key] = 0; 
       } else {
         this.exceptions.push(reservation);
       }
@@ -114,6 +121,6 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
   getReservation(day: string, hour: number) {
     const key = `${day}-${hour}`;
     const reservation = this.table[key];
-    return reservation ? `Sala ${reservation.roomId} <br> Aula ${reservation.classId}` : '';
+    return reservation ? `Sala ${reservation.roomId}\nAula ${reservation.classId}` : '';
   }
 }

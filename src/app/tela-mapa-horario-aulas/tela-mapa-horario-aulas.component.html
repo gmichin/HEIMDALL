@@ -14,7 +14,9 @@
   <tbody>
     <tr *ngFor="let hour of tableHours">
       <td>{{ hour }}:00</td>
-      <td *ngFor="let day of daysOfWeek">{{ getReservation(day, hour) }}</td>
+      <td *ngFor="let day of daysOfWeek">
+        <div style="white-space: pre-line">{{ getReservation(day, hour) }}</div>
+      </td>
     </tr>
   </tbody>
 </table>
