@@ -91,3 +91,8 @@ body {
     }
   }
   
+  .mat-toolbar {
+    background: #e6b60ade;
+    color: var(--mat-toolbar-container-text-color);
+    border-bottom: 2px solid black;
+  }
