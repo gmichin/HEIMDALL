@@ -33,7 +33,7 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
   public reservations: any[] = [];
   public userReservations: any[] = [];
   public schedule: ScheduleSlot[] = [];
-  public days = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
+  public days = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'];
   public hours = Array.from({ length: 19 }, (_, i) => `${i + 5}:00`);
   public timetable: { [key: string]: { [key: string]: string } } = {};
   public exceptions: ScheduleSlot[] = [];
@@ -48,6 +48,7 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
       this.reservations = data;
       this.filterUserReservations();
     });
+    console.log(this.schedule);
   }
 
   filterUserReservations() {
