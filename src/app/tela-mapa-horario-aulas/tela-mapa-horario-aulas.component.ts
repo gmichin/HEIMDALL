@@ -114,6 +114,6 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
   getReservation(day: string, hour: number) {
     const key = `${day}-${hour}`;
     const reservation = this.table[key];
-    return reservation ? `Sala ${reservation.roomId}, Aula ${reservation.classId}` : '';
+    return reservation ? `Sala ${reservation.roomId} <br> Aula ${reservation.classId}` : '';
   }
 }
