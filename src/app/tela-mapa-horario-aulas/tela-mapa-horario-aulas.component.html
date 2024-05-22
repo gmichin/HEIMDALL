@@ -3,9 +3,13 @@
   <div *ngIf="selectedDate">
     <h2>Agenda do Dia {{ selectedDate | date: 'dd/MM/yyyy' }}</h2>
     <div *ngFor="let slot of schedule">
-      <div *ngIf="slot.date === selectedDate">
-        <p>Classe: {{ slot.classId }}</p>
-        <p>Sala: {{ slot.roomId }}</p>
+      <div *ngIf="slot.date.getTime() === selectedDate.getTime()">
+        <div class="reservation-info">
+          <h2>Detalhes da Reserva</h2>
+          <p>Classe: {{ slot.classId }}</p>
+          <p>Sala: {{ slot.roomId }}</p>
+          <p>Data de Início: {{ slot.date | date: 'dd/MM/yyyy HH:mm' }}</p>
+        </div>
       </div>
     </div>
   </div>

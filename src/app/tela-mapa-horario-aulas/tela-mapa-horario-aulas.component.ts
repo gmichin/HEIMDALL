@@ -54,13 +54,12 @@ export class TelaMapaHorarioAulasComponent implements OnInit{
 
   processReservations() {
     this.schedule = this.userReservations.map(reservation => ({
-      date: new Date(reservation.start_time), // Convertendo para objeto Date
+      date: new Date(reservation.start_time),
       classId: reservation.class_id,
       roomId: reservation.room_id
     }));
     console.log(this.schedule);
   }
-
   dateSelected(date: Date) {
     this.selectedDate = date;
   }

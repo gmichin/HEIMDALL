@@ -1,0 +1,31 @@
+/* Estilos para o calendário */
+.mat-calendar {
+    background-color: #f0f0f0; /* Cor de fundo do calendário */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilos para as informações de reserva */
+  .reservation-info {
+    background-color: #ffffff; /* Cor de fundo das informações de reserva */
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilos para o texto das informações de reserva */
+  .reservation-info p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #333333; /* Cor do texto das informações de reserva */
+  }
+  
+  /* Estilos para o cabeçalho das informações de reserva */
+  .reservation-info h2 {
+    font-size: 16px;
+    color: #333333; /* Cor do texto do cabeçalho das informações de reserva */
+    margin-bottom: 10px;
+  }
+  
