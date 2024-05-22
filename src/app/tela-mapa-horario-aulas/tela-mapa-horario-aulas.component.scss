@@ -1,7 +1,9 @@
 body {
-    background-color: #121212; /* Fundo preto suave */
-    color: #e0e0e0; /* Texto claro, mas não branco puro */
+    background-color: #121212; // Fundo preto suave
+    color: #e0e0e0; // Texto claro
     font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
   }
   
   .table-container {
@@ -10,70 +12,73 @@ body {
     margin: 20px 0;
     font-size: 18px;
     text-align: left;
-    background-color: #1e1e1e; /* Fundo da tabela mais escuro */
+    background-color: #1e1e1e; // Fundo da tabela
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  }
   
-  .table-container thead {
-    background-color: #ffeb3b; /* Cabeçalho amarelo */
-    color: #000; /* Texto preto para contraste */
-  }
+    thead {
+      background-color: #ffeb3b; // Cabeçalho amarelo
+      color: #000; // Texto preto
   
-  .table-container th,
-  .table-container td {
-    padding: 12px 15px;
-    border-bottom: 1px solid #333; /* Bordas escuras */
-  }
+      th {
+        padding: 12px 15px;
+        &:first-child {
+          border-top-left-radius: 8px;
+          border-bottom-left-radius: 8px;
+        }
+        &:last-child {
+          border-top-right-radius: 8px;
+          border-bottom-right-radius: 8px;
+        }
+      }
+    }
   
-  .table-container th:first-child,
-  .table-container td:first-child {
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-  }
+    tbody {
+      tr {
+        &:nth-child(even) {
+          background-color: #2c2c2c; // Linhas pares mais claras
+        }
+        &:hover {
+          background-color: #3a3a3a; // Cor de fundo ao passar o mouse
+        }
   
-  .table-container th:last-child,
-  .table-container td:last-child {
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
-  }
+        td {
+          padding: 12px 15px;
+          border-bottom: 1px solid #333; // Bordas escuras
   
-  .table-container tbody tr:nth-child(even) {
-    background-color: #2c2c2c; /* Linhas pares mais claras */
-  }
-  
-  .table-container tbody tr:hover {
-    background-color: #3a3a3a; /* Cor de fundo ao passar o mouse */
-  }
-  
-  .reservation {
-    white-space: pre-line;
-    padding: 8px;
-    background-color: #ffeb3b; /* Amarelo suave para reservas */
-    color: #000; /* Texto preto para contraste */
-    border-radius: 4px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+          .reservation {
+            white-space: pre-line;
+            padding: 8px;
+            background-color: #ffeb3b; // Amarelo suave para reservas
+            color: #000; // Texto preto
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            text-align: center; // Centraliza o texto da reserva
+          }
+        }
+      }
+    }
   }
   
   .exceptions {
     margin-top: 20px;
-  }
   
-  .exceptions h3 {
-    color: #ffeb3b; /* Título das exceções em amarelo */
-  }
+    h3 {
+      color: #ffeb3b; // Título das exceções em amarelo
+    }
   
-  .exceptions ul {
-    list-style-type: none;
-    padding: 0;
-  }
+    ul {
+      list-style-type: none;
+      padding: 0;
   
-  .exceptions li {
-    background-color: #2c2c2c; /* Fundo mais claro para exceções */
-    color: #ffeb3b; /* Texto amarelo para contraste */
-    margin: 5px 0;
-    padding: 10px;
-    border-radius: 4px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+      li {
+        background-color: #2c2c2c; // Fundo mais claro para exceções
+        color: #ffeb3b; // Texto amarelo para contraste
+        margin: 5px 0;
+        padding: 10px;
+        border-radius: 4px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+      }
+    }
   }
   
