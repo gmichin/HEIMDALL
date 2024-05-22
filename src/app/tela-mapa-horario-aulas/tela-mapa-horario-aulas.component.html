@@ -1,4 +1,18 @@
-<div class="page-title">
+<mat-toolbar>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button (click)="redirectProfile()" mat-menu-item>
+      <mat-icon> account_circle </mat-icon>
+      <span>Perfil</span>
+    </button>
+    <button (click)="redirectReserve()" mat-menu-item>
+      <mat-icon>meeting_room</mat-icon>
+      <span>Reservas</span>
+    </button>
+  </mat-menu>
+  <div class="page-title">
   Horário/Mapa de Aulas
 </div>
 <table class="table-container">
