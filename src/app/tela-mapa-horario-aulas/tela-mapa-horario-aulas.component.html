@@ -1,5 +1,12 @@
-<div *ngFor="let slot of schedule">
-  <div>
-    <strong>{{ slot.date | date: 'fullDate' }}:</strong> {{ slot.classId }}
+<div>
+  <mat-calendar [selected]="selectedDate" (selectedChange)="dateSelected($event)"></mat-calendar>
+  <div *ngIf="selectedDate">
+    <h2>Agenda do Dia {{ selectedDate | date: 'dd/MM/yyyy' }}</h2>
+    <div *ngFor="let slot of schedule">
+      <div *ngIf="slot.date === selectedDate">
+        <p>Classe: {{ slot.classId }}</p>
+        <p>Sala: {{ slot.roomId }}</p>
+      </div>
+    </div>
   </div>
 </div>

@@ -22,17 +22,18 @@ interface ScheduleSlot {
 @Component({
   selector: 'app-tela-mapa-horario-aulas',
   templateUrl: './tela-mapa-horario-aulas.component.html',
-  styleUrl: './tela-mapa-horario-aulas.component.scss'
+  styleUrls: ['./tela-mapa-horario-aulas.component.scss']
 })
 export class TelaMapaHorarioAulasComponent implements OnInit{
   public dataUser = <RegisterUserResponse>this.sessionService.getSessionData('user').retorno;
 
   public id = this.dataUser._id;
 
-  public reservations: any[] = [];
-  public userReservations: any[] = [];
+  public reservations: Reservation[] = [];
+  public userReservations: Reservation[] = [];
 
   public schedule: ScheduleSlot[] = [];
+  public selectedDate: Date | undefined;
 
   constructor(
     private sessionService: SessionService,
@@ -53,10 +54,14 @@ export class TelaMapaHorarioAulasComponent implements OnInit{
 
   processReservations() {
     this.schedule = this.userReservations.map(reservation => ({
-      date: reservation.start_time,
+      date: new Date(reservation.start_time), // Convertendo para objeto Date
       classId: reservation.class_id,
       roomId: reservation.room_id
     }));
     console.log(this.schedule);
+  }
+
+  dateSelected(date: Date) {
+    this.selectedDate = date;
   }
 }
