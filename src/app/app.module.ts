@@ -51,8 +51,6 @@ import { MatPaginatorModule} from '@angular/material/paginator';
 import { TelaSolicitacoesRegistroResolver } from './tela-solicitacoes-registro/tela-solicitacoes-registro.resolver';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { TelaMapaHorarioAulasComponent } from './tela-mapa-horario-aulas/tela-mapa-horario-aulas.component';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 @NgModule({
   declarations: [	
@@ -105,7 +103,6 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     MatCheckboxModule,
     MatPaginatorModule,
     
-    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
   ],
   providers: [
     { provide: MAT_DIALOG_DATA, useValue: {} }, 
