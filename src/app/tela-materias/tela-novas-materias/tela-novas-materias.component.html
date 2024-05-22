@@ -1,0 +1,73 @@
+<mat-toolbar>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button (click)="openLoginSignUp()" mat-menu-item>
+        <mat-icon>dialpad</mat-icon>
+        <span>Cadastro/Login</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>voicemail</mat-icon>
+        <span>Mapa do Site</span>
+      </button>
+      <button (click)="openSalas()" mat-menu-item>
+        <mat-icon>meeting_room</mat-icon>
+        <span>Salas</span>
+      </button>
+      <button (click)="openMaterias()" mat-menu-item>
+        <mat-icon>meeting_room</mat-icon>
+        <span>Matérias</span>
+      </button>
+      <button (click)="openReservas()" mat-menu-item>
+        <mat-icon>event</mat-icon>
+        <span>Reservas</span>
+      </button>
+    </mat-menu>
+  
+    <span class="tituloH">HEIMDALL</span>
+  
+  </mat-toolbar>
+
+  <mat-card>
+    <mat-card-title>{{classToEdit.valid ? 'Edição': 'Cadastro'}} de Matérias</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="resgiterForm" (ngSubmit)="save()">
+        <mat-form-field>
+            <mat-label>Nome:</mat-label>
+          <input formControlName="name" matInput type="text" placeholder="Nome da Matéria" >
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Descrição:</mat-label>
+          <input formControlName="description" matInput type="text" placeholder="Descrição da Matéria">
+        </mat-form-field>
+        <br>
+
+        <mat-form-field>
+          <mat-label>Professores:</mat-label>
+          <mat-select formControlName="teachers_id" multiple>
+            @for (teacher of teachersList; track teacher) {
+              <mat-option [value]="teacher._id">{{teacher.name}}</mat-option>
+            } @empty {
+              <mat-option [value]="">Sem dados</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Curso:</mat-label>
+          <mat-select formControlName="course_id">
+            @for (course of courses; track course) {
+              <mat-option [value]="course._id">{{course.name}}</mat-option>
+            } @empty {
+              <mat-option [value]="">Sem dados</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <button type="submit" class="saveButton">{{classToEdit.valid ? 'Editar': 'Cadastrar'}}</button>
+      </form>
+    </mat-card-content>
+
+    
+  </mat-card>

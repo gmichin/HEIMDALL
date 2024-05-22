@@ -51,6 +51,9 @@ import { MatPaginatorModule} from '@angular/material/paginator';
 import { TelaSolicitacoesRegistroResolver } from './tela-solicitacoes-registro/tela-solicitacoes-registro.resolver';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { TelaMapaHorarioAulasComponent } from './tela-mapa-horario-aulas/tela-mapa-horario-aulas.component';
+import { TelaMateriasComponent } from './tela-materias/tela-materias.component';
+import { TelaNovasMateriasComponent } from './tela-materias/tela-novas-materias/tela-novas-materias.component';
+import { TelaMateriasFeitasComponent } from './tela-materias/tela-materias-feitas/tela-materias-feitas.component';
 
 @NgModule({
   declarations: [	
@@ -69,7 +72,10 @@ import { TelaMapaHorarioAulasComponent } from './tela-mapa-horario-aulas/tela-ma
     TelaSalasFeitasComponent,
     TelaNovasSalasComponent,
     TelaSolicitacoesRegistroComponent,
-    TelaMapaHorarioAulasComponent
+    TelaMapaHorarioAulasComponent,
+    TelaMateriasComponent,
+    TelaNovasMateriasComponent,
+    TelaMateriasFeitasComponent,
     
    ],
   imports: [
@@ -105,7 +111,7 @@ import { TelaMapaHorarioAulasComponent } from './tela-mapa-horario-aulas/tela-ma
     
   ],
   providers: [
-    { provide: MAT_DIALOG_DATA, useValue: {} }, 
+    { provide: MAT_DIALOG_DATA, useValue: {} },
     RegisterUserService,
     LoaderService, 
     TelaPerfilResolver,

@@ -57,7 +57,7 @@ export class TelaCreateTeacherComponent implements OnInit {
       name: this.resgiterForm.get('nome')?.value,
       email: this.resgiterForm.get('email')?.value,
       encrypted_password: this.resgiterForm.get('password')?.value,
-      role: {_id: RoleId.ADM},
+      role: {_id: RoleId.PROFESSOR},
     });
     this.registerUserService.register(request, this.idInstitution).subscribe({
       next: (res) => {

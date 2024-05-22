@@ -5,16 +5,16 @@ import { Router } from '@angular/router';
 import { ReloadService } from '../services/reload.service';
 
 @Component({
-  selector: 'app-tela-salas',
-  templateUrl: './tela-salas.component.html',
-  styleUrl: './tela-salas.component.scss'
+  selector: 'app-tela-materias',
+  templateUrl: './tela-materias.component.html',
+  styleUrl: './tela-materias.component.scss'
 })
-export class TelaSalasComponent {
+export class TelaMateriasComponent {
   constructor(
     public dialog: MatDialog,
     private router: Router,
     private reloadService: ReloadService,
-    public dialogRef: MatDialogRef<TelaSalasComponent>,
+    public dialogRef: MatDialogRef<TelaMateriasComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
   }
@@ -29,11 +29,11 @@ export class TelaSalasComponent {
   
   addData() {
     this.dialogRef.close();
-    this.reloadService.reoladPage(['/tela-novas-salas']);
+    this.reloadService.reoladPage(['/tela-novas-materias']);
   }
   
   seeData() {
     this.dialogRef.close();
-    this.reloadService.reoladPage(['/tela-salas-feitas']);
+    this.reloadService.reoladPage(['/tela-materias-feitas']);
   }
 }

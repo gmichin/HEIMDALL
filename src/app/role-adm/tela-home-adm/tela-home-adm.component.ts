@@ -15,6 +15,8 @@ import { TelaEditAdmComponent } from '../tela-edit-adm/tela-edit-adm.component';
 import { TelaEditCourseComponent } from '../tela-edit-course/tela-edit-course.component';
 import { TelaEditTeacherComponent } from '../tela-edit-teacher/tela-edit-teacher.component';
 import { ReloadService } from 'src/app/services/reload.service';
+import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
+import { TelaMateriasComponent } from 'src/app/tela-materias/tela-materias.component';
 
 @Component({
   selector: 'app-tela-home-adm',
@@ -56,6 +58,18 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
 
   public redirectReserve() {
     this.router.navigate(['/tela-reservas']);
+  }
+
+  public redirectSalas() {
+    const dialogT = this.dialog.open(TelaSalasComponent, {
+      width: '400px',
+    });
+  }
+
+  public redirectMaterias() {
+    const dialogT = this.dialog.open(TelaMateriasComponent, {
+      width: '400px',
+    });
   }
 
   public editItem(
