@@ -68,8 +68,8 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
       const end = new Date(reservation.end_time);
       const slots = [];
 
-      // Iterar por cada hora entre start e end
-      for (let d = new Date(start); d < end; d.setHours(d.getHours() + 1)) {
+      // Iterar por cada hora entre start e end, incluindo a hora final se start < end
+      for (let d = new Date(start); d <= end; d.setHours(d.getHours() + 1)) {
         slots.push({
           date: new Date(d),
           classId: reservation.class_id,
@@ -79,7 +79,7 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
 
       return slots;
     });
-    console.log(this.schedule);
+    console.log('Processed schedule:', this.schedule);
   }
 
   getReservation(day: string, hour: number): string {
