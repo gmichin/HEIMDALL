@@ -1,3 +1,6 @@
+<div class="page-title">
+  Horário/Mapa de Aulas
+</div>
 <table class="table-container">
   <thead>
     <tr>
@@ -24,7 +27,4 @@
   <h3>Exceções</h3>
   <ul>
     <li *ngFor="let exception of exceptions">
-      {{ exception.dateIni | date: 'short' }} - {{ exception.dateFim | date: 'short' }}: Sala {{ exception.roomId }}, Aula {{ exception.classId }}
-    </li>
-  </ul>
-</div>
+      {{ exception.dateIni | date: 'short' }} - {{ exception.dateFim | date: 'short' }}: Sala {{ exception.roomId }}, A
