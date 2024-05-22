@@ -69,9 +69,18 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
       const slots = [];
 
       // Iterar por cada hora entre start e end, incluindo a hora final se start < end
-      for (let d = new Date(start); d <= end; d.setHours(d.getHours() + 1)) {
+      for (let d = new Date(start.getTime()); d < end; d.setHours(d.getHours() + 1)) {
         slots.push({
           date: new Date(d),
+          classId: reservation.class_id,
+          roomId: reservation.room_id
+        });
+      }
+
+      // Incluir o último horário
+      if (start.getHours() <= end.getHours()) {
+        slots.push({
+          date: new Date(end),
           classId: reservation.class_id,
           roomId: reservation.room_id
         });
