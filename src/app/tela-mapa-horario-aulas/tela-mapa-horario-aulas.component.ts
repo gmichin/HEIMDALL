@@ -70,20 +70,13 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
       console.log(`Processing reservation from ${start} to ${end}`);
 
       // Iterar por cada hora entre start e end
-      for (let d = new Date(start.getTime()); d < end; d.setHours(d.getHours() + 1)) {
+      for (let d = new Date(start.getTime()); d <= end; d.setHours(d.getHours() + 1)) {
         slots.push({
           date: new Date(d),
           classId: reservation.class_id,
           roomId: reservation.room_id
         });
       }
-
-      // Adicionar a última hora
-      slots.push({
-        date: new Date(end),
-        classId: reservation.class_id,
-        roomId: reservation.room_id
-      });
 
       return slots;
     });
