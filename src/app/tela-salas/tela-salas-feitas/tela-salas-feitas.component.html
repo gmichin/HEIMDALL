@@ -32,8 +32,35 @@
     </mat-form-field>
   
     <mat-table [dataSource]="dataSource">
+
+    <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef>
+          Selecionar Editar
+        </th>
+        <td class="select" mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()"
+          [checked]="selection.isSelected(row)"
+          [disabled]="selection.selected.length > 0 ? !selection.isSelected(row) : false"
+          ></mat-checkbox>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="remove">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? toggleAllRowsReject() : null"
+        [checked]="selectionReject.hasValue() && isAllRejectSelected()"
+        [indeterminate]="selectionReject.hasValue() && !isAllRejectSelected()"
+        ></mat-checkbox>
+        Selecionar deletar
+      </th>
+      <td class="select" mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()"
+        (change)="$event ? selectionReject.toggle(row) : null"
+        [checked]="selectionReject.isSelected(row)"
+        ></mat-checkbox>
+      </td>
+      </ng-container>
       
-        <ng-container matColumnDef="numero">
+          <ng-container matColumnDef="numero">
             <mat-header-cell *matHeaderCellDef>Número da Sala</mat-header-cell>
             <mat-cell *matCellDef="let sala">{{ sala.number }}</mat-cell>
           </ng-container>
@@ -66,25 +93,16 @@
             <mat-header-cell *matHeaderCellDef>Utilizavel?</mat-header-cell>
             <mat-cell *matCellDef="let sala">{{ sala.status }}</mat-cell>
           </ng-container>
-  
-      <ng-container matColumnDef="remove">
-        <mat-header-cell *matHeaderCellDef>Remove</mat-header-cell>
-        <mat-cell *matCellDef="let sala">
-          <button mat-icon-button (click)="removeRow(sala)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </mat-cell>
-      </ng-container>
-  
+
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
     </div>
     <div class="demo-button-container">
-      <button mat-raised-button (click)="addData()" class="demo-button">
-        CRIAR NOVAS SALAS
+      <button mat-raised-button [disabled]="!salas.length" (click)="addData()" class="demo-button">
+        EDITAR SALA
       </button>
       <button mat-raised-button [disabled]="!salas.length" (click)="removeData()" class="demo-button">
-        EXCLUIR SALAS
+        EXCLUIR SALA
       </button>
   </div>

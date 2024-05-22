@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
 import { TelaReservasComponent } from 'src/app/tela-reservas/tela-reservas.component';
+import { SelectionModel } from '@angular/cdk/collections';
+import { RoomsModel } from 'src/app/models/rooms.model';
 
 
 interface Sala {
@@ -27,8 +29,12 @@ interface Sala {
 })
 export class TelaSalasFeitasComponent {
   salas: Sala[] = [];
-  displayedColumns: string[] = ['numero', 'cadeiras', 'mesas', 'cadeirasPorMesa', 'computadores', 'lousa', 'projetor', 'status', 'remove'];
+  displayedColumns: string[] = ['select','numero', 'cadeiras', 'mesas', 'cadeirasPorMesa', 'computadores', 'lousa', 'projetor', 'status', 'remove'];
   dataSource = new MatTableDataSource<Sala>(this.salas);
+  selection = new SelectionModel<RoomsModel>(true, []);
+  selectionReject = new SelectionModel<RoomsModel>(true, []);
+
+
 
   constructor(
     private salaDataService: SalaDataService,
@@ -88,5 +94,16 @@ export class TelaSalasFeitasComponent {
       this.salas.splice(index, 1);
       this.dataSource.data = [...this.salas];
     }
+  }
+
+  toggleAllRowsReject() {
+    if (this.isAllRejectSelected()) {
+      this.selectionReject.clear();
+      return;
+    }
+  }
+
+  isAllRejectSelected() {
+    return this.selectionReject.selected.length > 0;
   }
 }
