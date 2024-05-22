@@ -59,6 +59,7 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
   filterUserReservations() {
     this.userReservations = this.reservations.filter(reservation => reservation.user_id === this.id);
     this.processReservations();
+    console.log(this.userReservations);
   }
 
   processReservations() {
