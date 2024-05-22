@@ -97,7 +97,6 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
     });
 
     this.fillTable(scheduleCount);
-    console.log(this.schedule);
   }
 
   fillTable(scheduleCount: { [key: string]: number }) {

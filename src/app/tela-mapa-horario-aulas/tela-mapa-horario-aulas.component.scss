@@ -1,6 +1,70 @@
-.table-container{
-    color: white;
-}
-.exceptions{
-    color: white;
-}
+.table-container {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+  }
+  
+  .table-container th,
+  .table-container td {
+    border: 1px solid #dcdcdc;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .table-container th {
+    background-color: #ffff00; /* Base color */
+    color: #333;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  .table-container td {
+    background-color: #f9f9f9;
+  }
+  
+  .table-container tbody tr:nth-child(odd) td {
+    background-color: #fff;
+  }
+  
+  .table-container .reservation {
+    white-space: pre-line;
+    background-color: #ff0; /* Slightly lighter shade of yellow */
+    border-radius: 4px;
+    padding: 4px;
+    margin: 2px;
+  }
+  
+  .table-container .reservation::before {
+    content: "Sala ";
+    font-weight: bold;
+  }
+  
+  .table-container .reservation::after {
+    content: "\a Aula ";
+    font-weight: bold;
+  }
+  
+  .exceptions {
+    margin-top: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .exceptions h3 {
+    color: #333;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  .exceptions ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .exceptions li {
+    background-color: #ffef99; /* Light yellow background for exceptions */
+    border: 1px solid #dcdcdc;
+    margin: 4px 0;
+    padding: 8px;
+    border-radius: 4px;
+  }
+  
