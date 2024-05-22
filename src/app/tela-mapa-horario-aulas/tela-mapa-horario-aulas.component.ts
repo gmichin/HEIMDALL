@@ -35,7 +35,7 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
   public rooms: any[] = [];
   public exceptions: any[] = [];
 
-  public tableHours: number[] = Array.from({ length: 17 }, (_, i) => i + 6);
+  public tableHours: number[] = Array.from({ length: 17 }, (_, i) => i + 6); // Horas das 6 às 22
   public daysOfWeek: string[] = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
 
   constructor(
@@ -63,20 +63,31 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
 
   processReservations() {
     this.schedule = this.userReservations.flatMap(reservation => {
-      const start = reservation.start_time;
-      const end = reservation.end_time;
+      const start = new Date(reservation.start_time);
+      const end = new Date(reservation.end_time);
+
+      console.log(`Start Time (original): ${reservation.start_time}`);
+      console.log(`End Time (original): ${reservation.end_time}`);
+      console.log(`Start Time (Date object): ${start}`);
+      console.log(`End Time (Date object): ${end}`);
+
       const slots = [];
 
-      console.log(`Processing reservation from ${start} to ${end}`);
-
       // Iterar por cada hora entre start e end
-      for (let d = new Date(start.getTime()); d <= end; d.setHours(d.getHours() + 1)) {
+      for (let d = new Date(start.getTime()); d < end; d.setHours(d.getHours() + 1)) {
         slots.push({
           date: new Date(d),
           classId: reservation.class_id,
           roomId: reservation.room_id
         });
       }
+
+      // Adicionar a última hora
+      slots.push({
+        date: new Date(end),
+        classId: reservation.class_id,
+        roomId: reservation.room_id
+      });
 
       return slots;
     });
