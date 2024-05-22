@@ -8,6 +8,9 @@ import { CourseService } from 'src/app/services/course.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RoomsModel } from 'src/app/models/rooms.model';
 import { CourseModelResponse } from 'src/app/models/course.model';
+import { SessionService } from 'src/app/services/session.service';
+import { RoomService } from 'src/app/services/room.service';
+import { ReloadService } from 'src/app/services/reload.service';
 
 @Component({
   selector: 'app-tela-novas-salas',
@@ -25,6 +28,9 @@ export class TelaNovasSalasComponent implements OnInit {
     private fb: FormBuilder,
     private courseService: CourseService,
     private snackBar: MatSnackBar,
+    private sessionService: SessionService,
+    private roomService: RoomService,
+    private reloadService: ReloadService
   ) {
     this.resgiterForm = this.fb.group(
       {
@@ -64,6 +70,7 @@ export class TelaNovasSalasComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
+
   openReservas() {
     const dialogRef = this.dialog.open(TelaReservasComponent);
 
@@ -71,6 +78,7 @@ export class TelaNovasSalasComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
+
   openSalas() {
     const dialogRef = this.dialog.open(TelaSalasComponent);
 
@@ -78,7 +86,38 @@ export class TelaNovasSalasComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
-  save(){
+
+  public save() {
+    const instituition_id = this.sessionService.getSessionData<string>(
+      'idInstitution'
+    ).retorno;
+
+    const room = new RoomsModel({
+      number: this.resgiterForm.get('number')?.value,
+      chairs: this.resgiterForm.get('chairs')?.value,
+      tables: this.resgiterForm.get('tables')?.value,
+      chairByTables: this.resgiterForm.get('chairByTables')?.value,
+      computers: this.resgiterForm.get('computers')?.value,
+      capacity: this.resgiterForm.get('capacity')?.value,
+      projectors: this.resgiterForm.get('projectors')?.value,
+      course_id: this.resgiterForm.get('course')?.value,
+      instituition_id,
+      _id:'',
+      status: 'DISPONIVEL',
+    });
     
+    this.roomService.createRoom(room).subscribe({
+      next: res => {
+        this.snackBar.open('Cadastrado com sucesso!', '', {
+          duration: 4000,
+        });
+        this.reloadService.reoladPage(['tela-novas-salas']);
+      },
+      error: err => {
+        this.snackBar.open('Ocorreu um erro durante a busca dos cursos, por favor, tente novamente mais tarde.', '', {
+          duration: 4000,
+        });
+      }
+    })
   }
 }

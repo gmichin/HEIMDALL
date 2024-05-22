@@ -9,6 +9,7 @@ import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
 import { TelaReservasComponent } from 'src/app/tela-reservas/tela-reservas.component';
 import { SelectionModel } from '@angular/cdk/collections';
 import { RoomsModel } from 'src/app/models/rooms.model';
+import { RoomService } from 'src/app/services/room.service';
 
 
 interface Sala {
@@ -28,9 +29,8 @@ interface Sala {
   styleUrls: ['./tela-salas-feitas.component.scss']
 })
 export class TelaSalasFeitasComponent {
-  salas: Sala[] = [];
-  displayedColumns: string[] = ['select','numero', 'cadeiras', 'mesas', 'cadeirasPorMesa', 'computadores', 'lousa', 'projetor', 'status', 'remove'];
-  dataSource = new MatTableDataSource<Sala>(this.salas);
+  displayedColumns: string[] = ['remove','edit','numero', 'cadeiras', 'mesas', 'cadeirasPorMesa', 'computadores', 'lousa', 'projetor', 'status'];
+  dataSource = new MatTableDataSource<RoomsModel>();
   selection = new SelectionModel<RoomsModel>(true, []);
   selectionReject = new SelectionModel<RoomsModel>(true, []);
 
@@ -39,11 +39,13 @@ export class TelaSalasFeitasComponent {
   constructor(
     private salaDataService: SalaDataService,
     public dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private roomService: RoomService,
   ) {
-    this.salaDataService.carregarDadosSalas().subscribe((salas) => {
-      this.salas = salas;
-      this.dataSource.data = this.salas;
+    this.roomService.getRoomsByInst().subscribe({
+      next: salas => {
+        this.dataSource.data = salas;
+      }
     });
   }
 
@@ -79,28 +81,32 @@ export class TelaSalasFeitasComponent {
   @ViewChild(MatTable)
   table!: MatTable<Sala>;
 
-  addData() {
-    this.router.navigate(['/tela-novas-salas']);
+  editSala() {
   }
 
-  removeData() {
+  apagarSalas() {
     this.router.navigate(['/tela-deletar-salas']);
   }
 
-  removeRow(sala: Sala) {
-    const index = this.salas.findIndex(item => item === sala);
+  // removeRow(sala: Sala) {
+  //   const index = this.salas.findIndex(item => item === sala);
 
-    if (index !== -1) {
-      this.salas.splice(index, 1);
-      this.dataSource.data = [...this.salas];
-    }
-  }
+  //   if (index !== -1) {
+  //     this.salas.splice(index, 1);
+  //     this.dataSource.data = [...this.salas];
+  //   }
+  // }
 
   toggleAllRowsReject() {
     if (this.isAllRejectSelected()) {
       this.selectionReject.clear();
       return;
     }
+    this.dataSource.data.forEach(row => {
+      if(!this.selectionReject.isSelected(row)){
+        this.selectionReject.select(row);
+      }
+    })
   }
 
   isAllRejectSelected() {

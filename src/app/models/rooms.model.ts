@@ -8,7 +8,7 @@ export class RoomsModel {
   projectors!: number;
   course_id!: string;
   instituition_id!: string;
-  _id!: string
+  _id?: string = '';
   status!: 'DISPONIVEL' | 'OCUPADA';
   
   constructor(data: Required<RoomsModel>) {
