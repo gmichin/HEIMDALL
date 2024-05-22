@@ -18,6 +18,8 @@ interface ScheduleSlot {
   dateFim: Date;
   classId: string;
   roomId: string;
+  dayOfWeek: string;
+  hour: number;
 }
 
 @Component({
@@ -25,20 +27,16 @@ interface ScheduleSlot {
   templateUrl: './tela-mapa-horario-aulas.component.html',
   styleUrls: ['./tela-mapa-horario-aulas.component.scss']
 })
-export class TelaMapaHorarioAulasComponent implements OnInit{
+export class TelaMapaHorarioAulasComponent implements OnInit {
   public dataUser = <RegisterUserResponse>this.sessionService.getSessionData('user').retorno;
-
   public id = this.dataUser._id;
-
   public reservations: Reservation[] = [];
   public userReservations: Reservation[] = [];
-
   public schedule: ScheduleSlot[] = [];
-  
-  public days = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
-  public hours = Array.from({ length: 19 }, (_, i) => `${i + 5}:00`);
-  public timetable: { [key: string]: { [key: string]: string } } = {};
+  public daysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
+  public tableHours = Array.from({ length: 19 }, (_, i) => i + 5); // 5 to 23
   public exceptions: ScheduleSlot[] = [];
+  public table: { [key: string]: { classId: string, roomId: string } } = {};
 
   constructor(
     private sessionService: SessionService,
@@ -57,51 +55,65 @@ export class TelaMapaHorarioAulasComponent implements OnInit{
     this.processReservations();
   }
 
+  getDayOfWeek(date: Date): string {
+    const days = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'];
+    return days[date.getUTCDay()];
+  }
+
+  getHour(date: Date): number {
+    return date.getUTCHours();
+  }
+
   processReservations() {
-    this.schedule = this.userReservations.map(reservation => ({
-      dateIni: new Date(reservation.start_time),
-      dateFim: new Date(reservation.end_time),
-      classId: reservation.class_id,
-      roomId: reservation.room_id
-    }));
+    const scheduleCount: { [key: string]: number } = {};
+
+    this.schedule = this.userReservations.map(reservation => {
+      const startDate = new Date(reservation.start_time);
+      const endDate = new Date(reservation.end_time);
+      const dayOfWeek = this.getDayOfWeek(startDate);
+      const hour = this.getHour(startDate);
+      const key = `${dayOfWeek}-${hour}`;
+
+      if (!scheduleCount[key]) {
+        scheduleCount[key] = 0;
+      }
+      scheduleCount[key]++;
+
+      return {
+        dateIni: startDate,
+        dateFim: endDate,
+        classId: reservation.class_id,
+        roomId: reservation.room_id,
+        dayOfWeek,
+        hour
+      };
+    });
+
+    this.fillTable(scheduleCount);
     console.log(this.schedule);
   }
 
-  populateTimetable() {
-    const dayHourCount: { [key: string]: number } = {};
-    this.schedule.forEach(slot => {
-      const day = slot.dateIni.getDay();
-      const hour = slot.dateIni.getHours();
-      const key = `${day}-${hour}`;
-      if (dayHourCount[key]) {
-        dayHourCount[key]++;
-      } else {
-        dayHourCount[key] = 1;
-      }
-    });
+  fillTable(scheduleCount: { [key: string]: number }) {
+    const maxOccurrences = Math.max(...Object.values(scheduleCount));
 
-    this.schedule.forEach(slot => {
-      const day = slot.dateIni.getDay();
-      const hour = slot.dateIni.getHours();
-      const key = `${day}-${hour}`;
-      if (dayHourCount[key] > 1) {
-        this.addToTimetable(slot, day, hour);
+    this.schedule.forEach(reservation => {
+      const key = `${reservation.dayOfWeek}-${reservation.hour}`;
+
+      if (scheduleCount[key] === maxOccurrences) {
+        this.table[key] = {
+          classId: reservation.classId,
+          roomId: reservation.roomId
+        };
+        scheduleCount[key] = 0; // Reset count to avoid reusing the slot
       } else {
-        this.exceptions.push(slot);
+        this.exceptions.push(reservation);
       }
     });
   }
 
-  addToTimetable(slot: ScheduleSlot, day: number, hour: number) {
-    const dayStr = this.days[day - 1];
-    const hourStr = `${hour}:00`;
-    if (!this.timetable[hourStr]) {
-      this.timetable[hourStr] = {};
-    }
-    this.timetable[hourStr][dayStr] = `${slot.roomId} - ${slot.classId}`;
-  }
-
-  getClassAndRoom(hour: string, day: string): string {
-    return this.timetable[hour]?.[day] || '';
+  getReservation(day: string, hour: number) {
+    const key = `${day}-${hour}`;
+    const reservation = this.table[key];
+    return reservation ? `Sala ${reservation.roomId}, Aula ${reservation.classId}` : '';
   }
 }

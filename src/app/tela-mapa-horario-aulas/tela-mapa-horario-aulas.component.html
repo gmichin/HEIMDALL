@@ -1,28 +1,28 @@
-<div class="table-container">
-  <table>
-    <thead>
-      <tr>
-        <th>Horário</th>
-        <th>Seg</th>
-        <th>Ter</th>
-        <th>Qua</th>
-        <th>Qui</th>
-        <th>Sex</th>
-        <th>Sáb</th>
-        <th>Dom</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let hour of hours">
-        <td>{{ hour }}</td>
-        <td *ngFor="let day of days">{{ getClassAndRoom(hour, day) }}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<div class="exceptions">
+<table>
+  <thead>
+    <tr>
+      <th>Horário</th>
+      <th>Segunda</th>
+      <th>Terça</th>
+      <th>Quarta</th>
+      <th>Quinta</th>
+      <th>Sexta</th>
+      <th>Sábado</th>
+      <th>Domingo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let hour of tableHours">
+      <td>{{ hour }}:00</td>
+      <td *ngFor="let day of daysOfWeek">{{ getReservation(day, hour) }}</td>
+    </tr>
+  </tbody>
+</table>
+<div *ngIf="exceptions.length > 0">
   <h3>Exceções</h3>
   <ul>
-    <li *ngFor="let exception of exceptions">{{ exception | json }}</li>
+    <li *ngFor="let exception of exceptions">
+      {{ exception.dateIni | date: 'short' }} - {{ exception.dateFim | date: 'short' }}: Sala {{ exception.roomId }}, Aula {{ exception.classId }}
+    </li>
   </ul>
 </div>
