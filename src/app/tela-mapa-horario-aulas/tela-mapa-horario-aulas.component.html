@@ -1,4 +1,4 @@
-<table>
+<table class="table-container">
   <thead>
     <tr>
       <th>Horário</th>
@@ -18,7 +18,7 @@
     </tr>
   </tbody>
 </table>
-<div *ngIf="exceptions.length > 0">
+<div *ngIf="exceptions.length > 0" class="exceptions">
   <h3>Exceções</h3>
   <ul>
     <li *ngFor="let exception of exceptions">
