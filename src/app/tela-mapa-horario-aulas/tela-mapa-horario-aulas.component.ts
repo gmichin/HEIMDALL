@@ -16,8 +16,6 @@ export class TelaMapaHorarioAulasComponent {
 
   constructor(
     private sessionService: SessionService,
-    private salaDataService: SalaDataService,
-    private datePipe: DatePipe
   ){
     console.log(this.id);
   }
