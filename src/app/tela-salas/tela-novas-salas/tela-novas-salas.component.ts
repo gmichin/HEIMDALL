@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
 import { TelaReservasComponent } from 'src/app/tela-reservas/tela-reservas.component';
@@ -14,7 +14,7 @@ import { CourseModelResponse } from 'src/app/models/course.model';
   templateUrl: './tela-novas-salas.component.html',
   styleUrl: './tela-novas-salas.component.scss'
 })
-export class TelaNovasSalasComponent {
+export class TelaNovasSalasComponent implements OnInit {
   public resgiterForm: FormGroup;
   public courses: CourseModelResponse[] = [];
 
@@ -26,16 +26,6 @@ export class TelaNovasSalasComponent {
     private courseService: CourseService,
     private snackBar: MatSnackBar,
   ) {
-    this.courseService.getAllCourses().subscribe({
-      next: res => {
-        this.courses = res;
-      },
-      error: err => {
-        this.snackBar.open('Ocorreu um erro durante a busca dos cursos, por favor, tente novamente mais tarde.', '', {
-          duration: 2000,
-        });
-      }
-    })
     this.resgiterForm = this.fb.group(
       {
         number: [0, [Validators.required]],
@@ -48,6 +38,23 @@ export class TelaNovasSalasComponent {
         course: ['', [Validators.required]],
       }
     );
+  }
+  ngOnInit(): void {
+    this.courseService.getAllCourses().subscribe({
+      next: res => {
+        this.courses = res;
+        if(res.length == 0) {
+          this.snackBar.open('Ocorreu um erro durante a busca dos cursos, por favor, tente novamente mais tarde.', '', {
+            duration: 4000,
+          });
+        }
+      },
+      error: err => {
+        this.snackBar.open('Ocorreu um erro durante a busca dos cursos, por favor, tente novamente mais tarde.', '', {
+          duration: 2000,
+        });
+      }
+    });
   }
 
   openLoginSignUp() {
