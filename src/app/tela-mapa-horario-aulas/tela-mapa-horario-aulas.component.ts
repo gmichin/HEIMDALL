@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { RegisterUserResponse } from '../models/register.models';
 import { SessionService } from './../services/session.service';
 import { SalaDataService } from '../services/sala-data.service';
+import { forkJoin } from 'rxjs';
+import { eachHourOfInterval } from 'date-fns';
 
 class Reservation {
   _id: string = '';
@@ -14,12 +16,9 @@ class Reservation {
 }
 
 interface ScheduleSlot {
-  dateIni: Date;
-  dateFim: Date;
+  date: Date;
   classId: string;
   roomId: string;
-  dayOfWeek: string;
-  hour: number;
 }
 
 @Component({
@@ -33,19 +32,27 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
   public reservations: Reservation[] = [];
   public userReservations: Reservation[] = [];
   public schedule: ScheduleSlot[] = [];
-  public daysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
-  public tableHours = Array.from({ length: 17 }, (_, i) => i + 6); // 6 to 22
-  public exceptions: ScheduleSlot[] = [];
-  public table: { [key: string]: { classId: string, roomId: string } } = {};
+  public classes: any[] = [];
+  public rooms: any[] = [];
+  public exceptions: any[] = [];
+
+  public tableHours: number[] = Array.from({ length: 17 }, (_, i) => i + 6); // Horas das 6 às 22
+  public daysOfWeek: string[] = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
 
   constructor(
     private sessionService: SessionService,
     private salaDataService: SalaDataService
-  ) { }
+  ) {}
 
   ngOnInit() {
-    this.salaDataService.carregarDadosSalasReservadas().subscribe(data => {
-      this.reservations = data;
+    forkJoin({
+      reservations: this.salaDataService.carregarDadosSalasReservadas(),
+      classes: this.salaDataService.carregarDadosClasses(),
+      rooms: this.salaDataService.carregarDadosSalas()
+    }).subscribe(({ reservations, classes, rooms }) => {
+      this.reservations = reservations;
+      this.classes = classes;
+      this.rooms = rooms;
       this.filterUserReservations();
     });
   }
@@ -55,72 +62,50 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
     this.processReservations();
   }
 
-  getDayOfWeek(date: Date): string {
-    const days = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'];
-    return days[date.getUTCDay()];
-  }
-
-  getHour(date: Date): number {
-    return date.getUTCHours();
-  }
-
   processReservations() {
-    const scheduleCount: { [key: string]: number } = {};
-
     this.schedule = this.userReservations.flatMap(reservation => {
-      const startDate = new Date(reservation.start_time);
-      const endDate = new Date(reservation.end_time);
-      const startHour = this.getHour(startDate);
-      const endHour = this.getHour(endDate);
-      const dayOfWeek = this.getDayOfWeek(startDate);
-      const slots: ScheduleSlot[] = [];
+      const start = this.parseDate(reservation.start_time);
+      const end = this.parseDate(reservation.end_time);
 
-      for (let hour = startHour; hour <= endHour; hour++) {
-        const key = `${dayOfWeek}-${hour}`;
+      console.log(`Start Time (original): ${reservation.start_time}`);
+      console.log(`End Time (original): ${reservation.end_time}`);
+      console.log(`Start Time (Date object): ${start}`);
+      console.log(`End Time (Date object): ${end}`);
 
-        if (!scheduleCount[key]) {
-          scheduleCount[key] = 0;
-        }
-        scheduleCount[key]++;
+      const slots = eachHourOfInterval({ start, end: new Date(end.getTime() - 1) }).map(date => ({
+        date,
+        classId: reservation.class_id,
+        roomId: reservation.room_id
+      }));
 
-        slots.push({
-          dateIni: startDate,
-          dateFim: endDate,
-          classId: reservation.class_id,
-          roomId: reservation.room_id,
-          dayOfWeek,
-          hour
-        });
-      }
+      // Adicionar a última hora
+      slots.push({
+        date: end,
+        classId: reservation.class_id,
+        roomId: reservation.room_id
+      });
 
       return slots;
     });
-
-    this.fillTable(scheduleCount);
-    console.log(this.schedule);
+    console.log('Processed schedule:', this.schedule);
   }
 
-  fillTable(scheduleCount: { [key: string]: number }) {
-    const maxOccurrences = Math.max(...Object.values(scheduleCount));
+  parseDate(dateStr: string): Date {
+    // Remover prefixo indesejado (ex: "027 ") e criar objeto Date
+    const cleanedDateStr = dateStr.replace(/^\d{3}\s/, '');
+    return new Date(cleanedDateStr);
+  }
 
-    this.schedule.forEach(reservation => {
-      const key = `${reservation.dayOfWeek}-${reservation.hour}`;
-
-      if (scheduleCount[key] === maxOccurrences) {
-        this.table[key] = {
-          classId: reservation.classId,
-          roomId: reservation.roomId
-        };
-        scheduleCount[key] = 0; // Reset count to avoid reusing the slot
-      } else {
-        this.exceptions.push(reservation);
-      }
+  getReservation(day: string, hour: number): string {
+    const reservation = this.schedule.find(slot => {
+      const date = slot.date;
+      return date.getHours() === hour && this.daysOfWeek[date.getDay() - 1] === day;
     });
-  }
-
-  getReservation(day: string, hour: number) {
-    const key = `${day}-${hour}`;
-    const reservation = this.table[key];
-    return reservation ? `Sala ${reservation.roomId}\nAula ${reservation.classId}` : '';
+    if (reservation) {
+      const className = this.classes.find(cls => cls._id === reservation.classId)?.name || 'N/A';
+      const roomNumber = this.rooms.find(room => room._id === reservation.roomId)?.number || 'N/A';
+      return `${className}\nNº da Sala: ${roomNumber}`;
+    }
+    return '';
   }
 }
