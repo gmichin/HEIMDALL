@@ -3,7 +3,7 @@ import { RegisterUserResponse } from '../models/register.models';
 import { SessionService } from './../services/session.service';
 import { SalaDataService } from '../services/sala-data.service';
 import { forkJoin } from 'rxjs';
-import { eachHourOfInterval } from 'date-fns';
+import { eachHourOfInterval, parse } from 'date-fns';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
@@ -98,9 +98,12 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
   }
 
   parseDate(dateStr: string): Date {
-    // Remover prefixo indesejado (ex: "027 ") e criar objeto Date
+    // Remover prefixo indesejado (ex: "027 ") e criar objeto Date usando date-fns
     const cleanedDateStr = dateStr.replace(/^\d{3}\s/, '');
-    return new Date(cleanedDateStr);
+    // Define o formato da string de data que você espera
+    const format = "dd MMM d yyyy HH:mm:ss xxx";
+    // Use a função parse do date-fns para analisar a string de data
+    return parse(cleanedDateStr, format, new Date());
   }
 
   getReservation(day: string, hour: number): string {
