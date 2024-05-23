@@ -60,9 +60,6 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
     const dialogT = this.dialog.open(TelaReservasComponent, {
       width: '400px',
     });
-    dialogT.afterClosed().subscribe(() => {
-      this.dialogCloseSubs();
-    });
   }
 
   public redirectSalas() {
