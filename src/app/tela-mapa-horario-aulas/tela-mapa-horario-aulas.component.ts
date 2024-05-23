@@ -3,7 +3,7 @@ import { RegisterUserResponse } from '../models/register.models';
 import { SessionService } from './../services/session.service';
 import { SalaDataService } from '../services/sala-data.service';
 import { forkJoin } from 'rxjs';
-import { eachHourOfInterval, parse } from 'date-fns';
+import { eachHourOfInterval } from 'date-fns';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
@@ -40,8 +40,7 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
   public rooms: any[] = [];
   public exceptions: any[] = [];
 
-  public tableHours: string[] = Array.from({ length: 17 }, (_, i) => (i + 6 < 10 ? '0' : '') + (i + 6).toString());
-
+  public tableHours: number[] = Array.from({ length: 17 }, (_, i) => i + 6); // Horas das 6 às 22
   public daysOfWeek: string[] = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
 
   constructor(
@@ -98,12 +97,9 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
   }
 
   parseDate(dateStr: string): Date {
-    // Remover prefixo indesejado (ex: "027 ") e criar objeto Date usando date-fns
+    // Remover prefixo indesejado (ex: "027 ") e criar objeto Date
     const cleanedDateStr = dateStr.replace(/^\d{3}\s/, '');
-    // Define o formato da string de data que você espera
-    const format = "dd MMM d yyyy HH:mm:ss xxx";
-    // Use a função parse do date-fns para analisar a string de data
-    return parse(cleanedDateStr, format, new Date());
+    return new Date(cleanedDateStr);
   }
 
   getReservation(day: string, hour: number): string {
