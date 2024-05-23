@@ -3,7 +3,7 @@ import { RegisterUserResponse } from '../models/register.models';
 import { SessionService } from './../services/session.service';
 import { SalaDataService } from '../services/sala-data.service';
 import { forkJoin } from 'rxjs';
-import { eachHourOfInterval } from 'date-fns';
+import { eachHourOfInterval, parse, format, addHours } from 'date-fns';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
@@ -20,7 +20,7 @@ class Reservation {
 }
 
 interface ScheduleSlot {
-  date: Date;
+  date: string;
   classId: string;
   roomId: string;
 }
@@ -70,23 +70,23 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
 
   processReservations() {
     this.schedule = this.userReservations.flatMap(reservation => {
-      const start = this.parseDate(reservation.start_time);
-      const end = this.parseDate(reservation.end_time);
-
+      const start = new Date(reservation.start_time);
+      const end = new Date(reservation.end_time);
+      
       console.log(`Start Time (original): ${reservation.start_time}`);
       console.log(`End Time (original): ${reservation.end_time}`);
       console.log(`Start Time (Date object): ${start}`);
       console.log(`End Time (Date object): ${end}`);
-
+      
       const slots = eachHourOfInterval({ start, end: new Date(end.getTime() - 1) }).map(date => ({
-        date,
+        date: date.toISOString(),
         classId: reservation.class_id,
         roomId: reservation.room_id
       }));
 
       // Adicionar a última hora
       slots.push({
-        date: end,
+        date: end.toISOString(),
         classId: reservation.class_id,
         roomId: reservation.room_id
       });
@@ -96,15 +96,9 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
     console.log('Processed schedule:', this.schedule);
   }
 
-  parseDate(dateStr: string): Date {
-    // Remover prefixo indesejado (ex: "027 ") e criar objeto Date
-    const cleanedDateStr = dateStr.replace(/^\d{3}\s/, '');
-    return new Date(cleanedDateStr);
-  }
-
   getReservation(day: string, hour: number): string {
     const reservation = this.schedule.find(slot => {
-      const date = slot.date;
+      const date = new Date(slot.date);
       return date.getHours() === hour && this.daysOfWeek[date.getDay() - 1] === day;
     });
     if (reservation) {
