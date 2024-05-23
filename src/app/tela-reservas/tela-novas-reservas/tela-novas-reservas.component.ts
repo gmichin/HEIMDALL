@@ -112,6 +112,10 @@ export class TelaNovasReservasComponent implements OnInit{
     });  
   }
 
+  public redirectHomeAdm() {
+    this.reloadService.reoladPage(['home-adm'])
+  }
+
    private dateRangeValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const startDate = control.get('start_date')?.value;

@@ -107,6 +107,10 @@ export class TelaReservasFeitasComponent {
     this.selectionClass.toggle(event);
   }
 
+  public redirectHomeAdm() {
+    this.reloadService.reoladPage(['home-adm'])
+  }
+
   search() {
     this.loaderService.showLoader();
     this.reservationService.findByClass(this.selectionClass.selected[0]).subscribe({
