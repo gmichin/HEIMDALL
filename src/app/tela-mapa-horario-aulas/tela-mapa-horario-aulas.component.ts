@@ -3,7 +3,7 @@ import { RegisterUserResponse } from '../models/register.models';
 import { SessionService } from './../services/session.service';
 import { SalaDataService } from '../services/sala-data.service';
 import { forkJoin } from 'rxjs';
-import { eachHourOfInterval, parse, addHours } from 'date-fns';
+import { eachHourOfInterval, parseISO, addHours } from 'date-fns';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
@@ -69,13 +69,11 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
   }
 
   processReservations() {
-    const formatString = 'dd MMM d yyyy HH:mm:ss XXX'; // Adjust this to match your date format
-
     this.schedule = this.userReservations.flatMap(reservation => {
       let start, end;
       try {
-        start = parse(reservation.start_time, formatString, new Date());
-        end = parse(reservation.end_time, formatString, new Date());
+        start = new Date(reservation.start_time);
+        end = new Date(reservation.end_time);
       } catch (error) {
         console.error(`Error parsing date for reservation: ${reservation}`, error);
         return [];
