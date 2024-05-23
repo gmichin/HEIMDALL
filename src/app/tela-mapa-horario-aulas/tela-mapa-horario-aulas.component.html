@@ -24,7 +24,7 @@
     <h3>{{ day }}</h3>
     <div class="hour-container" *ngFor="let hour of tableHours">
       <div class="horario">{{ hour }}:00</div>
-      <div class="reservation">{{ getReservation(day, hour) }}</div>
+      <div class="reservation">{{ getReservation(day, +hour) }}</div>
     </div>
   </div>
 </div>

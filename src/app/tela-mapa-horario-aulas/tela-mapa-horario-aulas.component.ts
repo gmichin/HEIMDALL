@@ -40,7 +40,8 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
   public rooms: any[] = [];
   public exceptions: any[] = [];
 
-  public tableHours: number[] = Array.from({ length: 17 }, (_, i) => i + 6); // Horas das 6 às 22
+  public tableHours: string[] = Array.from({ length: 17 }, (_, i) => (i + 6 < 10 ? '0' : '') + (i + 6).toString());
+
   public daysOfWeek: string[] = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
 
   constructor(
