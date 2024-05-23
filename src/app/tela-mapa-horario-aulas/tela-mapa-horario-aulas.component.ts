@@ -101,7 +101,7 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
     // Remover prefixo indesejado (ex: "027 ") e criar objeto Date usando date-fns
     const cleanedDateStr = dateStr.replace(/^\d{3}\s/, '');
     // Define o formato da string de data que você espera
-    const format = "d MMM d yyyy HH:mm:ss xxx";
+    const format = "dd MMM d yyyy HH:mm:ss xxx";
     // Use a função parse do date-fns para analisar a string de data
     return parse(cleanedDateStr, format, new Date());
   }
