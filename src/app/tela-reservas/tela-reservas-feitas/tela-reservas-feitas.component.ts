@@ -108,7 +108,7 @@ export class TelaReservasFeitasComponent {
   }
 
   public redirectHomeAdm() {
-    this.reloadService.reoladPage(['home-adm'])
+    this.reloadService.reoladPage(['redirecionar'])
   }
 
   search() {

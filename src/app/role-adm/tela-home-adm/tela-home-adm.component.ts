@@ -57,7 +57,7 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
   }
 
   public redirectHomeAdm() {
-    this.reload.reoladPage(['home-adm'])
+    this.reload.reoladPage(['redirecionar'])
   }
 
   public redirectReserve() {

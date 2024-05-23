@@ -113,7 +113,7 @@ export class TelaNovasReservasComponent implements OnInit{
   }
 
   public redirectHomeAdm() {
-    this.reloadService.reoladPage(['home-adm'])
+    this.reloadService.reoladPage(['redirecionar'])
   }
 
    private dateRangeValidator(): ValidatorFn {
