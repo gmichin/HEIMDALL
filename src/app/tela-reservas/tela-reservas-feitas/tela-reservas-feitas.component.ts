@@ -35,7 +35,7 @@ interface Sala {
 })
 export class TelaReservasFeitasComponent {
   salas: Sala[] = [];
-  displayedColumns: string[] = ['numero', 'professor', 'start_time', 'end_time'];
+  displayedColumns: string[] = ['remove','numero', 'professor', 'start_time', 'end_time'];
   idSalaReservada: any[] = [];
   salasFiltradas: any[] = [];
   numeroSala: any[] = [];
@@ -46,6 +46,8 @@ export class TelaReservasFeitasComponent {
   public classList: ClassModel[] = [];
   public reserveList: ReserveModel[] = [];
   dataSource = new MatTableDataSource<ReserveModel>();
+  selectionReject = new SelectionModel<ReserveModel>(true, []);
+
   
   public selectionCourse = new SelectionModel<string>(true, []);
   public selectionClass = new SelectionModel<string>(true, []);
@@ -163,7 +165,36 @@ export class TelaReservasFeitasComponent {
   }
 
   removeData() {
-    this.router.navigate(['/tela-deletar-reservas']);
+    this.reservationService.deleteReserve(this.selectionReject.selected).subscribe({
+      next: res => {
+        this.snackBar.open('Removida(s) com sucesso!', '', {
+          duration: 4000,
+        });
+        this.reloadService.reoladPage(['tela-reservas-feitas']);
+      },
+      error: err => {
+        this.snackBar.open('Ocorreu um erro durante a solicitação, por favor, tente novamente mais tarde.', '', {
+          duration: 4000,
+        });
+        this.reloadService.reoladPage(['tela-reservas-feitas']);
+      }
+    })
+  }
+
+  toggleAllRowsReject() {
+    if (this.isAllRejectSelected()) {
+      this.selectionReject.clear();
+      return;
+    }
+    this.dataSource.data.forEach(row => {
+      if(!this.selectionReject.isSelected(row)){
+        this.selectionReject.select(row);
+      }
+    })
+  }
+
+  isAllRejectSelected() {
+    return this.selectionReject.selected.length > 0;
   }
 
 }

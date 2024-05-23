@@ -38,7 +38,6 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { TelaReservasComponent } from './tela-reservas/tela-reservas.component'
-import { TelaDeletarReservasComponent } from './tela-reservas/tela-deletar-reservas/tela-deletar-reservas.component'
 import { TelaPermissaoReservasComponent } from './tela-reservas/tela-permissao-reservas/tela-permissao-reservas.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TelaSalasComponent } from './tela-salas/tela-salas.component'
@@ -67,7 +66,6 @@ import { TelaSeeMoreComponent } from './tela-see-more/tela-see-more.component';
     TelaNovasReservasComponent,
     TelaReservasFeitasComponent,
     TelaReservasComponent,
-    TelaDeletarReservasComponent,
     TelaPermissaoReservasComponent,
     TelaSalasComponent,
     TelaSalasFeitasComponent,

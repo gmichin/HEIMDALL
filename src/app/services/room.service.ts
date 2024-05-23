@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { RoomsModel } from '../models/rooms.model';
 import { url_config } from '../url.config';
 import { SessionService } from './session.service';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable, forkJoin, map } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -42,7 +42,9 @@ export class RoomService {
       'idInstitution'
     ).retorno;
 
-    return this.http.get<RoomsModel[]>(`${url_config.url_room}/by-inst/${idInstitution}`);
+    return this.http.get<RoomsModel[]>(`${url_config.url_room}/by-inst/${idInstitution}`).pipe(
+      map(r => r.filter(r => r.status == 'DISPONIVEL'))
+    );
   }
 
   public saveRoomToEdit(room: RoomsModel){
