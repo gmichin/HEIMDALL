@@ -67,6 +67,10 @@ export class TelaMateriasFeitasComponent {
       this.dialogCloseSubs();
     });
   }
+
+  public redirectHomeAdm() {
+    this.reload.reoladPage(['home-adm'])
+  }
   
   private dialogCloseSubs() {
     this.reload.reoladPage(['home-adm']);
@@ -103,7 +107,7 @@ export class TelaMateriasFeitasComponent {
   changeCourse(event: any){
     this.selectionCourse.clear();
     this.selectionCourse.toggle(event);
-    this.classService.getRoomsByCourse(this.selectionCourse.selected[0]).subscribe({
+    this.classService.getClassByCourse(this.selectionCourse.selected[0]).subscribe({
       next: res => {
         this.dataSource.data = res;
       },

@@ -4,6 +4,7 @@ export class ReserveModel {
   class_id!: string;
   start_time!: string;
   end_time!: string;
+  _id!: string
     
     constructor(data: Required<ReserveModel>) {
         this.room_id = data.room_id;

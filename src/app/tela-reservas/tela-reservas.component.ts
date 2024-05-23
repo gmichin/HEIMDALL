@@ -1,7 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TelaLoginCadastroComponent } from '../tela-login-cadastro/tela-login-cadastro.component';
 import { Router } from '@angular/router';
+import { ReloadService } from '../services/reload.service';
 
 @Component({
   selector: 'app-tela-reservas',
@@ -11,7 +12,8 @@ import { Router } from '@angular/router';
 export class TelaReservasComponent {
   constructor(
     public dialog: MatDialog,
-    private router: Router
+    private reloadService: ReloadService,
+    public dialogRef: MatDialogRef<TelaReservasComponent>,
   ) {
   }
 
@@ -24,18 +26,22 @@ export class TelaReservasComponent {
   }
   
   addData() {
-    this.router.navigate(['/tela-novas-reservas']);
+    this.dialogRef.close();
+    this.reloadService.reoladPage(['/tela-novas-reservas']);
   }
 
   removeData() {
-    this.router.navigate(['/tela-deletar-reservas']);
+    this.dialogRef.close();
+    this.reloadService.reoladPage(['/tela-deletar-reservas']);
   }
 
   permissionData() {
-    this.router.navigate(['/tela-permissao-reservas']);
+    this.dialogRef.close();
+    this.reloadService.reoladPage(['/tela-permissao-reservas']);
   }
 
   seeData() {
-    this.router.navigate(['/tela-reservas-feitas']);
+    this.dialogRef.close();
+    this.reloadService.reoladPage(['/tela-reservas-feitas']);
   }
 }

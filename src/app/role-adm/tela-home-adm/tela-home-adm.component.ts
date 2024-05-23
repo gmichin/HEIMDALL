@@ -56,8 +56,14 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
     });
   }
 
+  public redirectHomeAdm() {
+    this.reload.reoladPage(['home-adm'])
+  }
+
   public redirectReserve() {
-    this.router.navigate(['/tela-reservas']);
+    const dialogT = this.dialog.open(TelaReservasComponent, {
+      width: '400px',
+    });
   }
 
   public redirectSalas() {

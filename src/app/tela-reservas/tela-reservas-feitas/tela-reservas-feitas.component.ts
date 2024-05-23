@@ -8,6 +8,17 @@ import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-log
 import { TelaReservasComponent } from '../tela-reservas.component';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
 import { combineLatest, firstValueFrom, forkJoin } from 'rxjs';
+import { CourseService } from 'src/app/services/course.service';
+import { CourseModelResponse } from 'src/app/models/course.model';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ClassModel } from 'src/app/models/class.model';
+import { SelectionModel } from '@angular/cdk/collections';
+import { LoaderService } from 'src/app/services/loader.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ClassService } from 'src/app/services/class.service';
+import { ReloadService } from 'src/app/services/reload.service';
+import { ReservationService } from 'src/app/services/reservation.service';
+import { ReserveModel } from 'src/app/models/reserve.model';
 
 interface Sala {
   room_id: string;
@@ -25,26 +36,92 @@ interface Sala {
 export class TelaReservasFeitasComponent {
   salas: Sala[] = [];
   displayedColumns: string[] = ['numero', 'professor', 'materia', 'dia', 'remove'];
-  dataSource = new MatTableDataSource<Sala>(this.salas);
   idSalaReservada: any[] = [];
   salasFiltradas: any[] = [];
   numeroSala: any[] = [];
   professores: any[] = [];
   classes: any[] = [];
+  
+  public courseList: CourseModelResponse[] = [];
+  public classList: ClassModel[] = [];
+  public reserveList: ReserveModel[] = [];
+  dataSource = new MatTableDataSource<ReserveModel>();
+  
+  public selectionCourse = new SelectionModel<string>(true, []);
+  public selectionClass = new SelectionModel<string>(true, []);
+  public resgiterForm!: FormGroup;
 
   constructor(
-    private salaDataService: SalaDataService,
+    private reservationService: ReservationService,
     public dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private courseService: CourseService,
+    private loaderService: LoaderService,
+    private snackBar: MatSnackBar,
+    private classService: ClassService,
+    private fb: FormBuilder,
+    private reloadService: ReloadService,
   ) {
+    this.resgiterForm = this.fb.group(
+      {
+        course_id: ['', [Validators.required]],
+        class_id: ['', [Validators.required]],
+      },
+    );
+    this.courseService.getAllCourses().subscribe({
+      next: cursos => {
+        this.courseList = cursos;
+        // if(cursos.length == 0){
+        //   this.errorMessage.message = 'Não foram encontrados cursos cadastrados.'
+        //   this.errorMessage.invalid = true;
+        // }
+      },
+      error: err => {
+        // this.errorMessage.message = 'Não foi possível buscar os cursos.'
+        // this.errorMessage.invalid = true;
+      }
+    });
   }
 
-  openLoginSignUp() {
-    const dialogRef = this.dialog.open(TelaLoginCadastroComponent);
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+  changeCourse(event: any){
+    this.selectionCourse.clear();
+    this.selectionCourse.toggle(event);
+    this.loaderService.showLoader();
+    this.classService.getClassByCourse(this.selectionCourse.selected[0]).subscribe({
+      next: res => {
+        this.classList = res;
+        this.loaderService.hideLoader();
+      },
+      error: err => {
+        this.loaderService.hideLoader();
+        this.snackBar.open('Ocorreu um erro durante a busca por matérias, por favor, tente novamente mais tarde.', '', {
+          duration: 4000,
+        });
+        this.reloadService.reoladPage(['tela-reservas-feitas']);
+      }
     });
+  }
+  
+  changeClass(event: any){
+    this.selectionClass.clear();
+    this.selectionClass.toggle(event);
+  }
+
+  search() {
+    this.loaderService.showLoader();
+    this.reservationService.findByClass(this.selectionClass.selected[0]).subscribe({
+      next: res => {
+        this.dataSource.data = res;
+        this.loaderService.hideLoader();
+      },
+      error: err => {
+        this.loaderService.hideLoader();
+        this.snackBar.open('Ocorreu um erro durante a busca por reservas, por favor, tente novamente mais tarde.', '', {
+          duration: 4000,
+        });
+        this.reloadService.reoladPage(['tela-reservas-feitas']);
+      }
+    })
   }
 
   openReservas() {
@@ -79,11 +156,4 @@ export class TelaReservasFeitasComponent {
     this.router.navigate(['/tela-deletar-reservas']);
   }
 
-  removeRow(sala: Sala) {
-    const index = this.salas.findIndex(item => item === sala);
-    if (index !== -1) {
-      this.salas.splice(index, 1);
-      this.dataSource.data = [...this.salas]; 
-    }
-  }
 }

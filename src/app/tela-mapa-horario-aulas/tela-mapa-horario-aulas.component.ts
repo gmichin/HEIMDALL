@@ -7,6 +7,7 @@ import { eachHourOfInterval } from 'date-fns';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
+import { TelaReservasComponent } from '../tela-reservas/tela-reservas.component';
 
 class Reservation {
   _id: string = '';
@@ -40,7 +41,7 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
   public exceptions: any[] = [];
 
   public tableHours: number[] = Array.from({ length: 17 }, (_, i) => i + 6); // Horas das 6 às 22
-  public daysOfWeek: string[] = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
+  public daysOfWeek: string[] = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
 
   constructor(
     private sessionService: SessionService,
@@ -114,9 +115,10 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
     return '';
   }
 
-  
   public redirectReserve() {
-    this.router.navigate(['/tela-reservas']);
+    const dialogT = this.dialog.open(TelaReservasComponent, {
+      width: '400px',
+    });
   }
 
   public redirectProfile() {
@@ -127,6 +129,7 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
       this.dialogCloseSubs();
     });
   }
+
   private dialogCloseSubs() {
     this.router.navigate(['reload']);
   }

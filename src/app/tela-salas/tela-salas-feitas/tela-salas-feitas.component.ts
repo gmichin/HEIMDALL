@@ -60,6 +60,10 @@ export class TelaSalasFeitasComponent {
       width: '400px',
     });
   }
+
+  public redirectHomeAdm() {
+    this.reload.reoladPage(['home-adm'])
+  }
   
   public redirectProfile() {
     const dialogT = this.dialog.open(TelaPerfilComponent, {
