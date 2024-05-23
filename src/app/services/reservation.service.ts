@@ -14,4 +14,8 @@ export class ReservationService {
   public createReservation(reserve: any): Observable<ReserveModel> {
     return this.http.post<ReserveModel>(url_config.url_reserve, reserve)
   }
+  
+  public findByClass(class_id: any): Observable<ReserveModel[]> {
+    return this.http.get<ReserveModel[]>(`${url_config.url_reserve}/by-class/${class_id}`);
+  }
 }
