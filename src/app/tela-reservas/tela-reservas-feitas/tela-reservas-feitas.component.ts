@@ -35,7 +35,7 @@ interface Sala {
 })
 export class TelaReservasFeitasComponent {
   salas: Sala[] = [];
-  displayedColumns: string[] = ['numero', 'professor', 'materia', 'dia', 'remove'];
+  displayedColumns: string[] = ['numero', 'professor', 'start_time', 'end_time'];
   idSalaReservada: any[] = [];
   salasFiltradas: any[] = [];
   numeroSala: any[] = [];
@@ -113,6 +113,12 @@ export class TelaReservasFeitasComponent {
       next: res => {
         this.dataSource.data = res;
         this.loaderService.hideLoader();
+        if(res.length == 0) {
+          this.snackBar.open('Não foram encontradas reservas para sua busca.', '', {
+            duration: 4000,
+          });
+          this.reloadService.reoladPage(['tela-reservas-feitas']);
+        }
       },
       error: err => {
         this.loaderService.hideLoader();
