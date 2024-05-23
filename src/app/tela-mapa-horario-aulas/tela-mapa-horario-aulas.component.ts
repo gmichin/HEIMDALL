@@ -69,11 +69,17 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
   }
 
   processReservations() {
-    const formatString = 'dd MMM d yyyy HH:mm:ss XXX'; // Format of the original string
+    const formatString = 'dd MMM d yyyy HH:mm:ss XXX'; // Adjust this to match your date format
 
     this.schedule = this.userReservations.flatMap(reservation => {
-      const start = parse(reservation.start_time, formatString, new Date());
-      const end = parse(reservation.end_time, formatString, new Date());
+      let start, end;
+      try {
+        start = parse(reservation.start_time, formatString, new Date());
+        end = parse(reservation.end_time, formatString, new Date());
+      } catch (error) {
+        console.error(`Error parsing date for reservation: ${reservation}`, error);
+        return [];
+      }
 
       console.log(`Start Time (original): ${reservation.start_time}`);
       console.log(`End Time (original): ${reservation.end_time}`);
