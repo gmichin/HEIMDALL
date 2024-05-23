@@ -85,14 +85,6 @@ export class TelaNovasMateriasComponent implements OnInit {
     });
   }
 
-  openLoginSignUp() {
-    const dialogRef = this.dialog.open(TelaLoginCadastroComponent);
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
-    });
-  }
-
   openReservas() {
     const dialogRef = this.dialog.open(TelaReservasComponent);
 

@@ -1,4 +1,4 @@
-import { Instituition } from './../../models/register.models';
+import { Instituition, RegisterUserResponse } from './../../models/register.models';
 import { Component, Inject , OnInit } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -8,6 +8,19 @@ import { TelaReservasComponent } from '../tela-reservas.component';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
 import { InternsService } from 'src/app/services/interns.service';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { ClassModel } from 'src/app/models/class.model';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ClassService } from 'src/app/services/class.service';
+import { ReloadService } from 'src/app/services/reload.service';
+import { CourseService } from 'src/app/services/course.service';
+import { CourseModelResponse } from 'src/app/models/course.model';
+import { RoomService } from 'src/app/services/room.service';
+import { RoomsModel } from 'src/app/models/rooms.model';
+import { LoaderService } from 'src/app/services/loader.service';
+import { ReserveModel } from 'src/app/models/reserve.model';
+import { ReservationService } from 'src/app/services/reservation.service';
 
 
 @Component({
@@ -23,7 +36,6 @@ export class TelaNovasReservasComponent implements OnInit{
   endDate!: Date | null;
   singleDate!: Date;
   numeroSala: string[] = [];
-  professorNomes: string[] = [];
   hours: string[] = [];
   startTime: string = ''; 
   endTime: string = '';  
@@ -36,30 +48,84 @@ export class TelaNovasReservasComponent implements OnInit{
   materia: any[] = [];
   materiasPorProfessor: string[] = [];
   materiaSelecionada: string = '';
+  
+  public resgiterForm!: FormGroup;
+  public courseList: CourseModelResponse[] = []
+  public classList: ClassModel[] = []
+  public roomList: RoomsModel[] = []
+  public teacherList: RegisterUserResponse[] = [];
+  public selectionCourse = new SelectionModel<string>(true, []);
+  public selectionClass = new SelectionModel<string>(true, []);
+  public errorMessage = {invalid: false, message: ''}
 
   constructor(
     private router: Router,
     public dialog: MatDialog,
-    private salaDataService: SalaDataService,
-    private internsService: InternsService,
+    private roomService: RoomService,
+    private classService: ClassService,
+    private courseService: CourseService,
+    private reloadService: ReloadService,
+    private snackBar: MatSnackBar,
+    private reservationService: ReservationService,
+    private fb: FormBuilder,
+    private loaderService: LoaderService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.internsService.getAllTeachers().subscribe((professores) => {
-      this.professorNomes = professores.map(professor => professor.name);
+    this.resgiterForm = this.fb.group(
+      {
+        course_id: ['', [Validators.required]],
+        teacher_id: ['', [Validators.required]],
+        class_id: ['', [Validators.required]],
+        room_id: ['', [Validators.required]],
+        start_hour: ['', [Validators.required]],
+        end_hour: ['', [Validators.required]],
+        date: ['', []],
+        start_date: ['', []],
+        end_date: ['', []],
+      }, { validator: this.dateRangeValidator() }
+    );
+    this.courseService.getAllCourses().subscribe({
+      next: cursos => {
+        this.courseList = cursos;
+        if(cursos.length == 0){
+          this.errorMessage.message = 'Não foram encontrados cursos cadastrados.'
+          this.errorMessage.invalid = true;
+        }
+      },
+      error: err => {
+        this.errorMessage.message = 'Não foi possível buscar os cursos.'
+        this.errorMessage.invalid = true;
+      }
     });
     
-    this.salaDataService.carregarDadosSalas().subscribe((salas) => {
-      this.numeroSala = salas.map((sala) => sala.number)
-    }); 
+    this.roomService.getRoomsByInst().subscribe({
+      next: (salas) => {
+        this.roomList = salas
+        if(salas.length == 0){
+          this.errorMessage.message = 'Não foram encontradas salas cadastradas.'
+          this.errorMessage.invalid = true;
+        }
+      },
+      error: err => {
+        this.errorMessage.message = 'Não foi possível buscar as salas.'
+        this.errorMessage.invalid = true;
+      }
+    });  
   }
 
-  openLoginSignUp() {
-    const dialogRef = this.dialog.open(TelaLoginCadastroComponent);
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
-    });
+   private dateRangeValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const startDate = control.get('start_date')?.value;
+      const endDate = control.get('end_date')?.value;
+      const rangeDate = control.get('date')?.value;
+  
+      if ((startDate && endDate) || rangeDate) {
+        return null; // Válido se start_date e end_date estiverem preenchidos, ou range_date estiver preenchido
+      }
+      return { dateRangeInvalid: true }; // Inválido se nenhuma das condições for atendida
+    };
   }
+
   openReservas() {
     const dialogRef = this.dialog.open(TelaReservasComponent);
 
@@ -87,46 +153,17 @@ export class TelaNovasReservasComponent implements OnInit{
       this.showPickers = false; // Esconde os pickers se houver erro
     } else {
       this.error = ''; // Limpa a mensagem de erro se não houver erro
-      this.carregarDiasDesabilitados(this.startTime, this.endTime);
       this.showPickers = true; // Mostra os pickers se não houver erro
     }
   }
 
-  carregarDiasDesabilitados(startTime: string, endTime: string): void {
-    this.salaDataService.carregarDiasDesabilitados().subscribe((diasDesabilitados) => {
-      this.diasDesabilitados = diasDesabilitados.map((obj: any) => {
-        return { ...obj, dia: new Date(obj.dia) };
-      });
-  
-      this.diasDesabilitadosCarregados = true;
-  
-      this.dateFilter = (date: Date | null) => {
-        if (!this.diasDesabilitadosCarregados || !date) {
-          return true;
-        }
-  
-        const dayWeek = date.getDay();
-        const today = new Date();
-        const todayDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  
-        const isDisabled = this.diasDesabilitados.some(diaDesabilitado =>
-          diaDesabilitado.numero === this.numeroSalaSelecionada && // Verifica se o número da sala corresponde
-          this.isSameDay(date, diaDesabilitado.dia) && // Verifica se o dia corresponde
-          this.isBetweenTimes(diaDesabilitado.dia, startTime, endTime) // Verifica se o horário corresponde
-        );
-        return dayWeek !== 0 && date >= todayDay && !isDisabled;
-      };
-    });
-  }
-  
-  
-  isSameDay(date1: Date, date2: Date): boolean {
+  private isSameDay(date1: Date, date2: Date): boolean {
     return date1.getFullYear() === date2.getFullYear() &&
            date1.getMonth() === date2.getMonth() &&
            date1.getDate() === date2.getDate();
   }
   
-  isBetweenTimes(date: Date, startTime: string, endTime: string): boolean {
+  private isBetweenTimes(date: Date, startTime: string, endTime: string): boolean {
     const startTimeParts = startTime.split(':').map(part => parseInt(part, 10));
     const endTimeParts = endTime.split(':').map(part => parseInt(part, 10));
   
@@ -265,50 +302,114 @@ export class TelaNovasReservasComponent implements OnInit{
   selectSala(numeroSala: string) {
     this.numeroSalaSelecionada = numeroSala;
   }
-  
-  selectProfessor(nomeProfessor: string) {
-    this.professorSelecionado = nomeProfessor;
-    this.professores = [];
-    this.materia = [];
-    this.materiasPorProfessor = [];
-    //pegar apenas id professor e id sala    
-    this.processarMateriasPorProfessor();
-}
 
-processarMateriasPorProfessor() {
-    const uniqueClassSet = new Set<string>();
+  processarMateriasPorProfessor() {
+      const uniqueClassSet = new Set<string>();
 
-    this.professores.forEach(professor => {
-        const materiasDoProfessor = this.materia.filter(materia => materia.id.includes(professor.id));
-        materiasDoProfessor.forEach(materia => {
-            uniqueClassSet.add(materia.class); // Corrigido para 'class' ao invés de 'name'
-        });
-    });
+      this.professores.forEach(professor => {
+          const materiasDoProfessor = this.materia.filter(materia => materia.id.includes(professor.id));
+          materiasDoProfessor.forEach(materia => {
+              uniqueClassSet.add(materia.class); // Corrigido para 'class' ao invés de 'name'
+          });
+      });
 
-    this.materiasPorProfessor = Array.from(uniqueClassSet);
+      this.materiasPorProfessor = Array.from(uniqueClassSet);
 
-    console.log(this.professores);
-    console.log(this.materia);
-}
-
-
-
-
-
+      console.log(this.professores);
+      console.log(this.materia);
+  } 
 
   public saveDate() {
-    this.novasReservas = [];
-  
-    this.diasSelecionados.forEach(dia => {
-      const reserva = {
-        numero: this.numeroSalaSelecionada,
-        professor: this.professorSelecionado, 
-        materia: this.materiaSelecionada, 
-        dia: dia 
-      };
-      this.novasReservas.push(reserva);
+    const formValue = this.resgiterForm.value;
+    const formattedData = this.formatDatesAndHours(formValue);
+    console.log('Form Submitted!', formattedData);
+    const reserve = new ReserveModel({
+      class_id: formattedData.class_id,
+      room_id: formattedData.room_id,
+      user_id: formattedData.teacher_id,
+      start_time: formattedData.start_time,
+      end_time: formattedData.end_time,
+      _id: ''
     });
+    this.loaderService.showLoader();
+    this.reservationService.createReservation(reserve).subscribe({
+      next: res => {
+        
+        this.snackBar.open('Reserva realizada com sucesso.', '', {
+          duration: 4000,
+        });
+        this.loaderService.hideLoader();
+        this.reloadService.reoladPage(['tela-novas-reservas']);
+      },
+      error: err => {
+        this.loaderService.hideLoader();
+        this.snackBar.open('Ocorreu um erro durante sua solicitação, por favor, tente novamente mais tarde.', '', {
+          duration: 4000,
+        });
+        this.reloadService.reoladPage(['tela-novas-reservas']);
+      }
+    })
+  }
+
+  formatDatesAndHours(formValue: any): any {
+    const { date, start_date, end_date, start_hour, end_hour } = formValue;
+
+    if (date) {
+      formValue.start_date = this.combineDateAndTime(date, start_hour);
+      formValue.end_date = this.combineDateAndTime(date, end_hour);
+    } else {
+      if (start_date && start_hour) {
+        formValue.start_date = this.combineDateAndTime(start_date, start_hour);
+      }
+
+      if (end_date && end_hour) {
+        formValue.end_date = this.combineDateAndTime(end_date, end_hour);
+      }
+    }
+
+    return formValue;
+  }
+
+  combineDateAndTime(date: string, time: string): string {
+    const [hour, minute] = time.split(':');
+    const dateTime = new Date(date);
+    dateTime.setUTCHours(parseInt(hour, 10));
+    dateTime.setUTCMinutes(parseInt(minute, 10));
+    return dateTime.toISOString();
+  }
+
+  changeCourse(event: any){
+    this.selectionCourse.clear();
+    this.selectionCourse.toggle(event);
+    this.loaderService.showLoader();
+    this.classService.getClassByCourse(this.selectionCourse.selected[0]).subscribe({
+      next: res => {
+        this.classList = res;
+        this.loaderService.hideLoader();
+      },
+      error: err => {
+        this.loaderService.hideLoader();
+        this.snackBar.open('Ocorreu um erro durante a busca por matérias, por favor, tente novamente mais tarde.', '', {
+          duration: 4000,
+        });
+        this.reloadService.reoladPage(['tela-novas-reservas']);
+      }
+    });
+  }
   
-    console.log(this.novasReservas);
+  changeClass(event: any){
+    this.selectionClass.clear();
+    this.selectionClass.toggle(event);
+    this.classService.getTeacherByClass(this.selectionClass.selected[0]).subscribe({
+      next: res => {
+        this.teacherList = res;
+      },
+      error: err => {
+        this.snackBar.open('Ocorreu um erro durante a busca por matérias, por favor, tente novamente mais tarde.', '', {
+          duration: 4000,
+        });
+        this.reloadService.reoladPage(['tela-novas-reservas']);
+      }
+    });
   }
 }
