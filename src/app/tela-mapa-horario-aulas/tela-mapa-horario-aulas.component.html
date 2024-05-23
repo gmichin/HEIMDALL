@@ -4,7 +4,7 @@
   </button>
   <mat-menu #menu="matMenu">
     <button (click)="redirectProfile()" mat-menu-item>
-      <mat-icon> account_circle </mat-icon>
+      <mat-icon>account_circle</mat-icon>
       <span>Perfil</span>
     </button>
     <button (click)="redirectReserve()" mat-menu-item>
@@ -16,34 +16,23 @@
   <span class="tituloH">HEIMDALL</span>
 </mat-toolbar>
 
-
 <div class="page-title">
   Horário/Mapa de Aulas
 </div>
-<table class="table-container">
-  <thead>
-    <tr>
-      <th>Horário</th>
-      <th>Segunda</th>
-      <th>Terça</th>
-      <th>Quarta</th>
-      <th>Quinta</th>
-      <th>Sexta</th>
-      <th>Sábado</th>
-      <th>Domingo</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let hour of tableHours">
-      <td>{{ hour }}:00</td>
-      <td *ngFor="let day of daysOfWeek">
-        <div class="reservation">{{ getReservation(day, hour) }}</div>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="responsive-schedule">
+  <div class="day-container" *ngFor="let day of daysOfWeek">
+    <h3>{{ day }}</h3>
+    <div class="hour-container" *ngFor="let hour of tableHours">
+      <div class="horario">{{ hour }}:00</div>
+      <div class="reservation">{{ getReservation(day, +hour) }}</div>
+    </div>
+  </div>
+</div>
 <div *ngIf="exceptions.length > 0" class="exceptions">
   <h3>Exceções</h3>
   <ul>
     <li *ngFor="let exception of exceptions">
-      {{ exception.dateIni | date: 'short' }} - {{ exception.dateFim | date: 'short' }}: Sala {{ exception.roomId }}, A
+      {{ exception.dateIni | date: 'short' }} - {{ exception.dateFim | date: 'short' }}: Sala {{ exception.roomId }}
+    </li>
+  </ul>
+</div>

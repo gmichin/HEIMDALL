@@ -89,6 +89,10 @@ export class TelaSolicitacoesRegistroComponent implements OnInit {
     });
   }
 
+  public redirectHomeAdm() {
+    this.reload.reoladPage(['home-adm'])
+  }
+
   validateAllSelected(selection: SelectionModel<RequestRegistrationUserResponse>) {
     const numSelected = selection.selected.length;
     const numRows = this.dataSource.data.length;

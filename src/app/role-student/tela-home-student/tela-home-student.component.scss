@@ -1,6 +1,6 @@
 .mat-toolbar {
-  background: #e6b60ade;
-  color: var(--mat-toolbar-container-text-color);
+  background: black;
+  color: yellow;
   border-bottom: 2px solid black;
 }
 
@@ -8,6 +8,11 @@
   background: #ffc802de;
   display: flex;
   padding: 1% 0 0 10%;
+}
+
+.tituloH {
+  font-family: Copperplate, Copperplate Gothic Light, fantasy;
+  font-size: 2em;
 }
 
 .container {
@@ -23,7 +28,6 @@
   align-items: center;
   padding: 2% 0%;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.1);
 }
 
 mat-card {
@@ -36,14 +40,6 @@ mat-card {
   button {
     background: #e6b60ade;
     color: white;
-  }
-
-  &:hover {
-    background-color: black;
-    color: white;
-    button {
-      background: #e6b60ade;
-    }
   }
 }
 
@@ -59,18 +55,6 @@ mat-card {
   button {
     background: #e6b60ade;
     color: white;
-  }
-
-  &:hover {
-    background-color: white;
-    color: black !important;
-    mat-card-title {
-      color: black !important;
-    }
-    button {
-      background: #e6b60ade;
-      color: black !important;
-    }
   }
 }
 
@@ -104,4 +88,39 @@ mat-card-title {
 
 .add-content {
   display: flex;
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 5% 2%;
+    text-align: center;
+  }
+
+  .tituloH {
+    font-size: 1.5em;
+  }
+
+  .container {
+    flex-direction: column;
+    padding-left: 0;
+  }
+
+  .cards {
+    flex-direction: column;
+    padding: 5% 0;
+  }
+
+  mat-card {
+    width: 90%;
+    margin: 2% auto;
+  }
+
+  .card-width {
+    width: 90%;
+    height: auto;
+  }
+
+  mat-card-header {
+    height: auto;
+  }
 }

@@ -20,13 +20,16 @@
 
 table {
     width: 100%;
+    background-color: #ffd740de;
 }
 
+mat-paginator {
+  background-color: #ffd740de;
+}
 
 .tituloH {
     font-family: Copperplate, Copperplate Gothic Light, fantasy;
     font-size: 2em;
-    cursor: pointer;
 }
 
 .mat-mdc-form-field {

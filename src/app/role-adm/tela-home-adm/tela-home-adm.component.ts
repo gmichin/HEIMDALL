@@ -56,6 +56,10 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
     });
   }
 
+  public redirectHomeAdm() {
+    this.reload.reoladPage(['home-adm'])
+  }
+
   public redirectReserve() {
     const dialogT = this.dialog.open(TelaReservasComponent, {
       width: '400px',
@@ -116,5 +120,8 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
   private dialogCloseSubs() {
     this.reload.reoladPage(['home-adm']);
   }
-  public seeMore(items: CourseModelResponse[] & RegisterUserResponse[]): void {}
+  
+  public seeMore(items: (CourseModelResponse | RegisterUserResponse)[]): void {
+    this.router.navigate(['tela-see-more'], { state: { data: items } });
+  }
 }

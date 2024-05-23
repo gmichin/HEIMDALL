@@ -40,8 +40,9 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
   public rooms: any[] = [];
   public exceptions: any[] = [];
 
-  public tableHours: number[] = Array.from({ length: 17 }, (_, i) => i + 6); // Horas das 6 às 22
-  public daysOfWeek: string[] = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
+  public tableHours: string[] = Array.from({ length: 17 }, (_, i) => (i + 6 < 10 ? '0' : '') + (i + 6).toString());
+
+  public daysOfWeek: string[] = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
 
   constructor(
     private sessionService: SessionService,
@@ -115,7 +116,6 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
     return '';
   }
 
-  
   public redirectReserve() {
     const dialogT = this.dialog.open(TelaReservasComponent, {
       width: '400px',
@@ -130,6 +130,7 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
       this.dialogCloseSubs();
     });
   }
+
   private dialogCloseSubs() {
     this.router.navigate(['reload']);
   }

@@ -54,6 +54,7 @@ import { TelaMapaHorarioAulasComponent } from './tela-mapa-horario-aulas/tela-ma
 import { TelaMateriasComponent } from './tela-materias/tela-materias.component';
 import { TelaNovasMateriasComponent } from './tela-materias/tela-novas-materias/tela-novas-materias.component';
 import { TelaMateriasFeitasComponent } from './tela-materias/tela-materias-feitas/tela-materias-feitas.component';
+import { TelaSeeMoreComponent } from './tela-see-more/tela-see-more.component';
 
 @NgModule({
   declarations: [	
@@ -76,7 +77,7 @@ import { TelaMateriasFeitasComponent } from './tela-materias/tela-materias-feita
     TelaMateriasComponent,
     TelaNovasMateriasComponent,
     TelaMateriasFeitasComponent,
-    
+    TelaSeeMoreComponent
    ],
   imports: [
     AppRoutingModule,
