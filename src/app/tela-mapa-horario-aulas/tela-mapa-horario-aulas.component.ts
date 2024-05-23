@@ -70,14 +70,24 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
 
   processReservations() {
     this.schedule = this.userReservations.flatMap(reservation => {
-      let start, end;
-      try {
-        start = new Date(reservation.start_time);
-        end = new Date(reservation.end_time);
-      } catch (error) {
-        console.error(`Error parsing date for reservation: ${reservation}`, error);
-        return [];
-      }
+      const startParts = reservation.start_time.split(' ');
+      const endParts = reservation.end_time.split(' ');
+
+      // Interpretando as partes da data
+      const startYear = parseInt(startParts[3]);
+      const startMonth = this.getMonthIndex(startParts[1]);
+      const startDay = parseInt(startParts[2]);
+      const startHour = parseInt(startParts[4].split(':')[0]);
+      const startMinute = parseInt(startParts[4].split(':')[1]);
+      const endYear = parseInt(endParts[3]);
+      const endMonth = this.getMonthIndex(endParts[1]);
+      const endDay = parseInt(endParts[2]);
+      const endHour = parseInt(endParts[4].split(':')[0]);
+      const endMinute = parseInt(endParts[4].split(':')[1]);
+
+      // Criando objetos Date
+      const start = new Date(startYear, startMonth, startDay, startHour, startMinute);
+      const end = new Date(endYear, endMonth, endDay, endHour, endMinute);
 
       console.log(`Start Time (original): ${reservation.start_time}`);
       console.log(`End Time (original): ${reservation.end_time}`);
@@ -100,6 +110,11 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
       return slots;
     });
     console.log('Processed schedule:', this.schedule);
+  }
+
+  getMonthIndex(month: string): number {
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return monthNames.indexOf(month);
   }
 
   getReservation(day: string, hour: number): string {
