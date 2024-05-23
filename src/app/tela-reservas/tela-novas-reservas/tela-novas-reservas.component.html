@@ -95,22 +95,6 @@
           
           <div *ngIf="error" style="color: red;margin-bottom: 1cm;">{{ error }}</div>
           <div *ngIf="showPickers">
-            <h5 *ngIf="startTime&&endTime">Há dois campos abaixo, você pode tanto escrever as datas manualmente quanto selecioná-las clicando no ícone de calendário. 
-              O campo da esquerda é referente a reserva de dias indíviduais enquanto o da direita é sobre a reserva de períodos inteiros:</h5>
-            
-              <mat-form-field class="boxSize" *ngIf="startTime&&endTime">
-              <mat-label>Selecione uma data</mat-label>
-              <input  matInput [matDatepicker]="picker" placeholder="Escolha uma data" formControlName="date" [matDatepickerFilter]="dateFilter">
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker>
-                <mat-datepicker-actions>
-                  <button mat-button matDateRangePickerCancel>Cancel</button>
-                  <button mat-raised-button color="primary" matDateRangePickerApply (click)="applyDate()">Apply</button>
-                </mat-datepicker-actions>
-              </mat-datepicker>
-              <mat-hint>MM/DD/YYYY</mat-hint>
-            </mat-form-field>
-        
             <mat-form-field *ngIf="startTime&&endTime" class="boxSizeAppear">
               <mat-label>Selecione um periodo</mat-label>
               <mat-date-range-input [rangePicker]="rangePicker" [dateFilter]="dateFilter">

@@ -79,10 +79,9 @@ export class TelaNovasReservasComponent implements OnInit{
         room_id: ['', [Validators.required]],
         start_hour: ['', [Validators.required]],
         end_hour: ['', [Validators.required]],
-        date: ['', []],
         start_date: ['', []],
         end_date: ['', []],
-      }, { validator: this.dateRangeValidator() }
+      },
     );
     this.courseService.getAllCourses().subscribe({
       next: cursos => {
@@ -163,18 +162,6 @@ export class TelaNovasReservasComponent implements OnInit{
            date1.getDate() === date2.getDate();
   }
   
-  private isBetweenTimes(date: Date, startTime: string, endTime: string): boolean {
-    const startTimeParts = startTime.split(':').map(part => parseInt(part, 10));
-    const endTimeParts = endTime.split(':').map(part => parseInt(part, 10));
-  
-    const startDateTime = new Date(date);
-    startDateTime.setHours(startTimeParts[0], startTimeParts[1], startTimeParts[2] || 0, 0);
-  
-    const endDateTime = new Date(date);
-    endDateTime.setHours(endTimeParts[0], endTimeParts[1], endTimeParts[2] || 0, 0);
-  
-    return date >= startDateTime && date <= endDateTime;
-  }
   applyDateRange() {
     if (this.startDate && this.endDate) {
       const dateRange = this.getDateRangeArray(this.startDate, this.endDate);
@@ -327,8 +314,8 @@ export class TelaNovasReservasComponent implements OnInit{
       class_id: formattedData.class_id,
       room_id: formattedData.room_id,
       user_id: formattedData.teacher_id,
-      start_time: formattedData.start_time,
-      end_time: formattedData.end_time,
+      start_time: formattedData.start_date,
+      end_time: formattedData.end_date,
       _id: ''
     });
     this.loaderService.showLoader();
@@ -352,6 +339,7 @@ export class TelaNovasReservasComponent implements OnInit{
   }
 
   formatDatesAndHours(formValue: any): any {
+    formValue.end_date = formValue.end_date == '' ? formValue.start_date : formValue.end_date;
     const { date, start_date, end_date, start_hour, end_hour } = formValue;
 
     if (date) {
