@@ -19,6 +19,9 @@ import { ClassService } from 'src/app/services/class.service';
 import { ReloadService } from 'src/app/services/reload.service';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { ReserveModel } from 'src/app/models/reserve.model';
+import { RoleId } from 'src/app/models/role.model';
+import { RegisterUserResponse } from 'src/app/models/register.models';
+import { SessionService } from 'src/app/services/session.service';
 
 interface Sala {
   room_id: string;
@@ -35,7 +38,7 @@ interface Sala {
 })
 export class TelaReservasFeitasComponent {
   salas: Sala[] = [];
-  displayedColumns: string[] = ['numero', 'professor', 'materia', 'dia', 'remove'];
+  displayedColumns: string[] = ['remove','numero', 'professor', 'start_time', 'end_time'];
   idSalaReservada: any[] = [];
   salasFiltradas: any[] = [];
   numeroSala: any[] = [];
@@ -46,6 +49,8 @@ export class TelaReservasFeitasComponent {
   public classList: ClassModel[] = [];
   public reserveList: ReserveModel[] = [];
   dataSource = new MatTableDataSource<ReserveModel>();
+  selectionReject = new SelectionModel<ReserveModel>(true, []);
+
   
   public selectionCourse = new SelectionModel<string>(true, []);
   public selectionClass = new SelectionModel<string>(true, []);
@@ -56,6 +61,7 @@ export class TelaReservasFeitasComponent {
     public dialog: MatDialog,
     private router: Router,
     private courseService: CourseService,
+    private sessionService: SessionService,
     private loaderService: LoaderService,
     private snackBar: MatSnackBar,
     private classService: ClassService,
@@ -107,12 +113,22 @@ export class TelaReservasFeitasComponent {
     this.selectionClass.toggle(event);
   }
 
+  public redirectHomeAdm() {
+    this.reloadService.reoladPage(['redirecionar'])
+  }
+
   search() {
     this.loaderService.showLoader();
     this.reservationService.findByClass(this.selectionClass.selected[0]).subscribe({
       next: res => {
         this.dataSource.data = res;
         this.loaderService.hideLoader();
+        if(res.length == 0) {
+          this.snackBar.open('Não foram encontradas reservas para sua busca.', '', {
+            duration: 4000,
+          });
+          this.reloadService.reoladPage(['tela-reservas-feitas']);
+        }
       },
       error: err => {
         this.loaderService.hideLoader();
@@ -153,7 +169,41 @@ export class TelaReservasFeitasComponent {
   }
 
   removeData() {
-    this.router.navigate(['/tela-deletar-reservas']);
+    this.reservationService.deleteReserve(this.selectionReject.selected).subscribe({
+      next: res => {
+        this.snackBar.open('Removida(s) com sucesso!', '', {
+          duration: 4000,
+        });
+        this.reloadService.reoladPage(['tela-reservas-feitas']);
+      },
+      error: err => {
+        this.snackBar.open('Ocorreu um erro durante a solicitação, por favor, tente novamente mais tarde.', '', {
+          duration: 4000,
+        });
+        this.reloadService.reoladPage(['tela-reservas-feitas']);
+      }
+    })
+  }
+
+  validaRole() {
+    const user = this.sessionService.getSessionData<RegisterUserResponse>('user').retorno;
+    return user.role == RoleId.ADM;
+  }
+
+  toggleAllRowsReject() {
+    if (this.isAllRejectSelected()) {
+      this.selectionReject.clear();
+      return;
+    }
+    this.dataSource.data.forEach(row => {
+      if(!this.selectionReject.isSelected(row)){
+        this.selectionReject.select(row);
+      }
+    })
+  }
+
+  isAllRejectSelected() {
+    return this.selectionReject.selected.length > 0;
   }
 
 }

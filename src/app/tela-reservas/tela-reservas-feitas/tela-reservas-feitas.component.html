@@ -7,7 +7,7 @@
       <mat-icon>voicemail</mat-icon>
       <span>Mapa do Site</span>
     </button>
-    <button (click)="openSalas()" mat-menu-item>
+    <button *ngIf="validaRole()" (click)="openSalas()" mat-menu-item>
       <mat-icon>meeting_room</mat-icon>
       <span>Salas</span>
     </button>
@@ -17,7 +17,8 @@
     </button>
   </mat-menu>
 
-  <span class="tituloH">HEIMDALL</span>
+  <span class="tituloH" (click)="redirectHomeAdm()" style="cursor: pointer;">HEIMDALL</span>
+
 
 </mat-toolbar>
 
@@ -49,57 +50,63 @@
     </button>
   </form>
 </div>
-<div *ngIf="reserveList.length > 0" class="table-container">
+
+<div style="margin-top: 3%;" *ngIf="dataSource.data.length > 0" class="mat-elevation-z4">
   <mat-form-field>
-    <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. professor" #input>
+    <mat-label>Filtro por palavras chaves</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex: SOPA2" #input>
   </mat-form-field>
+  <table mat-table [dataSource]="dataSource" matSort>
 
-  <mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="remove">
+      <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? toggleAllRowsReject() : null"
+            [checked]="selectionReject.hasValue() && isAllRejectSelected()"
+            [indeterminate]="selectionReject.hasValue() && !isAllRejectSelected()"
+            >
+            Selecionar Excluir
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()"
+          (change)="$event ? selectionReject.toggle(row) : null"
+          [checked]="selectionReject.isSelected(row)"
+          ></mat-checkbox>
+        </td>
+      </ng-container>
+    
+    <!-- Checkbox Column -->
     <ng-container matColumnDef="numero">
-      <mat-header-cell *matHeaderCellDef>Número da Sala</mat-header-cell>
-      <mat-cell *matCellDef="let sala">
-        <span *ngIf="sala.room_id==undefined||sala.room_id==null">não encontrado</span>
-        <span *ngIf="sala.room_id!=undefined&&sala.room_id!=null">{{ sala.room_id }}</span>
-      </mat-cell>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Número da Sala</th>
+      <td mat-cell *matCellDef="let row"> {{ row.room.number }} </td>
     </ng-container>
-
     <ng-container matColumnDef="professor">
-      <mat-header-cell *matHeaderCellDef>Nome do Professor</mat-header-cell>
-      <mat-cell *matCellDef="let sala">
-        <span *ngIf="sala.user_id==undefined||sala.user_id==null">não encontrado</span>
-        <span *ngIf="sala.user_id!=undefined&&sala.user_id!=null">{{ sala.user_id }}</span>
-      </mat-cell>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome do Professor</th>
+      <td mat-cell *matCellDef="let row"> {{ row.teacher.name }} </td>
     </ng-container>
-
-    <ng-container matColumnDef="materia">
-      <mat-header-cell *matHeaderCellDef>Matéria</mat-header-cell>
-      <mat-cell *matCellDef="let sala">
-        <span *ngIf="sala.class_id==undefined||sala.class_id==null">não encontrado</span>
-        <span *ngIf="sala.class_id!=undefined&&sala.class_id!=null">{{ sala.class_id }}</span>
-      </mat-cell>
+    <ng-container matColumnDef="start_time">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Início da Reserva</th>
+      <td mat-cell *matCellDef="let row"> {{ row.start_time | date:'dd/MM/yyyy HH:mm' }} </td>
     </ng-container>
-
-    <ng-container matColumnDef="dia">
-      <mat-header-cell *matHeaderCellDef>Dia</mat-header-cell>
-      <mat-cell *matCellDef="let sala">
-        <span *ngIf="sala.start_time==undefined||sala.start_time==null">não encontrado</span>
-        <span *ngIf="sala.start_time!=undefined&&sala.start_time!=null">{{ sala.start_time | date:'medium' }}</span>
-      </mat-cell>
+    <ng-container matColumnDef="end_time">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Fim da Reserva</th>
+      <td mat-cell *matCellDef="let row"> {{ row.end_time | date:'dd/MM/yyyy HH:mm' }} </td>
     </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
-</div>
+    <!-- Row shown when there is no matching data. -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4"></td>
+    </tr>
+  </table>
 
-<div *ngIf="reserveList.length > 0" class="demo-button-container">
-  <button mat-raised-button (click)="addData()" class="demo-button">
-    FAZER NOVAS RESERVAS
-  </button>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+</div> 
+
+<div *ngIf="selectionReject.selected.length > 0" class="demo-button-container">
   <button
       mat-raised-button
-      [disabled]="!salas.length"
       (click)="removeData()"
       class="demo-button">
     DELETAR RESERVAS

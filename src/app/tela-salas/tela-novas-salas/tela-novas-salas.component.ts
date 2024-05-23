@@ -80,11 +80,11 @@ export class TelaNovasSalasComponent implements OnInit {
   }
 
   public redirectHomeAdm() {
-    this.reload.reoladPage(['home-adm'])
+    this.reload.reoladPage(['redirecionar'])
   }
   
   private dialogCloseSubs() {
-    this.reload.reoladPage(['home-adm']);
+    this.reload.reoladPage(['redirecionar']);
   }
   
   public redirectMaterias() {

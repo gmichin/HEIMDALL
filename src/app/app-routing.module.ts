@@ -8,7 +8,6 @@ import { TelaReservasComponent } from './tela-reservas/tela-reservas.component'
 import { RedirecionarUsuarioGuard } from './tela-redirecionar-usuario/tela-redirecionar-usuario.guard';
 import { TelaNovasReservasComponent } from './tela-reservas/tela-novas-reservas/tela-novas-reservas.component';
 import { TelaReservasFeitasComponent } from './tela-reservas/tela-reservas-feitas/tela-reservas-feitas.component';
-import { TelaDeletarReservasComponent } from './tela-reservas/tela-deletar-reservas/tela-deletar-reservas.component';
 import { TelaPermissaoReservasComponent } from './tela-reservas/tela-permissao-reservas/tela-permissao-reservas.component';
 import { TelaSalasComponent } from './tela-salas/tela-salas.component';
 import { TelaNovasSalasComponent } from './tela-salas/tela-novas-salas/tela-novas-salas.component';
@@ -20,6 +19,7 @@ import { TelaMapaHorarioAulasComponent } from './tela-mapa-horario-aulas/tela-ma
 import { TelaMateriasComponent } from './tela-materias/tela-materias.component';
 import { TelaNovasMateriasComponent } from './tela-materias/tela-novas-materias/tela-novas-materias.component';
 import { TelaMateriasFeitasComponent } from './tela-materias/tela-materias-feitas/tela-materias-feitas.component';
+import { TelaSeeMoreComponent } from './tela-see-more/tela-see-more.component';
 
 const routes: Routes = [
   { path: '', component: TelaInicialComponent },
@@ -54,7 +54,6 @@ const routes: Routes = [
   { path: 'tela-reservas', component: TelaReservasComponent },
   { path: 'tela-novas-reservas', component: TelaNovasReservasComponent},
   { path: 'tela-reservas-feitas', component: TelaReservasFeitasComponent},
-  { path: 'tela-deletar-reservas', component: TelaDeletarReservasComponent},
   { path: 'tela-permissao-reservas', component: TelaPermissaoReservasComponent},
 
   { path: 'tela-salas', component: TelaSalasComponent },
@@ -69,6 +68,8 @@ const routes: Routes = [
 
 
   { path: 'tela-solicitacoes-registro', component: TelaSolicitacoesRegistroComponent, resolve:{dados:TelaSolicitacoesRegistroResolver}},
+  
+  { path: 'tela-see-more', component: TelaSeeMoreComponent},
 ];
 
 @NgModule({

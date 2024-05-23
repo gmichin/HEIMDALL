@@ -69,11 +69,11 @@ export class TelaMateriasFeitasComponent {
   }
 
   public redirectHomeAdm() {
-    this.reload.reoladPage(['home-adm'])
+    this.reload.reoladPage(['redirecionar'])
   }
   
   private dialogCloseSubs() {
-    this.reload.reoladPage(['home-adm']);
+    this.reload.reoladPage(['redirecionar']);
   }
 
   openReservas() {

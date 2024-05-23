@@ -32,6 +32,7 @@ export interface Class {
 }
 
 export class RegisterUserResponse {
+  status: 'IDLE' | 'REJECTED' | 'CONFIRMED' = 'IDLE';
   _id!: string;
   name!: string;
   email!: string;
@@ -51,9 +52,15 @@ export class RegisterUserResponse {
     this.instituition._id = data.instituition._id;
   }
 }
+
 export class RequestRegistrationUserResponse extends RegisterUserRequest {
   status: 'IDLE' | 'REJECTED' | 'CONFIRMED' = 'IDLE';
   Instituition_id!: string;
+  override role!: Role;
+}
+
+export interface Role {
+  _id: string;
 }
 
 export class RegisterInstitutionRequest {

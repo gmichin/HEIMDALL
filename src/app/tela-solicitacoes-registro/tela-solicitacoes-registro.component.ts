@@ -90,7 +90,7 @@ export class TelaSolicitacoesRegistroComponent implements OnInit {
   }
 
   public redirectHomeAdm() {
-    this.reload.reoladPage(['home-adm'])
+    this.reload.reoladPage(['redirecionar'])
   }
 
   validateAllSelected(selection: SelectionModel<RequestRegistrationUserResponse>) {

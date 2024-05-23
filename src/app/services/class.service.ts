@@ -2,10 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ClassModel } from '../models/class.model';
 import { url_config } from '../url.config';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable, forkJoin, map } from 'rxjs';
 import { SessionService } from './session.service';
 import { Router } from '@angular/router';
 import { RegisterUserResponse } from '../models/register.models';
+import { RoleId } from '../models/role.model';
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +42,15 @@ export class ClassService {
   }
 
   public getTeacherByClass(classId: string): Observable<RegisterUserResponse[]> {
-    return this.http.get<RegisterUserResponse[]>(`${url_config.url_class}/teachers/${classId}`);
+    return this.http.get<RegisterUserResponse[]>(`${url_config.url_class}/teachers/${classId}`).pipe(
+      map(teachers => {
+        const user = this.sessionService.getSessionData<RegisterUserResponse>('user').retorno;
+        if(user.role == RoleId.PROFESSOR) {
+          return teachers.filter(t => t._id == user._id)
+        }
+        return teachers
+      })
+    );
   }
 
   public saveClassToEdit(matria: ClassModel){

@@ -62,7 +62,7 @@ export class TelaSalasFeitasComponent {
   }
 
   public redirectHomeAdm() {
-    this.reload.reoladPage(['home-adm'])
+    this.reload.reoladPage(['redirecionar'])
   }
   
   public redirectProfile() {
@@ -75,7 +75,7 @@ export class TelaSalasFeitasComponent {
   }
   
   private dialogCloseSubs() {
-    this.reload.reoladPage(['home-adm']);
+    this.reload.reoladPage(['redirecionar']);
   }
   openLoginSignUp() {
     const dialogRef = this.dialog.open(TelaLoginCadastroComponent);
