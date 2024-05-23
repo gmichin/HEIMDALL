@@ -3,10 +3,6 @@
     <mat-icon>menu</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <button (click)="openLoginSignUp()" mat-menu-item>
-      <mat-icon>dialpad</mat-icon>
-      <span>Cadastro/Login</span>
-    </button>
     <button mat-menu-item disabled>
       <mat-icon>voicemail</mat-icon>
       <span>Mapa do Site</span>
@@ -25,7 +21,35 @@
 
 </mat-toolbar>
 
-<div class="table-container">
+<div>
+  <form [formGroup]="resgiterForm" (ngSubmit)="search()">
+    <mat-form-field>
+      <mat-label>Informe o Curso:</mat-label>
+      <mat-select (valueChange)="changeCourse($event)" formControlName="course_id">
+        @for (course of courseList; track course) {
+          <mat-option [value]="course._id">{{course.name}}</mat-option>
+        } @empty {
+          <mat-option [value]="">Sem dados</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="classList.length > 0">
+      <mat-label>Informe a Matéria:</mat-label>
+      <mat-select (valueChange)="changeClass($event)" formControlName="class_id">
+        @for (class of classList; track class) {
+          <mat-option [value]="class._id">{{class.name}}</mat-option>
+        } @empty {
+          <mat-option [value]="">Sem dados</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <button *ngIf="selectionClass.selected.length > 0 && selectionCourse.selected.length > 0" type="submit" mat-raised-button class="demo-button">
+      BUSCAR
+    </button>
+  </form>
+</div>
+<div *ngIf="reserveList.length > 0" class="table-container">
   <mat-form-field>
     <mat-label>Filter</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. professor" #input>
@@ -64,21 +88,12 @@
       </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="remove">
-      <mat-header-cell *matHeaderCellDef>Remover</mat-header-cell>
-      <mat-cell *matCellDef="let sala">
-        <button mat-icon-button (click)="removeRow(sala)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </mat-cell>
-    </ng-container>
-
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
 </div>
 
-<div class="demo-button-container">
+<div *ngIf="reserveList.length > 0" class="demo-button-container">
   <button mat-raised-button (click)="addData()" class="demo-button">
     FAZER NOVAS RESERVAS
   </button>

@@ -5,6 +5,7 @@ import { url_config } from '../url.config';
 import { Observable, forkJoin } from 'rxjs';
 import { SessionService } from './session.service';
 import { Router } from '@angular/router';
+import { RegisterUserResponse } from '../models/register.models';
 
 @Injectable({
   providedIn: 'root'
@@ -35,8 +36,12 @@ export class ClassService {
     return forkJoin(...arrReqs);
   }
 
-  public getRoomsByCourse(courseId: string): Observable<ClassModel[]> {
+  public getClassByCourse(courseId: string): Observable<ClassModel[]> {
     return this.http.get<ClassModel[]>(`${url_config.url_class}/by-course/${courseId}`);
+  }
+
+  public getTeacherByClass(classId: string): Observable<RegisterUserResponse[]> {
+    return this.http.get<RegisterUserResponse[]>(`${url_config.url_class}/teachers/${classId}`);
   }
 
   public saveClassToEdit(matria: ClassModel){

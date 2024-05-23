@@ -7,6 +7,7 @@ import { eachHourOfInterval } from 'date-fns';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
+import { TelaReservasComponent } from '../tela-reservas/tela-reservas.component';
 
 class Reservation {
   _id: string = '';
@@ -115,7 +116,9 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
   }
 
   public redirectReserve() {
-    this.router.navigate(['/tela-reservas']);
+    const dialogT = this.dialog.open(TelaReservasComponent, {
+      width: '400px',
+    });
   }
 
   public redirectProfile() {
