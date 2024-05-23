@@ -16,6 +16,7 @@ import { InternsService } from 'src/app/services/interns.service';
 import { RegisterUserResponse } from 'src/app/models/register.models';
 import { ClassModel } from 'src/app/models/class.model';
 import { ClassService } from 'src/app/services/class.service';
+import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 
 @Component({
   selector: 'app-tela-novas-materias',
@@ -38,7 +39,8 @@ export class TelaNovasMateriasComponent implements OnInit {
     private sessionService: SessionService,
     private internsService: InternsService,
     private reloadService: ReloadService,
-    private classService: ClassService
+    private classService: ClassService,
+    private reload: ReloadService
   ) {
     this.classToEdit = this.classService.getClassToEdit();
 
@@ -83,6 +85,19 @@ export class TelaNovasMateriasComponent implements OnInit {
         });
       }
     });
+  }
+
+  public redirectProfile() {
+    const dialogT = this.dialog.open(TelaPerfilComponent, {
+      width: '400px',
+    });
+    dialogT.afterClosed().subscribe(() => {
+      this.dialogCloseSubs();
+    });
+  }
+  
+  private dialogCloseSubs() {
+    this.reload.reoladPage(['home-adm']);
   }
 
   openReservas() {

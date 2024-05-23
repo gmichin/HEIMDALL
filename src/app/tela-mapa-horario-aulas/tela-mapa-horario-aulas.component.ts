@@ -4,6 +4,9 @@ import { SessionService } from './../services/session.service';
 import { SalaDataService } from '../services/sala-data.service';
 import { forkJoin } from 'rxjs';
 import { eachHourOfInterval } from 'date-fns';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 
 class Reservation {
   _id: string = '';
@@ -41,7 +44,9 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
 
   constructor(
     private sessionService: SessionService,
-    private salaDataService: SalaDataService
+    private salaDataService: SalaDataService,
+    private router: Router,
+    public dialog: MatDialog,
   ) {}
 
   ngOnInit() {
@@ -107,5 +112,22 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
       return `${className}\nNº da Sala: ${roomNumber}`;
     }
     return '';
+  }
+
+  
+  public redirectReserve() {
+    this.router.navigate(['/tela-reservas']);
+  }
+
+  public redirectProfile() {
+    const dialogT = this.dialog.open(TelaPerfilComponent, {
+      width: '400px',
+    });
+    dialogT.afterClosed().subscribe(() => {
+      this.dialogCloseSubs();
+    });
+  }
+  private dialogCloseSubs() {
+    this.router.navigate(['reload']);
   }
 }

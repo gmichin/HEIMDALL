@@ -12,6 +12,8 @@ import { RoomsModel } from 'src/app/models/rooms.model';
 import { RoomService } from 'src/app/services/room.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReloadService } from 'src/app/services/reload.service';
+import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
+import { TelaMateriasComponent } from 'src/app/tela-materias/tela-materias.component';
 
 
 interface Sala {
@@ -42,7 +44,8 @@ export class TelaSalasFeitasComponent {
     public dialog: MatDialog,
     private roomService: RoomService,
     private snackBar: MatSnackBar,
-    private reloadService: ReloadService
+    private reloadService: ReloadService,
+    private reload: ReloadService
   ) {
     this.roomService.getRoomsByInst().subscribe({
       next: salas => {
@@ -51,6 +54,25 @@ export class TelaSalasFeitasComponent {
     });
   }
 
+
+  public redirectMaterias() {
+    const dialogT = this.dialog.open(TelaMateriasComponent, {
+      width: '400px',
+    });
+  }
+  
+  public redirectProfile() {
+    const dialogT = this.dialog.open(TelaPerfilComponent, {
+      width: '400px',
+    });
+    dialogT.afterClosed().subscribe(() => {
+      this.dialogCloseSubs();
+    });
+  }
+  
+  private dialogCloseSubs() {
+    this.reload.reoladPage(['home-adm']);
+  }
   openLoginSignUp() {
     const dialogRef = this.dialog.open(TelaLoginCadastroComponent);
 
