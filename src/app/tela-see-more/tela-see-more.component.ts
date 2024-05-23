@@ -105,10 +105,15 @@ export class TelaSeeMoreComponent implements OnInit {
   }
 
   validateAllSelected(selection: SelectionModel<CourseModelResponse | RegisterUserResponse>) {
+    if (!this.dataSource || !this.dataSource.data) {
+      return false;
+    }
+  
     const numSelected = selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
+  
 
   isAllAproveSelected() {
     return this.selectionAprove.selected.length > 0;
