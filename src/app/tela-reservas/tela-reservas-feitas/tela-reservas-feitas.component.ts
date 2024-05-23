@@ -19,6 +19,9 @@ import { ClassService } from 'src/app/services/class.service';
 import { ReloadService } from 'src/app/services/reload.service';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { ReserveModel } from 'src/app/models/reserve.model';
+import { RoleId } from 'src/app/models/role.model';
+import { RegisterUserResponse } from 'src/app/models/register.models';
+import { SessionService } from 'src/app/services/session.service';
 
 interface Sala {
   room_id: string;
@@ -58,6 +61,7 @@ export class TelaReservasFeitasComponent {
     public dialog: MatDialog,
     private router: Router,
     private courseService: CourseService,
+    private sessionService: SessionService,
     private loaderService: LoaderService,
     private snackBar: MatSnackBar,
     private classService: ClassService,
@@ -179,6 +183,11 @@ export class TelaReservasFeitasComponent {
         this.reloadService.reoladPage(['tela-reservas-feitas']);
       }
     })
+  }
+
+  validaRole() {
+    const user = this.sessionService.getSessionData<RegisterUserResponse>('user').retorno;
+    return user.role == RoleId.ADM;
   }
 
   toggleAllRowsReject() {

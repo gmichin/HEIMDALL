@@ -7,7 +7,7 @@
       <mat-icon>voicemail</mat-icon>
       <span>Mapa do Site</span>
     </button>
-    <button (click)="openSalas()" mat-menu-item>
+    <button *ngIf="validaRole()" (click)="openSalas()" mat-menu-item>
       <mat-icon>meeting_room</mat-icon>
       <span>Salas</span>
     </button>

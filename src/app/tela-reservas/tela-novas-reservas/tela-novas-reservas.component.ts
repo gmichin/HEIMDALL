@@ -21,6 +21,8 @@ import { RoomsModel } from 'src/app/models/rooms.model';
 import { LoaderService } from 'src/app/services/loader.service';
 import { ReserveModel } from 'src/app/models/reserve.model';
 import { ReservationService } from 'src/app/services/reservation.service';
+import { SessionService } from 'src/app/services/session.service';
+import { RoleId } from 'src/app/models/role.model';
 
 
 @Component({
@@ -59,7 +61,7 @@ export class TelaNovasReservasComponent implements OnInit{
   public errorMessage = {invalid: false, message: ''}
 
   constructor(
-    private router: Router,
+    private sessionService: SessionService,
     public dialog: MatDialog,
     private roomService: RoomService,
     private classService: ClassService,
@@ -101,7 +103,7 @@ export class TelaNovasReservasComponent implements OnInit{
       next: (salas) => {
         this.roomList = salas
         if(salas.length == 0){
-          this.errorMessage.message = 'Não foram encontradas salas cadastradas.'
+          this.errorMessage.message = 'Não foram encontradas salas cadastradas ou disponíveis.'
           this.errorMessage.invalid = true;
         }
       },
@@ -403,5 +405,10 @@ export class TelaNovasReservasComponent implements OnInit{
         this.reloadService.reoladPage(['tela-novas-reservas']);
       }
     });
+  }
+
+  validaRole() {
+    const user = this.sessionService.getSessionData<RegisterUserResponse>('user').retorno;
+    return user.role == RoleId.ADM;
   }
 }
