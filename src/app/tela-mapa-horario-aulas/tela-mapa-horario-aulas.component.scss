@@ -1,98 +1,96 @@
 body {
-    background-color: #121212; // Fundo preto suave
-    color: #e0e0e0; // Texto claro
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-  }
-  
-  .page-title {
-    margin-top: 20px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #ffeb3b; // Título em amarelo
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .table-container {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    font-size: 18px;
-    text-align: left;
-    background-color: #1e1e1e; // Fundo da tabela
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  
-    thead {
-      background-color: #ffeb3b; // Cabeçalho amarelo
-      color: #000; // Texto preto
-  
-      th {
-        padding: 12px 15px;
-        &:first-child {
-          border-top-left-radius: 8px;
-          border-bottom-left-radius: 8px;
-        }
-        &:last-child {
-          border-top-right-radius: 8px;
-          border-bottom-right-radius: 8px;
-        }
-      }
-    }
-  
-    tbody {
-      tr {
-        &:nth-child(even) {
-          background-color: #2c2c2c; // Linhas pares mais claras
-        }
-        &:hover {
-          background-color: #3a3a3a; // Cor de fundo ao passar o mouse
-        }
-  
-        td {
-          padding: 12px 15px;
-          border-bottom: 1px solid #333; // Bordas escuras
-  
-          .reservation {
-            white-space: pre-line;
-            padding: 8px;
-            background-color: #ffeb3b; // Amarelo suave para reservas
-            color: #000; // Texto preto
-            border-radius: 4px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-            text-align: center; // Centraliza o texto da reserva
-          }
-        }
-      }
-    }
-  }
-  
-  .exceptions {
-    margin-top: 20px;
-  
-    h3 {
-      color: #ffeb3b; // Título das exceções em amarelo
-    }
-  
-    ul {
-      list-style-type: none;
-      padding: 0;
-  
-      li {
-        background-color: #2c2c2c; // Fundo mais claro para exceções
-        color: #ffeb3b; // Texto amarelo para contraste
-        margin: 5px 0;
-        padding: 10px;
-        border-radius: 4px;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-      }
-    }
-  }
-  
-  .mat-toolbar {
-    background: #e6b60ade;
-    color: var(--mat-toolbar-container-text-color);
-    border-bottom: 2px solid black;
-  }
+  background-color: #121212; /* Fundo preto suave */
+  color: #e0e0e0; /* Texto claro */
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+
+.tituloH {
+  font-family: Copperplate, Copperplate Gothic Light, fantasy;
+  font-size: 2em;
+}
+
+.page-title {
+  margin-top: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffeb3b; /* Título em amarelo */
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.responsive-schedule {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.day-container {
+  flex: 1 1 200px; /* Ajusta a largura mínima */
+  background-color: #1e1e1e; /* Fundo do container de dias */
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.day-container h3 {
+  color: #ffeb3b; /* Título do dia em amarelo */
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.hour-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px solid #333; /* Bordas escuras */
+}
+
+.hour-container:last-child {
+  border-bottom: none; /* Remove a borda do último elemento */
+}
+
+.horario {
+  color: #ffeb3b; /* Horários em amarelo */
+  margin-right: 10px;
+}
+
+.reservation {
+  white-space: pre-line;
+  padding: 8px;
+  background-color: #ffeb3b; /* Amarelo suave para reservas */
+  color: #000; /* Texto preto */
+  border-radius: 4px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  text-align: center; /* Centraliza o texto da reserva */
+  flex: 1; /* Permite que a reserva ocupe o restante do espaço */
+}
+
+.exceptions {
+  margin-top: 20px;
+}
+
+.exceptions h3 {
+  color: #ffeb3b; /* Título das exceções em amarelo */
+}
+
+.exceptions ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.exceptions li {
+  background-color: #2c2c2c; /* Fundo mais claro para exceções */
+  color: #ffeb3b; /* Texto amarelo para contraste */
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.mat-toolbar {
+  background: black;
+  color: yellow;
+  border-bottom: 2px solid black;
+}

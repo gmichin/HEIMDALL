@@ -78,6 +78,10 @@ export class TelaNovasSalasComponent implements OnInit {
       this.dialogCloseSubs();
     });
   }
+
+  public redirectHomeAdm() {
+    this.reload.reoladPage(['home-adm'])
+  }
   
   private dialogCloseSubs() {
     this.reload.reoladPage(['home-adm']);
