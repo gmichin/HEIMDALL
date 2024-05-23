@@ -38,12 +38,13 @@ export class TelaSeeMoreComponent implements OnInit {
     private sessionService: SessionService,
   ) {
     const navigation = this.router.getCurrentNavigation();
-    const state = navigation?.extras.state as { data: (CourseModelResponse | RegisterUserResponse)[] };
-    const items: (CourseModelResponse | RegisterUserResponse)[] = state.data;
-    if(items.length > 0) {
-      this.dataSource = new MatTableDataSource(items);
-    }
-  }
+    const state = navigation?.extras.state;
+    if (state && state['data']) {
+      const items: (CourseModelResponse | RegisterUserResponse)[] = state['data'];
+      if (items.length > 0) {
+        this.dataSource = new MatTableDataSource(items);
+      }
+    }  }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
