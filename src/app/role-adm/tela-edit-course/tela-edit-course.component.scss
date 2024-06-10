@@ -1,5 +1,5 @@
 .mat-toolbar {
-  background: #ffd740de;
+  background: #1eff00;
   color: var(--mat-toolbar-container-text-color);
   border-bottom: 2px solid black;
 }
@@ -40,7 +40,7 @@
 }
 
 ::ng-deep .mat-mdc-dialog-surface {
-  background: rgba(255, 215, 64, 1) !important;
+  background: #1eff00!important;
 }
 
 .error {

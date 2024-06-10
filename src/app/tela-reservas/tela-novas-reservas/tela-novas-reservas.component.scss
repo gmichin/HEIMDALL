@@ -4,7 +4,7 @@
   
   .mat-toolbar {
     background: rgb(20, 20, 20);
-    color: yellow;
+    color: #1ddd04;
     margin-bottom: 1cm;
   }
   
@@ -24,11 +24,11 @@
   
   .calendario-personalizado {
     margin: 10px auto;
-    border: 1px solid rgb(212, 212, 18);
+    border: 1px solid rgb(223, 223, 200);
     padding: 5px;
     border-radius: 5px;
     overflow: hidden; 
-    color: yellow;
+    color: #1ddd04;
     width: 100%;
   }
   
@@ -43,11 +43,11 @@
   h1{
     text-align: center;
     margin: 1cm;
-    color: yellow;
+    color: #1ddd04;
   }
 
   h4{
-    color: yellow; 
+    color: #1ddd04 ;
     text-align: center;
   }
 
@@ -63,19 +63,19 @@
     padding-right: calc(50% - (50px / 2));
     padding-bottom: 20px;
     padding-top: 20px;
-    background-color: yellow;
+    background-color: #1ddd04;
     color: black;
     cursor: pointer;
   }
   
   .saveButton:disabled {
-    background-color: #665925; 
+    background-color: #062b01; 
     color: #888;
     cursor: not-allowed;
   }
   
   .insertData{
-    color: yellow;
+    color: #1ddd04;
   }
   
   .boxSize{
@@ -97,7 +97,7 @@
 
   mat-card{
     background-color: rgb(20, 20, 20);
-    border: 3px solid yellow;
+    border: 3px solid #1ddd04;
     width: 50%;
     margin: auto;
     padding: 1cm;
@@ -106,7 +106,7 @@
   mat-card-title{
     margin-bottom: 1cm;
     text-align: center;
-    color: yellow;
+    color: #1ddd04;
   }
 
 
@@ -144,7 +144,7 @@
 
     mat-card{
       width: 100%;
-      border: 10% solid yellow;
+      border: 10% solid #1ddd04;
       padding: 20px; /* Ajustar preenchimento para melhor layout em mobile */
     }
 

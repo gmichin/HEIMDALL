@@ -15,7 +15,7 @@ body {
   margin-top: 20px;
   font-size: 24px;
   font-weight: bold;
-  color: #ffeb3b; /* Título em amarelo */
+  color: #1ddd04; /* Título em amarelo */
   text-align: center;
   margin-bottom: 20px;
 }
@@ -35,7 +35,7 @@ body {
 }
 
 .day-container h3 {
-  color: #ffeb3b; /* Título do dia em amarelo */
+  color: #83cf79; /* Título do dia em amarelo */
   text-align: center;
   margin-bottom: 10px;
 }
@@ -52,14 +52,14 @@ body {
 }
 
 .horario {
-  color: #ffeb3b; /* Horários em amarelo */
+  color: #83cf79 ;/* Horários em amarelo */
   margin-right: 10px;
 }
 
 .reservation {
   white-space: pre-line;
   padding: 8px;
-  background-color: #ffeb3b; /* Amarelo suave para reservas */
+  background-color: #83cf79; /* Amarelo suave para reservas */
   color: #000; /* Texto preto */
   border-radius: 4px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
@@ -72,7 +72,7 @@ body {
 }
 
 .exceptions h3 {
-  color: #ffeb3b; /* Título das exceções em amarelo */
+  color: #1ddd04 /* Título das exceções em amarelo */
 }
 
 .exceptions ul {
@@ -82,7 +82,7 @@ body {
 
 .exceptions li {
   background-color: #2c2c2c; /* Fundo mais claro para exceções */
-  color: #ffeb3b; /* Texto amarelo para contraste */
+  color: #1ddd04; /* Texto amarelo para contraste */
   margin: 5px 0;
   padding: 10px;
   border-radius: 4px;
@@ -91,6 +91,6 @@ body {
 
 .mat-toolbar {
   background: black;
-  color: yellow;
+  color: #1ddd04;
   border-bottom: 2px solid black;
 }

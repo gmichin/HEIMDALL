@@ -1,11 +1,11 @@
 .mat-toolbar {
   background: black;
-  color: yellow;
+  color: #1ddd04;
   border-bottom: 2px solid black;
 }
 
 .header {
-  background: #ffc802de;
+  background: #1ddd04;
   display: flex;
   padding: 1% 0 0 10%;
 }
@@ -35,11 +35,11 @@ mat-card {
   margin-right: 2%;
   background: white;
   mat-card-header {
-    background-color: rgba(255, 200, 2, 0.8705882353);
+    background-color: #83cf79;
   }
   button {
-    background: #e6b60ade;
-    color: white;
+    background: #1ddd04;
+    color: black;
   }
 }
 
@@ -47,21 +47,21 @@ mat-card {
   background: white;
 
   mat-card-header {
-    background-color: rgba(255, 200, 2, 0.8705882353);
+    background-color: #83cf79;
     mat-card-title {
       color: white;
     }
   }
   button {
-    background: #e6b60ade;
-    color: white;
+    background: #1ddd04;
+    color: black;
   }
 }
 
 mat-card-header {
   margin-bottom: 2%;
   height: 60%;
-  background: #ff9700;
+  background: #83cf79;
 }
 
 mat-card-title {
