@@ -76,111 +76,86 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
 
   processReservations() {
     this.schedule = this.userReservations.flatMap(reservation => {
-        const startParts = reservation.start_time.split(' ');
-        const endParts = reservation.end_time.split(' ');
+      const startParts = reservation.start_time.split(' ');
+      const endParts = reservation.end_time.split(' ');
 
-        // Interpretando as partes da data
-        const startYear = parseInt(startParts[3]);
-        const startMonth = this.getMonthIndex(startParts[1]);
-        const startDay = parseInt(startParts[2]);
-        const startHour = parseInt(startParts[4].split(':')[0]);
-        const startMinute = parseInt(startParts[4].split(':')[1]);
-        const endYear = parseInt(endParts[3]);
-        const endMonth = this.getMonthIndex(endParts[1]);
-        const endDay = parseInt(endParts[2]);
-        const endHour = parseInt(endParts[4].split(':')[0]);
-        const endMinute = parseInt(endParts[4].split(':')[1]);
+      const startYear = parseInt(startParts[3]);
+      const startMonth = this.getMonthIndex(startParts[1]);
+      const startDay = parseInt(startParts[2]);
+      const startHour = parseInt(startParts[4].split(':')[0]);
+      const startMinute = parseInt(startParts[4].split(':')[1]);
+      const endYear = parseInt(endParts[3]);
+      const endMonth = this.getMonthIndex(endParts[1]);
+      const endDay = parseInt(endParts[2]);
+      const endHour = parseInt(endParts[4].split(':')[0]);
+      const endMinute = parseInt(endParts[4].split(':')[1]);
 
-        // Criando objetos Date
-        const startDate = new Date(startYear, startMonth, startDay, startHour, startMinute);
-        let endDate = new Date(endYear, endMonth, endDay, endHour, endMinute);
+      const startDate = new Date(startYear, startMonth, startDay, startHour, startMinute);
+      let endDate = new Date(endYear, endMonth, endDay, endHour, endMinute);
 
-        // Verificar se há mais de um dia entre start_date e end_date
-        const daysDifference = (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24);
+      const daysDifference = (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24);
+      let slots = [];
 
-        // Lista para armazenar todos os slots
-        let slots = [];
+      if (daysDifference > 0) {
+        const currentDate = new Date(startDate);
+        while (currentDate <= endDate) {
+          const currentEnd = currentDate.getDate() === endDate.getDate() ? endDate : new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59);
 
-        if (daysDifference > 0) {
-            // Se houver mais de um dia, iterar sobre cada dia
-            const currentDate = new Date(startDate);
+          if (currentDate.getDate() === startDay && currentDate.getDate() === endDay) {
+            slots.push(...eachHourOfInterval({ start: currentDate, end: addHours(currentDate, 19 - currentDate.getHours()) }).map(date => ({
+              date,
+              classId: reservation.class_id,
+              roomId: reservation.room_id
+            })));
+          } else if (currentDate.getDate() === startDay) {
+            slots.push(...eachHourOfInterval({ start: currentDate, end: addHours(currentDate, 19 - currentDate.getHours()) }).map(date => ({
+              date,
+              classId: reservation.class_id,
+              roomId: reservation.room_id
+            })));
+          } else if (currentDate.getDate() === endDay) {
+            slots.push(...eachHourOfInterval({ start: currentDate, end: addHours(currentEnd, -1) }).map(date => ({
+              date,
+              classId: reservation.class_id,
+              roomId: reservation.room_id
+            })));
 
-            while (currentDate <= endDate) {
-                const currentEnd = currentDate.getDate() === endDate.getDate() ? endDate : new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59);
-
-                if (currentDate.getDate() === startDay && currentDate.getDate() === endDay) {
-                    // Se for o dia inicial e final da reserva
-                    // Adicionar slots até as 19h do dia 12
-                    slots.push(...eachHourOfInterval({ start: currentDate, end: addHours(currentDate, 19 - currentDate.getHours()) }).map(date => ({
-                        date,
-                        classId: reservation.class_id,
-                        roomId: reservation.room_id
-                    })));
-                } else if (currentDate.getDate() === startDay) {
-                    // Se for o primeiro dia da reserva, mas não o último dia
-                    // Adicionar slots até as 19h
-                    slots.push(...eachHourOfInterval({ start: currentDate, end: addHours(currentDate, 19 - currentDate.getHours()) }).map(date => ({
-                        date,
-                        classId: reservation.class_id,
-                        roomId: reservation.room_id
-                    })));
-                } else if (currentDate.getDate() === endDay) {
-                    // Se for o último dia da reserva, mas não o primeiro dia
-                    // Adicionar todos os slots até o fim do dia
-                    slots.push(...eachHourOfInterval({ start: currentDate, end: addHours(currentEnd, -1) }).map(date => ({
-                        date,
-                        classId: reservation.class_id,
-                        roomId: reservation.room_id
-                    })));
-
-                    // Adicionar o último slot até as 19h
-                    const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 19, 0, 0);
-                    if (currentDate <= endOfDay) {
-                        slots.push({
-                            date: endOfDay,
-                            classId: reservation.class_id,
-                            roomId: reservation.room_id
-                        });
-                    }
-                } else {
-                    // Se for um dia intermediário
-                    // Adicionar todos os slots até o fim do dia
-                    slots.push(...eachHourOfInterval({ start: currentDate, end: addHours(currentEnd, -1) }).map(date => ({
-                        date,
-                        classId: reservation.class_id,
-                        roomId: reservation.room_id
-                    })));
-                }
-
-                // Avançar para o próximo dia
-                currentDate.setDate(currentDate.getDate() + 1);
-            }
-        } else {
-            // Se for apenas um dia, criar slots normalmente
-            slots = eachHourOfInterval({ start: startDate, end: addHours(endDate, -1) }).map(date => ({
-                date,
+            const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 19, 0, 0);
+            if (currentDate <= endOfDay) {
+              slots.push({
+                date: endOfDay,
                 classId: reservation.class_id,
                 roomId: reservation.room_id
-            }));
-
-            // Adicionar a última hora do dia até 19h se for o dia 12
-            const endOfDay = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), 19, 0, 0);
-            if (startDate <= endOfDay && endDate >= endOfDay) {
-                slots.push({
-                    date: endOfDay,
-                    classId: reservation.class_id,
-                    roomId: reservation.room_id
-                });
+              });
             }
+          } else {
+            slots.push(...eachHourOfInterval({ start: currentDate, end: addHours(currentEnd, -1) }).map(date => ({
+              date,
+              classId: reservation.class_id,
+              roomId: reservation.room_id
+            })));
+          }
+          currentDate.setDate(currentDate.getDate() + 1);
         }
+      } else {
+        slots = eachHourOfInterval({ start: startDate, end: addHours(endDate, -1) }).map(date => ({
+          date,
+          classId: reservation.class_id,
+          roomId: reservation.room_id
+        }));
 
-        return slots;
+        const endOfDay = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), 19, 0, 0);
+        if (startDate <= endOfDay && endDate >= endOfDay) {
+          slots.push({
+            date: endOfDay,
+            classId: reservation.class_id,
+            roomId: reservation.room_id
+          });
+        }
+      }
+      return slots;
     });
-
-    console.log('Processed schedule:', this.schedule);
-}
-
-
+  }
 
   getMonthIndex(month: string): number {
     const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -198,6 +173,13 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
       return `${className}\nNº da Sala: ${roomNumber}`;
     }
     return '';
+  }
+
+  hasReservation(day: string, hour: number): boolean {
+    return this.schedule.some(slot => {
+      const date = slot.date;
+      return date.getHours() === hour && this.daysOfWeek[date.getDay() - 1] === day;
+    });
   }
 
   public redirectReserve() {
