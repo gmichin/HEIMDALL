@@ -344,6 +344,38 @@ export class TelaNovasReservasComponent implements OnInit{
     })
   }
 
+  formatarData(dataString: string) {
+    const data = new Date(dataString);
+
+    const dia = ("0" + data.getDate()).slice(-2);
+    const mes = this.obterNomeMes(data.getMonth());
+    const ano = data.getFullYear();
+    const hora = ("0" + data.getHours()).slice(-2);
+    const minuto = ("0" + data.getMinutes()).slice(-2);
+    const segundo = ("0" + data.getSeconds()).slice(-2);
+    const fusoHorario = this.obterFusoHorario(data.getTimezoneOffset());
+
+    return `${dia} ${mes} ${dia} ${ano} ${hora}:${minuto}:${segundo} ${fusoHorario}`;
+}
+
+obterNomeMes(numeroMes: number) {
+    const meses = [
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    return meses[numeroMes];
+}
+
+obterFusoHorario(offsetMinutos: number) {
+    const offsetHoras = offsetMinutos / 60;
+    const sinal = offsetHoras >= 0 ? '-' : '+';
+    const absOffsetHoras = Math.abs(offsetHoras);
+    const horas = ("0" + Math.floor(absOffsetHoras)).slice(-2);
+    const minutos = ("0" + (absOffsetHoras % 1 * 60)).slice(-2);
+
+    return `${sinal}${horas}:${minutos}`;
+}
+
   formatDatesAndHours(formValue: any): any {
     formValue.end_date = formValue.end_date == '' ? formValue.start_date : formValue.end_date;
     const { date, start_date, end_date, start_hour, end_hour } = formValue;
@@ -369,7 +401,7 @@ export class TelaNovasReservasComponent implements OnInit{
     const dateTime = new Date(date);
     dateTime.setUTCHours(parseInt(hour, 10));
     dateTime.setUTCMinutes(parseInt(minute, 10));
-    return dateTime.toISOString();
+    return this.formatarData(dateTime.toISOString());
   }
 
   changeCourse(event: any){

@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { TelaReservasComponent } from '../tela-reservas/tela-reservas.component';
+import { ReloadService } from '../services/reload.service';
 
 class Reservation {
   _id: string = '';
@@ -47,6 +48,7 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
     private sessionService: SessionService,
     private salaDataService: SalaDataService,
     private router: Router,
+    private reload: ReloadService,
     public dialog: MatDialog,
   ) {}
 
@@ -68,12 +70,15 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
     this.processReservations();
   }
 
+  public redirectHomeAdm() {
+    this.reload.reoladPage(['redirecionar'])
+  }
+
   processReservations() {
     this.schedule = this.userReservations.flatMap(reservation => {
       const startParts = reservation.start_time.split(' ');
       const endParts = reservation.end_time.split(' ');
 
-      // Interpretando as partes da data
       const startYear = parseInt(startParts[3]);
       const startMonth = this.getMonthIndex(startParts[1]);
       const startDay = parseInt(startParts[2]);
@@ -85,31 +90,71 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
       const endHour = parseInt(endParts[4].split(':')[0]);
       const endMinute = parseInt(endParts[4].split(':')[1]);
 
-      // Criando objetos Date
-      const start = new Date(startYear, startMonth, startDay, startHour, startMinute);
-      const end = new Date(endYear, endMonth, endDay, endHour, endMinute);
+      const startDate = new Date(startYear, startMonth, startDay, startHour, startMinute);
+      let endDate = new Date(endYear, endMonth, endDay, endHour, endMinute);
 
-      console.log(`Start Time (original): ${reservation.start_time}`);
-      console.log(`End Time (original): ${reservation.end_time}`);
-      console.log(`Start Time (Date object): ${start}`);
-      console.log(`End Time (Date object): ${end}`);
+      const daysDifference = (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24);
+      let slots = [];
 
-      const slots = eachHourOfInterval({ start, end: addHours(end, -1) }).map(date => ({
-        date,
-        classId: reservation.class_id,
-        roomId: reservation.room_id
-      }));
+      if (daysDifference > 0) {
+        const currentDate = new Date(startDate);
+        while (currentDate <= endDate) {
+          const currentEnd = currentDate.getDate() === endDate.getDate() ? endDate : new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59);
 
-      // Adicionar a última hora
-      slots.push({
-        date: end,
-        classId: reservation.class_id,
-        roomId: reservation.room_id
-      });
+          if (currentDate.getDate() === startDay && currentDate.getDate() === endDay) {
+            slots.push(...eachHourOfInterval({ start: currentDate, end: addHours(currentDate, 19 - currentDate.getHours()) }).map(date => ({
+              date,
+              classId: reservation.class_id,
+              roomId: reservation.room_id
+            })));
+          } else if (currentDate.getDate() === startDay) {
+            slots.push(...eachHourOfInterval({ start: currentDate, end: addHours(currentDate, 19 - currentDate.getHours()) }).map(date => ({
+              date,
+              classId: reservation.class_id,
+              roomId: reservation.room_id
+            })));
+          } else if (currentDate.getDate() === endDay) {
+            slots.push(...eachHourOfInterval({ start: currentDate, end: addHours(currentEnd, -1) }).map(date => ({
+              date,
+              classId: reservation.class_id,
+              roomId: reservation.room_id
+            })));
 
+            const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 19, 0, 0);
+            if (currentDate <= endOfDay) {
+              slots.push({
+                date: endOfDay,
+                classId: reservation.class_id,
+                roomId: reservation.room_id
+              });
+            }
+          } else {
+            slots.push(...eachHourOfInterval({ start: currentDate, end: addHours(currentEnd, -1) }).map(date => ({
+              date,
+              classId: reservation.class_id,
+              roomId: reservation.room_id
+            })));
+          }
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+      } else {
+        slots = eachHourOfInterval({ start: startDate, end: addHours(endDate, -1) }).map(date => ({
+          date,
+          classId: reservation.class_id,
+          roomId: reservation.room_id
+        }));
+
+        const endOfDay = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), 19, 0, 0);
+        if (startDate <= endOfDay && endDate >= endOfDay) {
+          slots.push({
+            date: endOfDay,
+            classId: reservation.class_id,
+            roomId: reservation.room_id
+          });
+        }
+      }
       return slots;
     });
-    console.log('Processed schedule:', this.schedule);
   }
 
   getMonthIndex(month: string): number {
@@ -128,6 +173,13 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
       return `${className}\nNº da Sala: ${roomNumber}`;
     }
     return '';
+  }
+
+  hasReservation(day: string, hour: number): boolean {
+    return this.schedule.some(slot => {
+      const date = slot.date;
+      return date.getHours() === hour && this.daysOfWeek[date.getDay() - 1] === day;
+    });
   }
 
   public redirectReserve() {

@@ -13,7 +13,7 @@
     </button>
   </mat-menu>
 
-  <span class="tituloH">HEIMDALL</span>
+  <span class="tituloH" style="cursor: pointer;" (click)="redirectHomeAdm()">HEIMDALL</span>
 </mat-toolbar>
 
 <div class="page-title">
@@ -22,10 +22,12 @@
 <div class="responsive-schedule">
   <div class="day-container" *ngFor="let day of daysOfWeek">
     <h3>{{ day }}</h3>
-    <div class="hour-container" *ngFor="let hour of tableHours">
-      <div class="horario">{{ hour }}:00</div>
-      <div class="reservation">{{ getReservation(day, +hour) }}</div>
-    </div>
+    <ng-container *ngFor="let hour of tableHours">
+      <div *ngIf="hasReservation(day, +hour)" class="hour-container">
+        <div class="horario">{{ hour }}:00</div>
+        <div class="reservation">{{ getReservation(day, +hour) }}</div>
+      </div>
+    </ng-container>
   </div>
 </div>
 <div *ngIf="exceptions.length > 0" class="exceptions">
