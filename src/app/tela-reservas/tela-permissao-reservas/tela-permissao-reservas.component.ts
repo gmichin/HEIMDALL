@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
 import { TelaReservasComponent } from '../tela-reservas.component';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
+import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 
 interface Sala {
   numero: number;
@@ -84,5 +85,17 @@ export class TelaPermissaoReservasComponent {
       this.requests.splice(index, 1);
       this.dataSource.data = [...this.requests]; 
     }
+  }
+  goBack(){
+    this.router.navigate(['/home-adm']);
+  }
+  logout(){
+    this.router.navigate(['/']);
+  }
+  
+  public redirectProfile() {
+    const dialogT = this.dialog.open(TelaPerfilComponent, {
+      width: '400px',
+    });
   }
 }

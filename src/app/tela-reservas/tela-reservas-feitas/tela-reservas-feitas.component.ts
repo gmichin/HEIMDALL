@@ -22,6 +22,7 @@ import { ReserveModel } from 'src/app/models/reserve.model';
 import { RoleId } from 'src/app/models/role.model';
 import { RegisterUserResponse } from 'src/app/models/register.models';
 import { SessionService } from 'src/app/services/session.service';
+import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 
 interface Sala {
   room_id: string;
@@ -206,4 +207,16 @@ export class TelaReservasFeitasComponent {
     return this.selectionReject.selected.length > 0;
   }
 
+  goBack(){
+    this.router.navigate(['/home-adm']);
+  }
+  logout(){
+    this.router.navigate(['/']);
+  }
+  
+  public redirectProfile() {
+    const dialogT = this.dialog.open(TelaPerfilComponent, {
+      width: '400px',
+    });
+  }
 }

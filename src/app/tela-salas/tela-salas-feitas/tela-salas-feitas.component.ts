@@ -45,6 +45,7 @@ export class TelaSalasFeitasComponent {
     private roomService: RoomService,
     private snackBar: MatSnackBar,
     private reloadService: ReloadService,
+    private router: Router,
     private reload: ReloadService
   ) {
     this.roomService.getRoomsByInst().subscribe({
@@ -54,6 +55,12 @@ export class TelaSalasFeitasComponent {
     });
   }
 
+  goBack(){
+    this.router.navigate(['/home-adm']);
+  }
+  logout(){
+    this.router.navigate(['/']);
+  }
 
   public redirectMaterias() {
     const dialogT = this.dialog.open(TelaMateriasComponent, {

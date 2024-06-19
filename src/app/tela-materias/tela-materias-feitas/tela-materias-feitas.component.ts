@@ -50,6 +50,7 @@ export class TelaMateriasFeitasComponent {
     private snackBar: MatSnackBar,
     private reloadService: ReloadService,
     private classService: ClassService,
+    private router: Router,
     private reload: ReloadService
   ) {
     this.courseService.getAllCourses().subscribe({
@@ -57,6 +58,12 @@ export class TelaMateriasFeitasComponent {
         this.courseList = cursos;
       }
     });
+  }
+  goBack(){
+    this.router.navigate(['/home-adm']);
+  }
+  logout(){
+    this.router.navigate(['/']);
   }
 
   public redirectProfile() {

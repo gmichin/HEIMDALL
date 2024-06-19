@@ -13,6 +13,7 @@ import { RoomService } from 'src/app/services/room.service';
 import { ReloadService } from 'src/app/services/reload.service';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { TelaMateriasComponent } from 'src/app/tela-materias/tela-materias.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tela-novas-salas',
@@ -34,6 +35,7 @@ export class TelaNovasSalasComponent implements OnInit {
     private sessionService: SessionService,
     private roomService: RoomService,
     private reloadService: ReloadService,
+    private router: Router,
     private reload: ReloadService
   ) {
     this.roomToEdit = this.roomService.getRoomToEdit();
@@ -70,6 +72,12 @@ export class TelaNovasSalasComponent implements OnInit {
   }
 
   
+  goBack(){
+    this.router.navigate(['/home-adm']);
+  }
+  logout(){
+    this.router.navigate(['/']);
+  }
   public redirectProfile() {
     const dialogT = this.dialog.open(TelaPerfilComponent, {
       width: '400px',

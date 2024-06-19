@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
@@ -40,6 +41,7 @@ export class TelaNovasMateriasComponent implements OnInit {
     private internsService: InternsService,
     private reloadService: ReloadService,
     private classService: ClassService,
+    private router: Router,
     private reload: ReloadService
   ) {
     this.classToEdit = this.classService.getClassToEdit();
@@ -85,6 +87,13 @@ export class TelaNovasMateriasComponent implements OnInit {
         });
       }
     });
+  }
+
+  goBack(){
+    this.router.navigate(['/home-adm']);
+  }
+  logout(){
+    this.router.navigate(['/']);
   }
 
   public redirectProfile() {
