@@ -74,7 +74,7 @@ li {
       flex-direction: column;
       margin: 15% 0; /* Aplicar margem superior e inferior apenas */
       padding: 5%;
-      width: 100%; /* Ajustar a largura para 100% */
+      width: 90%; /* Ajustar a largura para 100% */
   }
 
   .logo-central {
@@ -83,7 +83,7 @@ li {
   }
 
   .tryNow {
-      width: 100%;
+      width: 90%;
       padding: 10%;
   }
 
@@ -91,4 +91,9 @@ li {
       font-size: 1.5em;
       align-self: center;
   }
+
+  .mat-toolbar{
+    width: 100%;
+  }
+
 }
