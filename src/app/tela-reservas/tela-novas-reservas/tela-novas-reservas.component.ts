@@ -23,6 +23,7 @@ import { ReserveModel } from 'src/app/models/reserve.model';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { SessionService } from 'src/app/services/session.service';
 import { RoleId } from 'src/app/models/role.model';
+import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 
 
 @Component({
@@ -71,6 +72,7 @@ export class TelaNovasReservasComponent implements OnInit{
     private reservationService: ReservationService,
     private fb: FormBuilder,
     private loaderService: LoaderService,
+    private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.resgiterForm = this.fb.group(
@@ -442,5 +444,17 @@ obterFusoHorario(offsetMinutos: number) {
   validaRole() {
     const user = this.sessionService.getSessionData<RegisterUserResponse>('user').retorno;
     return user.role == RoleId.ADM;
+  }
+  goBack(){
+    this.router.navigate(['/home-adm']);
+  }
+  logout(){
+    this.router.navigate(['/']);
+  }
+  
+  public redirectProfile() {
+    const dialogT = this.dialog.open(TelaPerfilComponent, {
+      width: '400px',
+    });
   }
 }
