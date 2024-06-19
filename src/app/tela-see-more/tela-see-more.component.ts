@@ -149,4 +149,10 @@ export class TelaSeeMoreComponent implements OnInit {
       }
     });
   }
+  goBack(){
+    this.router.navigate(['/home-adm']);
+  }
+  logout(){
+    this.router.navigate(['/']);
+  }
 }
