@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RegisterUserResponse, RequestRegistrationUserResponse } from '../models/register.models';
 import { ResgistrationRequestsService } from '../services/resgistration-requests.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -34,6 +34,7 @@ export class TelaSolicitacoesRegistroComponent implements OnInit {
     private readonly _registrationService: ResgistrationRequestsService,
     private snackBar: MatSnackBar,
     private reload: ReloadService,
+    private router: Router,
   ) {
     const users: RegisterUserResponse[] = this._activatedRoute.snapshot.data['dados'];
     if(users.length > 0) {
@@ -131,6 +132,12 @@ export class TelaSolicitacoesRegistroComponent implements OnInit {
         this.selectionReject.select(row);
       }
     })
+  }
+  goBack(){
+    this.router.navigate(['/home-adm']);
+  }
+  logout(){
+    this.router.navigate(['/']);
   }
 }
 
