@@ -25,7 +25,6 @@ import { SessionService } from 'src/app/services/session.service';
 import { RoleId } from 'src/app/models/role.model';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 
-
 @Component({
   selector: 'app-tela-novas-reservas',
   templateUrl: './tela-novas-reservas.component.html',
@@ -50,7 +49,12 @@ export class TelaNovasReservasComponent implements OnInit{
   professores: any[] = [];
   materia: any[] = [];
   materiasPorProfessor: string[] = [];
-  materiaSelecionada: string = '';
+  materiaSelecionada: string = ''; 
+
+  
+  public dataUser = <RegisterUserResponse>this.sessionService.getSessionData('user').retorno;
+  public id = this.dataUser._id;
+  public role = '';
   
   public resgiterForm!: FormGroup;
   public courseList: CourseModelResponse[] = []
@@ -75,6 +79,17 @@ export class TelaNovasReservasComponent implements OnInit{
     private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    switch(this.dataUser.role){
+      case RoleId.ADM:
+        this.role = 'Administrador';
+        break;
+      case RoleId.PROFESSOR:
+        this.role = 'Professor';
+        break;
+      case RoleId.ALUNO:
+        this.role = 'Aluno';
+        break;
+    }
     this.resgiterForm = this.fb.group(
       {
         course_id: ['', [Validators.required]],
@@ -444,9 +459,11 @@ obterFusoHorario(offsetMinutos: number) {
   validaRole() {
     const user = this.sessionService.getSessionData<RegisterUserResponse>('user').retorno;
     return user.role == RoleId.ADM;
-  }
+  } 
   goBack(){
-    this.router.navigate(['/home-adm']);
+    if(this.role=="Administrador") this.router.navigate(['/home-adm']);
+    else if(this.role=="Professor") this.router.navigate(['/home-teacher']);
+    else if(this.role=="Aluno") this.router.navigate(['/home-student']);
   }
   logout(){
     this.router.navigate(['/']);

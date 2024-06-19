@@ -10,6 +10,8 @@ import { RegisterUserResponse, RequestRegistrationUserResponse } from '../models
 import { ResgistrationRequestsService } from '../services/resgistration-requests.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReloadService } from '../services/reload.service';
+import { RoleId } from 'src/app/models/role.model';
+import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-tela-solicitacoes-registro',
@@ -28,14 +30,30 @@ export class TelaSolicitacoesRegistroComponent implements OnInit {
   selectionAprove = new SelectionModel<RequestRegistrationUserResponse>(true, []);
   selectionReject = new SelectionModel<RequestRegistrationUserResponse>(true, []);
   
+  public dataUser = <RegisterUserResponse>this.sessionService.getSessionData('user').retorno;
+  public id = this.dataUser._id;
+  public role = '';
+
   constructor(
     public dialog: MatDialog,
     private _activatedRoute: ActivatedRoute,
     private readonly _registrationService: ResgistrationRequestsService,
     private snackBar: MatSnackBar,
-    private reload: ReloadService,
+    private reload: ReloadService,    
+    private sessionService: SessionService,
     private router: Router,
-  ) {
+  ) {    
+    switch(this.dataUser.role){
+    case RoleId.ADM:
+      this.role = 'Administrador';
+      break;
+    case RoleId.PROFESSOR:
+      this.role = 'Professor';
+      break;
+    case RoleId.ALUNO:
+      this.role = 'Aluno';
+      break;
+  }
     const users: RegisterUserResponse[] = this._activatedRoute.snapshot.data['dados'];
     if(users.length > 0) {
       this.dataSource = new MatTableDataSource(users);
@@ -134,7 +152,9 @@ export class TelaSolicitacoesRegistroComponent implements OnInit {
     })
   }
   goBack(){
-    this.router.navigate(['/home-adm']);
+    if(this.role=="Administrador") this.router.navigate(['/home-adm']);
+    else if(this.role=="Professor") this.router.navigate(['/home-teacher']);
+    else if(this.role=="Aluno") this.router.navigate(['/home-student']);
   }
   logout(){
     this.router.navigate(['/']);

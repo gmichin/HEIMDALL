@@ -1,4 +1,9 @@
-<mat-toolbar>
+<mat-toolbar>  
+  <!-- Botão para voltar para a página anterior -->
+  <button mat-icon-button (click)="goBack()">
+    <mat-icon>home</mat-icon>
+  </button>
+
   <button mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon>menu</mat-icon>
   </button>
@@ -13,7 +18,17 @@
     </button>
   </mat-menu>
 
-  <span class="tituloH" style="cursor: pointer;" (click)="redirectHomeAdm()">HEIMDALL</span>
+
+  <!-- Título -->
+  <span class="tituloH">HEIMDALL</span>
+
+  <!-- Espaço flexível para empurrar o botão de logout para a direita -->
+  <span class="spacer"></span>
+
+  <!-- Botão de logout -->
+  <button mat-icon-button (click)="logout()">
+    <mat-icon>logout</mat-icon>
+  </button>
 </mat-toolbar>
 
 <div class="page-title">

@@ -57,6 +57,11 @@ export class TelaReservasFeitasComponent {
   public selectionClass = new SelectionModel<string>(true, []);
   public resgiterForm!: FormGroup;
 
+  
+  public dataUser = <RegisterUserResponse>this.sessionService.getSessionData('user').retorno;
+  public id = this.dataUser._id;
+  public role = '';
+
   constructor(
     private reservationService: ReservationService,
     public dialog: MatDialog,
@@ -68,7 +73,18 @@ export class TelaReservasFeitasComponent {
     private classService: ClassService,
     private fb: FormBuilder,
     private reloadService: ReloadService,
-  ) {
+  ) {    
+    switch(this.dataUser.role){
+    case RoleId.ADM:
+      this.role = 'Administrador';
+      break;
+    case RoleId.PROFESSOR:
+      this.role = 'Professor';
+      break;
+    case RoleId.ALUNO:
+      this.role = 'Aluno';
+      break;
+    }
     this.resgiterForm = this.fb.group(
       {
         course_id: ['', [Validators.required]],
@@ -207,9 +223,13 @@ export class TelaReservasFeitasComponent {
     return this.selectionReject.selected.length > 0;
   }
 
+ 
   goBack(){
-    this.router.navigate(['/home-adm']);
+    if(this.role=="Administrador") this.router.navigate(['/home-adm']);
+    else if(this.role=="Professor") this.router.navigate(['/home-teacher']);
+    else if(this.role=="Aluno") this.router.navigate(['/home-student']);
   }
+
   logout(){
     this.router.navigate(['/']);
   }

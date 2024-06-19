@@ -18,7 +18,9 @@ import { CourseModelResponse } from 'src/app/models/course.model';
 import { ClassService } from 'src/app/services/class.service';
 import { ClassModel } from 'src/app/models/class.model';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
-
+import { RoleId } from 'src/app/models/role.model';
+import { RegisterUserResponse } from 'src/app/models/register.models';
+import { SessionService } from 'src/app/services/session.service';
 
 interface Sala {
   number: number;
@@ -42,7 +44,10 @@ export class TelaMateriasFeitasComponent {
   selectionCourse = new SelectionModel<string>(true, []);
   selection = new SelectionModel<ClassModel>(true, []);
   selectionReject = new SelectionModel<ClassModel>(true, []);
-  courseList!: CourseModelResponse[];
+  courseList!: CourseModelResponse[];  
+  public dataUser = <RegisterUserResponse>this.sessionService.getSessionData('user').retorno;
+  public id = this.dataUser._id;
+  public role = '';
 
   constructor(
     public dialog: MatDialog,
@@ -50,9 +55,21 @@ export class TelaMateriasFeitasComponent {
     private snackBar: MatSnackBar,
     private reloadService: ReloadService,
     private classService: ClassService,
-    private router: Router,
+    private router: Router,    
+    private sessionService: SessionService,
     private reload: ReloadService
-  ) {
+  ) {    
+    switch(this.dataUser.role){
+    case RoleId.ADM:
+      this.role = 'Administrador';
+      break;
+    case RoleId.PROFESSOR:
+      this.role = 'Professor';
+      break;
+    case RoleId.ALUNO:
+      this.role = 'Aluno';
+      break;
+  }
     this.courseService.getAllCourses().subscribe({
       next: cursos => {
         this.courseList = cursos;
@@ -60,7 +77,9 @@ export class TelaMateriasFeitasComponent {
     });
   }
   goBack(){
-    this.router.navigate(['/home-adm']);
+    if(this.role=="Administrador") this.router.navigate(['/home-adm']);
+    else if(this.role=="Professor") this.router.navigate(['/home-teacher']);
+    else if(this.role=="Aluno") this.router.navigate(['/home-student']);
   }
   logout(){
     this.router.navigate(['/']);

@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { TelaReservasComponent } from '../tela-reservas/tela-reservas.component';
 import { ReloadService } from '../services/reload.service';
+import { RoleId } from '../models/role.model';
 
 class Reservation {
   _id: string = '';
@@ -40,6 +41,7 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
   public classes: any[] = [];
   public rooms: any[] = [];
   public exceptions: any[] = [];
+  public role = '';
 
   public tableHours: string[] = Array.from({ length: 17 }, (_, i) => (i + 6 < 10 ? '0' : '') + (i + 6).toString());
   public daysOfWeek: string[] = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
@@ -50,7 +52,20 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
     private router: Router,
     private reload: ReloadService,
     public dialog: MatDialog,
-  ) {}
+  ) {
+    
+    switch(this.dataUser.role){
+      case RoleId.ADM:
+        this.role = 'Administrador';
+        break;
+      case RoleId.PROFESSOR:
+        this.role = 'Professor';
+        break;
+      case RoleId.ALUNO:
+        this.role = 'Aluno';
+        break;
+    }
+  }
 
   ngOnInit() {
     forkJoin({
@@ -65,6 +80,14 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
     });
   }
 
+  goBack(){
+    if(this.role=="Administrador") this.router.navigate(['/home-adm']);
+    else if(this.role=="Professor") this.router.navigate(['/home-teacher']);
+    else if(this.role=="Aluno") this.router.navigate(['/home-student']);
+  }
+  logout(){
+    this.router.navigate(['/']);
+  }
   filterUserReservations() {
     this.userReservations = this.reservations.filter(reservation => reservation.user_id === this.id);
     this.processReservations();

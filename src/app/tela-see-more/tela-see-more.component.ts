@@ -12,7 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReloadService } from '../services/reload.service';
 import { SessionService } from '../services/session.service';
 import { TelaPerfilComponent } from '../tela-perfil/tela-perfil.component';
-
+import { RoleId } from 'src/app/models/role.model';
 @Component({
   selector: 'app-tela-see-more',
   templateUrl: './tela-see-more.component.html',
@@ -29,6 +29,11 @@ export class TelaSeeMoreComponent implements OnInit {
   selectionAprove = new SelectionModel<CourseModelResponse | RegisterUserResponse>(true, []);
   selectionReject = new SelectionModel<CourseModelResponse | RegisterUserResponse>(true, []);
 
+  
+  public dataUser = <RegisterUserResponse>this.sessionService.getSessionData('user').retorno;
+  public id = this.dataUser._id;
+  public role = '';
+
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -36,7 +41,18 @@ export class TelaSeeMoreComponent implements OnInit {
     private snackBar: MatSnackBar,
     private reload: ReloadService,
     private sessionService: SessionService,
-  ) {
+  ) {   
+    switch(this.dataUser.role){
+    case RoleId.ADM:
+      this.role = 'Administrador';
+      break;
+    case RoleId.PROFESSOR:
+      this.role = 'Professor';
+      break;
+    case RoleId.ALUNO:
+      this.role = 'Aluno';
+      break;
+  }
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state;
     if (state && state['data']) {
@@ -150,7 +166,9 @@ export class TelaSeeMoreComponent implements OnInit {
     });
   }
   goBack(){
-    this.router.navigate(['/home-adm']);
+    if(this.role=="Administrador") this.router.navigate(['/home-adm']);
+    else if(this.role=="Professor") this.router.navigate(['/home-teacher']);
+    else if(this.role=="Aluno") this.router.navigate(['/home-student']);
   }
   logout(){
     this.router.navigate(['/']);

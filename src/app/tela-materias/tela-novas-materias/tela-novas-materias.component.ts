@@ -18,6 +18,7 @@ import { RegisterUserResponse } from 'src/app/models/register.models';
 import { ClassModel } from 'src/app/models/class.model';
 import { ClassService } from 'src/app/services/class.service';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
+import { RoleId } from 'src/app/models/role.model';
 
 @Component({
   selector: 'app-tela-novas-materias',
@@ -30,7 +31,10 @@ export class TelaNovasMateriasComponent implements OnInit {
   public teachersList: RegisterUserResponse[] = [];
   public classToEdit!: {valid: boolean, class: ClassModel};
 
-  newSala: any[] = [];
+  newSala: any[] = [];  
+  public dataUser = <RegisterUserResponse>this.sessionService.getSessionData('user').retorno;
+  public id = this.dataUser._id;
+  public role = '';
 
   constructor(
     public dialog: MatDialog,
@@ -43,7 +47,18 @@ export class TelaNovasMateriasComponent implements OnInit {
     private classService: ClassService,
     private router: Router,
     private reload: ReloadService
-  ) {
+  ) {  
+    switch(this.dataUser.role){
+    case RoleId.ADM:
+      this.role = 'Administrador';
+      break;
+    case RoleId.PROFESSOR:
+      this.role = 'Professor';
+      break;
+    case RoleId.ALUNO:
+      this.role = 'Aluno';
+      break;
+  }
     this.classToEdit = this.classService.getClassToEdit();
 
     this.resgiterForm = this.fb.group(
@@ -90,7 +105,9 @@ export class TelaNovasMateriasComponent implements OnInit {
   }
 
   goBack(){
-    this.router.navigate(['/home-adm']);
+    if(this.role=="Administrador") this.router.navigate(['/home-adm']);
+    else if(this.role=="Professor") this.router.navigate(['/home-teacher']);
+    else if(this.role=="Aluno") this.router.navigate(['/home-student']);
   }
   logout(){
     this.router.navigate(['/']);
