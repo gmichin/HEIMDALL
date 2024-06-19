@@ -124,4 +124,7 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
   public seeMore(items: (CourseModelResponse | RegisterUserResponse)[]): void {
     this.router.navigate(['tela-see-more'], { state: { data: items } });
   }
+  logout(){
+    this.router.navigate(['/']);
+  }
 }

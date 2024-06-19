@@ -46,6 +46,9 @@ export class TelaHomeStudentComponent implements OnInit, OnDestroy {
 
   private dialogCloseSubs() {
     this.router.navigate(['reload']);
+  }  
+  logout(){
+    this.router.navigate(['/']);
   }
   public seeMore(items: CourseModelResponse[] & RegisterUserResponse[]): void {}
 }
