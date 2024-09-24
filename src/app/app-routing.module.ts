@@ -4,7 +4,7 @@ import { TelaInicialComponent } from './tela-inicial/tela-inicial.component';
 import { TelaPerfilComponent } from './tela-perfil/tela-perfil.component';
 import { TelaPerfilResolver } from './tela-perfil/tela-perfil.resolver';
 import { TelaRedirecionarUsuarioComponent } from './tela-redirecionar-usuario/tela-redirecionar-usuario.component';
-import { TelaReservasComponent } from './tela-reservas/tela-reservas.component'
+import { TelaReservasComponent } from './tela-reservas/tela-reservas.component';
 import { RedirecionarUsuarioGuard } from './tela-redirecionar-usuario/tela-redirecionar-usuario.guard';
 import { TelaNovasReservasComponent } from './tela-reservas/tela-novas-reservas/tela-novas-reservas.component';
 import { TelaReservasFeitasComponent } from './tela-reservas/tela-reservas-feitas/tela-reservas-feitas.component';
@@ -20,9 +20,12 @@ import { TelaMateriasComponent } from './tela-materias/tela-materias.component';
 import { TelaNovasMateriasComponent } from './tela-materias/tela-novas-materias/tela-novas-materias.component';
 import { TelaMateriasFeitasComponent } from './tela-materias/tela-materias-feitas/tela-materias-feitas.component';
 import { TelaSeeMoreComponent } from './tela-see-more/tela-see-more.component';
+import { AnimacaoComponent } from './animacao/animacao.component';
 
 const routes: Routes = [
-  { path: '', component: TelaInicialComponent },
+  { path: '', component: AnimacaoComponent },
+
+  { path: 'inicial', component: TelaInicialComponent },
   {
     path: 'reload',
     component: ReloadComponent,
@@ -52,24 +55,30 @@ const routes: Routes = [
     },
   },
   { path: 'tela-reservas', component: TelaReservasComponent },
-  { path: 'tela-novas-reservas', component: TelaNovasReservasComponent},
-  { path: 'tela-reservas-feitas', component: TelaReservasFeitasComponent},
-  { path: 'tela-permissao-reservas', component: TelaPermissaoReservasComponent},
+  { path: 'tela-novas-reservas', component: TelaNovasReservasComponent },
+  { path: 'tela-reservas-feitas', component: TelaReservasFeitasComponent },
+  {
+    path: 'tela-permissao-reservas',
+    component: TelaPermissaoReservasComponent,
+  },
 
   { path: 'tela-salas', component: TelaSalasComponent },
-  { path: 'tela-novas-salas', component: TelaNovasSalasComponent},
-  { path: 'tela-salas-feitas', component: TelaSalasFeitasComponent},
-  
+  { path: 'tela-novas-salas', component: TelaNovasSalasComponent },
+  { path: 'tela-salas-feitas', component: TelaSalasFeitasComponent },
+
   { path: 'tela-materias', component: TelaMateriasComponent },
-  { path: 'tela-novas-materias', component: TelaNovasMateriasComponent},
-  { path: 'tela-materias-feitas', component: TelaMateriasFeitasComponent},
+  { path: 'tela-novas-materias', component: TelaNovasMateriasComponent },
+  { path: 'tela-materias-feitas', component: TelaMateriasFeitasComponent },
 
-  { path: 'tela-mapa-horario-salas', component: TelaMapaHorarioAulasComponent},
+  { path: 'tela-mapa-horario-salas', component: TelaMapaHorarioAulasComponent },
 
+  {
+    path: 'tela-solicitacoes-registro',
+    component: TelaSolicitacoesRegistroComponent,
+    resolve: { dados: TelaSolicitacoesRegistroResolver },
+  },
 
-  { path: 'tela-solicitacoes-registro', component: TelaSolicitacoesRegistroComponent, resolve:{dados:TelaSolicitacoesRegistroResolver}},
-  
-  { path: 'tela-see-more', component: TelaSeeMoreComponent},
+  { path: 'tela-see-more', component: TelaSeeMoreComponent },
 ];
 
 @NgModule({

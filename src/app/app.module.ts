@@ -37,16 +37,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
-import { TelaReservasComponent } from './tela-reservas/tela-reservas.component'
+import { TelaReservasComponent } from './tela-reservas/tela-reservas.component';
 import { TelaPermissaoReservasComponent } from './tela-reservas/tela-permissao-reservas/tela-permissao-reservas.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { TelaSalasComponent } from './tela-salas/tela-salas.component'
+import { TelaSalasComponent } from './tela-salas/tela-salas.component';
 import { TelaSalasFeitasComponent } from './tela-salas/tela-salas-feitas/tela-salas-feitas.component';
 import { TelaNovasSalasComponent } from './tela-salas/tela-novas-salas/tela-novas-salas.component';
 import { RoleTeacherModule } from './role-teacher/role-teacher.module';
 import { RoleStudentModule } from './role-student/role-student.module';
 import { TelaSolicitacoesRegistroComponent } from './tela-solicitacoes-registro/tela-solicitacoes-registro.component';
-import { MatPaginatorModule} from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { TelaSolicitacoesRegistroResolver } from './tela-solicitacoes-registro/tela-solicitacoes-registro.resolver';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { TelaMapaHorarioAulasComponent } from './tela-mapa-horario-aulas/tela-mapa-horario-aulas.component';
@@ -54,9 +54,10 @@ import { TelaMateriasComponent } from './tela-materias/tela-materias.component';
 import { TelaNovasMateriasComponent } from './tela-materias/tela-novas-materias/tela-novas-materias.component';
 import { TelaMateriasFeitasComponent } from './tela-materias/tela-materias-feitas/tela-materias-feitas.component';
 import { TelaSeeMoreComponent } from './tela-see-more/tela-see-more.component';
+import { AnimacaoComponent } from './animacao/animacao.component';
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     TelaInicialComponent,
     TelaLoginCadastroComponent,
@@ -75,8 +76,9 @@ import { TelaSeeMoreComponent } from './tela-see-more/tela-see-more.component';
     TelaMateriasComponent,
     TelaNovasMateriasComponent,
     TelaMateriasFeitasComponent,
-    TelaSeeMoreComponent
-   ],
+    TelaSeeMoreComponent,
+    AnimacaoComponent,
+  ],
   imports: [
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -107,15 +109,15 @@ import { TelaSeeMoreComponent } from './tela-see-more/tela-see-more.component';
     MatTableModule,
     MatCheckboxModule,
     MatPaginatorModule,
-    
+    BrowserAnimationsModule,
   ],
   providers: [
     { provide: MAT_DIALOG_DATA, useValue: {} },
     RegisterUserService,
-    LoaderService, 
+    LoaderService,
     TelaPerfilResolver,
     TelaSolicitacoesRegistroResolver,
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
   ],
   bootstrap: [AppComponent],
 })

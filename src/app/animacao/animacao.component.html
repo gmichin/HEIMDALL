@@ -1,0 +1,22 @@
+<div class="container">
+  <img
+    src="assets/images/heimdall.logo.png"
+    class="heimdall-logo"
+    [ngClass]="{ 'animate-heimdall': showHeimdall }"
+    *ngIf="showHeimdall"
+  />
+  <div style="display: flex; align-items: center">
+    <img
+      src="assets/images/logo.png"
+      class="logo"
+      [ngClass]="{ 'animate-logo': showLogo }"
+      *ngIf="showLogo"
+    />
+    <img
+      src="assets/images/nome.png"
+      class="nome"
+      [ngClass]="{ 'animate-nome': showNome }"
+      *ngIf="showNome"
+    />
+  </div>
+</div>

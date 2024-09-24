@@ -1,0 +1,85 @@
+.container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.heimdall-logo,
+.logo,
+.nome {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.heimdall-logo {
+  z-index: 2;
+}
+
+.logo {
+  position: absolute;
+  z-index: 1;
+  width: 25vw;
+  max-width: 250px;
+  height: auto;
+  margin-right: 25%;
+}
+
+.nome {
+  position: absolute;
+  z-index: 0;
+  opacity: 0;
+  width: 65%;
+  margin-left: 15%;
+}
+
+.animate-heimdall {
+  animation: heimdallAnimation 2s forwards;
+}
+
+@keyframes heimdallAnimation {
+  0% {
+    transform: translateX(-50%) scale(0);
+  }
+  50% {
+    transform: translateX(-50%) scale(1.2);
+  }
+  100% {
+    transform: translateX(-50%) scale(0);
+  }
+}
+
+.animate-logo {
+  animation: logoMove 4s forwards;
+}
+
+@keyframes logoMove {
+  0% {
+    transform: translateX(-50%) scale(0) rotate(0deg);
+  }
+  50% {
+    transform: translateX(-50%) scale(1.2) rotate(360deg);
+  }
+  100% {
+    transform: translateX(-200%);
+  }
+}
+
+.animate-nome {
+  animation: nomeAppear 3s forwards;
+}
+
+@keyframes nomeAppear {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
