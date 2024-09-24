@@ -17,7 +17,7 @@ li {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 5% 0; /* Aplicar margem superior e inferior apenas */
+  margin: 1% 0; /* Aplicar margem superior e inferior apenas */
   background-color: rgb(20, 20, 20);
   width: 100%; /* Ajustar a largura para 100% */
 }
@@ -47,6 +47,7 @@ li {
   width: 80%;
   margin: 1.2em auto;
   color: #a9c5a5;
+  font-family: Georgia, "Times New Roman", Times, serif;
 }
 
 .tryNow button {
@@ -67,33 +68,42 @@ li {
 
 @media (max-width: 768px) {
   .tituloH {
-      font-size: 1.5em;
+    font-size: 1.5em;
   }
 
   .box-container {
-      flex-direction: column;
-      margin: 15% 0; /* Aplicar margem superior e inferior apenas */
-      padding: 5%;
-      width: 90%; /* Ajustar a largura para 100% */
+    flex-direction: column;
+    margin: 10% 0; /* Aplicar margem superior e inferior apenas */
+    padding: 5%;
+    width: 90%; /* Ajustar a largura para 100% */
   }
 
   .logo-central {
-      margin-right: 0;
-      margin-bottom: 5%;
+    margin-right: 0;
+    margin-bottom: 5%;
   }
 
   .tryNow {
-      width: 90%;
-      padding: 10%;
+    width: 90%;
+    padding: 10%;
   }
 
   .tryNow p {
-      font-size: 1.5em;
-      align-self: center;
+    font-size: 1.5em;
+    align-self: center;
   }
 
-  .mat-toolbar{
+  .mat-toolbar {
     width: 100%;
   }
+}
 
+.toolbar-spacer {
+  flex: 1;
+}
+
+.logo {
+  position: relative;
+  width: 30px;
+  margin-right: 10px;
 }
