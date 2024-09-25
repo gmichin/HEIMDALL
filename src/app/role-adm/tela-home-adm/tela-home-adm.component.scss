@@ -10,6 +10,7 @@
   padding-left: 20px;
   color: #1ddd04;
   border-radius: 10px;
+  box-shadow: 0 2px 5px black;
 }
 
 .tituloH {
@@ -20,6 +21,7 @@
 
 .container {
   margin: 0 auto;
+  margin-top: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,8 +37,8 @@
 mat-card {
   background: white;
   color: black;
-  border: solid 2px black;
   border-radius: 10px;
+  box-shadow: 0 2px 5px black;
   mat-card-header {
     background-color: #83cf79;
     border-top-left-radius: 10px;
