@@ -1,12 +1,17 @@
 .dadosPessoais {
-  background-color: #a9aeab;
+  background-color: #dcdee2;
   padding: 20px;
   text-align: center;
 }
+h1 {
+  background-color: #000000;
+  color: #1eff00;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  padding: 20px;
+  border-radius: 10px;
+}
 .nome {
-  width: 100%;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  width: 90%;
 }
 .mat-form-field .mat-form-field-label {
   color: #000000 !important;
@@ -21,12 +26,15 @@
 }
 
 .btn2 {
-  background-color: #0a5600;
-  color: #f7f7f7;
+  border-radius: 20px;
+  background-color: #000000;
+  color: #1eff00;
 }
 
 .btn2:hover {
   background-color: #1eff00;
+  color: #000000;
+  box-shadow: 0 2px 5px black;
 }
 
 button.mat-raised-button.mat-secondary {

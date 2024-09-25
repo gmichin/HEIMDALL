@@ -48,7 +48,7 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
 
   public redirectProfile() {
     const dialogT = this.dialog.open(TelaPerfilComponent, {
-      width: '600px',
+      width: '400px',
     });
     dialogT.afterClosed().subscribe(() => {
       this.dialogCloseSubs();

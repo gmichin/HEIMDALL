@@ -1,6 +1,7 @@
 <div class="container">
   <div class="dadosPessoais">
-    <form [formGroup]="form" (ngSubmit)="save()">
+    <h1>Modifique o perfil</h1>
+    <form [formGroup]="form" (ngSubmit)="save()" style="margin-top: 20px">
       <mat-form-field class="nome" appearance="fill">
         <mat-label>Nome:</mat-label>
         <input formControlName="name" [value]="nome" matInput />
