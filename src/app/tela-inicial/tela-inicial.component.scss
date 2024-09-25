@@ -1,68 +1,67 @@
 .mat-toolbar {
   background: rgb(20, 20, 20);
-  color: #369835;
+  color: #1eff00;
   display: flex;
   align-items: center;
   padding: 10px;
 }
 
 li {
-  color: #a9c5a5;
+  color: rgb(20, 20, 20);
   font-size: 1.2em;
   margin: 0 auto;
   width: 80%;
 }
 
 .box-container {
+  margin-top: 1cm;
+  margin-inline: 1cm;
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin: 1% 0; /* Aplicar margem superior e inferior apenas */
-  background-color: rgb(20, 20, 20);
-  width: 100%; /* Ajustar a largura para 100% */
+  background-color: #dcdee2;
+  border-radius: 20px;
 }
 
 .logo-central {
   z-index: 999;
-  width: 225px;
-  height: 225px;
-  margin-right: 5%;
+  width: 300px;
+  height: 300px;
   background-image: url(../../assets/images/heimdall.logo.png);
   background-size: cover;
+  margin-bottom: 2cm;
 }
 
 .tryNow {
   display: flex;
   flex-direction: column;
-  background-color: rgb(20, 20, 20);
   padding: 5%;
   border-radius: 10px;
   z-index: 999;
-  justify-content: center;
-  width: 50%; /* Ajustar a largura para centralizar */
+  width: 60%;
 }
 
 .tryNow p {
   font-size: 1.2em;
-  width: 80%;
+  width: 95%;
   margin: 1.2em auto;
-  color: #a9c5a5;
+  color: black;
   font-family: Georgia, "Times New Roman", Times, serif;
 }
 
-.tryNow button {
-  background-color: #369835;
-  color: rgb(0, 0, 0);
-  font-weight: 900 !important;
-  font-family: sans-serif !important;
-  font-size: 1.2em !important;
-  margin-top: 1em; /* Espaçamento adicional para o botão */
+.tryButton {
+  background-color: hsl(113, 100%, 50%) !important;
+  color: rgb(0, 0, 0) !important;
+  font-family: Georgia, "Times New Roman", Times, serif !important;
+  width: 100%;
+  height: 1.5cm;
+  font-size: 20px;
+  border-radius: 30px;
 }
 
 .tituloH {
   font-size: 2em;
   font-family: Copperplate, Copperplate Gothic Light, fantasy;
-  color: #369835;
+  color: #1eff00;
   margin-left: 20px; /* Espaçamento à esquerda para o título */
 }
 
@@ -73,7 +72,6 @@ li {
 
   .box-container {
     flex-direction: column;
-    margin: 10% 0; /* Aplicar margem superior e inferior apenas */
     padding: 5%;
     width: 90%; /* Ajustar a largura para 100% */
   }
@@ -106,4 +104,12 @@ li {
   position: relative;
   width: 30px;
   margin-right: 10px;
+}
+
+.tryNow h1 {
+  background-color: black;
+  color: #1eff00;
+  padding: 10px;
+  border-radius: 5px;
+  font-family: Georgia, "Times New Roman", Times, serif !important;
 }

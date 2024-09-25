@@ -16,8 +16,8 @@
   <img src="assets/images/ifsp.logo.png" class="logo" />
 </mat-toolbar>
 <div class="box-container">
-  <div class="logo-central"></div>
   <div class="tryNow">
+    <h1>SOBRE NÓS</h1>
     <p>
       Seja bem-vindo ao <strong>HEIMDALL</strong>, o portal dedicado à gestão e
       reserva de salas para a nossa comunidade acadêmica. Inspirado pelo
@@ -47,9 +47,11 @@
       HEIMDALL está aqui para manter tudo em ordem e sob controle, permitindo
       que você se concentre no que realmente importa: o aprendizado.
     </p>
-    <button mat-raised-button color="primary" (click)="openLoginSignUp()">
+  </div>
+  <div style="text-align: center">
+    <div class="logo-central"></div>
+    <button mat-raised-button (click)="openLoginSignUp()" class="tryButton">
       Tente agora!
     </button>
   </div>
-  <div class="top-box"></div>
 </div>
