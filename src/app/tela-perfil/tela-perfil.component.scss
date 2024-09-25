@@ -1,44 +1,39 @@
-.mat-toolbar {
-  background: #1ddd04;
-  color: var(--mat-toolbar-container-text-color);
-  border-bottom: 2px solid black;
-}
-
-.container {
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-}
-
 .dadosPessoais {
-  margin-top: 5%;
-  width: 80%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
+  background-color: #a9aeab;
+  padding: 20px;
+  text-align: center;
+}
+.nome {
+  width: 100%;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+.mat-form-field .mat-form-field-label {
+  color: #000000 !important;
 }
 
-.alterarEmail {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 4%;
-  button {
-    width: 35%;
-    height: 50px;
-  }
-  .btn1 {
-    margin-right: 2%;
-  }
-  .btn2 {
-    background: white;
-    color: black;
-  }
+.mat-input-element {
+  color: #000000;
 }
 
-::ng-deep mat-form-field .mat-mdc-text-field-wrapper {
-  border-radius: 10px;
+.mat-icon {
+  color: #17c100;
 }
 
-::ng-deep .mat-mdc-dialog-surface {
-  background: #83cf79 !important;
+.btn2 {
+  background-color: #0a5600;
+  color: #f7f7f7;
+}
+
+.btn2:hover {
+  background-color: #1eff00;
+}
+
+button.mat-raised-button.mat-secondary {
+  background-color: #0a5600;
+  color: #f7f7f7;
+}
+
+button.mat-raised-button.mat-secondary:hover {
+  background-color: #1eff00;
 }

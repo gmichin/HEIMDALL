@@ -7,7 +7,7 @@ import { RegisterUserResponse } from 'src/app/models/register.models';
 import { RoleService } from 'src/app/services/role.service';
 import { SessionService } from 'src/app/services/session.service';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
-import { TelaReservasComponent} from 'src/app/tela-reservas/tela-reservas.component'
+import { TelaReservasComponent } from 'src/app/tela-reservas/tela-reservas.component';
 import { TelaCreateAdmComponent } from '../tela-create-adm/tela-create-adm.component';
 import { TelaCreateCourseComponent } from '../tela-create-course/tela-create-course.component';
 import { TelaCreateTeacherComponent } from '../tela-create-teacher/tela-create-teacher.component';
@@ -40,8 +40,7 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
   ) {}
   ngOnDestroy(): void {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   public redirectRegistrationList() {
     this.router.navigate(['tela-solicitacoes-registro']);
@@ -49,7 +48,7 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
 
   public redirectProfile() {
     const dialogT = this.dialog.open(TelaPerfilComponent, {
-      width: '400px',
+      width: '600px',
     });
     dialogT.afterClosed().subscribe(() => {
       this.dialogCloseSubs();
@@ -57,7 +56,7 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
   }
 
   public redirectHomeAdm() {
-    this.reload.reoladPage(['redirecionar'])
+    this.reload.reoladPage(['redirecionar']);
   }
 
   public redirectReserve() {
@@ -120,11 +119,11 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
   private dialogCloseSubs() {
     this.reload.reoladPage(['home-adm']);
   }
-  
+
   public seeMore(items: (CourseModelResponse | RegisterUserResponse)[]): void {
     this.router.navigate(['tela-see-more'], { state: { data: items } });
   }
-  logout(){
+  logout() {
     this.router.navigate(['/']);
   }
 }
