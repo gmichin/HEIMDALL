@@ -1,18 +1,32 @@
 .demo-button {
-  background: #83cf79;
-  margin: 1cm;
+  background: white;
+  color: black;
+  border-radius: 30px;
+  margin: 30px;
+  box-shadow: 0 2px 5px black;
+  padding: 25px;
+}
+.demo-button:hover {
+  background: #1eff00;
+  color: black;
+  border-radius: 30px;
+  margin: 30px;
+  box-shadow: 0 5px 8px black;
 }
 
 .button-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   text-align: center;
-  background-color: rgb(0, 0, 0);
-  border: 3px solid #1ddd04;
+  background-color: #dcdee2;
+  height: 400px;
 }
 
-.reservas-button{
-  background: rgb(0, 0, 0);
+.reservas-button {
+  background: #dcdee2;
+  h1 {
+    background-color: black;
+    color: #1ddd04;
+    margin: 0.5cm;
+    padding: 20px;
+    border-radius: 30px;
+  }
 }
-
