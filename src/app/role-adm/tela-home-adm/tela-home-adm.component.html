@@ -40,49 +40,60 @@
   <img src="assets/images/ifsp.logo.png" class="logo" />
 </mat-toolbar>
 
-<div *ngFor="let block of data">
-  <div class="header">
-    <mat-icon *ngIf="block.name == 'Cursos'">cast_for_education</mat-icon>
-    <mat-icon *ngIf="block.name == 'Professores'">person_outline</mat-icon>
-    <mat-icon *ngIf="block.name == 'Administradores'"
-      >admin_panel_settings</mat-icon
-    >
-    <h2 style="margin-left: 10px">{{ block.name }}</h2>
-  </div>
-  <div class="container">
-    <div class="cards">
-      <mat-card class="novoCard card-adicionar-novo-curso card-width">
-        <mat-card-header>
-          <mat-card-title>{{
-            "Adicione mais " + block.name + "."
-          }}</mat-card-title>
-        </mat-card-header>
-        <mat-card-actions>
-          <button (click)="createItem(block.name)" mat-button>Adicionar</button>
-        </mat-card-actions>
-      </mat-card>
-
-      <div *ngIf="block.arr.length > 0" class="example-card">
-        <mat-card *ngFor="let item of block.arr.slice(0, 2)" class="card-width">
-          <mat-card-header>
-            <mat-card-title class="title-card">{{ item.name }}</mat-card-title>
-          </mat-card-header>
-          <mat-card-actions>
-            <button (click)="editItem(block.name, item)" mat-button>
-              Editar
-            </button>
-          </mat-card-actions>
-        </mat-card>
+<div class="blocos-container">
+  <div *ngFor="let block of data" class="content">
+    <div class="bloco">
+      <div class="header">
+        <mat-icon *ngIf="block.name == 'Cursos'">cast_for_education</mat-icon>
+        <mat-icon *ngIf="block.name == 'Professores'">person_outline</mat-icon>
+        <mat-icon *ngIf="block.name == 'Administradores'"
+          >admin_panel_settings</mat-icon
+        >
+        <h2 style="margin-left: 10px">{{ block.name }}</h2>
       </div>
+      <div class="container">
+        <div class="cards">
+          <mat-card class="novoCard card-adicionar-novo-curso card-width">
+            <mat-card-header>
+              <mat-card-title>{{
+                "Adicione mais " + block.name + "."
+              }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-actions>
+              <button (click)="createItem(block.name)" mat-button>
+                Adicionar
+              </button>
+            </mat-card-actions>
+          </mat-card>
 
-      <mat-card *ngIf="block.arr.length > 2" class="novoCard card-width">
-        <mat-card-header>
-          <mat-card-title>Ver Mais</mat-card-title>
-        </mat-card-header>
-        <mat-card-actions>
-          <button (click)="seeMore(block.arr)" mat-button>Buscar</button>
-        </mat-card-actions>
-      </mat-card>
+          <div *ngIf="block.arr.length > 0" class="example-card">
+            <mat-card
+              *ngFor="let item of block.arr.slice(0, 2)"
+              class="card-width"
+            >
+              <mat-card-header>
+                <mat-card-title class="title-card">{{
+                  item.name
+                }}</mat-card-title>
+              </mat-card-header>
+              <mat-card-actions>
+                <button (click)="editItem(block.name, item)" mat-button>
+                  Editar
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+
+          <mat-card *ngIf="block.arr.length > 2" class="novoCard card-width">
+            <mat-card-header>
+              <mat-card-title>Ver Mais</mat-card-title>
+            </mat-card-header>
+            <mat-card-actions>
+              <button (click)="seeMore(block.arr)" mat-button>Buscar</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
     </div>
   </div>
 </div>
