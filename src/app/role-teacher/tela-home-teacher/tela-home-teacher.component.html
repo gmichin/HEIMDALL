@@ -23,20 +23,28 @@
 
   <img src="assets/images/ifsp.logo.png" class="logo" />
 </mat-toolbar>
-<div>
-  <div class="header">
-    <h2>Acesso Rápido</h2>
-  </div>
-  <div class="container">
-    <div class="cards">
-      <mat-card class="card-width">
-        <mat-card-header>
-          <mat-card-title class="title-card">Horários de Aula</mat-card-title>
-        </mat-card-header>
-        <mat-card-actions>
-          <button (click)="redirectHorarios()" mat-button>Selecionar</button>
-        </mat-card-actions>
-      </mat-card>
+<div class="blocos-container">
+  <div class="content">
+    <div class="bloco">
+      <div class="header">
+        <h2>Acesso Rápido</h2>
+      </div>
+      <div class="container">
+        <div class="cards">
+          <mat-card class="card-width">
+            <mat-card-header>
+              <mat-card-title class="title-card"
+                >Horários de Aula</mat-card-title
+              >
+            </mat-card-header>
+            <mat-card-actions>
+              <button (click)="redirectHorarios()" mat-button>
+                Selecionar
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
     </div>
   </div>
 </div>

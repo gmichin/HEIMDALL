@@ -66,37 +66,6 @@ li {
   margin-left: 20px; /* Espaçamento à esquerda para o título */
 }
 
-@media (max-width: 768px) {
-  .tituloH {
-    font-size: 1.5em;
-  }
-
-  .box-container {
-    flex-direction: column;
-    padding: 5%;
-    width: 90%; /* Ajustar a largura para 100% */
-  }
-
-  .logo-central {
-    margin-right: 0;
-    margin-bottom: 5%;
-  }
-
-  .tryNow {
-    width: 90%;
-    padding: 10%;
-  }
-
-  .tryNow p {
-    font-size: 1.5em;
-    align-self: center;
-  }
-
-  .mat-toolbar {
-    width: 100%;
-  }
-}
-
 .toolbar-spacer {
   flex: 1;
 }
