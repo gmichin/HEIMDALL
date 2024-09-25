@@ -1,10 +1,10 @@
 export const url_config = Object.freeze({
-  url_registration: 'https://10.0.0.5/registration',
-  url_user: 'https://10.0.0.5/users',
-  url_instituition: 'https://10.0.0.5/instituition',
-  url_course: 'https://10.0.0.5/course',
-  url_roles: 'https://10.0.0.5/roles',
-  url_class: 'https://10.0.0.5/class',
-  url_room: 'https://10.0.0.5/room',
-  url_reserve: 'https://10.0.0.5/reserve',
+  url_registration: 'https://heimdallback.eastus2.cloudapp.azure.com/registration',
+  url_user: 'https://heimdallback.eastus2.cloudapp.azure.com/users',
+  url_instituition: 'https://heimdallback.eastus2.cloudapp.azure.com/instituition',
+  url_course: 'https://heimdallback.eastus2.cloudapp.azure.com/course',
+  url_roles: 'https://heimdallback.eastus2.cloudapp.azure.com/roles',
+  url_class: 'https://heimdallback.eastus2.cloudapp.azure.com/class',
+  url_room: 'https://heimdallback.eastus2.cloudapp.azure.com/room',
+  url_reserve: 'https://heimdallback.eastus2.cloudapp.azure.com/reserve',
 });
