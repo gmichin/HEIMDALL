@@ -39,9 +39,15 @@
 
   <img src="assets/images/ifsp.logo.png" class="logo" />
 </mat-toolbar>
+
 <div *ngFor="let block of data">
   <div class="header">
-    <h2>{{ block.name }}</h2>
+    <mat-icon *ngIf="block.name == 'Cursos'">cast_for_education</mat-icon>
+    <mat-icon *ngIf="block.name == 'Professores'">person_outline</mat-icon>
+    <mat-icon *ngIf="block.name == 'Administradores'"
+      >admin_panel_settings</mat-icon
+    >
+    <h2 style="margin-left: 10px">{{ block.name }}</h2>
   </div>
   <div class="container">
     <div class="cards">
