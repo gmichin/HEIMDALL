@@ -1,26 +1,26 @@
 .mat-toolbar {
-    background: #000000;
-    color: #1ddd04;
-    border-bottom: 2px solid black;
-  }
-  
-  .header {
-    background: #1ddd04;
-    display: flex;
-    padding: 1% 0 0 10%;
+  background: #000000;
+  color: #1ddd04;
+  border-bottom: 2px solid black;
+}
+
+.header {
+  background: #1ddd04;
+  display: flex;
+  padding: 1% 0 0 10%;
 }
 
 .container {
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-left: 2%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 2%;
 }
 
 table {
-    width: 100%;
-    background-color: #83cf79;
+  width: 100%;
+  background-color: #dcdee2;
 }
 
 mat-paginator {
@@ -28,101 +28,41 @@ mat-paginator {
 }
 
 .tituloH {
-    font-family: Copperplate, Copperplate Gothic Light, fantasy;
-    font-size: 2em;
+  font-family: Copperplate, Copperplate Gothic Light, fantasy;
+  font-size: 2em;
 }
 
 .mat-mdc-form-field {
-    font-size: 14px;
-    width: 100%;
+  font-size: 14px;
+  width: 100%;
 }
 
 .container-table {
-    margin: 5%;
+  margin: 5%;
 }
 
 .nome {
-    width: 35%;
+  width: 35%;
 }
 
 .email {
-    width: 35%;
+  width: 35%;
 }
 
 .registrationNumber {
-    width: 20%;
+  width: 20%;
 }
 
 .select {
-    width: 5%;
-}
-
-/* Media Queries para Dispositivos Móveis */
-@media (max-width: 768px) {
-
-    .tituloH {
-        font-size: 1.5em;
-    }
-
-    .header {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 5%;
-    }
-
-    .container {
-        flex-direction: column;
-        padding-left: 0;
-    }
-
-    .container-table {
-        margin: 2%;
-    }
-
-    table {
-        display: block;
-        overflow-x: auto;
-    }
-
-    th, td {
-        white-space: nowrap;
-    }
-
-    .buttons {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
-    }
-}
-
-@media (max-width: 480px) {
-    .tituloH {
-        font-size: 1.5em;
-    }
-
-    .header {
-        padding: 5%;
-    }
-
-    .container-table {
-        margin: 1%;
-    }
-
-    .buttons {
-        flex-direction: column;
-    }
-
-    .buttons button {
-        margin-bottom: 10px;
-    }
-
-    .mat-mdc-header-cell, .mat-mdc-cell {
-      font-size: 12px;
-      padding: 0 5px;
-  }
+  width: 5%;
 }
 
 .spacer {
-    flex: 1 1 auto;
-  }
-  
+  flex: 1 1 auto;
+}
+
+.logo {
+  position: relative;
+  width: 30px;
+  margin-right: 10px;
+}
