@@ -1,10 +1,8 @@
 <mat-toolbar>
-  <!-- Botão para voltar para a página anterior -->
   <button mat-icon-button (click)="goBack()">
     <mat-icon>home</mat-icon>
   </button>
 
-  <!-- Botão do menu existente -->
   <button mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon>menu</mat-icon>
   </button>
@@ -15,94 +13,118 @@
     </button>
   </mat-menu>
 
-  <!-- Título -->
   <span class="tituloH">HEIMDALL</span>
 
-  <!-- Espaço flexível para empurrar o botão de logout para a direita -->
   <span class="spacer"></span>
 
-  <!-- Botão de logout -->
   <button mat-icon-button (click)="logout()">
     <mat-icon>logout</mat-icon>
   </button>
+  <img src="assets/images/ifsp.logo.png" class="logo" />
 </mat-toolbar>
 
 <div class="container-table">
-  
-<mat-form-field>
-  <mat-label>Filtro por palavras chaves</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Ex: SP000000" #input>
-</mat-form-field>
+  <mat-form-field>
+    <mat-label>Filtro por palavras chaves</mat-label>
+    <input
+      matInput
+      (keyup)="applyFilter($event)"
+      placeholder="Ex: SP000000"
+      #input
+    />
+  </mat-form-field>
 
-<div class="mat-elevation-z4">
-  <table mat-table [dataSource]="dataSource" matSort>
-    
-    <!-- Checkbox Column -->
-    <ng-container matColumnDef="APROVE">
-      <th mat-header-cell *matHeaderCellDef>
-        <mat-checkbox (change)="$event ? toggleAllRowsAprove() : null"
-        [checked]="selectionAprove.hasValue() && isAllAproveSelected()"
-        [indeterminate]="selectionAprove.hasValue() && !isAllAproveSelected()"
-        [disabled]="validateAllSelected(selectionReject)"
-        ></mat-checkbox>
-        Aprovar
-      </th>
-      <td class="select" mat-cell *matCellDef="let row">
-        <mat-checkbox (click)="$event.stopPropagation()"
-        (change)="$event ? selectionAprove.toggle(row) : null"
-        [checked]="selectionAprove.isSelected(row)"
-        [disabled]="selectionReject.isSelected(row)"
-        ></mat-checkbox>
-    </td>
-    </ng-container>
-    <ng-container matColumnDef="REJEITE">
-    <th mat-header-cell *matHeaderCellDef>
-      <mat-checkbox (change)="$event ? toggleAllRowsReject() : null"
-      [checked]="selectionReject.hasValue() && isAllRejectSelected()"
-      [indeterminate]="selectionReject.hasValue() && !isAllRejectSelected()"
-      [disabled]="validateAllSelected(selectionAprove)"
-      ></mat-checkbox>
-      Rejeitar
-    </th>
-    <td class="select" mat-cell *matCellDef="let row">
-      <mat-checkbox (click)="$event.stopPropagation()"
-      (change)="$event ? selectionReject.toggle(row) : null"
-      [checked]="selectionReject.isSelected(row)"
-      [disabled]="selectionAprove.isSelected(row)"
-      ></mat-checkbox>
-    </td>
-    </ng-container>
+  <div class="mat-elevation-z4">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="APROVE">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox
+            (change)="$event ? toggleAllRowsAprove() : null"
+            [checked]="selectionAprove.hasValue() && isAllAproveSelected()"
+            [indeterminate]="
+              selectionAprove.hasValue() && !isAllAproveSelected()
+            "
+            [disabled]="validateAllSelected(selectionReject)"
+          ></mat-checkbox>
+          Aprovar
+        </th>
+        <td class="select" mat-cell *matCellDef="let row">
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selectionAprove.toggle(row) : null"
+            [checked]="selectionAprove.isSelected(row)"
+            [disabled]="selectionReject.isSelected(row)"
+          ></mat-checkbox>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="REJEITE">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox
+            (change)="$event ? toggleAllRowsReject() : null"
+            [checked]="selectionReject.hasValue() && isAllRejectSelected()"
+            [indeterminate]="
+              selectionReject.hasValue() && !isAllRejectSelected()
+            "
+            [disabled]="validateAllSelected(selectionAprove)"
+          ></mat-checkbox>
+          Rejeitar
+        </th>
+        <td class="select" mat-cell *matCellDef="let row">
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selectionReject.toggle(row) : null"
+            [checked]="selectionReject.isSelected(row)"
+            [disabled]="selectionAprove.isSelected(row)"
+          ></mat-checkbox>
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="registrationNumber">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> MATRÍCULA </th>
-      <td class="registrationNumber" mat-cell *matCellDef="let row"> {{ row.registration_number }} </td>
-    </ng-container>
-    
-    <ng-container matColumnDef="nome">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> NOME </th>
-      <td class="nome" mat-cell *matCellDef="let row"> {{ row.name }} </td>
-    </ng-container>
+      <ng-container matColumnDef="registrationNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>MATRÍCULA</th>
+        <td class="registrationNumber" mat-cell *matCellDef="let row">
+          {{ row.registration_number }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> EMAIL </th>
-      <td class="email" mat-cell *matCellDef="let row"> {{ row.email}} </td>
-    </ng-container>
-      
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <ng-container matColumnDef="nome">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>NOME</th>
+        <td class="nome" mat-cell *matCellDef="let row">{{ row.name }}</td>
+      </ng-container>
 
-    <!-- Row shown when there is no matching data. -->
-    <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="4">Não foram encontrados dados para: "{{input.value}}"</td>
-    </tr>
-  </table>
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>EMAIL</th>
+        <td class="email" mat-cell *matCellDef="let row">{{ row.email }}</td>
+      </ng-container>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">
+          Não foram encontrados dados para: "{{ input.value }}"
+        </td>
+      </tr>
+    </table>
+
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      aria-label="Select page of users"
+    ></mat-paginator>
+  </div>
+
+  <div class="buttons">
+    <button
+      [disabled]="
+        selectionAprove.selected.length == 0 &&
+        selectionReject.selected.length == 0
+      "
+      mat-flat-button
+      color="primary"
+      (click)="enviarLista()"
+    >
+      Confirmar
+    </button>
+  </div>
 </div>
-
-<div class="buttons">
-  <button [disabled]="selectionAprove.selected.length == 0 && selectionReject.selected.length == 0" mat-flat-button color="primary" (click)="enviarLista()">Confirmar</button>
-</div>
-
-</div>
-
