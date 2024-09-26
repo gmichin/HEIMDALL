@@ -1,16 +1,3 @@
-.example-spacer {
-  flex: 1 1 auto;
-}
-
-.manuSpacer {
-  margin: 0 2%;
-  width: 13%;
-  display: flex;
-  a {
-    margin: 0 3%;
-  }
-}
-
 .mat-toolbar {
   background: rgb(20, 20, 20);
   color: #1ddd04;
@@ -28,34 +15,36 @@ mat-card {
   border-radius: 20px;
   box-shadow: 0 2px 5px black;
   width: 50%;
-  margin: auto;
   padding: 1cm;
+  margin: auto;
   text-align: center;
 }
-mat-card-content mat-form-field:nth-child(even) {
-  margin-left: 2cm;
+
+mat-form-field {
+  margin-inline: 1cm;
+  width: 35%;
 }
+
 mat-card-title {
-  font-family: Georgia, "Times New Roman", Times, serif;
-  margin-bottom: 1cm;
+  margin-bottom: 40px;
   text-align: center;
   color: black;
   font-size: 40px;
+  font-family: Georgia, "Times New Roman", Times, serif;
 }
 
 .saveButton {
-  border-radius: 10px;
-  font-family: monospace;
-  font-size: 20px;
-  padding: 20px;
-  padding-inline: 60px;
+  margin-top: 30px;
+  border-radius: 20px;
+  font-size: 25px;
+  padding: 15px;
   background-color: black;
   color: #1ddd04;
   cursor: pointer;
   margin-bottom: 20px;
   font-family: Georgia, "Times New Roman", Times, serif;
+  width: 80%;
 }
-
 .saveButton:hover {
   background-color: #1ddd04;
   color: black;
