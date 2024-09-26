@@ -43,11 +43,11 @@ mat-card {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
   }
-  button {
+  button:hover {
     background: black;
     color: #1ddd04;
   }
-  button:hover {
+  button {
     background: #1ddd04;
     color: black;
   }
@@ -63,11 +63,11 @@ mat-card {
       color: black;
     }
   }
-  button {
+  button:hover {
     background: black;
     color: #1ddd04;
   }
-  button:hover {
+  button {
     background: #1ddd04;
     color: black;
   }
