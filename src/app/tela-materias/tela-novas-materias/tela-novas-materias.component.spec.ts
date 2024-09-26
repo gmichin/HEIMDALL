@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TelaNovasSalasComponent } from './tela-novas-materias.component';
+import { TelaNovasMateriasComponent } from './tela-novas-materias.component';
 
-describe('TelaNovasSalasComponent', () => {
-  let component: TelaNovasSalasComponent;
-  let fixture: ComponentFixture<TelaNovasSalasComponent>;
+describe('TelaNovasMateriasComponent', () => {
+  let component: TelaNovasMateriasComponent;
+  let fixture: ComponentFixture<TelaNovasMateriasComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TelaNovasSalasComponent]
-    })
-    .compileComponents();
-    
-    fixture = TestBed.createComponent(TelaNovasSalasComponent);
+      imports: [TelaNovasMateriasComponent],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(TelaNovasMateriasComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
