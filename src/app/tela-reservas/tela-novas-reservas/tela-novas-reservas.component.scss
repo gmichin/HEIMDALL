@@ -1,164 +1,100 @@
 .example-spacer {
-    flex: 1 1 auto;
-  }
-  
-  .mat-toolbar {
-    background: rgb(20, 20, 20);
-    color: #1ddd04;
-    margin-bottom: 1cm;
-  }
-  
-  .logo-central {
-    width: 50px;
-    height: 50px;
-    background-image: url(/src/assets/images/heimdall.logo.png);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-  
-  .tituloH {
-    font-size: 2em;
-    font-family: Copperplate, Copperplate Gothic Light, fantasy;
-  }
-  
-  .calendario-personalizado {
-    margin: 10px auto;
-    border: 1px solid rgb(223, 223, 200);
-    padding: 5px;
-    border-radius: 5px;
-    overflow: hidden; 
-    color: #1ddd04;
-    width: 100%;
-  }
-  
-  ::ng-deep .mat-calendar {
-    background-color: grey;
-  }
-  
-  ::ng-deep .mat-calendar-body-cell.marked{
-    background-color: white;
-  }
-  
-  h1{
-    text-align: center;
-    margin: 1cm;
-    color: #1ddd04;
-  }
+  flex: 1 1 auto;
+}
 
-  h4{
-    color: #1ddd04 ;
-    text-align: center;
-  }
+.mat-toolbar {
+  background: rgb(20, 20, 20);
+  color: #1ddd04;
+  margin-bottom: 1cm;
+}
 
-  .dia-desabilitado {
-    pointer-events: none;
-  }
-  
-  .saveButton{
-    border-radius: 5px;
-    font-family: monospace;
-    font-size: 16px;
-    padding-left: calc(50% - (50px / 2));
-    padding-right: calc(50% - (50px / 2));
-    padding-bottom: 20px;
-    padding-top: 20px;
-    background-color: #1ddd04;
-    color: black;
-    cursor: pointer;
-  }
-  
-  .saveButton:disabled {
-    background-color: #062b01; 
-    color: #888;
-    cursor: not-allowed;
-  }
-  
-  .insertData{
-    color: #1ddd04;
-  }
-  
-  .boxSize{
-    flex: auto;
-    min-width: 0;
-    width: 220px;
-    position: relative;
-    box-sizing: border-box;
-  }
+.logo-central {
+  width: 50px;
+  height: 50px;
+  background-image: url(/src/assets/images/heimdall.logo.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 
-  .boxSizeAppear{
-    flex: auto;
-    min-width: 0;
-    width: 220px;
-    position: relative;
-    box-sizing: border-box;
-    margin-left: 1cm;
-  }
+.tituloH {
+  font-size: 2em;
+  font-family: Copperplate, Copperplate Gothic Light, fantasy;
+}
 
-  mat-card{
-    background-color: rgb(20, 20, 20);
-    border: 3px solid #1ddd04;
-    width: 50%;
-    margin: auto;
-    padding: 1cm;
-  }
+h4 {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  color: black;
+  text-align: center;
+}
 
-  mat-card-title{
-    margin-bottom: 1cm;
-    text-align: center;
-    color: #1ddd04;
-  }
+.dia-desabilitado {
+  pointer-events: none;
+}
 
+.saveButton {
+  border-radius: 20px;
+  font-size: 16px;
+  padding-left: calc(50% - (50px / 2));
+  padding-right: calc(50% - (50px / 2));
+  padding-bottom: 20px;
+  padding-top: 20px;
+  background-color: black;
+  color: #1eff00;
+  cursor: pointer;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
 
-  @media (max-width: 768px) {
-    .tituloH {
-      font-size: 1.5em; /* Aumentar tamanho da fonte do título para melhor legibilidade em mobile */
-    }
+.saveButton:disabled {
+  background-color: #5d5d5d;
+  color: #aef4a4;
+  cursor: not-allowed;
+}
 
-    .calendario-personalizado {
-      width: 100%; /* Adjust width to 100% for smaller screens */
-      float: none; /* Remove float for smaller screens */
-      margin: 0 auto; /* Center the element */
-      padding-right: 0;
-    }
-  
-    .insertData {
-      width: 100%; /* Adjust width to 100% for smaller screens */
-      margin-left: 0; /* Remove margin-left for smaller screens */
-    }
-  
-    .boxSize {
-      width: 100%; /* Adjust width to 100% for smaller screens */
-    }
+.insertData {
+  color: #1ddd04;
+}
 
-    .boxSizeAppear {
-      width: 100%;
-      margin-left: 0;
-    }
-  
-    .saveButton {
-      float: none; /* Remove float for smaller screens */
-      margin: 0 auto; /* Center the button */
-      width: 50%; /* Adjust width for smaller screens */
-    }
+.boxSize {
+  flex: auto;
+  min-width: 0;
+  width: 220px;
+  position: relative;
+  box-sizing: border-box;
+}
 
-    mat-card{
-      width: 100%;
-      border: 10% solid #1ddd04;
-      padding: 20px; /* Ajustar preenchimento para melhor layout em mobile */
-    }
+.boxSizeAppear {
+  flex: auto;
+  min-width: 0;
+  width: 220px;
+  position: relative;
+  box-sizing: border-box;
+  margin-left: 1cm;
+}
 
-    mat-form-field {
-      margin-left: 0; /* Remover margem esquerda nos campos de formulário para melhor espaçamento */
-      margin-bottom: 10px; /* Adicionar espaço entre campos de formulário */
-    }
+mat-card {
+  background-color: #dcdee2;
+  border-radius: 20px;
+  box-shadow: 0 2px 5px black;
+  width: 50%;
+  margin: auto;
+  padding: 1cm;
+}
 
-    .saveButton {
-      width: 100%; /* Tornar o botão com largura total em mobile */
-      margin: 10px 0; /* Adicionar espaço ao redor do botão */
-    }
-  }
-  .spacer {
-      flex: 1 1 auto;
-    }
-    
+mat-card-title {
+  margin-bottom: 1cm;
+  text-align: center;
+  font-size: 40px;
+  color: black;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.logo {
+  position: relative;
+  width: 30px;
+  margin-right: 10px;
+}

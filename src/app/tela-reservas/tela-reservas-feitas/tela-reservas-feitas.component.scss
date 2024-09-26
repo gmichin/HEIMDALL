@@ -29,9 +29,9 @@
   overflow-x: auto;
 }
 
-mat-table{
+mat-table {
   background-color: #83cf79;
-  width:100%;
+  width: 100%;
 }
 
 .mat-mdc-form-field {
@@ -40,7 +40,7 @@ mat-table{
   margin-bottom: -20px;
 }
 
-.demo-button-container{
+.demo-button-container {
   position: absolute;
   margin: 1% auto;
   margin-left: 5%;
@@ -54,7 +54,8 @@ mat-table{
   .tituloH {
     font-size: 1.5em; /* Reduzir tamanho da fonte do título */
   }
-  .mat-header-cell, .mat-cell {
+  .mat-header-cell,
+  .mat-cell {
     padding: 8px; /* Reduzir padding em telas pequenas */
   }
 
@@ -85,11 +86,13 @@ mat-table{
     font-size: 1.5em; /* Reduzir tamanho da fonte do título */
   }
 
-  .mat-header-cell, .mat-cell {
+  .mat-header-cell,
+  .mat-cell {
     font-size: 12px; /* Reduzir tamanho da fonte na tabela */
   }
 
-  .mat-mdc-header-cell, .mat-mdc-cell {
+  .mat-mdc-header-cell,
+  .mat-mdc-cell {
     font-size: 12px; /* Reduzir tamanho da fonte na tabela */
   }
 
@@ -98,6 +101,11 @@ mat-table{
   }
 }
 .spacer {
-    flex: 1 1 auto;
-  }
-  
+  flex: 1 1 auto;
+}
+
+.logo {
+  position: relative;
+  width: 30px;
+  margin-right: 10px;
+}

@@ -15,127 +15,178 @@
     </button>
   </mat-menu>
 
-  <!-- Título -->
   <span class="tituloH">HEIMDALL</span>
 
-  <!-- Espaço flexível para empurrar o botão de logout para a direita -->
   <span class="spacer"></span>
 
-  <!-- Botão de logout -->
   <button mat-icon-button (click)="logout()">
     <mat-icon>logout</mat-icon>
   </button>
+  <img src="assets/images/ifsp.logo.png" class="logo" />
 </mat-toolbar>
 
 <mat-card>
   <mat-card-title>Reserva de Salas</mat-card-title>
   <mat-card-content>
     <form [formGroup]="resgiterForm" (ngSubmit)="saveDate()">
+      <h4 *ngIf="errorMessage.invalid" style="color: red">
+        {{ errorMessage.message }}
+      </h4>
 
-      <h4 *ngIf="errorMessage.invalid" style="color: red;">{{ errorMessage.message }}</h4>
-    
-      <div *ngIf="!errorMessage.invalid">      
-        <h4>Os dias desabilitados não estarão disponíveis apenas no horário escolhido, caso mude o horario,
-        existe uma chance de haver o dia desejado disponível</h4>
-        
+      <div *ngIf="!errorMessage.invalid">
+        <h4>
+          Os dias desabilitados não estarão disponíveis apenas no horário
+          escolhido, caso mude o horario, existe uma chance de haver o dia
+          desejado disponível
+        </h4>
+
         <div class="calendario-personalizado">
           <h2>Dias e Horários Selecionados:</h2>
           <ul>
             <li *ngFor="let selectedDateTime of diasSelecionados">
-              {{ selectedDateTime | date: 'medium' }}
+              {{ selectedDateTime | date : "medium" }}
             </li>
           </ul>
         </div>
-        
+
         <mat-form-field>
           <mat-label>Informe o Curso:</mat-label>
-          <mat-select [disabled]="roomList.length == 0" (valueChange)="changeCourse($event)" formControlName="course_id">
+          <mat-select
+            [disabled]="roomList.length == 0"
+            (valueChange)="changeCourse($event)"
+            formControlName="course_id"
+          >
             @for (course of courseList; track course) {
-              <mat-option [value]="course._id">{{course.name}}</mat-option>
+            <mat-option [value]="course._id">{{ course.name }}</mat-option>
             } @empty {
-              <mat-option [value]="">Sem dados</mat-option>
+            <mat-option [value]="">Sem dados</mat-option>
             }
           </mat-select>
         </mat-form-field>
 
         <mat-form-field *ngIf="classList.length > 0">
           <mat-label>Informe a Matéria:</mat-label>
-          <mat-select (valueChange)="changeClass($event)" formControlName="class_id">
+          <mat-select
+            (valueChange)="changeClass($event)"
+            formControlName="class_id"
+          >
             @for (class of classList; track class) {
-              <mat-option [value]="class._id">{{class.name}}</mat-option>
+            <mat-option [value]="class._id">{{ class.name }}</mat-option>
             } @empty {
-              <mat-option [value]="">Sem dados</mat-option>
+            <mat-option [value]="">Sem dados</mat-option>
             }
           </mat-select>
         </mat-form-field>
 
-        <div *ngIf="selectionClass.selected.length > 0 && selectionCourse.selected.length > 0" class="insertData">
-        
+        <div
+          *ngIf="
+            selectionClass.selected.length > 0 &&
+            selectionCourse.selected.length > 0
+          "
+          class="insertData"
+        >
           <h5>Escolha a sala que deseja reservar:</h5>
           <mat-form-field *ngIf="classList.length > 0">
             <mat-label>Sala:</mat-label>
-            <mat-select  formControlName="room_id">
+            <mat-select formControlName="room_id">
               @for (room of roomList; track room) {
-                <mat-option [value]="room._id">{{room.number}}</mat-option>
+              <mat-option [value]="room._id">{{ room.number }}</mat-option>
               } @empty {
-                <mat-option [value]="">Sem dados</mat-option>
+              <mat-option [value]="">Sem dados</mat-option>
               }
             </mat-select>
           </mat-form-field>
-        
+
           <h5>Reserve os horários requeridos:</h5>
           <mat-form-field class="boxSize">
             <mat-label>Hora de Início:</mat-label>
             <mat-select [(ngModel)]="startTime" formControlName="start_hour">
-              <mat-option *ngFor="let hour of hours" [value]="hour">{{ hour }}</mat-option>
+              <mat-option *ngFor="let hour of hours" [value]="hour">{{
+                hour
+              }}</mat-option>
             </mat-select>
           </mat-form-field>
-          
-          <mat-form-field *ngIf="resgiterForm.get('start_hour')?.value !== ''" class="boxSizeAppear">
+
+          <mat-form-field
+            *ngIf="resgiterForm.get('start_hour')?.value !== ''"
+            class="boxSizeAppear"
+          >
             <mat-label>Hora de Término:</mat-label>
             <mat-select [(ngModel)]="endTime" formControlName="end_hour">
-              <mat-option *ngFor="let hour of hours" [value]="hour">{{ hour }}</mat-option>
+              <mat-option *ngFor="let hour of hours" [value]="hour">{{
+                hour
+              }}</mat-option>
             </mat-select>
           </mat-form-field>
-          
-          
-          <div *ngIf="error" style="color: red;margin-bottom: 1cm;">{{ error }}</div>
+
+          <div *ngIf="error" style="color: red; margin-bottom: 1cm">
+            {{ error }}
+          </div>
           <div *ngIf="showPickers">
-            <mat-form-field *ngIf="startTime&&endTime" class="boxSizeAppear">
+            <mat-form-field *ngIf="startTime && endTime" class="boxSizeAppear">
               <mat-label>Selecione um periodo</mat-label>
-              <mat-date-range-input [rangePicker]="rangePicker" [dateFilter]="dateFilter">
-                <input  matStartDate formControlName="start_date" placeholder="Start date">
-                <input matEndDate formControlName="end_date" placeholder="End date">
+              <mat-date-range-input
+                [rangePicker]="rangePicker"
+                [dateFilter]="dateFilter"
+              >
+                <input
+                  matStartDate
+                  formControlName="start_date"
+                  placeholder="Start date"
+                />
+                <input
+                  matEndDate
+                  formControlName="end_date"
+                  placeholder="End date"
+                />
               </mat-date-range-input>
               <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-              <mat-datepicker-toggle matIconSuffix [for]="rangePicker"></mat-datepicker-toggle>
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="rangePicker"
+              ></mat-datepicker-toggle>
               <mat-date-range-picker #rangePicker>
                 <mat-date-range-picker-actions>
                   <button mat-button matDateRangePickerCancel>Cancel</button>
-                  <button mat-raised-button color="primary" matDateRangePickerApply (click)="applyDateRange()">Apply</button>
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    matDateRangePickerApply
+                    (click)="applyDateRange()"
+                  >
+                    Apply
+                  </button>
                 </mat-date-range-picker-actions>
               </mat-date-range-picker>
-            </mat-form-field>    
+            </mat-form-field>
           </div>
 
           <h5>Selecione o professor para quem a sala estará reservada</h5>
 
           <mat-form-field>
             <mat-label>Nome do Professor:</mat-label>
-            <mat-select [disabled]="teacherList.length == 0" formControlName="teacher_id">
+            <mat-select
+              [disabled]="teacherList.length == 0"
+              formControlName="teacher_id"
+            >
               @for (teacher of teacherList; track teacher) {
-                <mat-option [value]="teacher._id">{{teacher.name}}</mat-option>
+              <mat-option [value]="teacher._id">{{ teacher.name }}</mat-option>
               } @empty {
-                <mat-option [value]="">Sem dados</mat-option>
+              <mat-option [value]="">Sem dados</mat-option>
               }
             </mat-select>
           </mat-form-field>
         </div>
-     </div>
-      <br>
-  
+      </div>
+      <br />
 
-<button type="submit" class="saveButton" [disabled]="resgiterForm.invalid">Reservar</button>
-</form>
-</mat-card-content>
+      <button
+        type="submit"
+        class="saveButton"
+        [disabled]="resgiterForm.invalid"
+      >
+        Reservar
+      </button>
+    </form>
+  </mat-card-content>
 </mat-card>

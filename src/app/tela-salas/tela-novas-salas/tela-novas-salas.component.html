@@ -15,65 +15,107 @@
     </button>
   </mat-menu>
 
-  <!-- Título -->
   <span class="tituloH">HEIMDALL</span>
 
-  <!-- Espaço flexível para empurrar o botão de logout para a direita -->
   <span class="spacer"></span>
 
-  <!-- Botão de logout -->
   <button mat-icon-button (click)="logout()">
     <mat-icon>logout</mat-icon>
   </button>
+  <img src="assets/images/ifsp.logo.png" class="logo" />
 </mat-toolbar>
 
-  <mat-card>
-    <mat-card-title>{{roomToEdit.valid ? 'Edição': 'Cadastro'}} de Salas</mat-card-title>
-    <mat-card-content>
-      <form [formGroup]="resgiterForm" (ngSubmit)="save()">
-        <mat-form-field *ngIf="courses.length > 0">
-          <mat-label>Curso:</mat-label>
-          <mat-select formControlName="course">
-            <mat-option *ngFor="let course of courses" [value]="course._id">
-              {{ course.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+<mat-card>
+  <mat-card-title
+    >{{ roomToEdit.valid ? "Edição" : "Cadastro" }} de Salas</mat-card-title
+  >
+  <mat-card-content>
+    <form [formGroup]="resgiterForm" (ngSubmit)="save()">
+      <mat-form-field *ngIf="courses.length > 0">
+        <mat-label>Curso:</mat-label>
+        <mat-select formControlName="course">
+          <mat-option *ngFor="let course of courses" [value]="course._id">
+            {{ course.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>Numero da Salas</mat-label>
-          <input formControlName="number" matInput type="number" placeholder="Numero da Salas" name="numeroSalas">
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Qte. de Cadeiras</mat-label>
-          <input formControlName="chairs" matInput type="number" placeholder="Qte. de Cadeiras" name="numeroCadeiras">
-        </mat-form-field>
-        <br>
-        <mat-form-field>
-            <mat-label>Qte. de Mesas</mat-label>
-          <input formControlName="tables" matInput type="number" placeholder="Qte. de Mesas" name="numeroMesas">
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Qte. de Cadeiras por Mesa</mat-label>
-          <input formControlName="chairByTables" matInput type="number" placeholder="Qte. de Cadeiras por Mesa" name="cadeirasPorMesa">
-        </mat-form-field>
-        <br>
-        <mat-form-field>
-            <mat-label>Qte. de Computadores</mat-label>
-          <input formControlName="computers" matInput type="number" placeholder="Qte. de Computadores" name="numeroComputadores">
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Capacidade da sala</mat-label>
-          <input formControlName="capacity" matInput type="number" placeholder="Capacidade da sala" name="Capacidade">
-        </mat-form-field>
-        <br>
-        <mat-form-field>
-            <mat-label>Qte. de Projetores</mat-label>
-          <input formControlName="projectors" matInput type="number" placeholder="Qte. de Projetores" name="projetor">
-        </mat-form-field>
-        <button type="submit" class="saveButton">{{roomToEdit.valid ? 'Editar': 'Cadastrar'}}</button>
-      </form>
-    </mat-card-content>
-
-    
-  </mat-card>
+      <mat-form-field>
+        <mat-label>Numero da Salas</mat-label>
+        <input
+          formControlName="number"
+          matInput
+          type="number"
+          placeholder="Numero da Salas"
+          name="numeroSalas"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Qte. de Cadeiras</mat-label>
+        <input
+          formControlName="chairs"
+          matInput
+          type="number"
+          placeholder="Qte. de Cadeiras"
+          name="numeroCadeiras"
+        />
+      </mat-form-field>
+      <br />
+      <mat-form-field>
+        <mat-label>Qte. de Mesas</mat-label>
+        <input
+          formControlName="tables"
+          matInput
+          type="number"
+          placeholder="Qte. de Mesas"
+          name="numeroMesas"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Qte. de Cadeiras por Mesa</mat-label>
+        <input
+          formControlName="chairByTables"
+          matInput
+          type="number"
+          placeholder="Qte. de Cadeiras por Mesa"
+          name="cadeirasPorMesa"
+        />
+      </mat-form-field>
+      <br />
+      <mat-form-field>
+        <mat-label>Qte. de Computadores</mat-label>
+        <input
+          formControlName="computers"
+          matInput
+          type="number"
+          placeholder="Qte. de Computadores"
+          name="numeroComputadores"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Capacidade da sala</mat-label>
+        <input
+          formControlName="capacity"
+          matInput
+          type="number"
+          placeholder="Capacidade da sala"
+          name="Capacidade"
+        />
+      </mat-form-field>
+      <br />
+      <mat-form-field>
+        <mat-label>Qte. de Projetores</mat-label>
+        <input
+          formControlName="projectors"
+          matInput
+          type="number"
+          placeholder="Qte. de Projetores"
+          name="projetor"
+        />
+      </mat-form-field>
+      <button type="submit" class="saveButton">
+        {{ roomToEdit.valid ? "Editar" : "Cadastrar" }}
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>
