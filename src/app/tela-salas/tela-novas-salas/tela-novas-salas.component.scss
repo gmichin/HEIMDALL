@@ -30,12 +30,11 @@ mat-card {
   width: 50%;
   margin: auto;
   padding: 1cm;
+  text-align: center;
 }
-
-mat-form-field {
+mat-card-content mat-form-field:nth-child(even) {
   margin-left: 2cm;
 }
-
 mat-card-title {
   font-family: Georgia, "Times New Roman", Times, serif;
   margin-bottom: 1cm;
@@ -50,11 +49,9 @@ mat-card-title {
   font-size: 20px;
   padding: 20px;
   padding-inline: 60px;
-  margin-right: 60px;
   background-color: black;
   color: #1ddd04;
   cursor: pointer;
-  float: right;
   margin-bottom: 20px;
   font-family: Georgia, "Times New Roman", Times, serif;
 }
