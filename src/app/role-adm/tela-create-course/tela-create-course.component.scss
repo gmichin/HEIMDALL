@@ -30,8 +30,10 @@
     margin-right: 2%;
   }
   .btn2 {
-    background: white;
-    color: black;
+    background: black;
+    color: #1ddd04;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px black;
   }
 }
 
@@ -40,7 +42,7 @@
 }
 
 ::ng-deep .mat-mdc-dialog-surface {
-  background: #1eff00 !important;
+  background: #dcdee2 !important;
 }
 
 .error {
