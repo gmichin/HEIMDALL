@@ -12,7 +12,7 @@
 
 .dadosPessoais {
   margin-top: 5%;
-  width: 80%;
+  width: 100%;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -34,6 +34,10 @@
     color: #1ddd04;
     border-radius: 20px;
     box-shadow: 0 2px 5px black;
+  }
+  .btn2:hover {
+    background: #1ddd04;
+    color: black;
   }
 }
 
