@@ -53,10 +53,7 @@
       </div>
       <div class="container">
         <div class="cards">
-          <mat-card
-            class="novoCard card-adicionar-novo-curso card-width"
-            style="gap: 1cm"
-          >
+          <mat-card class="novoCard card-adicionar-novo-curso card-width">
             <mat-card-header>
               <mat-card-title>{{
                 "Adicione mais " + block.name + "."
@@ -71,8 +68,9 @@
 
           <div *ngIf="block.arr.length > 0" class="example-card">
             <mat-card
-              *ngFor="let item of block.arr.slice(0, 1)"
+              *ngFor="let item of block.arr.slice(0, 2)"
               class="card-width"
+              style="gap: 1cm"
             >
               <mat-card-header>
                 <mat-card-title class="title-card">{{
