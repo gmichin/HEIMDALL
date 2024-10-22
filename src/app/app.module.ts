@@ -39,8 +39,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TelaSalasComponent } from './tela-salas/tela-salas.component';
 import { TelaSalasFeitasComponent } from './tela-salas/tela-salas-feitas/tela-salas-feitas.component';
 import { TelaNovasSalasComponent } from './tela-salas/tela-novas-salas/tela-novas-salas.component';
-import { RoleTeacherModule } from './role-teacher/role-teacher.module';
-import { RoleStudentModule } from './role-student/role-student.module';
 import { TelaSolicitacoesRegistroComponent } from './tela-solicitacoes-registro/tela-solicitacoes-registro.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -50,6 +48,16 @@ import { TelaNovasDisciplinasComponent } from './tela-disciplinas/tela-novas-dis
 import { TelaDisciplinasFeitasComponent } from './tela-disciplinas/tela-disciplinas-feitas/tela-disciplinas-feitas.component';
 import { TelaSeeMoreComponent } from './tela-see-more/tela-see-more.component';
 import { AnimacaoComponent } from './animacao/animacao.component';
+import { TelaHomeAdmComponent } from './role-adm/tela-home-adm/tela-home-adm.component';
+import { TelaHomeStudentComponent } from './role-student/tela-home-student/tela-home-student.component';
+import { TelaHomeTeacherComponent } from './role-teacher/tela-home-teacher/tela-home-teacher.component';
+import { TelaRegisterTeacherComponent } from './role-adm/tela-register-teacher/tela-register-teacher.component';
+import { TelaEditTeacherComponent } from './role-adm/tela-edit-teacher/tela-edit-teacher.component';
+import { TelaEditCourseComponent } from './role-adm/tela-edit-course/tela-edit-course.component';
+import { TelaEditAdmComponent } from './role-adm/tela-edit-adm/tela-edit-adm.component';
+import { TelaCreateTeacherComponent } from './role-adm/tela-create-teacher/tela-create-teacher.component';
+import { TelaCreateCourseComponent } from './role-adm/tela-create-course/tela-create-course.component';
+import { TelaCreateAdmComponent } from './role-adm/tela-create-adm/tela-create-adm.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +80,16 @@ import { AnimacaoComponent } from './animacao/animacao.component';
     TelaDisciplinasFeitasComponent,
     TelaSeeMoreComponent,
     AnimacaoComponent,
+    TelaHomeAdmComponent,
+    TelaHomeStudentComponent,
+    TelaHomeTeacherComponent,
+    TelaRegisterTeacherComponent,
+    TelaEditTeacherComponent,
+    TelaEditCourseComponent,
+    TelaEditAdmComponent,
+    TelaCreateTeacherComponent,
+    TelaCreateCourseComponent,
+    TelaCreateAdmComponent,
   ],
   imports: [
     AppRoutingModule,

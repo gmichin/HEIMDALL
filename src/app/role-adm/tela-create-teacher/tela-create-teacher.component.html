@@ -1,7 +1,7 @@
 <h1>Adicione um professor</h1>
 <div class="container">
   <div class="dadosPessoais">
-    <form [formGroup]="resgiterForm" (ngSubmit)="register()">
+    <form [formGroup]="cadastroProfessorAdmForm" (ngSubmit)="register()">
       <mat-form-field class="nome" appearance="fill">
         <mat-label>Nome do Professor:</mat-label>
         <input formControlName="nome" matInput />

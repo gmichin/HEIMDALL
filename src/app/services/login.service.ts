@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, map } from 'rxjs';
+import { Observable, catchError, map, of, switchMap } from 'rxjs';
 import { AlunoModel } from '../models/aluno.model';
 import { ProfessorModel } from '../models/professor.model';
 import { url_config } from '../url.config';
@@ -14,40 +14,46 @@ export class LoginUserService {
     private http: HttpClient,
     private sessionService: SessionService
   ) {}
-
   public login(
     email: string,
     senha: string
-  ): Observable<AlunoModel | ProfessorModel | null> {
+  ): Observable<{
+    user: AlunoModel | ProfessorModel;
+    tipo: 'aluno' | 'professor' | 'adm';
+  } | null> {
     return this.http.get<AlunoModel[]>(url_config.url_aluno).pipe(
       map((alunos) => {
         const selectedAluno = alunos.find(
           (aluno) => aluno.email === email && aluno.senha === senha
         );
         if (selectedAluno) {
-          this.sessionService.setItem('user', selectedAluno);
-          return selectedAluno;
+          this.sessionService.setItem('aluno', selectedAluno);
+          return { user: selectedAluno, tipo: 'aluno' as const };
         }
         return null;
       }),
-      catchError(() => {
-        return this.http.get<ProfessorModel[]>(url_config.url_professor).pipe(
-          map((professores) => {
-            const selectedProfessor = professores.find(
-              (professor) =>
-                professor.email === email && professor.senha === senha
-            );
-            if (selectedProfessor) {
-              this.sessionService.setItem(
-                'idInstituicao',
-                selectedProfessor.registro
+      catchError(() => of(null)),
+      switchMap((result) => {
+        if (result) {
+          return of(result);
+        } else {
+          return this.http.get<ProfessorModel[]>(url_config.url_professor).pipe(
+            map((professores) => {
+              const selectedProfessor = professores.find(
+                (professor) =>
+                  professor.email === email && professor.senha === senha
               );
-              this.sessionService.setItem('user', selectedProfessor);
-              return selectedProfessor;
-            }
-            throw 'Não encontrado na base de dados.';
-          })
-        );
+              if (selectedProfessor && selectedProfessor.adm == false) {
+                this.sessionService.setItem('professor', selectedProfessor);
+                return { user: selectedProfessor, tipo: 'professor' as const };
+              } else if (selectedProfessor && selectedProfessor.adm == true) {
+                this.sessionService.setItem('adm', selectedProfessor);
+                return { user: selectedProfessor, tipo: 'adm' as const };
+              }
+              return null;
+            })
+          );
+        }
       })
     );
   }

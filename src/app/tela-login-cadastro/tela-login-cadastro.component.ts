@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {
   AbstractControl,
-  AsyncValidatorFn,
   FormBuilder,
   FormGroup,
   ValidationErrors,
@@ -12,17 +11,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { LoginUserService } from '../services/login.service';
 import { CadastroService } from '../services/cadastros.service';
-import {
-  Observable,
-  catchError,
-  debounceTime,
-  map,
-  of,
-  switchMap,
-  tap,
-} from 'rxjs';
 import { ProfessorModel } from '../models/professor.model';
 import { AlunoModel } from '../models/aluno.model';
+import { SessionService } from '../services/session.service'; // Importando o SessionService
 
 @Component({
   selector: 'app-tela-login',
@@ -41,7 +32,8 @@ export class TelaLoginCadastroComponent {
     public dialogRef: MatDialogRef<TelaLoginCadastroComponent>,
     private fb: FormBuilder,
     private cadastroService: CadastroService,
-    private loginUserService: LoginUserService
+    private loginUserService: LoginUserService,
+    private sessionService: SessionService // Adicionando o SessionService
   ) {
     this.cadastroAlunoForm = this.fb.group(
       {
@@ -55,11 +47,12 @@ export class TelaLoginCadastroComponent {
       },
       { validator: this.passwordMatchValidator }
     );
+
     this.cadastroProfessorAdmForm = this.fb.group(
       {
         nome: ['', [Validators.required]],
         email: ['', [Validators.required, this.emailValidator]],
-        senha: ['', [Validators.required], Validators.minLength(6)],
+        senha: ['', [Validators.required, Validators.minLength(6)]],
         confirmarSenha: ['', [Validators.required]],
         registro: ['', [Validators.required]],
         adm: ['', [Validators.required]],
@@ -69,7 +62,7 @@ export class TelaLoginCadastroComponent {
 
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, this.emailValidator]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      senha: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
@@ -131,29 +124,37 @@ export class TelaLoginCadastroComponent {
         },
       });
   }
-
   login() {
     if (this.loginForm.invalid) {
       this.snackBar.open('Por favor, revise os campos.', '', {
-        duration: 1000,
+        duration: 2000,
       });
       return;
     }
 
     const email = this.loginForm.get('email')?.value;
-    const senha = this.loginForm.get('password')?.value;
+    const senha = this.loginForm.get('senha')?.value;
 
     this.loginUserService.login(email, senha).subscribe(
       (res) => {
         if (res) {
-          setTimeout(() => {
-            this.snackBar.open(`Bem vindo, ${res.nome}!`, '', {
-              duration: 1000,
-            });
+          const usuario = res.user;
+
+          if (this.isProfessorModel(usuario)) {
+            this.sessionService.setItem('professor', usuario);
             this.router.navigate(['redirecionar']);
-            this.dialogRef.close('close');
+          } else if (this.isAlunoModel(usuario)) {
+            this.sessionService.setItem('aluno', usuario);
+            this.router.navigate(['redirecionar']);
+          }
+          this.dialogRef.close('close');
+
+          setTimeout(() => {
+            this.snackBar.open(`Bem-vindo, ${usuario.nome}!`, '', {
+              duration: 3000,
+            });
+            this.resetForms(this.loginForm);
           }, 1500);
-          this.resetForms(this.loginForm);
         } else {
           this.snackBar.open(`Usuário não encontrado.`, '', {
             duration: 1000,
@@ -166,6 +167,14 @@ export class TelaLoginCadastroComponent {
         });
       }
     );
+  }
+
+  private isProfessorModel(obj: any): obj is ProfessorModel {
+    return obj && typeof obj.adm !== 'undefined';
+  }
+
+  private isAlunoModel(obj: any): obj is AlunoModel {
+    return obj && typeof obj.ano_entrada !== 'undefined';
   }
 
   private resetForms(form: FormGroup): void {
@@ -190,10 +199,10 @@ export class TelaLoginCadastroComponent {
   private passwordMatchValidator(
     control: AbstractControl
   ): { [key: string]: boolean } | null {
-    const password = control.get('password');
-    const confirmPassword = control.get('confirmPassword');
+    const senha = control.get('senha');
+    const confirmarSenha = control.get('confirmarSenha');
 
-    if (password?.value !== confirmPassword?.value) {
+    if (senha?.value !== confirmarSenha?.value) {
       return { passwordMismatch: true };
     }
 

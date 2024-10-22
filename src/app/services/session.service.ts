@@ -20,6 +20,10 @@ export class SessionService {
     };
   }
 
+  public setSessionData<T>(key: string, data: T): void {
+    sessionStorage.setItem(key, JSON.stringify(data));
+  }
+
   public setItem(key: string, data: any): void {
     sessionStorage.setItem(key, JSON.stringify(data));
   }

@@ -35,14 +35,8 @@ export class TelaHomeStudentComponent implements OnInit, OnDestroy {
     const dialogT = this.dialog.open(TelaPerfilComponent, {
       width: '400px',
     });
-    dialogT.afterClosed().subscribe(() => {
-      this.dialogCloseSubs();
-    });
   }
 
-  private dialogCloseSubs() {
-    this.router.navigate(['reload']);
-  }
   logout() {
     this.router.navigate(['/']);
   }

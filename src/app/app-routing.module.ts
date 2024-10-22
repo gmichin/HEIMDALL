@@ -17,22 +17,35 @@ import { TelaNovasDisciplinasComponent } from './tela-disciplinas/tela-novas-dis
 import { TelaDisciplinasFeitasComponent } from './tela-disciplinas/tela-disciplinas-feitas/tela-disciplinas-feitas.component';
 import { TelaSeeMoreComponent } from './tela-see-more/tela-see-more.component';
 import { AnimacaoComponent } from './animacao/animacao.component';
+import { TelaRedirecionarUsuarioComponent } from './tela-redirecionar-usuario/tela-redirecionar-usuario.component';
+import { RedirecionarUsuarioGuard } from './tela-redirecionar-usuario/tela-redirecionar-usuario.guard';
+import { TelaHomeAdmComponent } from './role-adm/tela-home-adm/tela-home-adm.component';
+import { TelaHomeTeacherComponent } from './role-teacher/tela-home-teacher/tela-home-teacher.component';
+import { TelaHomeStudentComponent } from './role-student/tela-home-student/tela-home-student.component';
 
 const routes: Routes = [
   { path: '', component: AnimacaoComponent },
 
   { path: 'inicial', component: TelaInicialComponent },
+
   {
     path: 'home-adm',
-    redirectTo: 'admin/home-adm',
+    component: TelaHomeAdmComponent,
   },
+
   {
     path: 'home-teacher',
-    redirectTo: 'teacher/home-teacher',
+    component: TelaHomeTeacherComponent,
   },
+
   {
     path: 'home-student',
-    redirectTo: 'student/home-student',
+    component: TelaHomeStudentComponent,
+  },
+  {
+    path: 'redirecionar',
+    component: TelaRedirecionarUsuarioComponent,
+    canActivate: [RedirecionarUsuarioGuard],
   },
   {
     path: 'profile',
