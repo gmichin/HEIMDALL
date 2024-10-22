@@ -33,23 +33,24 @@ export class TelaLoginCadastroComponent {
     private fb: FormBuilder,
     private cadastroService: CadastroService,
     private loginUserService: LoginUserService,
-    private sessionService: SessionService // Adicionando o SessionService
+    private sessionService: SessionService
   ) {
     this.cadastroAlunoForm = this.fb.group(
       {
-        aluno_id: ['', [Validators.required]],
-        nome: ['', [Validators.required]],
+        aluno_id: ['', Validators.required],
+        nome: ['', Validators.required],
         email: ['', [Validators.required, this.emailValidator]],
-        senha: ['', [Validators.required, Validators.minLength(6)]],
-        confirmarSenha: ['', [Validators.required]],
-        registro: ['', [Validators.required]],
-        ano_entrada: ['', [Validators.required]],
+        senha: ['', Validators.required],
+        confirmarSenha: ['', Validators.required],
+        registro: ['', Validators.required],
+        ano_entrada: ['', Validators.required],
       },
-      { validator: this.passwordMatchValidator }
+      { validators: this.passwordMatchValidator }
     );
 
     this.cadastroProfessorAdmForm = this.fb.group(
       {
+        professor_id: ['', [Validators.required]],
         nome: ['', [Validators.required]],
         email: ['', [Validators.required, this.emailValidator]],
         senha: ['', [Validators.required, Validators.minLength(6)]],
@@ -66,21 +67,25 @@ export class TelaLoginCadastroComponent {
     });
   }
 
-  solicitacaoCadastro() {
+  cadastroAluno() {
     if (this.cadastroAlunoForm.invalid) {
+      console.log('Formulário inválido');
+      console.log(this.cadastroAlunoForm.controls);
       return;
     }
     const request = new AlunoModel({
+      aluno_id: this.cadastroAlunoForm.get('aluno_id')?.value,
       nome: this.cadastroAlunoForm.get('nome')?.value,
       email: this.cadastroAlunoForm.get('email')?.value,
       senha: this.cadastroAlunoForm.get('senha')?.value,
       registro: this.cadastroAlunoForm.get('registro')?.value,
       ano_entrada: this.cadastroAlunoForm.get('ano_entrada')?.value,
     });
+    console.log(request);
     this.cadastroService.convidarEstudante(request).subscribe({
       next: () => {
         this.snackBar.open(
-          `Solicitação enviada com sucesso, aguarde análise.`,
+          `Cadastro realizado, há a possibilidade do adm não permitir que a conta seja mantida.`,
           '',
           {
             duration: 5000,
@@ -95,13 +100,15 @@ export class TelaLoginCadastroComponent {
     });
   }
 
-  cadastro() {
+  cadastroProfessorAdm() {
     if (this.cadastroProfessorAdmForm.invalid) {
       return;
     }
     this.cadastroService
       .cadastroAdmProfessor(
         new ProfessorModel({
+          professor_id:
+            this.cadastroProfessorAdmForm.get('professor_id')?.value,
           nome: this.cadastroProfessorAdmForm.get('nome')?.value,
           email: this.cadastroProfessorAdmForm.get('email')?.value,
           senha: this.cadastroProfessorAdmForm.get('password')?.value,

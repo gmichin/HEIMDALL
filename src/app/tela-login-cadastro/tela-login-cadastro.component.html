@@ -30,10 +30,18 @@
           </form>
         </mat-tab>
         <mat-tab label="Solicitação de cadastro de aluno">
-          <form
-            [formGroup]="cadastroAlunoForm"
-            (ngSubmit)="solicitacaoCadastro()"
-          >
+          <form [formGroup]="cadastroAlunoForm" (ngSubmit)="cadastroAluno()">
+            <mat-form-field class="example-full-width">
+              <mat-label>aluno_id</mat-label>
+              <input
+                formControlName="aluno_id"
+                type="number"
+                matInput
+                placeholder="aluno_id"
+                value=""
+              />
+              <mat-icon matSuffix>badge</mat-icon>
+            </mat-form-field>
             <mat-form-field class="example-full-width">
               <mat-label>Nome Usuário</mat-label>
               <input
@@ -78,7 +86,7 @@
               <mat-icon matSuffix>vpn_key</mat-icon>
             </mat-form-field>
             <mat-form-field class="example-full-width">
-              <mat-label>Matrícula</mat-label>
+              <mat-label>Registro</mat-label>
               <input
                 formControlName="registro"
                 type="text"
@@ -86,7 +94,18 @@
                 placeholder="Registro"
                 value=""
               />
-              <mat-icon matSuffix>edit</mat-icon>
+              <mat-icon matSuffix>assignment_ind</mat-icon>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <mat-label>Ano de entrada</mat-label>
+              <input
+                formControlName="ano_entrada"
+                type="number"
+                matInput
+                placeholder="ano_entrada"
+                value=""
+              />
+              <mat-icon matSuffix>date_range</mat-icon>
             </mat-form-field>
 
             <button mat-button type="submit" color="primary">Cadastrar</button>
@@ -94,7 +113,21 @@
         </mat-tab>
 
         <mat-tab label="Solicitação de cadastro de professor/adm">
-          <form [formGroup]="cadastroProfessorAdmForm" (ngSubmit)="cadastro()">
+          <form
+            [formGroup]="cadastroProfessorAdmForm"
+            (ngSubmit)="cadastroProfessorAdm()"
+          >
+            <mat-form-field class="example-full-width">
+              <mat-label>professor_id</mat-label>
+              <input
+                formControlName="professor_id"
+                type="text"
+                matInput
+                placeholder="professor_id"
+                value=""
+              />
+              <mat-icon matSuffix>badge</mat-icon>
+            </mat-form-field>
             <mat-form-field class="example-full-width">
               <mat-label>Nome Usuário</mat-label>
               <input

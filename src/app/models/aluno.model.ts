@@ -1,12 +1,13 @@
 export class AlunoModel {
-  aluno_id?: number;
+  aluno_id!: number;
   nome!: string;
   email!: string;
   senha!: string;
   registro!: string;
-  ano_entrada!: Date;
+  ano_entrada!: number;
 
-  constructor(data: Omit<AlunoModel, 'aluno_id'>) {
+  constructor(data: /* Omit< */ Required<AlunoModel> /* , 'aluno_id'>*/) {
+    this.aluno_id = data.aluno_id;
     this.nome = data.nome;
     this.email = data.email;
     this.senha = data.senha;
