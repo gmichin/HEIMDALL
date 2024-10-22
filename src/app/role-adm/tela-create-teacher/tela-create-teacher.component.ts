@@ -47,14 +47,13 @@ export class TelaCreateTeacherComponent implements OnInit {
       return;
     }
     const request = new ProfessorModel({
-      professor_id: this.cadastroProfessorAdmForm.get('professor_id')?.value,
       nome: this.cadastroProfessorAdmForm.get('nome')?.value,
       email: this.cadastroProfessorAdmForm.get('email')?.value,
       senha: this.cadastroProfessorAdmForm.get('senha')?.value,
       registro: this.cadastroProfessorAdmForm.get('registro')?.value,
       adm: this.cadastroProfessorAdmForm.get('adm')?.value,
     });
-    this.cadastroService.cadastro(request).subscribe({
+    this.cadastroService.cadastroProfessorAdm(request).subscribe({
       next: (res) => {
         this.snackBar.open(`Cadastrado com sucesso.`, '', {
           duration: 1500,

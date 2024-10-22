@@ -15,29 +15,6 @@ export class CadastroService {
     private sessionService: SessionService
   ) {}
 
-  cadastroAdmProfessor(request: ProfessorModel): Observable<any> {
-    return this.cadastro(request);
-  }
-
-  cadastro(
-    request: AlunoModel | ProfessorModel
-  ): Observable<AlunoModel | ProfessorModel> {
-    const url =
-      request instanceof AlunoModel
-        ? url_config.url_aluno
-        : url_config.url_professor;
-
-    const userType = request instanceof AlunoModel ? 'aluno' : 'professor';
-
-    return this.http.post<AlunoModel | ProfessorModel>(url, request).pipe(
-      map((resp) => {
-        this.sessionService.setItem(userType, resp); // Define o tipo de usuário na chave
-        return resp;
-      }),
-      catchError(() => of(request))
-    );
-  }
-
   atualizarUsuário(request: AlunoModel | ProfessorModel) {
     let id: number | undefined;
     let userType: string;
@@ -60,12 +37,15 @@ export class CadastroService {
 
     return this.http.patch<AlunoModel | ProfessorModel>(url, request).pipe(
       map((resp) => {
-        this.sessionService.setItem(userType, resp); // Define o tipo de usuário na chave
+        this.sessionService.setItem(userType, resp);
       })
     );
   }
 
-  convidarEstudante(request: AlunoModel) {
+  cadastroAluno(request: AlunoModel) {
     return this.http.post(url_config.url_aluno, request);
+  }
+  cadastroProfessorAdm(request: ProfessorModel) {
+    return this.http.post(url_config.url_professor, request);
   }
 }

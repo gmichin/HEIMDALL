@@ -117,17 +117,28 @@
             [formGroup]="cadastroProfessorAdmForm"
             (ngSubmit)="cadastroProfessorAdm()"
           >
-            <mat-form-field class="example-full-width">
-              <mat-label>professor_id</mat-label>
+            <mat-form-field
+              class="example-full-width"
+              style="width: 50%; float: left"
+            >
+              <mat-label>Registro</mat-label>
               <input
-                formControlName="professor_id"
+                formControlName="registro"
                 type="text"
                 matInput
-                placeholder="professor_id"
+                placeholder="Registro"
                 value=""
               />
-              <mat-icon matSuffix>badge</mat-icon>
+              <mat-icon matSuffix>assignment_ind</mat-icon>
             </mat-form-field>
+
+            <mat-checkbox
+              formControlName="adm"
+              style="margin-top: 1.2cm; margin-left: 1cm"
+            >
+              <mat-icon>admin_panel_settings</mat-icon>
+              É um adm?
+            </mat-checkbox>
             <mat-form-field class="example-full-width">
               <mat-label>Nome Usuário</mat-label>
               <input

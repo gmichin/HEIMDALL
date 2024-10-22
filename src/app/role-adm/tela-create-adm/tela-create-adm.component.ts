@@ -45,7 +45,6 @@ export class TelaCreateAdmComponent implements OnInit {
       return;
     }
     const request = new ProfessorModel({
-      professor_id: this.cadastroProfessorAdmForm.get('professor_id')?.value,
       nome: this.cadastroProfessorAdmForm.get('nome')?.value,
       email: this.cadastroProfessorAdmForm.get('email')?.value,
       senha: this.cadastroProfessorAdmForm.get('senha')?.value,
@@ -53,7 +52,7 @@ export class TelaCreateAdmComponent implements OnInit {
       adm: this.cadastroProfessorAdmForm.get('adm')?.value,
     });
 
-    this.cadastroService.cadastro(request).subscribe({
+    this.cadastroService.cadastroProfessorAdm(request).subscribe({
       next: (res) => {
         if (res instanceof ProfessorModel) {
           // Verifica se o retorno é ProfessorModel

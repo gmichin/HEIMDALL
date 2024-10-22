@@ -50,13 +50,12 @@ export class TelaLoginCadastroComponent {
 
     this.cadastroProfessorAdmForm = this.fb.group(
       {
-        professor_id: ['', [Validators.required]],
         nome: ['', [Validators.required]],
         email: ['', [Validators.required, this.emailValidator]],
         senha: ['', [Validators.required, Validators.minLength(6)]],
         confirmarSenha: ['', [Validators.required]],
         registro: ['', [Validators.required]],
-        adm: ['', [Validators.required]],
+        adm: [false],
       },
       { validator: this.passwordMatchValidator }
     );
@@ -69,8 +68,9 @@ export class TelaLoginCadastroComponent {
 
   cadastroAluno() {
     if (this.cadastroAlunoForm.invalid) {
-      console.log('Formulário inválido');
-      console.log(this.cadastroAlunoForm.controls);
+      this.snackBar.open(`Cadastro inválido, revise os campos.`, '', {
+        duration: 5000,
+      });
       return;
     }
     const request = new AlunoModel({
@@ -81,8 +81,7 @@ export class TelaLoginCadastroComponent {
       registro: this.cadastroAlunoForm.get('registro')?.value,
       ano_entrada: this.cadastroAlunoForm.get('ano_entrada')?.value,
     });
-    console.log(request);
-    this.cadastroService.convidarEstudante(request).subscribe({
+    this.cadastroService.cadastroAluno(request).subscribe({
       next: () => {
         this.snackBar.open(
           `Cadastro realizado, há a possibilidade do adm não permitir que a conta seja mantida.`,
@@ -91,6 +90,7 @@ export class TelaLoginCadastroComponent {
             duration: 5000,
           }
         );
+        this.dialogRef.close('close');
       },
       error: () => {
         this.snackBar.open(`Ocorreu um erro durante sua solicitação.`, '', {
@@ -102,34 +102,35 @@ export class TelaLoginCadastroComponent {
 
   cadastroProfessorAdm() {
     if (this.cadastroProfessorAdmForm.invalid) {
+      this.snackBar.open(`Cadastro inválido, revise os campos.`, '', {
+        duration: 5000,
+      });
       return;
     }
-    this.cadastroService
-      .cadastroAdmProfessor(
-        new ProfessorModel({
-          professor_id:
-            this.cadastroProfessorAdmForm.get('professor_id')?.value,
-          nome: this.cadastroProfessorAdmForm.get('nome')?.value,
-          email: this.cadastroProfessorAdmForm.get('email')?.value,
-          senha: this.cadastroProfessorAdmForm.get('password')?.value,
-          registro: this.cadastroProfessorAdmForm.get('registro')?.value,
-          adm: this.cadastroProfessorAdmForm.get('adm')?.value,
-        })
-      )
-      .subscribe({
-        next: () => {
-          this.snackBar.open(`Cadastrado com sucesso.`, '', {
-            duration: 2000,
-          });
-          this.foco = 0;
-          this.resetForms(this.cadastroProfessorAdmForm);
-        },
-        error: (err) => {
-          this.snackBar.open(`Ocorreu um erro durante sua solicitação.`, '', {
-            duration: 2000,
-          });
-        },
-      });
+    const request = new ProfessorModel({
+      nome: this.cadastroProfessorAdmForm.get('nome')?.value,
+      email: this.cadastroProfessorAdmForm.get('email')?.value,
+      senha: this.cadastroProfessorAdmForm.get('password')?.value,
+      registro: this.cadastroProfessorAdmForm.get('registro')?.value,
+      adm: this.cadastroProfessorAdmForm.get('adm')?.value,
+    });
+    this.cadastroService.cadastroProfessorAdm(request).subscribe({
+      next: () => {
+        this.snackBar.open(
+          `Cadastro realizado, há a possibilidade do adm não permitir que a conta seja mantida.`,
+          '',
+          {
+            duration: 5000,
+          }
+        );
+        this.dialogRef.close('close');
+      },
+      error: () => {
+        this.snackBar.open(`Ocorreu um erro durante sua solicitação.`, '', {
+          duration: 2000,
+        });
+      },
+    });
   }
   login() {
     if (this.loginForm.invalid) {
