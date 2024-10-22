@@ -5,7 +5,10 @@
   align-items: center;
   padding: 10px;
 }
-
+button:hover {
+  background-color: hsl(113, 100%, 50%) !important;
+  color: rgb(0, 0, 0) !important;
+}
 li {
   color: rgb(20, 20, 20);
   font-size: 1.2em;

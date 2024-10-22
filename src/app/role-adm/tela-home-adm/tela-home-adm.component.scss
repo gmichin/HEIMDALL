@@ -3,6 +3,11 @@
   color: #1eff00;
 }
 
+button:hover {
+  background: #1ddd04 !important;
+  color: black !important;
+}
+
 .header {
   background: black;
   display: flex;
@@ -43,13 +48,9 @@ mat-card {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
   }
-  button:hover {
+  button {
     background: black;
     color: #1ddd04;
-  }
-  button {
-    background: #1ddd04;
-    color: black;
   }
 }
 
@@ -63,13 +64,9 @@ mat-card {
       color: black;
     }
   }
-  button:hover {
+  button {
     background: black;
     color: #1ddd04;
-  }
-  button {
-    background: #1ddd04;
-    color: black;
   }
 }
 
