@@ -4,96 +4,122 @@ import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-log
 import { TelaReservasComponent } from 'src/app/tela-reservas/tela-reservas.component';
 import { TelaSalasComponent } from '../tela-salas.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CourseService } from 'src/app/services/course.service';
+import { CursoService } from 'src/app/services/curso.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { RoomsModel } from 'src/app/models/rooms.model';
-import { CourseModelResponse } from 'src/app/models/course.model';
+import { SalaModel } from 'src/app/models/sala.model';
+import { CursoModel } from 'src/app/models/curso.model';
 import { SessionService } from 'src/app/services/session.service';
-import { RoomService } from 'src/app/services/room.service';
-import { ReloadService } from 'src/app/services/reload.service';
+import { SalaService } from 'src/app/services/sala.service';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
-import { TelaMateriasComponent } from 'src/app/tela-materias/tela-materias.component';
+import { TelaDisciplinasComponent } from 'src/app/tela-disciplinas/tela-disciplinas.component';
 import { Router } from '@angular/router';
-import { RoleId } from 'src/app/models/role.model';
-import { RegisterUserResponse } from 'src/app/models/register.models';
+import { ProfessorModel } from 'src/app/models/professor.model';
+import { AlunoModel } from 'src/app/models/aluno.model';
 @Component({
   selector: 'app-tela-novas-salas',
   templateUrl: './tela-novas-salas.component.html',
-  styleUrl: './tela-novas-salas.component.scss'
+  styleUrl: './tela-novas-salas.component.scss',
 })
 export class TelaNovasSalasComponent implements OnInit {
   public resgiterForm: FormGroup;
-  public courses: CourseModelResponse[] = [];
-  public roomToEdit!: {valid: boolean, room: RoomsModel};
+  public courses: CursoModel[] = [];
+  public roomToEdit!: { valid: boolean; room: SalaModel };
 
   newSala: any[] = [];
 
-  public dataUser = <RegisterUserResponse>this.sessionService.getSessionData('user').retorno;
-  public id = this.dataUser._id;
-  public role = '';
+  public dataProfessorAdm = <ProfessorModel>(
+    this.sessionService.getSessionData('professor').retorno
+  );
+  public dataAluno = <AlunoModel>(
+    this.sessionService.getSessionData('aluno').retorno
+  );
+  public idProfessor = this.dataProfessorAdm.professor_id;
+  public idAluno = this.dataAluno.aluno_id;
+
+  public tipoUsuario = '';
 
   constructor(
     public dialog: MatDialog,
     private fb: FormBuilder,
-    private courseService: CourseService,
+    private cursoService: CursoService,
     private snackBar: MatSnackBar,
     private sessionService: SessionService,
-    private roomService: RoomService,
-    private reloadService: ReloadService,
-    private router: Router,
-    private reload: ReloadService
+    private salaService: SalaService,
+    private router: Router
   ) {
-    switch(this.dataUser.role){
-      case RoleId.ADM:
-        this.role = 'Administrador';
+    switch (this.dataProfessorAdm.adm) {
+      case true:
+        this.tipoUsuario = 'Administrador';
         break;
-      case RoleId.PROFESSOR:
-        this.role = 'Professor';
-        break;
-      case RoleId.ALUNO:
-        this.role = 'Aluno';
+      case false:
+        this.tipoUsuario = 'Professor';
         break;
     }
-    this.roomToEdit = this.roomService.getRoomToEdit();
+    if (this.dataAluno) this.tipoUsuario = 'Aluno';
+    this.roomToEdit = this.salaService.getRoomToEdit();
 
-    this.resgiterForm = this.fb.group(
-      {
-        number: [this.roomToEdit.valid ? this.roomToEdit.room.number: 0, [Validators.required]],
-        chairs: [this.roomToEdit.valid ? this.roomToEdit.room.chairs : 0, [Validators.required]],
-        tables: [this.roomToEdit.valid ? this.roomToEdit.room.tables : 0, [Validators.required]],
-        chairByTables: [this.roomToEdit.valid ? this.roomToEdit.room.chairByTables : 0, [Validators.required]],
-        computers: [this.roomToEdit.valid ? this.roomToEdit.room.computers : 0, [Validators.required]],
-        capacity: [this.roomToEdit.valid ? this.roomToEdit.room.capacity : 0, [Validators.required]],
-        projectors: [this.roomToEdit.valid ? this.roomToEdit.room.projectors : 0, [Validators.required]],
-        course: [this.roomToEdit.valid ? this.roomToEdit.room.course_id : '', [Validators.required]],
-      }
-    );
+    this.resgiterForm = this.fb.group({
+      ident_sala: [
+        this.roomToEdit.valid ? this.roomToEdit.room.ident_sala : 0,
+        [Validators.required],
+      ],
+      chairs: [
+        this.roomToEdit.valid ? this.roomToEdit.room.num_cadeiras : 0,
+        [Validators.required],
+      ],
+      tables: [
+        this.roomToEdit.valid ? this.roomToEdit.room.num_mesas : 0,
+        [Validators.required],
+      ],
+      computers: [
+        this.roomToEdit.valid ? this.roomToEdit.room.num_computadores : 0,
+        [Validators.required],
+      ],
+      projectors: [
+        this.roomToEdit.valid ? this.roomToEdit.room.num_projetores : 0,
+        [Validators.required],
+      ],
+      course: [
+        this.roomToEdit.valid ? this.roomToEdit.room.sala_id : '',
+        [Validators.required],
+      ],
+    });
   }
   ngOnInit(): void {
-    this.courseService.getAllCourses().subscribe({
-      next: res => {
+    this.cursoService.getAllCursos().subscribe({
+      next: (res) => {
         this.courses = res;
-        if(res.length == 0) {
-          this.snackBar.open('Ocorreu um erro durante a busca dos cursos, por favor, tente novamente mais tarde.', '', {
-            duration: 4000,
-          });
+        if (res.length == 0) {
+          this.snackBar.open(
+            'Ocorreu um erro durante a busca dos cursos, por favor, tente novamente mais tarde.',
+            '',
+            {
+              duration: 4000,
+            }
+          );
         }
       },
-      error: err => {
-        this.snackBar.open('Ocorreu um erro durante a busca dos cursos, por favor, tente novamente mais tarde.', '', {
-          duration: 2000,
-        });
-      }
+      error: (err) => {
+        this.snackBar.open(
+          'Ocorreu um erro durante a busca dos cursos, por favor, tente novamente mais tarde.',
+          '',
+          {
+            duration: 2000,
+          }
+        );
+      },
     });
   }
 
-  
-  goBack(){
-    if(this.role=="Administrador") this.router.navigate(['/home-adm']);
-    else if(this.role=="Professor") this.router.navigate(['/home-teacher']);
-    else if(this.role=="Aluno") this.router.navigate(['/home-student']);
+  goBack() {
+    if (this.tipoUsuario == 'Administrador')
+      this.router.navigate(['/home-adm']);
+    else if (this.tipoUsuario == 'Professor')
+      this.router.navigate(['/home-teacher']);
+    else if (this.tipoUsuario == 'Aluno')
+      this.router.navigate(['/home-student']);
   }
-  logout(){
+  logout() {
     this.router.navigate(['/']);
   }
   public redirectProfile() {
@@ -106,19 +132,19 @@ export class TelaNovasSalasComponent implements OnInit {
   }
 
   public redirectHomeAdm() {
-    this.reload.reoladPage(['redirecionar'])
+    this.router.navigate(['redirecionar']);
   }
-  
+
   private dialogCloseSubs() {
-    this.reload.reoladPage(['redirecionar']);
+    this.router.navigate(['redirecionar']);
   }
-  
+
   public redirectMaterias() {
-    const dialogT = this.dialog.open(TelaMateriasComponent, {
+    const dialogT = this.dialog.open(TelaDisciplinasComponent, {
       width: '400px',
     });
   }
-  
+
   openLoginSignUp() {
     const dialogRef = this.dialog.open(TelaLoginCadastroComponent);
 
@@ -143,53 +169,56 @@ export class TelaNovasSalasComponent implements OnInit {
   }
 
   public save() {
-    const instituition_id = this.sessionService.getSessionData<string>(
-      'idInstitution'
-    ).retorno;
+    const instituition_id =
+      this.sessionService.getSessionData<string>('idInstitution').retorno;
 
-    const room = new RoomsModel({
-      number: this.resgiterForm.get('number')?.value,
-      chairs: this.resgiterForm.get('chairs')?.value,
-      tables: this.resgiterForm.get('tables')?.value,
-      chairByTables: this.resgiterForm.get('chairByTables')?.value,
-      computers: this.resgiterForm.get('computers')?.value,
-      capacity: this.resgiterForm.get('capacity')?.value,
-      projectors: this.resgiterForm.get('projectors')?.value,
-      course_id: this.resgiterForm.get('course')?.value,
-      instituition_id,
-      _id:'',
-      status: 'DISPONIVEL',
+    const room = new SalaModel({
+      ident_sala: this.resgiterForm.get('ident_sala')?.value,
+      num_cadeiras: this.resgiterForm.get('chairs')?.value,
+      num_mesas: this.resgiterForm.get('tables')?.value,
+      num_computadores: this.resgiterForm.get('computers')?.value,
+      num_projetores: this.resgiterForm.get('projectors')?.value,
+      num_lousas: this.resgiterForm.get('projectors')?.value,
+      status: this.resgiterForm.get('status')?.value,
     });
-    
-    if(this.roomToEdit.valid) {
-      room._id = this.roomToEdit.room._id;
-      this.roomService.updateRoom(room).subscribe({
-        next: res => {
+
+    if (this.roomToEdit.valid) {
+      room.sala_id = this.roomToEdit.room.sala_id;
+      this.salaService.updateRoom(room).subscribe({
+        next: (res) => {
           this.snackBar.open('Atualizado com sucesso!', '', {
             duration: 4000,
           });
-          this.reloadService.reoladPage(['tela-novas-salas']);
+          this.router.navigate(['tela-novas-salas']);
         },
-        error: err => {
-          this.snackBar.open('Ocorreu um erro durante a atualização, por favor, tente novamente mais tarde.', '', {
-            duration: 4000,
-          });
-        }
-      })
+        error: (err) => {
+          this.snackBar.open(
+            'Ocorreu um erro durante a atualização, por favor, tente novamente mais tarde.',
+            '',
+            {
+              duration: 4000,
+            }
+          );
+        },
+      });
       return;
     }
-    this.roomService.createRoom(room).subscribe({
-      next: res => {
+    this.salaService.createRoom(room).subscribe({
+      next: (res) => {
         this.snackBar.open('Cadastrado com sucesso!', '', {
           duration: 4000,
         });
-        this.reloadService.reoladPage(['tela-novas-salas']);
+        this.router.navigate(['tela-novas-salas']);
       },
-      error: err => {
-        this.snackBar.open('Ocorreu um erro durante o cadastro, por favor, tente novamente mais tarde.', '', {
-          duration: 4000,
-        });
-      }
-    })
+      error: (err) => {
+        this.snackBar.open(
+          'Ocorreu um erro durante o cadastro, por favor, tente novamente mais tarde.',
+          '',
+          {
+            duration: 4000,
+          }
+        );
+      },
+    });
   }
 }

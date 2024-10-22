@@ -2,23 +2,29 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { RegisterUserResponse } from '../models/register.models';
 import { SessionService } from './../services/session.service';
-import { RoleId } from '../models/role.model';
-import { RegisterUserService } from '../services/register-user.service';
+import { CadastroService } from '../services/cadastros.service';
+import { AlunoModel } from '../models/aluno.model';
+import { ProfessorModel } from '../models/professor.model';
 
 @Component({
   selector: 'app-tela-perfil',
   templateUrl: './tela-perfil.component.html',
   styleUrls: ['./tela-perfil.component.scss'],
 })
-
 export class TelaPerfilComponent implements OnInit {
-  public dataUser = <RegisterUserResponse>this.sessionService.getSessionData('user').retorno;
+  public dataAluno = <AlunoModel>(
+    this.sessionService.getSessionData('aluno').retorno
+  );
+  public dataProfessorAdm = <ProfessorModel>(
+    this.sessionService.getSessionData('professor').retorno
+  );
 
-  public nome = this.dataUser.name;
-  public role = '';
-  public email = this.dataUser.email;
+  public tipoUsuario = '';
+  public nomeAluno = this.dataAluno.nome;
+  public emailAluno = this.dataAluno.email;
+  public nomeProfessor = this.dataProfessorAdm.nome;
+  public emailProfessor = this.dataProfessorAdm.email;
 
   public form: FormGroup;
 
@@ -27,26 +33,25 @@ export class TelaPerfilComponent implements OnInit {
     private snackBar: MatSnackBar,
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<TelaPerfilComponent>,
-    private register: RegisterUserService
+    public cadastro: CadastroService
   ) {
-    switch(this.dataUser.role){
-      case RoleId.ADM:
-        this.role = 'Administrador';
+    switch (this.dataProfessorAdm.adm) {
+      case true:
+        this.tipoUsuario = 'Administrador';
         break;
-      case RoleId.PROFESSOR:
-        this.role = 'Professor';
-        break;
-      case RoleId.ALUNO:
-        this.role = 'Aluno';
+      case false:
+        this.tipoUsuario = 'Professor';
         break;
     }
+    if (this.dataAluno) this.tipoUsuario = 'Aluno';
+
     this.form = this.fb.group({
-      email: [
-        this.dataUser.email,
-        [Validators.required, this.emailValidator],
+      email: [this.dataAluno.email, [Validators.required, this.emailValidator]],
+      name: [this.dataAluno.nome, [Validators.required]],
+      role: [
+        this.tipoUsuario == 'Aluno' ? 'Aluno' : 'Professor',
+        [Validators.required],
       ],
-      name: [this.dataUser.name, [Validators.required]],
-      role: [this.dataUser.role, [Validators.required]],
     });
   }
 
@@ -60,23 +65,41 @@ export class TelaPerfilComponent implements OnInit {
       return;
     }
 
-    this.dataUser.email = this.form.get('email')?.value;
-    this.dataUser.name = this.form.get('name')?.value;
-    this.register.updateUser(this.dataUser).subscribe({
-      next: ()=>{
-        this.snackBar.open('Dados Atualizados com sucesso.', '', {
-          duration: 1000,
-        });
-        this.dialogRef.close();
-        
-      },
-      error: ()=>{
-        this.snackBar.open('Ocorreu um erro durante sua solicitação.', '', {
-          duration: 1000,
-        });
-        this.dialogRef.close();
-      }
-    })
+    if (this.tipoUsuario == 'Aluno') {
+      this.dataAluno.email = this.form.get('email')?.value;
+      this.dataAluno.nome = this.form.get('name')?.value;
+      this.cadastro.atualizarUsuário(this.dataAluno).subscribe({
+        next: () => {
+          this.snackBar.open('Dados Atualizados com sucesso.', '', {
+            duration: 1000,
+          });
+          this.dialogRef.close();
+        },
+        error: () => {
+          this.snackBar.open('Ocorreu um erro durante sua solicitação.', '', {
+            duration: 1000,
+          });
+          this.dialogRef.close();
+        },
+      });
+    } else if (this.tipoUsuario == 'Professor' || this.tipoUsuario == 'Adm') {
+      this.dataProfessorAdm.email = this.form.get('email')?.value;
+      this.dataProfessorAdm.nome = this.form.get('name')?.value;
+      this.cadastro.atualizarUsuário(this.dataProfessorAdm).subscribe({
+        next: () => {
+          this.snackBar.open('Dados Atualizados com sucesso.', '', {
+            duration: 1000,
+          });
+          this.dialogRef.close();
+        },
+        error: () => {
+          this.snackBar.open('Ocorreu um erro durante sua solicitação.', '', {
+            duration: 1000,
+          });
+          this.dialogRef.close();
+        },
+      });
+    }
   }
 
   private emailValidator(control: any) {

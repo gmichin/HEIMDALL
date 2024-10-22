@@ -23,10 +23,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { PhoneNumberDirective } from './directives/OnlyNumbers.directive';
-import { LoaderComponent } from './loader/loader.component';
-import { RoleAdmModule } from './role-adm/role-adm.module';
-import { LoaderService } from './services/loader.service';
-import { RegisterUserService } from './services/register-user.service';
 import { TelaLoginCadastroComponent } from './tela-login-cadastro/tela-login-cadastro.component';
 import { TelaPerfilComponent } from './tela-perfil/tela-perfil.component';
 import { TelaPerfilResolver } from './tela-perfil/tela-perfil.resolver';
@@ -47,12 +43,11 @@ import { RoleTeacherModule } from './role-teacher/role-teacher.module';
 import { RoleStudentModule } from './role-student/role-student.module';
 import { TelaSolicitacoesRegistroComponent } from './tela-solicitacoes-registro/tela-solicitacoes-registro.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { TelaSolicitacoesRegistroResolver } from './tela-solicitacoes-registro/tela-solicitacoes-registro.resolver';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { TelaMapaHorarioAulasComponent } from './tela-mapa-horario-aulas/tela-mapa-horario-aulas.component';
-import { TelaMateriasComponent } from './tela-materias/tela-materias.component';
-import { TelaNovasMateriasComponent } from './tela-materias/tela-novas-materias/tela-novas-materias.component';
-import { TelaMateriasFeitasComponent } from './tela-materias/tela-materias-feitas/tela-materias-feitas.component';
+import { TelaDisciplinasComponent } from './tela-disciplinas/tela-disciplinas.component';
+import { TelaNovasDisciplinasComponent } from './tela-disciplinas/tela-novas-disciplinas/tela-novas-disciplinas.component';
+import { TelaDisciplinasFeitasComponent } from './tela-disciplinas/tela-disciplinas-feitas/tela-disciplinas-feitas.component';
 import { TelaSeeMoreComponent } from './tela-see-more/tela-see-more.component';
 import { AnimacaoComponent } from './animacao/animacao.component';
 
@@ -63,7 +58,6 @@ import { AnimacaoComponent } from './animacao/animacao.component';
     TelaLoginCadastroComponent,
     PhoneNumberDirective,
     TelaPerfilComponent,
-    LoaderComponent,
     TelaNovasReservasComponent,
     TelaReservasFeitasComponent,
     TelaReservasComponent,
@@ -73,9 +67,9 @@ import { AnimacaoComponent } from './animacao/animacao.component';
     TelaNovasSalasComponent,
     TelaSolicitacoesRegistroComponent,
     TelaMapaHorarioAulasComponent,
-    TelaMateriasComponent,
-    TelaNovasMateriasComponent,
-    TelaMateriasFeitasComponent,
+    TelaDisciplinasComponent,
+    TelaNovasDisciplinasComponent,
+    TelaDisciplinasFeitasComponent,
     TelaSeeMoreComponent,
     AnimacaoComponent,
   ],
@@ -86,9 +80,6 @@ import { AnimacaoComponent } from './animacao/animacao.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RoleAdmModule,
-    RoleStudentModule,
-    RoleTeacherModule,
 
     MatButtonModule,
     MatCardModule,
@@ -113,10 +104,7 @@ import { AnimacaoComponent } from './animacao/animacao.component';
   ],
   providers: [
     { provide: MAT_DIALOG_DATA, useValue: {} },
-    RegisterUserService,
-    LoaderService,
     TelaPerfilResolver,
-    TelaSolicitacoesRegistroResolver,
     provideAnimationsAsync(),
   ],
   bootstrap: [AppComponent],

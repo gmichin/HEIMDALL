@@ -1,56 +1,48 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, tap } from 'rxjs';
-import { SessionService } from './session.service';
 import { url_config } from '../url.config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SalaDataService {
+  constructor(private http: HttpClient) {}
 
-  constructor(
-    private http: HttpClient,
-    private sessionService: SessionService
-  ) {}
-
-  public carregarDadosClasses(){
-    return this.http.get<any[]>(url_config.url_class);
+  public carregarDadosSalas() {
+    return this.http.get<any[]>(url_config.url_sala);
+  }
+  public carregarDadosProfessores() {
+    return this.http.get<any[]>(url_config.url_professor);
   }
 
-  public carregarDadosCourses(){
-    return this.http.get<any[]>(url_config.url_course);
+  public carregarDadosCursos() {
+    return this.http.get<any[]>(url_config.url_curso);
+  }
+  public carregarDadosTurma() {
+    return this.http.get<any[]>(url_config.url_turma);
   }
 
   public carregarDadosReservasRequests() {
-    return this.http.get<any[]>('')
-  }
-
-  public carregarDadosSalasRequests() {
-    return this.http.get<any[]>('');
+    return this.http.get<any[]>(url_config.url_validacao);
   }
 
   public carregarDadosSalasReservadas() {
-    return this.http.get<any[]>(url_config.url_reserve);
+    return this.http.get<any[]>(url_config.url_reserva);
   }
 
-  carregarDiasDesabilitados() {
-    return this.http.get<any>('');
-  }
-
-  public carregarDadosSalas() {
-    return this.http.get<any[]>(url_config.url_room)
+  public carregarDadosDisciplinas() {
+    return this.http.get<any[]>(url_config.url_disciplina);
   }
 
   adicionarNovaSala(novaSala: any) {
-    return this.http.post<any[]>(url_config.url_room, novaSala);
+    return this.http.post<any[]>(url_config.url_sala, novaSala);
   }
-  
+
   atualizarSala(salaAtualizada: any) {
-    return this.http.patch<any[]>(url_config.url_room, salaAtualizada);
+    return this.http.patch<any[]>(url_config.url_sala, salaAtualizada);
   }
 
   deletarSala(numero: number) {
-    this.http.delete(url_config.url_room)
+    this.http.delete(url_config.url_sala);
   }
 }

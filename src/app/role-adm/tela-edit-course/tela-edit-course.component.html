@@ -11,8 +11,8 @@
       <mat-form-field>
         <mat-label>Administrador do curso</mat-label>
         <mat-select formControlName="adm">
-          <mat-option *ngFor="let adm of adms" [value]="adm._id">
-            {{ adm.name }}
+          <mat-option *ngFor="let adm of adms" [value]="adm.professor_id">
+            {{ adm.nome }}
           </mat-option>
         </mat-select>
       </mat-form-field>

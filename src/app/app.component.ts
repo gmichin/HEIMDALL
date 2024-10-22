@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { LoaderService } from './services/loader.service';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +14,7 @@ export class AppComponent implements OnInit {
   loader: boolean = false;
   private subs: Subscription = new Subscription();
 
-  constructor(private loaderService: LoaderService, private router: Router) {}
+  constructor(private router: Router) {}
   ngOnInit(): void {
     // this.subs = this.loader$();
   }

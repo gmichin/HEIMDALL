@@ -32,7 +32,7 @@
         formControlName="course_id"
       >
         @for (course of courseList; track course) {
-        <mat-option [value]="course._id">{{ course.name }}</mat-option>
+        <mat-option [value]="course.curso_id">{{ course.nome }}</mat-option>
         } @empty {
         <mat-option [value]="">Sem dados</mat-option>
         }
@@ -46,7 +46,7 @@
         formControlName="class_id"
       >
         @for (class of classList; track class) {
-        <mat-option [value]="class._id">{{ class.name }}</mat-option>
+        <mat-option [value]="class.disciplina_id">{{ class.nome }}</mat-option>
         } @empty {
         <mat-option [value]="">Sem dados</mat-option>
         }

@@ -10,15 +10,19 @@ import {
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { LoginUserService } from '../services/login.service';
+import { CadastroService } from '../services/cadastros.service';
 import {
-  RegisterInstitutionRequest,
-  RegisterUserRequest,
-} from '../models/register.models';
-import { LoginUserService } from './../services/login-user.service';
-import { RegisterUserService } from './../services/register-user.service';
-import { getUserRequest } from '../models/login.model';
-import { Observable, catchError, debounceTime, distinctUntilChanged, last, map, of, switchMap, tap } from 'rxjs';
-import { RoleId } from '../models/role.model';
+  Observable,
+  catchError,
+  debounceTime,
+  map,
+  of,
+  switchMap,
+  tap,
+} from 'rxjs';
+import { ProfessorModel } from '../models/professor.model';
+import { AlunoModel } from '../models/aluno.model';
 
 @Component({
   selector: 'app-tela-login',
@@ -26,42 +30,39 @@ import { RoleId } from '../models/role.model';
   styleUrls: ['./tela-login-cadastro.component.scss'],
 })
 export class TelaLoginCadastroComponent {
-  public resgiterForm: FormGroup;
-  public resgiterStudentForm: FormGroup;
+  public cadastroAlunoForm: FormGroup;
+  public cadastroProfessorAdmForm: FormGroup;
   public loginForm: FormGroup;
   public foco: number = 0;
-  public nomeInst: string | undefined;
-  private idInstByName = '';
 
   constructor(
     private snackBar: MatSnackBar,
     private router: Router,
     public dialogRef: MatDialogRef<TelaLoginCadastroComponent>,
     private fb: FormBuilder,
-    private registerUserService: RegisterUserService,
+    private cadastroService: CadastroService,
     private loginUserService: LoginUserService
   ) {
-    this.resgiterStudentForm = this.fb.group(
+    this.cadastroAlunoForm = this.fb.group(
       {
+        aluno_id: ['', [Validators.required]],
         nome: ['', [Validators.required]],
         email: ['', [Validators.required, this.emailValidator]],
-        password: ['', [Validators.required], Validators.minLength(6)],
-        confirmPassword: ['', [Validators.required]],
-        matricula: ['', [Validators.required]],
-        nameInstitution: ['', [Validators.required], [this.validateNameInst()]],
+        senha: ['', [Validators.required, Validators.minLength(6)]],
+        confirmarSenha: ['', [Validators.required]],
+        registro: ['', [Validators.required]],
+        ano_entrada: ['', [Validators.required]],
       },
       { validator: this.passwordMatchValidator }
     );
-    this.resgiterForm = this.fb.group(
+    this.cadastroProfessorAdmForm = this.fb.group(
       {
         nome: ['', [Validators.required]],
         email: ['', [Validators.required, this.emailValidator]],
-        password: ['', [Validators.required], Validators.minLength(6)],
-        confirmPassword: ['', [Validators.required]],
-        nameInstitution: ['', [Validators.required]],
-        emailInstitution: ['', [Validators.required, this.emailValidator]],
-        phoneInstitution: ['', [Validators.required]],
-        addressInstitution: ['', [Validators.required]],
+        senha: ['', [Validators.required], Validators.minLength(6)],
+        confirmarSenha: ['', [Validators.required]],
+        registro: ['', [Validators.required]],
+        adm: ['', [Validators.required]],
       },
       { validator: this.passwordMatchValidator }
     );
@@ -72,50 +73,47 @@ export class TelaLoginCadastroComponent {
     });
   }
 
-  solicitationRegister() {
-    if (this.resgiterStudentForm.invalid) {
+  solicitacaoCadastro() {
+    if (this.cadastroAlunoForm.invalid) {
       return;
     }
-    const request = new RegisterUserRequest({
-      name: this.resgiterStudentForm.get('nome')?.value,
-      email: this.resgiterStudentForm.get('email')?.value,
-      encrypted_password: this.resgiterStudentForm.get('password')?.value,
-      matricula: this.resgiterStudentForm.get('matricula')?.value,
-      role: {_id: RoleId.ALUNO},
+    const request = new AlunoModel({
+      nome: this.cadastroAlunoForm.get('nome')?.value,
+      email: this.cadastroAlunoForm.get('email')?.value,
+      senha: this.cadastroAlunoForm.get('senha')?.value,
+      registro: this.cadastroAlunoForm.get('registro')?.value,
+      ano_entrada: this.cadastroAlunoForm.get('ano_entrada')?.value,
     });
-    request.instituition = {_id: this.idInstByName }
-    this.registerUserService.inviteStudent(request).subscribe({
-      next:() => {
-        this.snackBar.open(`Solicitação enviada com sucesso, aguarde análise.`, '', {
-          duration: 5000,
-        });
+    this.cadastroService.convidarEstudante(request).subscribe({
+      next: () => {
+        this.snackBar.open(
+          `Solicitação enviada com sucesso, aguarde análise.`,
+          '',
+          {
+            duration: 5000,
+          }
+        );
       },
       error: () => {
         this.snackBar.open(`Ocorreu um erro durante sua solicitação.`, '', {
           duration: 2000,
         });
-      }
-    })
+      },
+    });
   }
 
-  register() {
-    if (this.resgiterForm.invalid) {
+  cadastro() {
+    if (this.cadastroProfessorAdmForm.invalid) {
       return;
     }
-    this.registerUserService
-      .registerAdm(
-        new RegisterUserRequest({
-          name: this.resgiterForm.get('nome')?.value,
-          email: this.resgiterForm.get('email')?.value,
-          encrypted_password: this.resgiterForm.get('password')?.value,
-          role: { _id: '652ddd174bbd5905a65d8f4e' },
-        }),
-        new RegisterInstitutionRequest({
-          nameInstitution: this.resgiterForm.get('nameInstitution')?.value,
-          emailInstitution: this.resgiterForm.get('emailInstitution')?.value,
-          phoneInstitution: this.resgiterForm.get('phoneInstitution')?.value,
-          addressInstitution:
-            this.resgiterForm.get('addressInstitution')?.value,
+    this.cadastroService
+      .cadastroAdmProfessor(
+        new ProfessorModel({
+          nome: this.cadastroProfessorAdmForm.get('nome')?.value,
+          email: this.cadastroProfessorAdmForm.get('email')?.value,
+          senha: this.cadastroProfessorAdmForm.get('password')?.value,
+          registro: this.cadastroProfessorAdmForm.get('registro')?.value,
+          adm: this.cadastroProfessorAdmForm.get('adm')?.value,
         })
       )
       .subscribe({
@@ -124,7 +122,7 @@ export class TelaLoginCadastroComponent {
             duration: 2000,
           });
           this.foco = 0;
-          this.resetForms(this.resgiterForm);
+          this.resetForms(this.cadastroProfessorAdmForm);
         },
         error: (err) => {
           this.snackBar.open(`Ocorreu um erro durante sua solicitação.`, '', {
@@ -142,30 +140,32 @@ export class TelaLoginCadastroComponent {
       return;
     }
 
-    this.loginUserService
-      .login(
-        new getUserRequest({
-          email: this.loginForm.get('email')?.value,
-          password: this.loginForm.get('password')?.value,
-        })
-      )
-      .subscribe(
-        (res) => {
+    const email = this.loginForm.get('email')?.value;
+    const senha = this.loginForm.get('password')?.value;
+
+    this.loginUserService.login(email, senha).subscribe(
+      (res) => {
+        if (res) {
           setTimeout(() => {
-            this.snackBar.open(`Bem vindo, ${res.name}!`, '', {
+            this.snackBar.open(`Bem vindo, ${res.nome}!`, '', {
               duration: 1000,
             });
             this.router.navigate(['redirecionar']);
             this.dialogRef.close('close');
           }, 1500);
-          this.resetForms(this.resgiterForm);
-        },
-        (err) => {
-          this.snackBar.open(`Usuário não cadastrado.`, '', {
+          this.resetForms(this.loginForm);
+        } else {
+          this.snackBar.open(`Usuário não encontrado.`, '', {
             duration: 1000,
           });
         }
-      );
+      },
+      (err) => {
+        this.snackBar.open(`Erro no login.`, '', {
+          duration: 1000,
+        });
+      }
+    );
   }
 
   private resetForms(form: FormGroup): void {
@@ -198,31 +198,5 @@ export class TelaLoginCadastroComponent {
     }
 
     return null;
-  }
-
-  private validateNameInst(): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      const name = control.value;
-
-      // Se o campo estiver vazio, retorna um Observable com null (sem erro)
-      if (!name) {
-        return of(null);
-      }
-
-      // Faz a chamada para a API e verifica o resultado
-      return control.valueChanges.pipe(
-        debounceTime(500),
-        switchMap(() => this.registerUserService.searchInstByName(name)),
-        tap((res)=> {
-          this.idInstByName = res._id;
-          this.nomeInst = undefined
-        }),
-        map(valid => (valid ? null : { invalidInstitutionName: true })),
-        catchError(() => {
-          this.nomeInst = 'Instituição não encontrada.'
-          return of({ invalidInstitutionName: true })
-        })
-      );
-    }
   }
 }

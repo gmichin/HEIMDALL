@@ -1,12 +1,13 @@
+import { ProfessorModel } from './../../models/professor.model';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CourseModelRequest, CourseModelResponse } from 'src/app/models/course.model';
-import { RegisterUserResponse } from 'src/app/models/register.models';
-import { CourseService } from 'src/app/services/course.service';
-import { RegisterUserService } from 'src/app/services/register-user.service';
+import { CursoModel } from 'src/app/models/curso.model';
+import { CursoService } from 'src/app/services/curso.service';
+import { CadastroService } from 'src/app/services/cadastros.service';
 import { SessionService } from 'src/app/services/session.service';
+import { TurmaModel } from 'src/app/models/turma.model';
 
 @Component({
   selector: 'app-tela-edit-course',
@@ -15,22 +16,27 @@ import { SessionService } from 'src/app/services/session.service';
 })
 export class TelaEditCourseComponent implements OnInit {
   public form!: FormGroup;
-  adms: RegisterUserResponse[] =
-    this.sessionService.getSessionData<RegisterUserResponse[]>('adms').retorno;
+  adms: ProfessorModel[] =
+    this.sessionService.getSessionData<ProfessorModel[]>('adms').retorno;
 
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private courseService: CourseService,
+    private cursoService: CursoService,
     private sessionService: SessionService,
     public dialogRef: MatDialogRef<TelaEditCourseComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: CourseModelResponse
+    public turma: TurmaModel,
+    @Inject(MAT_DIALOG_DATA) public data: CursoModel
   ) {
     let nameAdm;
     if (this.adms.length > 0) {
-      nameAdm = this.adms.find((adm) => adm._id == data.adm_id)?.name;
+      nameAdm = this.adms.find(
+        (adm) =>
+          adm.professor_id == this.turma.professor_id &&
+          this.turma.disciplina_id == data.disciplina_id
+      )?.nome;
       this.form = this.fb.group({
-        nome: [data.name, [Validators.required]],
+        nome: [data.nome, [Validators.required]],
         adm: [nameAdm, [Validators.required]],
       });
     }
@@ -48,24 +54,23 @@ export class TelaEditCourseComponent implements OnInit {
       });
       return;
     }
-    const instituition = this.sessionService.getSessionData<string>('idInstitution').retorno;
-  
-    const curso = new CourseModelResponse({
-      instituition,
-      name: this.form.get('nome')?.value,
-      adm_id: this.form.get('adm')?.value,
+
+    const curso = new CursoModel({
+      nome: this.form.get('nome')?.value,
+      descricao: this.form.get('descricao')?.value,
+      disciplina_id: this.form.get('disciplina_id')?.value,
     });
-    this.courseService.updateCourse(curso).subscribe({
-      next: res => {
+    this.cursoService.atualizarCurso(curso).subscribe({
+      next: (res) => {
         this.snackBar.open('Dados cadastrados com sucesso.', '', {
           duration: 2000,
         });
       },
-      error: err => {
+      error: (err) => {
         this.snackBar.open('Ocorreu um erro durante sua solicitação.', '', {
           duration: 2000,
         });
-      }
+      },
     });
     this.dialogRef.close();
   }

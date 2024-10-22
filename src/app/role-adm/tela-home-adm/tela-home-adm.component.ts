@@ -1,10 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map } from 'rxjs';
-import { CourseModelResponse } from 'src/app/models/course.model';
-import { RegisterUserResponse } from 'src/app/models/register.models';
-import { RoleService } from 'src/app/services/role.service';
+import { CursoModel } from 'src/app/models/curso.model';
+import { ProfessorModel } from 'src/app/models/professor.model';
 import { SessionService } from 'src/app/services/session.service';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { TelaReservasComponent } from 'src/app/tela-reservas/tela-reservas.component';
@@ -14,9 +12,8 @@ import { TelaCreateTeacherComponent } from '../tela-create-teacher/tela-create-t
 import { TelaEditAdmComponent } from '../tela-edit-adm/tela-edit-adm.component';
 import { TelaEditCourseComponent } from '../tela-edit-course/tela-edit-course.component';
 import { TelaEditTeacherComponent } from '../tela-edit-teacher/tela-edit-teacher.component';
-import { ReloadService } from 'src/app/services/reload.service';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
-import { TelaMateriasComponent } from 'src/app/tela-materias/tela-materias.component';
+import { TelaDisciplinasComponent } from 'src/app/tela-disciplinas/tela-disciplinas.component';
 
 @Component({
   selector: 'app-tela-home-adm',
@@ -27,7 +24,7 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
   public data = <
     {
       name: 'Cursos' | 'Professores' | 'Administradores';
-      arr: CourseModelResponse[] & RegisterUserResponse[];
+      arr: CursoModel[] & ProfessorModel[];
     }[]
   >this.activatedRoute.snapshot.data['dados'];
 
@@ -35,8 +32,7 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     public dialog: MatDialog,
-    private sessionService: SessionService,
-    private reload: ReloadService
+    private sessionService: SessionService
   ) {}
   ngOnDestroy(): void {}
 
@@ -55,10 +51,6 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
     });
   }
 
-  public redirectHomeAdm() {
-    this.reload.reoladPage(['redirecionar']);
-  }
-
   public redirectReserve() {
     const dialogT = this.dialog.open(TelaReservasComponent, {
       width: '400px',
@@ -72,14 +64,14 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
   }
 
   public redirectMaterias() {
-    const dialogT = this.dialog.open(TelaMateriasComponent, {
+    const dialogT = this.dialog.open(TelaDisciplinasComponent, {
       width: '400px',
     });
   }
 
   public editItem(
     blockName: 'Cursos' | 'Professores' | 'Administradores',
-    item?: CourseModelResponse | RegisterUserResponse
+    item?: CursoModel | ProfessorModel
   ) {
     const type: any = {
       Cursos: TelaEditCourseComponent,
@@ -99,8 +91,8 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
 
   public createItem(
     blockName: 'Cursos' | 'Professores' | 'Administradores',
-    item?: CourseModelResponse & RegisterUserResponse,
-    items?: CourseModelResponse[] & RegisterUserResponse[]
+    item?: CursoModel & ProfessorModel,
+    items?: CursoModel[] & ProfessorModel[]
   ): void {
     const type: any = {
       Cursos: TelaCreateCourseComponent,
@@ -117,10 +109,10 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
   }
 
   private dialogCloseSubs() {
-    this.reload.reoladPage(['home-adm']);
+    this.router.navigate(['home-adm']);
   }
 
-  public seeMore(items: (CourseModelResponse | RegisterUserResponse)[]): void {
+  public seeMore(items: (CursoModel | ProfessorModel)[]): void {
     this.router.navigate(['tela-see-more'], { state: { data: items } });
   }
   logout() {

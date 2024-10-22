@@ -4,17 +4,26 @@
     <form [formGroup]="form" (ngSubmit)="save()" style="margin-top: 20px">
       <mat-form-field class="nome" appearance="fill">
         <mat-label>Nome:</mat-label>
-        <input formControlName="name" [value]="nome" matInput />
+        <input
+          formControlName="name"
+          [value]="nomeAluno || nomeProfessor"
+          matInput
+        />
         <mat-icon matSuffix>account_circle</mat-icon> </mat-form-field
       ><br />
       <mat-form-field class="nome" appearance="fill">
         <mat-label>Identificação:</mat-label>
-        <input [value]="role" matInput [disabled]="true" />
+        <input [value]="tipoUsuario" matInput [disabled]="true" />
         <mat-icon matSuffix>remember_me</mat-icon> </mat-form-field
       ><br />
       <mat-form-field class="nome" appearance="fill">
         <mat-label>Email:</mat-label>
-        <input formControlName="email" type="email" [value]="email" matInput />
+        <input
+          formControlName="email"
+          type="email"
+          [value]="emailAluno || emailProfessor"
+          matInput
+        />
         <mat-icon matSuffix>email</mat-icon>
       </mat-form-field>
       <div class="alterarEmail">

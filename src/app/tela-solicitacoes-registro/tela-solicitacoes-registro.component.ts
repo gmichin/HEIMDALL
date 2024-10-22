@@ -6,56 +6,56 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RegisterUserResponse, RequestRegistrationUserResponse } from '../models/register.models';
 import { ResgistrationRequestsService } from '../services/resgistration-requests.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ReloadService } from '../services/reload.service';
-import { RoleId } from 'src/app/models/role.model';
 import { SessionService } from 'src/app/services/session.service';
+import { ProfessorModel } from '../models/professor.model';
 
 @Component({
   selector: 'app-tela-solicitacoes-registro',
   templateUrl: './tela-solicitacoes-registro.component.html',
-  styleUrls: ['./tela-solicitacoes-registro.component.scss']
+  styleUrls: ['./tela-solicitacoes-registro.component.scss'],
 })
-
 export class TelaSolicitacoesRegistroComponent implements OnInit {
-
-  displayedColumns: string[] = ['APROVE','REJEITE','registrationNumber', 'nome', 'email'];
+  displayedColumns: string[] = [
+    'APROVE',
+    'REJEITE',
+    'registrationNumber',
+    'nome',
+    'email',
+  ];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  
-  selectionAprove = new SelectionModel<RequestRegistrationUserResponse>(true, []);
-  selectionReject = new SelectionModel<RequestRegistrationUserResponse>(true, []);
-  
-  public dataUser = <RegisterUserResponse>this.sessionService.getSessionData('user').retorno;
-  public id = this.dataUser._id;
-  public role = '';
+
+  selectionAprove = new SelectionModel<ProfessorModel>(true, []);
+  selectionReject = new SelectionModel<ProfessorModel>(true, []);
+
+  public dataUser = <ProfessorModel>(
+    this.sessionService.getSessionData('professor').retorno
+  );
+  public id = this.dataUser.professor_id;
+  public tipoUsuario = '';
 
   constructor(
     public dialog: MatDialog,
     private _activatedRoute: ActivatedRoute,
     private readonly _registrationService: ResgistrationRequestsService,
     private snackBar: MatSnackBar,
-    private reload: ReloadService,    
     private sessionService: SessionService,
-    private router: Router,
-  ) {    
-    switch(this.dataUser.role){
-    case RoleId.ADM:
-      this.role = 'Administrador';
-      break;
-    case RoleId.PROFESSOR:
-      this.role = 'Professor';
-      break;
-    case RoleId.ALUNO:
-      this.role = 'Aluno';
-      break;
-  }
-    const users: RegisterUserResponse[] = this._activatedRoute.snapshot.data['dados'];
-    if(users.length > 0) {
+    private router: Router
+  ) {
+    switch (this.dataUser.adm) {
+      case true:
+        this.tipoUsuario = 'Administrador';
+        break;
+      case false:
+        this.tipoUsuario = 'Professor';
+        break;
+    }
+    const users: ProfessorModel[] = this._activatedRoute.snapshot.data['dados'];
+    if (users.length > 0) {
       this.dataSource = new MatTableDataSource(users);
     }
   }
@@ -74,32 +74,34 @@ export class TelaSolicitacoesRegistroComponent implements OnInit {
     }
   }
 
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   public enviarLista() {
-
-    this.selectionAprove.selected.forEach(request => {
-      request.status = 'CONFIRMED';
+    this.selectionAprove.selected.forEach((request) => {
+      request.adm = true;
     });
-    this.selectionReject.selected.forEach(request => {
-      request.status = 'REJECTED';
+    this.selectionReject.selected.forEach((request) => {
+      request.adm = false;
     });
 
-    this._registrationService.sendResquestResponse([...this.selectionAprove.selected, ...this.selectionReject.selected]).subscribe({
-      next: (res) => {
-        this.snackBar.open(`Respostas enviadas com sucesso`, '', {
-          duration: 5000,
-        });
-        this.reload.reoladPage(['tela-solicitacoes-registro'])
-      },
-      error: (err) => {
-        this.snackBar.open(`Ocorreu um erro durante sua solicitação.`, '', {
-          duration: 2000,
-        });
-      },
-    })
+    this._registrationService
+      .sendResquestResponse([
+        ...this.selectionAprove.selected,
+        ...this.selectionReject.selected,
+      ])
+      .subscribe({
+        next: (res) => {
+          this.snackBar.open(`Respostas enviadas com sucesso`, '', {
+            duration: 5000,
+          });
+          this.router.navigate(['tela-solicitacoes-registro']);
+        },
+        error: (err) => {
+          this.snackBar.open(`Ocorreu um erro durante sua solicitação.`, '', {
+            duration: 2000,
+          });
+        },
+      });
   }
 
   public redirectProfile() {
@@ -108,11 +110,7 @@ export class TelaSolicitacoesRegistroComponent implements OnInit {
     });
   }
 
-  public redirectHomeAdm() {
-    this.reload.reoladPage(['redirecionar'])
-  }
-
-  validateAllSelected(selection: SelectionModel<RequestRegistrationUserResponse>) {
+  validateAllSelected(selection: SelectionModel<ProfessorModel>) {
     const numSelected = selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
@@ -122,7 +120,7 @@ export class TelaSolicitacoesRegistroComponent implements OnInit {
   isAllAproveSelected() {
     return this.selectionAprove.selected.length > 0;
   }
-  
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllRejectSelected() {
     return this.selectionReject.selected.length > 0;
@@ -134,29 +132,32 @@ export class TelaSolicitacoesRegistroComponent implements OnInit {
       this.selectionAprove.clear();
       return;
     }
-    this.dataSource.data.forEach(row => {
-      if(!this.selectionReject.isSelected(row)){
+    this.dataSource.data.forEach((row) => {
+      if (!this.selectionReject.isSelected(row)) {
         this.selectionAprove.select(row);
       }
-    })
+    });
   }
   toggleAllRowsReject() {
     if (this.isAllRejectSelected()) {
       this.selectionReject.clear();
       return;
     }
-    this.dataSource.data.forEach(row => {
-      if(!this.selectionAprove.isSelected(row)){
+    this.dataSource.data.forEach((row) => {
+      if (!this.selectionAprove.isSelected(row)) {
         this.selectionReject.select(row);
       }
-    })
+    });
   }
-  goBack(){
-    if(this.role=="Administrador") this.router.navigate(['/home-adm']);
-    else if(this.role=="Professor") this.router.navigate(['/home-teacher']);
-    else if(this.role=="Aluno") this.router.navigate(['/home-student']);
+  goBack() {
+    if (this.tipoUsuario == 'Administrador')
+      this.router.navigate(['/home-adm']);
+    else if (this.tipoUsuario == 'Professor')
+      this.router.navigate(['/home-teacher']);
+    else if (this.tipoUsuario == 'Aluno')
+      this.router.navigate(['/home-student']);
   }
-  logout(){
+  logout() {
     this.router.navigate(['/']);
   }
 }

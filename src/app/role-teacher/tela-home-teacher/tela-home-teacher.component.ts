@@ -1,11 +1,9 @@
+import { ProfessorModel } from './../../models/professor.model';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
-import { CourseModelResponse } from 'src/app/models/course.model';
-import { RegisterUserResponse } from 'src/app/models/register.models';
-import { ReloadService } from 'src/app/services/reload.service';
-import { RoleService } from 'src/app/services/role.service';
+import { CursoModel } from 'src/app/models/curso.model';
 import { SessionService } from 'src/app/services/session.service';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { TelaReservasComponent } from 'src/app/tela-reservas/tela-reservas.component';
@@ -19,27 +17,23 @@ export class TelaHomeTeacherComponent implements OnInit, OnDestroy {
   public data = <
     {
       name: 'Cursos' | 'Professores' | 'Administradores';
-      arr: CourseModelResponse[] & RegisterUserResponse[];
+      arr: CursoModel[] & ProfessorModel[];
     }[]
   >this.activatedRoute.snapshot.data['dados'];
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    public dialog: MatDialog,
-    private reload: ReloadService,
-    private roleService: RoleService
+    public dialog: MatDialog
   ) {}
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   public redirectHorarios() {
-    this.reload.reoladPage(['/tela-mapa-horario-salas']);
+    this.router.navigate(['/tela-mapa-horario-salas']);
   }
-  
+
   public redirectReserve() {
     const dialogT = this.dialog.open(TelaReservasComponent, {
       width: '400px',
@@ -50,16 +44,9 @@ export class TelaHomeTeacherComponent implements OnInit, OnDestroy {
     const dialogT = this.dialog.open(TelaPerfilComponent, {
       width: '400px',
     });
-    dialogT.afterClosed().subscribe(() => {
-      this.dialogCloseSubs();
-    });
   }
-
-  private dialogCloseSubs() {
-    this.reload.reoladPage(['reload']);
-  }
-  logout(){
+  logout() {
     this.router.navigate(['/']);
   }
-  public seeMore(items: CourseModelResponse[] & RegisterUserResponse[]): void {}
+  public seeMore(items: CursoModel[] & ProfessorModel[]): void {}
 }

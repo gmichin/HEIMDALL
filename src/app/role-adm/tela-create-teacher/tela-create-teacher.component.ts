@@ -7,15 +7,10 @@ import {
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import {
-  RegisterInstitutionResponse,
-  RegisterUserRequest,
-  RegisterUserResponse,
-} from 'src/app/models/register.models';
-import { RegisterUserService } from 'src/app/services/register-user.service';
+import { CadastroService } from 'src/app/services/cadastros.service';
 import { SessionService } from 'src/app/services/session.service';
 import { TelaCreateAdmComponent } from '../tela-create-adm/tela-create-adm.component';
-import { RoleId } from 'src/app/models/role.model';
+import { ProfessorModel } from 'src/app/models/professor.model';
 
 @Component({
   selector: 'app-tela-create-teacher',
@@ -23,25 +18,23 @@ import { RoleId } from 'src/app/models/role.model';
   styleUrls: ['./tela-create-teacher.component.scss'],
 })
 export class TelaCreateTeacherComponent implements OnInit {
-  public resgiterForm: FormGroup;
-  private idInstitution =
-    this.sessionService.getSessionData<string>(
-      'idInstitution'
-    ).retorno;
+  public cadastroProfessorAdmForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private registerUserService: RegisterUserService,
+    private cadastroService: CadastroService,
     private sessionService: SessionService,
     public dialogRef: MatDialogRef<TelaCreateAdmComponent>
   ) {
-    this.resgiterForm = this.fb.group(
+    this.cadastroProfessorAdmForm = this.fb.group(
       {
         nome: ['', [Validators.required]],
         email: ['', [Validators.required, this.emailValidator]],
-        password: ['', [Validators.required], Validators.minLength(6)],
-        confirmPassword: ['', [Validators.required]],
+        senha: ['', [Validators.required, Validators.minLength(6)]],
+        confirmarSenha: ['', [Validators.required]],
+        registro: ['', [Validators.required]],
+        adm: ['', [Validators.required]],
       },
       { validator: this.passwordMatchValidator }
     );
@@ -50,21 +43,22 @@ export class TelaCreateTeacherComponent implements OnInit {
   ngOnInit() {}
 
   register() {
-    if (this.resgiterForm.invalid) {
+    if (this.cadastroProfessorAdmForm.invalid) {
       return;
     }
-    const request = new RegisterUserRequest({
-      name: this.resgiterForm.get('nome')?.value,
-      email: this.resgiterForm.get('email')?.value,
-      encrypted_password: this.resgiterForm.get('password')?.value,
-      role: {_id: RoleId.PROFESSOR},
+    const request = new ProfessorModel({
+      nome: this.cadastroProfessorAdmForm.get('nome')?.value,
+      email: this.cadastroProfessorAdmForm.get('email')?.value,
+      senha: this.cadastroProfessorAdmForm.get('senha')?.value,
+      registro: this.cadastroProfessorAdmForm.get('registro')?.value,
+      adm: this.cadastroProfessorAdmForm.get('adm')?.value,
     });
-    this.registerUserService.register(request, this.idInstitution).subscribe({
+    this.cadastroService.cadastro(request).subscribe({
       next: (res) => {
         this.snackBar.open(`Cadastrado com sucesso.`, '', {
           duration: 1500,
         });
-        this.resetForms(this.resgiterForm);
+        this.resetForms(this.cadastroProfessorAdmForm);
         this.dialogRef.close();
       },
       error: (err) => {

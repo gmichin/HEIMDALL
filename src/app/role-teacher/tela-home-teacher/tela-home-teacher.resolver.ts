@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
 import { Observable, map, switchMap } from 'rxjs';
-import { CourseModelResponse } from 'src/app/models/course.model';
-import { RegisterUserResponse } from 'src/app/models/register.models';
-import { CourseService } from 'src/app/services/course.service';
+import { CursoModel } from 'src/app/models/curso.model';
+import { ProfessorModel } from 'src/app/models/professor.model';
+import { CursoService } from 'src/app/services/curso.service';
 import { InternsService } from 'src/app/services/interns.service';
 
 @Injectable({
@@ -11,17 +11,17 @@ import { InternsService } from 'src/app/services/interns.service';
 })
 export class telaHomeTeacherResolver implements Resolve<any> {
   constructor(
-    private courseService: CourseService,
+    private cursoService: CursoService,
     private interns: InternsService
   ) {}
 
   resolve(): Observable<
     {
       name: string;
-      arr: CourseModelResponse[] | RegisterUserResponse[];
+      arr: CursoModel[] | ProfessorModel[];
     }[]
   > {
-    return this.courseService.getAllCourses().pipe(
+    return this.cursoService.getAllCursos().pipe(
       switchMap((courses) =>
         this.interns.getAllAdms().pipe(
           switchMap((adms) =>

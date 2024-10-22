@@ -1,11 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map } from 'rxjs';
-import { CourseModelResponse } from 'src/app/models/course.model';
-import { RegisterUserResponse } from 'src/app/models/register.models';
-import { RoleService } from 'src/app/services/role.service';
-import { SessionService } from 'src/app/services/session.service';
+import { AlunoModel } from 'src/app/models/aluno.model';
+import { CursoModel } from 'src/app/models/curso.model';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 
 @Component({
@@ -17,19 +14,18 @@ export class TelaHomeStudentComponent implements OnInit, OnDestroy {
   public data = <
     {
       name: 'Cursos' | 'Professores' | 'Administradores';
-      arr: CourseModelResponse[] & RegisterUserResponse[];
+      arr: CursoModel[] & AlunoModel[];
     }[]
   >this.activatedRoute.snapshot.data['dados'];
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) {}
   ngOnDestroy(): void {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   public redirectHorarios() {
     this.router.navigate(['/tela-mapa-horario-salas']);
@@ -46,9 +42,9 @@ export class TelaHomeStudentComponent implements OnInit, OnDestroy {
 
   private dialogCloseSubs() {
     this.router.navigate(['reload']);
-  }  
-  logout(){
+  }
+  logout() {
     this.router.navigate(['/']);
   }
-  public seeMore(items: CourseModelResponse[] & RegisterUserResponse[]): void {}
+  public seeMore(items: CursoModel[] & AlunoModel[]): void {}
 }

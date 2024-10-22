@@ -1,207 +1,180 @@
 import { Component, OnInit } from '@angular/core';
-import { RegisterUserResponse } from '../models/register.models';
 import { SessionService } from './../services/session.service';
 import { SalaDataService } from '../services/sala-data.service';
 import { forkJoin } from 'rxjs';
-import { eachHourOfInterval, parseISO, addHours } from 'date-fns';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { TelaReservasComponent } from '../tela-reservas/tela-reservas.component';
-import { ReloadService } from '../services/reload.service';
-import { RoleId } from '../models/role.model';
+import { ReservaModel } from '../models/reserva.model';
+import { ProfessorModel } from '../models/professor.model';
+import { AlunoModel } from '../models/aluno.model';
+import { TurmaModel } from '../models/turma.model';
+import { SalaModel } from '../models/sala.model';
+import { DisciplinaModel } from '../models/disciplina.model';
+import { CursoModel } from '../models/curso.model';
 
-class Reservation {
-  _id: string = '';
-  room_id: string = '';
-  user_id: string = '';
-  class_id: string = '';
-  start_time: string = '';
-  end_time: string = '';
-  __v: number = 0;
-}
-
-interface ScheduleSlot {
-  date: Date;
-  classId: string;
-  roomId: string;
+interface CronogramaModel {
+  professor_id: number;
+  data: Date;
+  turma_id: number;
+  sala_id: number;
 }
 
 @Component({
   selector: 'app-tela-mapa-horario-aulas',
   templateUrl: './tela-mapa-horario-aulas.component.html',
-  styleUrls: ['./tela-mapa-horario-aulas.component.scss']
+  styleUrls: ['./tela-mapa-horario-aulas.component.scss'],
 })
 export class TelaMapaHorarioAulasComponent implements OnInit {
-  public dataUser = <RegisterUserResponse>this.sessionService.getSessionData('user').retorno;
-  public id = this.dataUser._id;
-  public reservations: Reservation[] = [];
-  public userReservations: Reservation[] = [];
-  public schedule: ScheduleSlot[] = [];
-  public classes: any[] = [];
-  public rooms: any[] = [];
+  public dataProfessorAdm = <ProfessorModel>(
+    this.sessionService.getSessionData('professor').retorno
+  );
+  public dataAluno = <AlunoModel>(
+    this.sessionService.getSessionData('professor').retorno
+  );
+  public idProfessorAdm = this.dataProfessorAdm.professor_id;
+  public idAluno = this.dataAluno.aluno_id;
+  public usuarioReservas: ReservaModel[] = [];
+  public cronograma: CronogramaModel[] = [];
   public exceptions: any[] = [];
-  public role = '';
+  public tipoUsuario = '';
 
-  public tableHours: string[] = Array.from({ length: 17 }, (_, i) => (i + 6 < 10 ? '0' : '') + (i + 6).toString());
-  public daysOfWeek: string[] = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+  public turmas: TurmaModel[] = [];
+  public salas: SalaModel[] = [];
+  public professores: ProfessorModel[] = [];
+  public reservas: ReservaModel[] = [];
+  public disciplinas: DisciplinaModel[] = [];
+  public cursos: CursoModel[] = [];
+
+  public tabelaHoras: string[] = Array.from(
+    { length: 17 },
+    (_, i) => (i + 6 < 10 ? '0' : '') + (i + 6).toString()
+  );
+  public diasSemana: string[] = [
+    'Segunda',
+    'Terça',
+    'Quarta',
+    'Quinta',
+    'Sexta',
+    'Sábado',
+  ];
 
   constructor(
     private sessionService: SessionService,
     private salaDataService: SalaDataService,
     private router: Router,
-    private reload: ReloadService,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) {
-    
-    switch(this.dataUser.role){
-      case RoleId.ADM:
-        this.role = 'Administrador';
+    switch (this.dataProfessorAdm.adm) {
+      case true:
+        this.tipoUsuario = 'Administrador';
         break;
-      case RoleId.PROFESSOR:
-        this.role = 'Professor';
-        break;
-      case RoleId.ALUNO:
-        this.role = 'Aluno';
+      case false:
+        this.tipoUsuario = 'Professor';
         break;
     }
+    if (this.dataAluno) this.tipoUsuario = 'Aluno';
   }
 
   ngOnInit() {
     forkJoin({
-      reservations: this.salaDataService.carregarDadosSalasReservadas(),
-      classes: this.salaDataService.carregarDadosClasses(),
-      rooms: this.salaDataService.carregarDadosSalas()
-    }).subscribe(({ reservations, classes, rooms }) => {
-      this.reservations = reservations;
-      this.classes = classes;
-      this.rooms = rooms;
-      this.filterUserReservations();
+      reservas: this.salaDataService.carregarDadosSalasReservadas(),
+      turma: this.salaDataService.carregarDadosTurma(),
+      salas: this.salaDataService.carregarDadosSalas(),
+      professor: this.salaDataService.carregarDadosProfessores(),
+    }).subscribe(({ reservas, turma, salas, professor }) => {
+      this.reservas = reservas;
+      this.turmas = turma;
+      this.salas = salas;
+      this.professores = professor;
+      this.filterUsuarioReservas();
     });
   }
 
-  goBack(){
-    if(this.role=="Administrador") this.router.navigate(['/home-adm']);
-    else if(this.role=="Professor") this.router.navigate(['/home-teacher']);
-    else if(this.role=="Aluno") this.router.navigate(['/home-student']);
+  goBack() {
+    if (this.tipoUsuario == 'Administrador')
+      this.router.navigate(['/home-adm']);
+    else if (this.tipoUsuario == 'Professor')
+      this.router.navigate(['/home-teacher']);
+    else if (this.tipoUsuario == 'Aluno')
+      this.router.navigate(['/home-student']);
   }
-  logout(){
+  logout() {
     this.router.navigate(['/']);
   }
-  filterUserReservations() {
-    this.userReservations = this.reservations.filter(reservation => reservation.user_id === this.id);
-    this.processReservations();
+  filterUsuarioReservas() {
+    this.usuarioReservas = this.reservas.filter(
+      (reservas) => reservas.professor_id === this.idProfessorAdm
+    );
+    this.processarReservas();
   }
 
-  public redirectHomeAdm() {
-    this.reload.reoladPage(['redirecionar'])
-  }
-
-  processReservations() {
-    this.schedule = this.userReservations.flatMap(reservation => {
-      const startParts = reservation.start_time.split(' ');
-      const endParts = reservation.end_time.split(' ');
-
-      const startYear = parseInt(startParts[3]);
-      const startMonth = this.getMonthIndex(startParts[1]);
-      const startDay = parseInt(startParts[2]);
-      const startHour = parseInt(startParts[4].split(':')[0]);
-      const startMinute = parseInt(startParts[4].split(':')[1]);
-      const endYear = parseInt(endParts[3]);
-      const endMonth = this.getMonthIndex(endParts[1]);
-      const endDay = parseInt(endParts[2]);
-      const endHour = parseInt(endParts[4].split(':')[0]);
-      const endMinute = parseInt(endParts[4].split(':')[1]);
-
-      const startDate = new Date(startYear, startMonth, startDay, startHour, startMinute);
-      let endDate = new Date(endYear, endMonth, endDay, endHour, endMinute);
-
-      const daysDifference = (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24);
-      let slots = [];
-
-      if (daysDifference > 0) {
-        const currentDate = new Date(startDate);
-        while (currentDate <= endDate) {
-          const currentEnd = currentDate.getDate() === endDate.getDate() ? endDate : new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59);
-
-          if (currentDate.getDate() === startDay && currentDate.getDate() === endDay) {
-            slots.push(...eachHourOfInterval({ start: currentDate, end: addHours(currentDate, 19 - currentDate.getHours()) }).map(date => ({
-              date,
-              classId: reservation.class_id,
-              roomId: reservation.room_id
-            })));
-          } else if (currentDate.getDate() === startDay) {
-            slots.push(...eachHourOfInterval({ start: currentDate, end: addHours(currentDate, 19 - currentDate.getHours()) }).map(date => ({
-              date,
-              classId: reservation.class_id,
-              roomId: reservation.room_id
-            })));
-          } else if (currentDate.getDate() === endDay) {
-            slots.push(...eachHourOfInterval({ start: currentDate, end: addHours(currentEnd, -1) }).map(date => ({
-              date,
-              classId: reservation.class_id,
-              roomId: reservation.room_id
-            })));
-
-            const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 19, 0, 0);
-            if (currentDate <= endOfDay) {
-              slots.push({
-                date: endOfDay,
-                classId: reservation.class_id,
-                roomId: reservation.room_id
-              });
-            }
-          } else {
-            slots.push(...eachHourOfInterval({ start: currentDate, end: addHours(currentEnd, -1) }).map(date => ({
-              date,
-              classId: reservation.class_id,
-              roomId: reservation.room_id
-            })));
-          }
-          currentDate.setDate(currentDate.getDate() + 1);
-        }
-      } else {
-        slots = eachHourOfInterval({ start: startDate, end: addHours(endDate, -1) }).map(date => ({
-          date,
-          classId: reservation.class_id,
-          roomId: reservation.room_id
-        }));
-
-        const endOfDay = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), 19, 0, 0);
-        if (startDate <= endOfDay && endDate >= endOfDay) {
-          slots.push({
-            date: endOfDay,
-            classId: reservation.class_id,
-            roomId: reservation.room_id
-          });
-        }
-      }
-      return slots;
-    });
-  }
+  processarReservas() {}
 
   getMonthIndex(month: string): number {
-    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
     return monthNames.indexOf(month);
   }
 
-  getReservation(day: string, hour: number): string {
-    const reservation = this.schedule.find(slot => {
-      const date = slot.date;
-      return date.getHours() === hour && this.daysOfWeek[date.getDay() - 1] === day;
+  getReservas(day: string, hour: number): string {
+    const reservas = this.cronograma.find((slot) => {
+      const date = slot.data;
+      return (
+        date.getHours() === hour && this.diasSemana[date.getDay() - 1] === day
+      );
     });
-    if (reservation) {
-      const className = this.classes.find(cls => cls._id === reservation.classId)?.name || 'N/A';
-      const roomNumber = this.rooms.find(room => room._id === reservation.roomId)?.number || 'N/A';
-      return `${className}\nNº da Sala: ${roomNumber}`;
+    if (reservas) {
+      const sala = this.salas.find((sala) => sala.sala_id === reservas.sala_id);
+      const professor = this.professores.find(
+        (professor) => professor.professor_id === reservas.professor_id
+      );
+      const turma = this.turmas.find(
+        (turma) => turma.professor_id === reservas.professor_id
+      );
+      const disciplina = turma
+        ? this.disciplinas.find(
+            (disciplina) => disciplina.disciplina_id === turma.turma_id
+          )
+        : null;
+      const curso = disciplina
+        ? this.cursos.find(
+            (curso) => curso.disciplina_id === disciplina.disciplina_id
+          )
+        : null;
+
+      const salaNome = sala?.ident_sala || 'N/A';
+      const professorNome = professor?.nome || 'N/A';
+      const turmaNome = turma?.periodo || 'N/A';
+      const turmaId = turma?.turma_id || 'N/A';
+      const disciplinaNome = disciplina?.nome || 'N/A';
+      const disciplinaId = disciplina?.disciplina_id || 'N/A';
+      const cursoNome = curso?.nome || 'N/A';
+
+      return `${cursoNome} \n${disciplinaNome} - ${turmaNome}\nProfessor: ${professorNome}\nNome da Sala: ${salaNome}`;
     }
     return '';
   }
 
-  hasReservation(day: string, hour: number): boolean {
-    return this.schedule.some(slot => {
-      const date = slot.date;
-      return date.getHours() === hour && this.daysOfWeek[date.getDay() - 1] === day;
+  temReservas(day: string, hour: number): boolean {
+    return this.cronograma.some((slot) => {
+      const date = slot.data;
+      return (
+        date.getHours() === hour && this.diasSemana[date.getDay() - 1] === day
+      );
     });
   }
 

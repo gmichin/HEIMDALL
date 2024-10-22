@@ -1,3 +1,4 @@
+import { UserData } from './../tela-solicitacoes-registro/tela-solicitacoes-registro.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -5,70 +6,68 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
-import { CourseModelResponse } from '../models/course.model';
-import { RegisterUserResponse, RequestRegistrationUserResponse } from '../models/register.models';
-import { ResgistrationRequestsService } from '../services/resgistration-requests.service';
+import { CursoModel } from '../models/curso.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ReloadService } from '../services/reload.service';
 import { SessionService } from '../services/session.service';
 import { TelaPerfilComponent } from '../tela-perfil/tela-perfil.component';
-import { RoleId } from 'src/app/models/role.model';
+import { ProfessorModel } from '../models/professor.model';
 @Component({
   selector: 'app-tela-see-more',
   templateUrl: './tela-see-more.component.html',
-  styleUrls: ['./tela-see-more.component.scss']
+  styleUrls: ['./tela-see-more.component.scss'],
 })
 export class TelaSeeMoreComponent implements OnInit {
-
-  displayedColumns: string[] = ['APROVE', 'REJECT', 'registrationNumber', 'nome', 'email'];
-  dataSource!: MatTableDataSource<CourseModelResponse | RegisterUserResponse>;
+  displayedColumns: string[] = [
+    'APROVE',
+    'REJECT',
+    'registrationNumber',
+    'nome',
+    'email',
+  ];
+  dataSource!: MatTableDataSource<CursoModel | ProfessorModel>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  selectionAprove = new SelectionModel<CourseModelResponse | RegisterUserResponse>(true, []);
-  selectionReject = new SelectionModel<CourseModelResponse | RegisterUserResponse>(true, []);
+  selectionAprove = new SelectionModel<CursoModel | ProfessorModel>(true, []);
+  selectionReject = new SelectionModel<CursoModel | ProfessorModel>(true, []);
 
-  
-  public dataUser = <RegisterUserResponse>this.sessionService.getSessionData('user').retorno;
-  public id = this.dataUser._id;
-  public role = '';
+  public dataUser = <ProfessorModel>(
+    this.sessionService.getSessionData('professor').retorno
+  );
+  public id = this.dataUser.professor_id;
+  public tipoUsuario = '';
 
   constructor(
     public dialog: MatDialog,
     private router: Router,
-    private readonly registrationService: ResgistrationRequestsService,
     private snackBar: MatSnackBar,
-    private reload: ReloadService,
-    private sessionService: SessionService,
-  ) {   
-    switch(this.dataUser.role){
-    case RoleId.ADM:
-      this.role = 'Administrador';
-      break;
-    case RoleId.PROFESSOR:
-      this.role = 'Professor';
-      break;
-    case RoleId.ALUNO:
-      this.role = 'Aluno';
-      break;
-  }
+    private sessionService: SessionService
+  ) {
+    switch (this.dataUser.adm) {
+      case true:
+        this.tipoUsuario = 'Administrador';
+        break;
+      case false:
+        this.tipoUsuario = 'Professor';
+        break;
+    }
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state;
     if (state && state['data']) {
-      const items: (CourseModelResponse | RegisterUserResponse)[] = state['data'];
+      const items: (CursoModel | ProfessorModel)[] = state['data'];
       if (items.length > 0) {
         this.dataSource = new MatTableDataSource(items);
       }
-    }  }
-
-    ngAfterViewInit() {
-      if (this.dataSource) {
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      }
     }
-    
+  }
+
+  ngAfterViewInit() {
+    if (this.dataSource) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -81,58 +80,21 @@ export class TelaSeeMoreComponent implements OnInit {
 
   ngOnInit() {}
 
-  private mapToRequestRegistrationUserResponse(item: RegisterUserResponse): RequestRegistrationUserResponse {
-    return {
-      ...item,
-      Instituition_id: this.getInstitutionId(),
-      role: { _id: item.role }, // Alteração aqui
-    };
-  }
-
-  private getInstitutionId(): string {
-    return this.sessionService.getSessionData<string>('idInstitution').retorno;
-  }
-
-  public enviarLista() {
-    const requestsAprove = this.selectionAprove.selected
-      .filter((request): request is RegisterUserResponse => 'Instituition_id' in request)
-      .map(this.mapToRequestRegistrationUserResponse.bind(this));
-
-    const requestsReject = this.selectionReject.selected
-      .filter((request): request is RegisterUserResponse => 'Instituition_id' in request)
-      .map(this.mapToRequestRegistrationUserResponse.bind(this));
-
-    this.registrationService.sendResquestResponse([...requestsAprove, ...requestsReject]).subscribe({
-      next: () => {
-        this.snackBar.open(`Respostas enviadas com sucesso`, '', {
-          duration: 5000,
-        });
-        this.reload.reoladPage(['tela-see-more']);
-      },
-      error: () => {
-        this.snackBar.open(`Ocorreu um erro durante sua solicitação.`, '', {
-          duration: 2000,
-        });
-      },
-    });
-  }
-
   public redirectProfile() {
     const dialogT = this.dialog.open(TelaPerfilComponent, {
       width: '400px',
     });
   }
 
-  validateAllSelected(selection: SelectionModel<CourseModelResponse | RegisterUserResponse>) {
+  validateAllSelected(selection: SelectionModel<CursoModel | ProfessorModel>) {
     if (!this.dataSource || !this.dataSource.data) {
       return false;
     }
-  
+
     const numSelected = selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
-  
 
   isAllAproveSelected() {
     return this.selectionAprove.selected.length > 0;
@@ -147,8 +109,8 @@ export class TelaSeeMoreComponent implements OnInit {
       this.selectionAprove.clear();
       return;
     }
-    this.dataSource.data.forEach(row => {
-      if(!this.selectionReject.isSelected(row)){
+    this.dataSource.data.forEach((row) => {
+      if (!this.selectionReject.isSelected(row)) {
         this.selectionAprove.select(row);
       }
     });
@@ -159,18 +121,22 @@ export class TelaSeeMoreComponent implements OnInit {
       this.selectionReject.clear();
       return;
     }
-    this.dataSource.data.forEach(row => {
-      if(!this.selectionAprove.isSelected(row)){
+    this.dataSource.data.forEach((row) => {
+      if (!this.selectionAprove.isSelected(row)) {
         this.selectionReject.select(row);
       }
     });
   }
-  goBack(){
-    if(this.role=="Administrador") this.router.navigate(['/home-adm']);
-    else if(this.role=="Professor") this.router.navigate(['/home-teacher']);
-    else if(this.role=="Aluno") this.router.navigate(['/home-student']);
+  goBack() {
+    if (this.tipoUsuario == 'Administrador')
+      this.router.navigate(['/home-adm']);
+    else if (this.tipoUsuario == 'Professor')
+      this.router.navigate(['/home-teacher']);
+    else if (this.tipoUsuario == 'Aluno')
+      this.router.navigate(['/home-student']);
   }
-  logout(){
+  logout() {
     this.router.navigate(['/']);
   }
+  enviarLista() {}
 }

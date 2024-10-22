@@ -7,11 +7,8 @@ import {
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import {
-  RegisterInstitutionResponse,
-  RegisterUserResponse,
-} from 'src/app/models/register.models';
-import { RegisterUserService } from 'src/app/services/register-user.service';
+import { ProfessorModel } from 'src/app/models/professor.model';
+import { CadastroService } from 'src/app/services/cadastros.service';
 import { SessionService } from 'src/app/services/session.service';
 
 @Component({
@@ -20,37 +17,43 @@ import { SessionService } from 'src/app/services/session.service';
   styleUrls: ['./tela-edit-adm.component.scss'],
 })
 export class TelaEditAdmComponent implements OnInit {
-  public resgiterForm: FormGroup;
-  private institution =
-    this.sessionService.getSessionData<string>(
-      'idInstitution'
-    ).retorno;
+  public cadastroProfessorAdmForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private registerUserService: RegisterUserService,
+    private cadastroService: CadastroService,
     private sessionService: SessionService,
     public dialogRef: MatDialogRef<TelaEditAdmComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: RegisterUserResponse
+    @Inject(MAT_DIALOG_DATA) public data: ProfessorModel
   ) {
-    this.resgiterForm = this.fb.group({
-      nome: [data.name, [Validators.required]],
-      email: [data.email, [Validators.required, this.emailValidator]],
-    });
+    this.cadastroProfessorAdmForm = this.fb.group(
+      {
+        nome: ['', [Validators.required]],
+        email: ['', [Validators.required, this.emailValidator]],
+        senha: ['', [Validators.required, Validators.minLength(6)]],
+        confirmarSenha: ['', [Validators.required]],
+        registro: ['', [Validators.required]],
+        adm: ['', [Validators.required]],
+      },
+      { validator: this.passwordMatchValidator }
+    );
   }
 
   ngOnInit() {}
 
-  register() {
-    if (this.resgiterForm.invalid) {
+  cadastro() {
+    if (this.cadastroProfessorAdmForm.invalid) {
       return;
     }
 
-    this.data.name = this.resgiterForm.get('nome')?.value;
-    this.data.email = this.resgiterForm.get('email')?.value;
+    this.data.nome = this.cadastroProfessorAdmForm.get('nome')?.value;
+    this.data.email = this.cadastroProfessorAdmForm.get('email')?.value;
+    this.data.senha = this.cadastroProfessorAdmForm.get('senha')?.value;
+    this.data.registro = this.cadastroProfessorAdmForm.get('registro')?.value;
+    this.data.adm = this.cadastroProfessorAdmForm.get('adm')?.value;
 
-    this.registerUserService.updateUser(this.data).subscribe({
+    this.cadastroService.atualizarUsuário(this.data).subscribe({
       next: () => {
         this.snackBar.open('Dados atualizados com sucesso.', '', {
           duration: 1500,
@@ -62,10 +65,8 @@ export class TelaEditAdmComponent implements OnInit {
           duration: 1500,
         });
         this.dialogRef.close();
-        
       },
-    })
-
+    });
   }
 
   private resetForms(form: FormGroup): void {

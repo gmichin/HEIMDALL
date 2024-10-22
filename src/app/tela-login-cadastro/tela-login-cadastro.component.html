@@ -4,118 +4,145 @@
       <mat-tab-group [(selectedIndex)]="foco">
         <mat-tab #tabLogin label="Login">
           <form [formGroup]="loginForm" (ngSubmit)="login()">
-
             <mat-form-field class="example-full-width">
-                <mat-label>Email</mat-label>
-              <input formControlName="email" type="email" matInput placeholder="Email" value="" >
+              <mat-label>Email</mat-label>
+              <input
+                formControlName="email"
+                type="email"
+                matInput
+                placeholder="Email"
+                value=""
+              />
               <mat-icon matSuffix>email</mat-icon>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
               <mat-label>Senha</mat-label>
-              <input formControlName="password" type="password" matInput placeholder="Password">
+              <input
+                formControlName="password"
+                type="password"
+                matInput
+                placeholder="Password"
+              />
               <mat-icon matSuffix>vpn_key</mat-icon>
             </mat-form-field>
-            <button mat-button color="primary" type="submit" >Login</button>
-        </form>
+            <button mat-button color="primary" type="submit">Login</button>
+          </form>
         </mat-tab>
-        <mat-tab label="Solicite acesso a uma Instituição">
-          <form [formGroup]="resgiterStudentForm" (ngSubmit)="solicitationRegister()">
-  
+        <mat-tab label="Solicitação de cadastro de aluno">
+          <form
+            [formGroup]="cadastroAlunoForm"
+            (ngSubmit)="solicitacaoCadastro()"
+          >
             <mat-form-field class="example-full-width">
-                <mat-label>Nome Usuário</mat-label>
-              <input formControlName="nome" type="text" matInput placeholder="Nome" value="">
+              <mat-label>Nome Usuário</mat-label>
+              <input
+                formControlName="nome"
+                type="text"
+                matInput
+                placeholder="Nome"
+                value=""
+              />
               <mat-icon matSuffix>edit</mat-icon>
             </mat-form-field>
             <mat-form-field class="example-full-width">
               <mat-label>Email Usuário</mat-label>
-              <input formControlName="email" type="email" matInput placeholder="Email" value="">
+              <input
+                formControlName="email"
+                type="email"
+                matInput
+                placeholder="Email"
+                value=""
+              />
               <mat-icon matSuffix>email</mat-icon>
             </mat-form-field>
-  
+
             <mat-form-field class="example-full-width">
               <mat-label>Senha</mat-label>
-              <input formControlName="password" type="password" matInput placeholder="Password">
+              <input
+                formControlName="password"
+                type="password"
+                matInput
+                placeholder="Password"
+              />
               <mat-icon matSuffix>vpn_key</mat-icon>
             </mat-form-field>
             <mat-form-field class="example-full-width">
               <mat-label>Confirme a Senha</mat-label>
-              <input formControlName="confirmPassword" type="password" matInput placeholder="Password">
+              <input
+                formControlName="confirmPassword"
+                type="password"
+                matInput
+                placeholder="Password"
+              />
               <mat-icon matSuffix>vpn_key</mat-icon>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <mat-label>Matrícula</mat-label>
+              <input
+                formControlName="matricula"
+                type="text"
+                matInput
+                placeholder="Matrícula"
+                value=""
+              />
+              <mat-icon matSuffix>edit</mat-icon>
+            </mat-form-field>
 
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-                <mat-label>Matrícula</mat-label>
-              <input formControlName="matricula" type="text" matInput placeholder="Matrícula" value="">
-              <mat-icon matSuffix>edit</mat-icon>
-            </mat-form-field>
-  
-            <mat-form-field class="example-full-width">
-              <mat-label>Nome da Instituição</mat-label>
-                <input formControlName="nameInstitution" type="text" matInput placeholder="Nome" value="">
-              <mat-icon matSuffix>edit</mat-icon>
-            </mat-form-field>
-            <p *ngIf="nomeInst" style="color: red;">{{ nomeInst }}</p>
-  
             <button mat-button type="submit" color="primary">Cadastrar</button>
           </form>
-          </mat-tab>
+        </mat-tab>
 
-        <mat-tab label="Cadastre sua Instituição!">
-        <form [formGroup]="resgiterForm" (ngSubmit)="register()">
-
-          <mat-form-field class="example-full-width">
+        <mat-tab label="Solicitação de cadastro de professor/adm">
+          <form [formGroup]="cadastroProfessorAdmForm" (ngSubmit)="cadastro()">
+            <mat-form-field class="example-full-width">
               <mat-label>Nome Usuário</mat-label>
-            <input formControlName="nome" type="text" matInput placeholder="Nome" value="">
-            <mat-icon matSuffix>edit</mat-icon>
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
+              <input
+                formControlName="nome"
+                type="text"
+                matInput
+                placeholder="Nome"
+                value=""
+              />
+              <mat-icon matSuffix>edit</mat-icon>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
               <mat-label>Email Usuário</mat-label>
-            <input formControlName="email" type="email" matInput placeholder="Email" value="">
-            <mat-icon matSuffix>email</mat-icon>
-          </mat-form-field>
+              <input
+                formControlName="email"
+                type="email"
+                matInput
+                placeholder="Email"
+                value=""
+              />
+              <mat-icon matSuffix>email</mat-icon>
+            </mat-form-field>
 
-          <mat-form-field class="example-full-width">
-            <mat-label>Senha</mat-label>
-            <input formControlName="password" type="password" matInput placeholder="Password">
-            <mat-icon matSuffix>vpn_key</mat-icon>
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <mat-label>Confirme a Senha</mat-label>
-            <input formControlName="confirmPassword" type="password" matInput placeholder="Password">
-            <mat-icon matSuffix>vpn_key</mat-icon>
-          </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <mat-label>Senha</mat-label>
+              <input
+                formControlName="password"
+                type="password"
+                matInput
+                placeholder="Password"
+              />
+              <mat-icon matSuffix>vpn_key</mat-icon>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <mat-label>Confirme a Senha</mat-label>
+              <input
+                formControlName="confirmPassword"
+                type="password"
+                matInput
+                placeholder="Password"
+              />
+              <mat-icon matSuffix>vpn_key</mat-icon>
+            </mat-form-field>
 
-          <mat-form-field class="example-full-width">
-            <mat-label>Nome da Instituição</mat-label>
-              <input formControlName="nameInstitution" type="text" matInput placeholder="Nome" value="">
-            <mat-icon matSuffix>edit</mat-icon>
-          </mat-form-field>
-
-          <mat-form-field class="example-full-width">
-            <mat-label>Email da Instituição</mat-label>
-              <input formControlName="emailInstitution" type="email" matInput placeholder="Email" value="">
-            <mat-icon matSuffix>email</mat-icon>
-          </mat-form-field>
-
-          <mat-form-field class="example-full-width">
-            <mat-label>Telefone da Instituição</mat-label>
-              <input appPhoneNumber formControlName="phoneInstitution" type="text" matInput placeholder="Nome" value="">
-            <mat-icon matSuffix>edit</mat-icon>
-          </mat-form-field>
-
-          <mat-form-field class="example-full-width">
-            <mat-label>Endereço da Instituição</mat-label>
-              <input formControlName="addressInstitution" type="text" matInput placeholder="Nome" value="">
-            <mat-icon matSuffix>edit</mat-icon>
-          </mat-form-field>
-
-          <button mat-button type="submit" color="primary">Cadastrar</button>
-        </form>
+            <button mat-button type="submit" color="primary">Cadastrar</button>
+          </form>
         </mat-tab>
       </mat-tab-group>
-
     </mat-card-content>
-
   </mat-card>
 </div>

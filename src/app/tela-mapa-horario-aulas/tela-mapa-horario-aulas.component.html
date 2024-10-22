@@ -1,4 +1,4 @@
-<mat-toolbar>  
+<mat-toolbar>
   <!-- Botão para voltar para a página anterior -->
   <button mat-icon-button (click)="goBack()">
     <mat-icon>home</mat-icon>
@@ -18,7 +18,6 @@
     </button>
   </mat-menu>
 
-
   <!-- Título -->
   <span class="tituloH">HEIMDALL</span>
 
@@ -31,16 +30,14 @@
   </button>
 </mat-toolbar>
 
-<div class="page-title">
-  Horário/Mapa de Aulas
-</div>
+<div class="page-title">Horário/Mapa de Aulas</div>
 <div class="responsive-schedule">
-  <div class="day-container" *ngFor="let day of daysOfWeek">
+  <div class="day-container" *ngFor="let day of diasSemana">
     <h3>{{ day }}</h3>
-    <ng-container *ngFor="let hour of tableHours">
-      <div *ngIf="hasReservation(day, +hour)" class="hour-container">
+    <ng-container *ngFor="let hour of tabelaHoras">
+      <div *ngIf="temReservas(day, +hour)" class="hour-container">
         <div class="horario">{{ hour }}:00</div>
-        <div class="reservation">{{ getReservation(day, +hour) }}</div>
+        <div class="reservation">{{ getReservas(day, +hour) }}</div>
       </div>
     </ng-container>
   </div>
@@ -49,7 +46,8 @@
   <h3>Exceções</h3>
   <ul>
     <li *ngFor="let exception of exceptions">
-      {{ exception.dateIni | date: 'short' }} - {{ exception.dateFim | date: 'short' }}: Sala {{ exception.roomId }}
+      {{ exception.dateIni | date : "short" }} -
+      {{ exception.dateFim | date : "short" }}: Sala {{ exception.roomId }}
     </li>
   </ul>
 </div>
