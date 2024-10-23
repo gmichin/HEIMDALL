@@ -110,7 +110,7 @@ export class TelaLoginCadastroComponent {
     const request = new ProfessorModel({
       nome: this.cadastroProfessorAdmForm.get('nome')?.value,
       email: this.cadastroProfessorAdmForm.get('email')?.value,
-      senha: this.cadastroProfessorAdmForm.get('password')?.value,
+      senha: this.cadastroProfessorAdmForm.get('senha')?.value,
       registro: this.cadastroProfessorAdmForm.get('registro')?.value,
       adm: this.cadastroProfessorAdmForm.get('adm')?.value,
     });
