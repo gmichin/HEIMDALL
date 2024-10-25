@@ -1,22 +1,22 @@
 <div class="container">
   <div class="dadosPessoais">
     <h1>Modifique o perfil</h1>
-    <form [formGroup]="form" (ngSubmit)="save()" style="margin-top: 20px">
-      <mat-form-field class="nome" appearance="fill">
+    <form [formGroup]="form" (ngSubmit)="salvar()" style="margin-top: 20px">
+      <mat-form-field appearance="fill">
         <mat-label>Nome:</mat-label>
         <input
-          formControlName="name"
+          formControlName="nome"
           [value]="nomeAluno || nomeProfessor"
           matInput
         />
         <mat-icon matSuffix>account_circle</mat-icon> </mat-form-field
       ><br />
-      <mat-form-field class="nome" appearance="fill">
+      <mat-form-field appearance="fill">
         <mat-label>Identificação:</mat-label>
         <input [value]="tipoUsuario" matInput [disabled]="true" />
         <mat-icon matSuffix>remember_me</mat-icon> </mat-form-field
       ><br />
-      <mat-form-field class="nome" appearance="fill">
+      <mat-form-field appearance="fill">
         <mat-label>Email:</mat-label>
         <input
           formControlName="email"
