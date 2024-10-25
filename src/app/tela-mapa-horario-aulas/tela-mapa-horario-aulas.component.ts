@@ -31,7 +31,7 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
     this.sessionService.getSessionData('professor').retorno
   );
   public dataAluno = <AlunoModel>(
-    this.sessionService.getSessionData('professor').retorno
+    this.sessionService.getSessionData('aluno').retorno
   );
   public idProfessorAdm = this.dataProfessorAdm.professor_id;
   public idAluno = this.dataAluno.aluno_id;
@@ -150,11 +150,6 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
             (disciplina) => disciplina.disciplina_id === turma.turma_id
           )
         : null;
-      const curso = disciplina
-        ? this.cursos.find(
-            (curso) => curso.disciplina_id === disciplina.disciplina_id
-          )
-        : null;
 
       const salaNome = sala?.ident_sala || 'N/A';
       const professorNome = professor?.nome || 'N/A';
@@ -162,9 +157,8 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
       const turmaId = turma?.turma_id || 'N/A';
       const disciplinaNome = disciplina?.nome || 'N/A';
       const disciplinaId = disciplina?.disciplina_id || 'N/A';
-      const cursoNome = curso?.nome || 'N/A';
 
-      return `${cursoNome} \n${disciplinaNome} - ${turmaNome}\nProfessor: ${professorNome}\nNome da Sala: ${salaNome}`;
+      return `${disciplinaNome} - ${turmaNome}\nProfessor: ${professorNome}\nNome da Sala: ${salaNome}`;
     }
     return '';
   }

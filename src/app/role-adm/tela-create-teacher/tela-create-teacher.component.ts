@@ -11,6 +11,7 @@ import { CadastroService } from 'src/app/services/cadastros.service';
 import { SessionService } from 'src/app/services/session.service';
 import { TelaCreateAdmComponent } from '../tela-create-adm/tela-create-adm.component';
 import { ProfessorModel } from 'src/app/models/professor.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tela-create-teacher',
@@ -24,7 +25,7 @@ export class TelaCreateTeacherComponent implements OnInit {
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private cadastroService: CadastroService,
-    private sessionService: SessionService,
+    private router: Router,
     public dialogRef: MatDialogRef<TelaCreateAdmComponent>
   ) {
     this.cadastroProfessorAdmForm = this.fb.group(
@@ -34,7 +35,7 @@ export class TelaCreateTeacherComponent implements OnInit {
         senha: ['', [Validators.required, Validators.minLength(6)]],
         confirmarSenha: ['', [Validators.required]],
         registro: ['', [Validators.required]],
-        adm: ['', [Validators.required]],
+        adm: [[false]],
       },
       { validator: this.passwordMatchValidator }
     );
@@ -44,6 +45,9 @@ export class TelaCreateTeacherComponent implements OnInit {
 
   register() {
     if (this.cadastroProfessorAdmForm.invalid) {
+      this.snackBar.open(`Cadastro inválido, revise os campos.`, '', {
+        duration: 5000,
+      });
       return;
     }
     const request = new ProfessorModel({
@@ -51,19 +55,24 @@ export class TelaCreateTeacherComponent implements OnInit {
       email: this.cadastroProfessorAdmForm.get('email')?.value,
       senha: this.cadastroProfessorAdmForm.get('senha')?.value,
       registro: this.cadastroProfessorAdmForm.get('registro')?.value,
-      adm: this.cadastroProfessorAdmForm.get('adm')?.value,
+      adm: false,
     });
     this.cadastroService.cadastroProfessorAdm(request).subscribe({
-      next: (res) => {
-        this.snackBar.open(`Cadastrado com sucesso.`, '', {
-          duration: 1500,
-        });
+      next: () => {
+        this.snackBar.open(
+          `Cadastro realizado, há a possibilidade do adm não permitir que a conta seja mantida.`,
+          '',
+          {
+            duration: 5000,
+          }
+        );
         this.resetForms(this.cadastroProfessorAdmForm);
-        this.dialogRef.close();
+        this.router.navigate(['home-adm']);
+        this.dialogRef.close('close');
       },
-      error: (err) => {
+      error: () => {
         this.snackBar.open(`Ocorreu um erro durante sua solicitação.`, '', {
-          duration: 1000,
+          duration: 2000,
         });
       },
     });

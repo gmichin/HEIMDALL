@@ -32,17 +32,6 @@
         <mat-tab label="Solicitação de cadastro de aluno">
           <form [formGroup]="cadastroAlunoForm" (ngSubmit)="cadastroAluno()">
             <mat-form-field class="example-full-width">
-              <mat-label>aluno_id</mat-label>
-              <input
-                formControlName="aluno_id"
-                type="number"
-                matInput
-                placeholder="aluno_id"
-                value=""
-              />
-              <mat-icon matSuffix>badge</mat-icon>
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
               <mat-label>Nome Usuário</mat-label>
               <input
                 formControlName="nome"

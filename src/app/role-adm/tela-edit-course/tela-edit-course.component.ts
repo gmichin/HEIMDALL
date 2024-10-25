@@ -5,7 +5,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CursoModel } from 'src/app/models/curso.model';
 import { CursoService } from 'src/app/services/curso.service';
-import { CadastroService } from 'src/app/services/cadastros.service';
 import { SessionService } from 'src/app/services/session.service';
 import { TurmaModel } from 'src/app/models/turma.model';
 
@@ -31,9 +30,7 @@ export class TelaEditCourseComponent implements OnInit {
     let nameAdm;
     if (this.adms.length > 0) {
       nameAdm = this.adms.find(
-        (adm) =>
-          adm.professor_id == this.turma.professor_id &&
-          this.turma.disciplina_id == data.disciplina_id
+        (adm) => adm.professor_id == this.turma.professor_id
       )?.nome;
       this.form = this.fb.group({
         nome: [data.nome, [Validators.required]],
@@ -58,7 +55,6 @@ export class TelaEditCourseComponent implements OnInit {
     const curso = new CursoModel({
       nome: this.form.get('nome')?.value,
       descricao: this.form.get('descricao')?.value,
-      disciplina_id: this.form.get('disciplina_id')?.value,
     });
     this.cursoService.atualizarCurso(curso).subscribe({
       next: (res) => {

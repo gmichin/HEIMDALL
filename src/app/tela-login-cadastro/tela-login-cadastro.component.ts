@@ -37,7 +37,6 @@ export class TelaLoginCadastroComponent {
   ) {
     this.cadastroAlunoForm = this.fb.group(
       {
-        aluno_id: ['', Validators.required],
         nome: ['', Validators.required],
         email: ['', [Validators.required, this.emailValidator]],
         senha: ['', Validators.required],
@@ -74,7 +73,6 @@ export class TelaLoginCadastroComponent {
       return;
     }
     const request = new AlunoModel({
-      aluno_id: this.cadastroAlunoForm.get('aluno_id')?.value,
       nome: this.cadastroAlunoForm.get('nome')?.value,
       email: this.cadastroAlunoForm.get('email')?.value,
       senha: this.cadastroAlunoForm.get('senha')?.value,

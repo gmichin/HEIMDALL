@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SessionService } from './../../services/session.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tela-create-adm',
@@ -23,7 +23,7 @@ export class TelaCreateAdmComponent implements OnInit {
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private cadastroService: CadastroService,
-    private sessionService: SessionService,
+    private router: Router,
     public dialogRef: MatDialogRef<TelaCreateAdmComponent>
   ) {
     this.cadastroProfessorAdmForm = this.fb.group(
@@ -33,15 +33,18 @@ export class TelaCreateAdmComponent implements OnInit {
         senha: ['', [Validators.required, Validators.minLength(6)]],
         confirmarSenha: ['', [Validators.required]],
         registro: ['', [Validators.required]],
-        adm: ['', [Validators.required]],
+        adm: [true],
       },
       { validator: this.passwordMatchValidator }
     );
   }
 
   ngOnInit() {}
-  register() {
+  cadastro() {
     if (this.cadastroProfessorAdmForm.invalid) {
+      this.snackBar.open(`Cadastro inválido, revise os campos.`, '', {
+        duration: 5000,
+      });
       return;
     }
     const request = new ProfessorModel({
@@ -49,37 +52,24 @@ export class TelaCreateAdmComponent implements OnInit {
       email: this.cadastroProfessorAdmForm.get('email')?.value,
       senha: this.cadastroProfessorAdmForm.get('senha')?.value,
       registro: this.cadastroProfessorAdmForm.get('registro')?.value,
-      adm: this.cadastroProfessorAdmForm.get('adm')?.value,
+      adm: true,
     });
-
     this.cadastroService.cadastroProfessorAdm(request).subscribe({
-      next: (res) => {
-        if (res instanceof ProfessorModel) {
-          // Verifica se o retorno é ProfessorModel
-          let adms =
-            this.sessionService.getSessionData<ProfessorModel[]>(
-              'adms'
-            ).retorno;
-          if (!adms) {
-            adms = [];
+      next: () => {
+        this.snackBar.open(
+          `Cadastro realizado, há a possibilidade do adm não permitir que a conta seja mantida.`,
+          '',
+          {
+            duration: 5000,
           }
-          adms.push(res);
-          this.sessionService.setItem('adms', adms);
-
-          this.snackBar.open(`Cadastrado com sucesso.`, '', {
-            duration: 1000,
-          });
-          this.resetForms(this.cadastroProfessorAdmForm);
-          this.dialogRef.close();
-        } else {
-          this.snackBar.open(`O retorno não é do tipo esperado.`, '', {
-            duration: 1000,
-          });
-        }
+        );
+        this.resetForms(this.cadastroProfessorAdmForm);
+        this.router.navigate(['home-adm']);
+        this.dialogRef.close('close');
       },
-      error: (err) => {
+      error: () => {
         this.snackBar.open(`Ocorreu um erro durante sua solicitação.`, '', {
-          duration: 1000,
+          duration: 2000,
         });
       },
     });
@@ -107,8 +97,8 @@ export class TelaCreateAdmComponent implements OnInit {
   private passwordMatchValidator(
     control: AbstractControl
   ): { [key: string]: boolean } | null {
-    const password = control.get('senha'); // Corrigir o campo para 'senha'
-    const confirmPassword = control.get('confirmarSenha'); // Corrigir o campo para 'confirmarSenha'
+    const password = control.get('senha');
+    const confirmPassword = control.get('confirmarSenha');
 
     if (password?.value !== confirmPassword?.value) {
       return { passwordMismatch: true };

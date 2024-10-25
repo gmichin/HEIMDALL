@@ -41,7 +41,6 @@ export class TelaSeeMoreComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private router: Router,
-    private snackBar: MatSnackBar,
     private sessionService: SessionService
   ) {
     switch (this.dataUser.adm) {

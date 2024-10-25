@@ -3,9 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { CursoModel } from 'src/app/models/curso.model';
 import { CursoService } from 'src/app/services/curso.service';
-import { CadastroService } from 'src/app/services/cadastros.service';
 import { SessionService } from 'src/app/services/session.service';
 
 @Component({
@@ -16,23 +16,29 @@ import { SessionService } from 'src/app/services/session.service';
 export class TelaCreateCourseComponent implements OnInit {
   public form: FormGroup;
 
+  public dataProfessorAdm = <ProfessorModel>(
+    this.sessionService.getSessionData('professor').retorno
+  );
+  public validate: boolean;
+
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private cursoService: CursoService,
     private sessionService: SessionService,
+    private router: Router,
     public dialogRef: MatDialogRef<TelaCreateCourseComponent>
   ) {
     this.form = this.fb.group({
       nome: ['', [Validators.required]],
-      adm: ['', [Validators.required]],
+      descricao: ['', [Validators.required]],
     });
+    if (this.dataProfessorAdm.adm) {
+      this.validate = true;
+    } else {
+      this.validate = false;
+    }
   }
-
-  adms: ProfessorModel[] =
-    this.sessionService.getSessionData<ProfessorModel[]>('adms').retorno;
-  admValue: string = '';
-  validate = this.sessionService.getSessionData('adms').valido;
 
   ngOnInit() {}
 
@@ -47,7 +53,6 @@ export class TelaCreateCourseComponent implements OnInit {
     const curso = new CursoModel({
       nome: this.form.get('nome')?.value,
       descricao: this.form.get('descricao')?.value,
-      disciplina_id: this.form.get('disciplina_id')?.value,
     });
 
     this.cursoService.criarCurso(curso).subscribe({
@@ -55,6 +60,8 @@ export class TelaCreateCourseComponent implements OnInit {
         this.snackBar.open('Dados cadastrados com sucesso.', '', {
           duration: 2000,
         });
+        this.router.navigate(['home-adm']);
+        this.dialogRef.close('close');
       },
       error: (err) => {
         this.snackBar.open('Ocorreu um erro durante sua solicitação.', '', {

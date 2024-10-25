@@ -1,10 +1,9 @@
 import { ProfessorModel } from './../../models/professor.model';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { map } from 'rxjs';
+import { Router } from '@angular/router';
 import { CursoModel } from 'src/app/models/curso.model';
-import { SessionService } from 'src/app/services/session.service';
+import { SalaDataService } from 'src/app/services/sala-data.service';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { TelaReservasComponent } from 'src/app/tela-reservas/tela-reservas.component';
 
@@ -14,21 +13,52 @@ import { TelaReservasComponent } from 'src/app/tela-reservas/tela-reservas.compo
   styleUrls: ['./tela-home-teacher.component.scss'],
 })
 export class TelaHomeTeacherComponent implements OnInit, OnDestroy {
-  public data = <
-    {
-      name: 'Cursos' | 'Professores' | 'Administradores';
-      arr: CursoModel[] & ProfessorModel[];
-    }[]
-  >this.activatedRoute.snapshot.data['dados'];
+  public data: {
+    name: 'Cursos' | 'Professores' | 'Administradores';
+    arr: any[];
+  }[] = [];
+  public dataProfessorAdm: any[] = [];
+  public dataCursos: any[] = [];
 
   constructor(
     private router: Router,
-    private activatedRoute: ActivatedRoute,
-    public dialog: MatDialog
-  ) {}
+    public dialog: MatDialog,
+    private salaDataService: SalaDataService
+  ) {
+    this.salaDataService.carregarDadosProfessores().subscribe(
+      (dadosProfessores) => {
+        this.dataProfessorAdm = dadosProfessores;
+        this.processarDados();
+      },
+      (error) => {
+        console.error('Erro ao carregar dados dos professores:', error);
+      }
+    );
+    this.salaDataService.carregarDadosCursos().subscribe(
+      (dadosCursos) => {
+        this.dataCursos = dadosCursos;
+        this.processarDados();
+      },
+      (error) => {
+        console.error('Erro ao carregar dados dos cursos:', error);
+      }
+    );
+  }
   ngOnDestroy(): void {}
 
   ngOnInit() {}
+
+  private processarDados() {
+    const professores = this.dataProfessorAdm.filter(
+      (professor) => professor.adm === false
+    );
+    const cursos = this.dataCursos.length > 0 ? this.dataCursos : [];
+
+    this.data = [
+      { name: 'Professores', arr: professores },
+      { name: 'Cursos', arr: cursos },
+    ];
+  }
 
   public redirectHorarios() {
     this.router.navigate(['/tela-mapa-horario-salas']);

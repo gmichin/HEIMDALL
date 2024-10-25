@@ -16,16 +16,27 @@
 
       <mat-form-field class="nome" appearance="fill">
         <mat-label>Senha:</mat-label>
-        <input formControlName="password" type="password" matInput />
+        <input formControlName="senha" type="password" matInput />
         <mat-icon matSuffix>vpn_key</mat-icon>
       </mat-form-field>
 
       <mat-form-field class="nome" appearance="fill">
         <mat-label>Confirme a senha:</mat-label>
-        <input formControlName="confirmPassword" type="password" matInput />
+        <input formControlName="confirmarSenha" type="password" matInput />
         <mat-icon matSuffix>vpn_key</mat-icon>
       </mat-form-field>
 
+      <mat-form-field>
+        <mat-label>Registro</mat-label>
+        <input
+          formControlName="registro"
+          type="text"
+          matInput
+          placeholder="Registro"
+          value=""
+        />
+        <mat-icon matSuffix>assignment_ind</mat-icon>
+      </mat-form-field>
       <div class="alterarEmail">
         <button
           mat-button
