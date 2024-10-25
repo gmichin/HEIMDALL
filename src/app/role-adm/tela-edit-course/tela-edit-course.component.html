@@ -8,14 +8,12 @@
         <mat-icon matSuffix>class</mat-icon>
       </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Administrador do curso</mat-label>
-        <mat-select formControlName="adm">
-          <mat-option *ngFor="let adm of adms" [value]="adm.professor_id">
-            {{ adm.nome }}
-          </mat-option>
-        </mat-select>
+      <mat-form-field class="descricao" appearance="fill">
+        <mat-label>Descricao:</mat-label>
+        <input formControlName="descricao" matInput />
+        <mat-icon matSuffix>description</mat-icon>
       </mat-form-field>
+
       <div class="alterarEmail">
         <button
           mat-button

@@ -7,9 +7,9 @@ import {
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { ProfessorModel } from 'src/app/models/professor.model';
 import { CadastroService } from 'src/app/services/cadastros.service';
-import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-tela-edit-adm',
@@ -23,7 +23,7 @@ export class TelaEditAdmComponent implements OnInit {
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private cadastroService: CadastroService,
-    private sessionService: SessionService,
+    private router: Router,
     public dialogRef: MatDialogRef<TelaEditAdmComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ProfessorModel
   ) {
@@ -31,10 +31,8 @@ export class TelaEditAdmComponent implements OnInit {
       {
         nome: ['', [Validators.required]],
         email: ['', [Validators.required, this.emailValidator]],
-        senha: ['', [Validators.required, Validators.minLength(6)]],
-        confirmarSenha: ['', [Validators.required]],
         registro: ['', [Validators.required]],
-        adm: ['', [Validators.required]],
+        adm: [true],
       },
       { validator: this.passwordMatchValidator }
     );
@@ -49,24 +47,31 @@ export class TelaEditAdmComponent implements OnInit {
 
     this.data.nome = this.cadastroProfessorAdmForm.get('nome')?.value;
     this.data.email = this.cadastroProfessorAdmForm.get('email')?.value;
-    this.data.senha = this.cadastroProfessorAdmForm.get('senha')?.value;
     this.data.registro = this.cadastroProfessorAdmForm.get('registro')?.value;
     this.data.adm = this.cadastroProfessorAdmForm.get('adm')?.value;
 
-    this.cadastroService.atualizarUsuário(this.data).subscribe({
+    this.cadastroService.atualizarProfessor(this.data).subscribe({
       next: () => {
         this.snackBar.open('Dados atualizados com sucesso.', '', {
-          duration: 1500,
+          duration: 3000,
         });
         this.dialogRef.close();
+        this.resetForms(this.cadastroProfessorAdmForm);
+        this.router
+          .navigateByUrl('/', { skipLocationChange: true })
+          .then(() => {
+            this.router.navigate(['home-adm']);
+          });
       },
       error: (err) => {
         this.snackBar.open('Ocorreu um erro durante sua solicitação.', '', {
-          duration: 1500,
+          duration: 3000,
         });
         this.dialogRef.close();
       },
     });
+
+    this.router.navigate(['home-adm']);
   }
 
   private resetForms(form: FormGroup): void {

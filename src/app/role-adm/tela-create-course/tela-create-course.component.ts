@@ -45,7 +45,7 @@ export class TelaCreateCourseComponent implements OnInit {
   public save() {
     if (this.form.invalid) {
       this.snackBar.open('Por favor, revise os campos.', '', {
-        duration: 1000,
+        duration: 3000,
       });
       return;
     }
@@ -58,14 +58,14 @@ export class TelaCreateCourseComponent implements OnInit {
     this.cursoService.criarCurso(curso).subscribe({
       next: (res) => {
         this.snackBar.open('Dados cadastrados com sucesso.', '', {
-          duration: 2000,
+          duration: 3000,
         });
         this.router.navigate(['home-adm']);
         this.dialogRef.close('close');
       },
       error: (err) => {
         this.snackBar.open('Ocorreu um erro durante sua solicitação.', '', {
-          duration: 2000,
+          duration: 3000,
         });
       },
     });

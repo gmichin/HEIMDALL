@@ -3,8 +3,9 @@ export class CursoModel {
   nome!: string;
   descricao!: string;
 
-  constructor(data: Omit<CursoModel, 'curso_id'>) {
-    this.nome = data.nome;
-    this.descricao = data.descricao;
+  constructor(data: Partial<CursoModel>) {
+    this.curso_id = data.curso_id;
+    this.nome = data.nome!;
+    this.descricao = data.descricao!;
   }
 }

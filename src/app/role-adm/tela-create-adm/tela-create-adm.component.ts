@@ -69,7 +69,7 @@ export class TelaCreateAdmComponent implements OnInit {
       },
       error: () => {
         this.snackBar.open(`Ocorreu um erro durante sua solicitação.`, '', {
-          duration: 2000,
+          duration: 3000,
         });
       },
     });

@@ -1,7 +1,7 @@
+import { CursoModel } from 'src/app/models/curso.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, of, switchMap } from 'rxjs';
-import { CursoModel } from '../models/curso.model';
 import { url_config } from '../url.config';
 import { SessionService } from './session.service';
 
@@ -23,8 +23,8 @@ export class CursoService {
     );
   }
 
-  public criarCurso(course: CursoModel) {
-    return this.http.post(url_config.url_curso, course);
+  public criarCurso(curso: CursoModel) {
+    return this.http.post(url_config.url_curso, curso);
   }
 
   public atualizarCurso(curso: CursoModel) {

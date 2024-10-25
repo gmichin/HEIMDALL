@@ -68,7 +68,7 @@ export class TelaPerfilComponent implements OnInit {
     if (this.tipoUsuario == 'Aluno') {
       this.dataAluno.email = this.form.get('email')?.value;
       this.dataAluno.nome = this.form.get('name')?.value;
-      this.cadastro.atualizarUsuário(this.dataAluno).subscribe({
+      this.cadastro.atualizarAluno(this.dataAluno).subscribe({
         next: () => {
           this.snackBar.open('Dados Atualizados com sucesso.', '', {
             duration: 1000,
@@ -85,7 +85,7 @@ export class TelaPerfilComponent implements OnInit {
     } else if (this.tipoUsuario == 'Professor' || this.tipoUsuario == 'Adm') {
       this.dataProfessorAdm.email = this.form.get('email')?.value;
       this.dataProfessorAdm.nome = this.form.get('name')?.value;
-      this.cadastro.atualizarUsuário(this.dataProfessorAdm).subscribe({
+      this.cadastro.atualizarProfessor(this.dataProfessorAdm).subscribe({
         next: () => {
           this.snackBar.open('Dados Atualizados com sucesso.', '', {
             duration: 1000,

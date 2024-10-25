@@ -15,31 +15,32 @@ export class CadastroService {
     private sessionService: SessionService
   ) {}
 
-  atualizarUsuário(request: AlunoModel | ProfessorModel) {
-    let id: number | undefined;
+  atualizarProfessor(request: ProfessorModel) {
     let userType: string;
+    userType = 'professor';
 
-    if (request instanceof AlunoModel) {
-      id = request.aluno_id;
-      userType = 'aluno';
-    } else if (request instanceof ProfessorModel) {
-      id = request.professor_id;
-      userType = 'professor';
-    }
+    return this.http
+      .patch<ProfessorModel>(
+        `${url_config.url_professor}/${request.professor_id}`,
+        request
+      )
+      .pipe(
+        map((resp) => {
+          this.sessionService.setItem(userType, resp);
+        })
+      );
+  }
+  atualizarAluno(request: AlunoModel) {
+    let userType: string;
+    userType = 'aluno';
 
-    const url = id
-      ? `${
-          request instanceof AlunoModel
-            ? url_config.url_aluno
-            : url_config.url_professor
-        }/${id}`
-      : ''; // Gera a URL correta
-
-    return this.http.patch<AlunoModel | ProfessorModel>(url, request).pipe(
-      map((resp) => {
-        this.sessionService.setItem(userType, resp);
-      })
-    );
+    return this.http
+      .patch<AlunoModel>(`${url_config.url_aluno}/${request.aluno_id}`, request)
+      .pipe(
+        map((resp) => {
+          this.sessionService.setItem(userType, resp);
+        })
+      );
   }
 
   cadastroAluno(request: AlunoModel) {

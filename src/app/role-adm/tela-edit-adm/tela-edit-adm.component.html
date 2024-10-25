@@ -14,6 +14,23 @@
         <mat-icon matSuffix>email</mat-icon>
       </mat-form-field>
 
+      <mat-form-field>
+        <mat-label>Registro</mat-label>
+        <input
+          formControlName="registro"
+          type="text"
+          matInput
+          placeholder="Registro"
+          value=""
+        />
+        <mat-icon matSuffix>assignment_ind</mat-icon>
+      </mat-form-field>
+
+      <mat-checkbox formControlName="adm" style="margin-bottom: 20px">
+        <mat-icon>admin_panel_settings</mat-icon>
+        Manter como adm?
+      </mat-checkbox>
+
       <div class="alterarEmail">
         <button
           mat-button

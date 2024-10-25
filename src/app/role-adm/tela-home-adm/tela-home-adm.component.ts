@@ -1,7 +1,7 @@
 import { SalaDataService } from './../../services/sala-data.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { CursoModel } from 'src/app/models/curso.model';
 import { ProfessorModel } from 'src/app/models/professor.model';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
@@ -30,7 +30,6 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private activatedRoute: ActivatedRoute,
     public dialog: MatDialog,
     private salaDataService: SalaDataService
   ) {

@@ -1,7 +1,7 @@
 <h1>Edite o professor</h1>
 <div class="container">
   <div class="dadosPessoais">
-    <form [formGroup]="cadastroProfessorAdmForm" (ngSubmit)="register()">
+    <form [formGroup]="cadastroProfessorAdmForm" (ngSubmit)="cadastro()">
       <mat-form-field class="nome" appearance="fill">
         <mat-label>Nome do Professor:</mat-label>
         <input formControlName="nome" matInput />
@@ -13,6 +13,23 @@
         <input formControlName="email" matInput />
         <mat-icon matSuffix>email</mat-icon>
       </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Registro</mat-label>
+        <input
+          formControlName="registro"
+          type="text"
+          matInput
+          placeholder="Registro"
+          value=""
+        />
+        <mat-icon matSuffix>assignment_ind</mat-icon>
+      </mat-form-field>
+
+      <mat-checkbox formControlName="adm" style="margin-bottom: 20px">
+        <mat-icon>admin_panel_settings</mat-icon>
+        Transfomar em adm?
+      </mat-checkbox>
 
       <div class="alterarEmail">
         <button

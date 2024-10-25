@@ -51,7 +51,6 @@ import { AnimacaoComponent } from './animacao/animacao.component';
 import { TelaHomeAdmComponent } from './role-adm/tela-home-adm/tela-home-adm.component';
 import { TelaHomeStudentComponent } from './role-student/tela-home-student/tela-home-student.component';
 import { TelaHomeTeacherComponent } from './role-teacher/tela-home-teacher/tela-home-teacher.component';
-import { TelaRegisterTeacherComponent } from './role-adm/tela-register-teacher/tela-register-teacher.component';
 import { TelaEditTeacherComponent } from './role-adm/tela-edit-teacher/tela-edit-teacher.component';
 import { TelaEditCourseComponent } from './role-adm/tela-edit-course/tela-edit-course.component';
 import { TelaEditAdmComponent } from './role-adm/tela-edit-adm/tela-edit-adm.component';
@@ -83,7 +82,6 @@ import { TelaCreateAdmComponent } from './role-adm/tela-create-adm/tela-create-a
     TelaHomeAdmComponent,
     TelaHomeStudentComponent,
     TelaHomeTeacherComponent,
-    TelaRegisterTeacherComponent,
     TelaEditTeacherComponent,
     TelaEditCourseComponent,
     TelaEditAdmComponent,

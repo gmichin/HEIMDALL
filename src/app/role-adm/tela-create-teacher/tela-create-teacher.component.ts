@@ -8,7 +8,6 @@ import {
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CadastroService } from 'src/app/services/cadastros.service';
-import { SessionService } from 'src/app/services/session.service';
 import { TelaCreateAdmComponent } from '../tela-create-adm/tela-create-adm.component';
 import { ProfessorModel } from 'src/app/models/professor.model';
 import { Router } from '@angular/router';
@@ -43,7 +42,7 @@ export class TelaCreateTeacherComponent implements OnInit {
 
   ngOnInit() {}
 
-  register() {
+  cadastro() {
     if (this.cadastroProfessorAdmForm.invalid) {
       this.snackBar.open(`Cadastro inválido, revise os campos.`, '', {
         duration: 5000,
@@ -72,7 +71,7 @@ export class TelaCreateTeacherComponent implements OnInit {
       },
       error: () => {
         this.snackBar.open(`Ocorreu um erro durante sua solicitação.`, '', {
-          duration: 2000,
+          duration: 3000,
         });
       },
     });
