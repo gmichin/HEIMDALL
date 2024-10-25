@@ -4,6 +4,11 @@
   border-bottom: 2px solid black;
 }
 
+button:hover {
+  background: #1ddd04 !important;
+  color: black !important;
+}
+
 .header {
   background: #1ddd04;
   display: flex;

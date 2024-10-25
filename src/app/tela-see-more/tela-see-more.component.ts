@@ -17,13 +17,7 @@ import { ProfessorModel } from '../models/professor.model';
   styleUrls: ['./tela-see-more.component.scss'],
 })
 export class TelaSeeMoreComponent implements OnInit {
-  displayedColumns: string[] = [
-    'APROVE',
-    'REJECT',
-    'registrationNumber',
-    'nome',
-    'email',
-  ];
+  displayedColumns: string[] = [];
   dataSource!: MatTableDataSource<CursoModel | ProfessorModel>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -43,19 +37,33 @@ export class TelaSeeMoreComponent implements OnInit {
     private router: Router,
     private sessionService: SessionService
   ) {
-    switch (this.dataUser.adm) {
-      case true:
-        this.tipoUsuario = 'Administrador';
-        break;
-      case false:
-        this.tipoUsuario = 'Professor';
-        break;
+    if (this.tipoUsuario === 'aluno') {
+    } else if (this.tipoUsuario === 'professor') {
+      this.displayedColumns = ['nome', 'email'];
+    } else {
     }
+
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state;
+
     if (state && state['data']) {
       const items: (CursoModel | ProfessorModel)[] = state['data'];
+
       if (items.length > 0) {
+        console.log('Primeiro item:', items[0]);
+
+        if ('professor_id' in items[0] || 'email' in items[0]) {
+          this.displayedColumns = [
+            'APROVE',
+            'REJECT',
+            'nome',
+            'email',
+            'registrationNumber',
+          ];
+        } else if ('curso_id' in items[0] || 'descricao' in items[0]) {
+          this.displayedColumns = ['APROVE', 'REJECT', 'nome', 'descricao'];
+        }
+
         this.dataSource = new MatTableDataSource(items);
       }
     }
@@ -127,12 +135,7 @@ export class TelaSeeMoreComponent implements OnInit {
     });
   }
   goBack() {
-    if (this.tipoUsuario == 'Administrador')
-      this.router.navigate(['/home-adm']);
-    else if (this.tipoUsuario == 'Professor')
-      this.router.navigate(['/home-teacher']);
-    else if (this.tipoUsuario == 'Aluno')
-      this.router.navigate(['/home-student']);
+    this.router.navigate(['/home-adm']);
   }
   logout() {
     this.router.navigate(['/']);
