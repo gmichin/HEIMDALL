@@ -64,7 +64,11 @@ export class TelaCreateAdmComponent implements OnInit {
           }
         );
         this.resetForms(this.cadastroProfessorAdmForm);
-        this.router.navigate(['home-adm']);
+        this.router
+          .navigateByUrl('/', { skipLocationChange: true })
+          .then(() => {
+            this.router.navigate(['home-adm']);
+          });
         this.dialogRef.close('close');
       },
       error: () => {
