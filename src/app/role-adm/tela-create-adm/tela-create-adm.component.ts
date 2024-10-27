@@ -53,6 +53,7 @@ export class TelaCreateAdmComponent implements OnInit {
       senha: this.cadastroProfessorAdmForm.get('senha')?.value,
       registro: this.cadastroProfessorAdmForm.get('registro')?.value,
       adm: true,
+      status: false,
     });
     this.cadastroService.cadastroProfessorAdm(request).subscribe({
       next: () => {

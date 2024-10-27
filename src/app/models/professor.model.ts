@@ -5,6 +5,7 @@ export class ProfessorModel {
   senha!: string;
   registro!: string;
   adm!: boolean;
+  status!: boolean;
 
   constructor(data: Omit<ProfessorModel, 'professor_id'>) {
     this.nome = data.nome;
@@ -12,5 +13,6 @@ export class ProfessorModel {
     this.senha = data.senha;
     this.registro = data.registro;
     this.adm = data.adm;
+    this.status = data.status;
   }
 }

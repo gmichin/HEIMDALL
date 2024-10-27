@@ -15,6 +15,10 @@ export class SalaDataService {
     return this.http.get<any[]>(url_config.url_professor);
   }
 
+  public carregarDadosAlunos() {
+    return this.http.get<any[]>(url_config.url_aluno);
+  }
+
   public carregarDadosCursos() {
     return this.http.get<any[]>(url_config.url_curso);
   }

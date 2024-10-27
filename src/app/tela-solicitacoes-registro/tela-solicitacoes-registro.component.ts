@@ -1,3 +1,4 @@
+import { SalaDataService } from 'src/app/services/sala-data.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TelaPerfilComponent } from '../tela-perfil/tela-perfil.component';
@@ -5,11 +6,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
-import { ActivatedRoute, Router } from '@angular/router';
 import { ResgistrationRequestsService } from '../services/resgistration-requests.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SessionService } from 'src/app/services/session.service';
-import { ProfessorModel } from '../models/professor.model';
+import { AlunoModel } from '../models/aluno.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tela-solicitacoes-registro',
@@ -20,49 +20,43 @@ export class TelaSolicitacoesRegistroComponent implements OnInit {
   displayedColumns: string[] = [
     'APROVE',
     'REJEITE',
-    'registrationNumber',
+    'registro',
     'nome',
     'email',
   ];
-  dataSource!: MatTableDataSource<any>;
+
+  // Especificar o tipo de dataSource como MatTableDataSource<AlunoModel>
+  dataSource: MatTableDataSource<AlunoModel> =
+    new MatTableDataSource<AlunoModel>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  selectionAprove = new SelectionModel<ProfessorModel>(true, []);
-  selectionReject = new SelectionModel<ProfessorModel>(true, []);
-
-  public dataUser = <ProfessorModel>(
-    this.sessionService.getSessionData('professor').retorno
-  );
-  public id = this.dataUser.professor_id;
-  public tipoUsuario = '';
+  selectionAprove = new SelectionModel<AlunoModel>(true, []);
+  selectionReject = new SelectionModel<AlunoModel>(true, []);
 
   constructor(
     public dialog: MatDialog,
-    private _activatedRoute: ActivatedRoute,
     private readonly _registrationService: ResgistrationRequestsService,
     private snackBar: MatSnackBar,
-    private sessionService: SessionService,
+    private salaDataService: SalaDataService,
     private router: Router
   ) {
-    switch (this.dataUser.adm) {
-      case true:
-        this.tipoUsuario = 'Administrador';
-        break;
-      case false:
-        this.tipoUsuario = 'Professor';
-        break;
-    }
-    const users: ProfessorModel[] = this._activatedRoute.snapshot.data['dados'];
-    if (users.length > 0) {
-      this.dataSource = new MatTableDataSource(users);
-    }
+    this.salaDataService.carregarDadosAlunos().subscribe(
+      (dataAlunos: AlunoModel[]) => {
+        this.dataSource = new MatTableDataSource<AlunoModel>(dataAlunos);
+      },
+      (error) => {
+        console.error('Erro ao carregar dados dos alunos:', error);
+      }
+    );
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    if (this.dataSource) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
   }
 
   applyFilter(event: Event) {
@@ -73,15 +67,14 @@ export class TelaSolicitacoesRegistroComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-
   ngOnInit() {}
 
   public enviarLista() {
     this.selectionAprove.selected.forEach((request) => {
-      request.adm = true;
+      request.status = true;
     });
     this.selectionReject.selected.forEach((request) => {
-      request.adm = false;
+      request.status = false;
     });
 
     this._registrationService
@@ -110,7 +103,7 @@ export class TelaSolicitacoesRegistroComponent implements OnInit {
     });
   }
 
-  validateAllSelected(selection: SelectionModel<ProfessorModel>) {
+  validateAllSelected(selection: SelectionModel<AlunoModel>) {
     const numSelected = selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
@@ -150,13 +143,9 @@ export class TelaSolicitacoesRegistroComponent implements OnInit {
     });
   }
   goBack() {
-    if (this.tipoUsuario == 'Administrador')
-      this.router.navigate(['/home-adm']);
-    else if (this.tipoUsuario == 'Professor')
-      this.router.navigate(['/home-teacher']);
-    else if (this.tipoUsuario == 'Aluno')
-      this.router.navigate(['/home-student']);
+    this.router.navigate(['/home-adm']);
   }
+
   logout() {
     this.router.navigate(['/']);
   }

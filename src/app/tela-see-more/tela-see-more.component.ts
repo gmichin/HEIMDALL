@@ -37,12 +37,6 @@ export class TelaSeeMoreComponent implements OnInit {
     private router: Router,
     private sessionService: SessionService
   ) {
-    if (this.tipoUsuario === 'aluno') {
-    } else if (this.tipoUsuario === 'professor') {
-      this.displayedColumns = ['nome', 'email'];
-    } else {
-    }
-
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state;
 

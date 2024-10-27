@@ -78,6 +78,7 @@ export class TelaLoginCadastroComponent {
       senha: this.cadastroAlunoForm.get('senha')?.value,
       registro: this.cadastroAlunoForm.get('registro')?.value,
       ano_entrada: this.cadastroAlunoForm.get('ano_entrada')?.value,
+      status: false,
     });
     this.cadastroService.cadastroAluno(request).subscribe({
       next: () => {
@@ -111,6 +112,7 @@ export class TelaLoginCadastroComponent {
       senha: this.cadastroProfessorAdmForm.get('senha')?.value,
       registro: this.cadastroProfessorAdmForm.get('registro')?.value,
       adm: this.cadastroProfessorAdmForm.get('adm')?.value,
+      status: false,
     });
     this.cadastroService.cadastroProfessorAdm(request).subscribe({
       next: () => {

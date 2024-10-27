@@ -24,7 +24,10 @@ import { TelaHomeTeacherComponent } from './role-teacher/tela-home-teacher/tela-
 import { TelaHomeStudentComponent } from './role-student/tela-home-student/tela-home-student.component';
 
 const routes: Routes = [
-  { path: '', component: AnimacaoComponent },
+  {
+    path: '',
+    component: AnimacaoComponent,
+  },
 
   { path: 'inicial', component: TelaInicialComponent },
 
