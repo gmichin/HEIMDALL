@@ -43,7 +43,7 @@ export class DisciplinaService {
     courseId: string
   ): Observable<DisciplinaModel[]> {
     return this.http.get<DisciplinaModel[]>(
-      `${url_config.url_disciplina}/by-course/${courseId}`
+      `${url_config.url_disciplina}/${courseId}`
     );
   }
 

@@ -23,56 +23,40 @@ import { SessionService } from 'src/app/services/session.service';
 })
 export class TelaSalasFeitasComponent {
   displayedColumns: string[] = [
-    'remove',
-    'edit',
-    'numero',
-    'cadeiras',
-    'mesas',
-    'cadeirasPorMesa',
-    'computadores',
-    'lousa',
-    'projetor',
     'status',
+    'ident_sala',
+    'num_cadeiras',
+    'num_mesas',
+    'num_projetores',
+    'num_computadores',
+    'num_lousas',
   ];
   dataSource = new MatTableDataSource<SalaModel>();
   selection = new SelectionModel<SalaModel>(true, []);
   selectionReject = new SelectionModel<SalaModel>(true, []);
 
-  public dataUser = <ProfessorModel>(
-    this.sessionService.getSessionData('professor').retorno
+  public dataSala = <SalaModel>(
+    this.sessionService.getSessionData('sala').retorno
   );
-  public id = this.dataUser.professor_id;
+  public id = Number(this.dataSala.sala_id);
   public tipoUsuario = '';
 
   constructor(
     public dialog: MatDialog,
-    private salaService: SalaService,
-    private snackBar: MatSnackBar,
+    private salaDataService: SalaDataService,
     private router: Router,
     private sessionService: SessionService
   ) {
-    switch (this.dataUser.adm) {
-      case true:
-        this.tipoUsuario = 'Administrador';
-        break;
-      case false:
-        this.tipoUsuario = 'Professor';
-        break;
-    }
-    this.salaService.getRoomsByInst().subscribe({
+    this.salaDataService.carregarDadosSalas().subscribe({
       next: (salas) => {
         this.dataSource.data = salas;
       },
     });
+    console.log(this.dataSource.data);
   }
 
   goBack() {
-    if (this.tipoUsuario == 'Administrador')
-      this.router.navigate(['/home-adm']);
-    else if (this.tipoUsuario == 'Professor')
-      this.router.navigate(['/home-teacher']);
-    else if (this.tipoUsuario == 'Aluno')
-      this.router.navigate(['/home-student']);
+    this.router.navigate(['/home-adm']);
   }
 
   logout() {
@@ -130,32 +114,12 @@ export class TelaSalasFeitasComponent {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  @ViewChild(MatTable)
-  table!: MatTable<SalaModel>;
-
   editSala() {
-    this.salaService.saveRoomToEdit(this.selection.selected[0]);
+    this.salaDataService.atualizarSala(this.selection.selected[0]);
   }
 
   apagarSalas() {
-    this.salaService.deleteRoom(this.selectionReject.selected).subscribe({
-      next: (res) => {
-        this.snackBar.open('Removida(s) com sucesso!', '', {
-          duration: 4000,
-        });
-        this.router.navigate(['tela-salas-feitas']);
-      },
-      error: (err) => {
-        this.snackBar.open(
-          'Ocorreu um erro durante a solicitação, por favor, tente novamente mais tarde.',
-          '',
-          {
-            duration: 4000,
-          }
-        );
-        this.router.navigate(['tela-salas-feitas']);
-      },
-    });
+    this.salaDataService.deletarSala(this.id);
   }
 
   toggleAllRowsReject() {

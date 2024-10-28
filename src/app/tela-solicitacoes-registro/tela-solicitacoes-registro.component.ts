@@ -25,7 +25,6 @@ export class TelaSolicitacoesRegistroComponent implements OnInit {
     'email',
   ];
 
-  // Especificar o tipo de dataSource como MatTableDataSource<AlunoModel>
   dataSource: MatTableDataSource<AlunoModel> =
     new MatTableDataSource<AlunoModel>([]);
 

@@ -13,9 +13,12 @@ import { TelaDisciplinasComponent } from '../tela-disciplinas.component';
 import { CursoService } from 'src/app/services/curso.service';
 import { CursoModel } from 'src/app/models/curso.model';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
-import { SessionService } from 'src/app/services/session.service';
-import { ProfessorModel } from 'src/app/models/professor.model';
-import { AlunoModel } from 'src/app/models/aluno.model';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-tela-disciplinas-feitas',
@@ -23,21 +26,13 @@ import { AlunoModel } from 'src/app/models/aluno.model';
   styleUrls: ['./tela-disciplinas-feitas.component.scss'],
 })
 export class TelaDisciplinasFeitasComponent {
-  displayedColumns: string[] = ['remove', 'edit', 'name', 'description'];
+  displayedColumns: string[] = ['remove', 'edit', 'nome', 'descricao'];
   dataSource = new MatTableDataSource<DisciplinaModel>();
   selectionCourse = new SelectionModel<string>(true, []);
   selection = new SelectionModel<DisciplinaModel>(true, []);
   selectionReject = new SelectionModel<DisciplinaModel>(true, []);
   courseList!: CursoModel[];
-  public dataProfessorAdm = <ProfessorModel>(
-    this.sessionService.getSessionData('professor').retorno
-  );
-  public dataAluno = <AlunoModel>(
-    this.sessionService.getSessionData('aluno').retorno
-  );
-  public idProfessorAdm = this.dataProfessorAdm.professor_id;
-  public idAluno = this.dataAluno.aluno_id;
-  public tipoUsuario = '';
+  public form: FormGroup;
 
   constructor(
     public dialog: MatDialog,
@@ -45,17 +40,17 @@ export class TelaDisciplinasFeitasComponent {
     private snackBar: MatSnackBar,
     private disciplinaService: DisciplinaService,
     private router: Router,
-    private sessionService: SessionService
+    private fb: FormBuilder
   ) {
-    switch (this.dataProfessorAdm.adm) {
-      case true:
-        this.tipoUsuario = 'Administrador';
-        break;
-      case false:
-        this.tipoUsuario = 'Professor';
-        break;
-    }
-    if (this.dataAluno) this.tipoUsuario = 'Aluno';
+    this.form = this.fb.group(
+      {
+        disciplina_id: ['', [Validators.required]],
+        nome: ['', [Validators.required]],
+        descricao: ['', [Validators.required, this.emailValidator]],
+      },
+      { validator: this.passwordMatchValidator }
+    );
+
     this.cursoService.getAllCursos().subscribe({
       next: (cursos) => {
         this.courseList = cursos;
@@ -63,12 +58,7 @@ export class TelaDisciplinasFeitasComponent {
     });
   }
   goBack() {
-    if (this.tipoUsuario == 'Administrador')
-      this.router.navigate(['/home-adm']);
-    else if (this.tipoUsuario == 'Professor')
-      this.router.navigate(['/home-teacher']);
-    else if (this.tipoUsuario == 'Aluno')
-      this.router.navigate(['/home-student']);
+    this.router.navigate(['/home-adm']);
   }
   logout() {
     this.router.navigate(['/']);
@@ -174,5 +164,27 @@ export class TelaDisciplinasFeitasComponent {
 
   isAllRejectSelected() {
     return this.selectionReject.selected.length > 0;
+  }
+
+  private emailValidator(control: any) {
+    const value = control.value;
+    const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (value && !pattern.test(value)) {
+      return { email: true };
+    }
+    return null;
+  }
+
+  private passwordMatchValidator(
+    control: AbstractControl
+  ): { [key: string]: boolean } | null {
+    const senha = control.get('senha');
+    const confirmarSenha = control.get('confirmarSenha');
+
+    if (senha?.value !== confirmarSenha?.value) {
+      return { passwordMismatch: true };
+    }
+
+    return null;
   }
 }

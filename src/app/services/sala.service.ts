@@ -16,46 +16,37 @@ export class SalaService {
     private router: Router
   ) {}
 
-  public createRoom(room: SalaModel) {
-    if ('_id' in room) {
-      delete room._id;
+  public criarSala(sala: SalaModel) {
+    if ('_id' in sala) {
+      delete sala._id;
     }
-    return this.http.post(url_config.url_sala, room);
+    return this.http.post(url_config.url_sala, sala);
   }
 
-  public updateRoom(room: SalaModel) {
-    return this.http.patch(`${url_config.url_sala}/${room.sala_id}`, room);
+  public atualizarSala(sala: SalaModel) {
+    return this.http.patch(`${url_config.url_sala}/${sala.sala_id}`, sala);
   }
 
-  public deleteRoom(room: SalaModel[]) {
+  public deletesala(sala: SalaModel[]) {
     const arrReqs: Observable<any>[] = [];
-    room.forEach((r) => {
+    sala.forEach((r) => {
       arrReqs.push(this.http.delete(`${url_config.url_sala}/${r.sala_id}`));
     });
 
     return forkJoin(...arrReqs);
   }
 
-  public getRoomsByInst(): Observable<SalaModel[]> {
-    const idInstitution =
-      this.sessionService.getSessionData<string>('idInstitution').retorno;
-
-    return this.http
-      .get<SalaModel[]>(`${url_config.url_sala}/by-inst/${idInstitution}`)
-      .pipe(map((r) => r.filter((r) => r.status == true)));
-  }
-
-  public saveRoomToEdit(room: SalaModel) {
-    this.sessionService.setItem('editRoom', room);
+  public saveSalaToEdit(sala: SalaModel) {
+    this.sessionService.setItem('editsala', sala);
     this.router.navigate(['tela-novas-salas']);
   }
 
-  public getRoomToEdit(): { room: SalaModel; valid: boolean } {
-    const room = this.sessionService.getSessionData<SalaModel>('editRoom');
-    if (room.valido) {
-      sessionStorage.removeItem('editRoom');
-      return { valid: true, room: room.retorno };
+  public getSalaToEdit(): { sala: SalaModel; valid: boolean } {
+    const sala = this.sessionService.getSessionData<SalaModel>('editsala');
+    if (sala.valido) {
+      sessionStorage.removeItem('editsala');
+      return { valid: true, sala: sala.retorno };
     }
-    return { valid: false, room: {} as SalaModel };
+    return { valid: false, sala: {} as SalaModel };
   }
 }

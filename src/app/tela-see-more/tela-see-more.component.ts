@@ -1,4 +1,3 @@
-import { UserData } from './../tela-solicitacoes-registro/tela-solicitacoes-registro.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,7 +6,6 @@ import { MatSort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { CursoModel } from '../models/curso.model';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { SessionService } from '../services/session.service';
 import { TelaPerfilComponent } from '../tela-perfil/tela-perfil.component';
 import { ProfessorModel } from '../models/professor.model';

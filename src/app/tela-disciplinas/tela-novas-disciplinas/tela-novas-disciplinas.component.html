@@ -26,14 +26,14 @@
 <mat-card>
   <mat-card-title
     >{{ disciplinaToEdit.valid ? "Edição" : "Cadastro" }} de
-    Matérias</mat-card-title
+    Disciplinas</mat-card-title
   >
   <mat-card-content>
     <form [formGroup]="ProfessorAdmForm" (ngSubmit)="save()">
       <mat-form-field>
         <mat-label>Nome:</mat-label>
         <input
-          formControlName="name"
+          formControlName="nome"
           matInput
           type="text"
           placeholder="Nome da Matéria"
@@ -42,26 +42,13 @@
       <mat-form-field>
         <mat-label>Descrição:</mat-label>
         <input
-          formControlName="description"
+          formControlName="descricao"
           matInput
           type="text"
           placeholder="Descrição da Matéria"
         />
       </mat-form-field>
       <br />
-
-      <mat-form-field>
-        <mat-label>Professores:</mat-label>
-        <mat-select formControlName="teachers_id" multiple>
-          @for (teacher of teachersList; track teacher) {
-          <mat-option [value]="teacher.professor_id">{{
-            teacher.nome
-          }}</mat-option>
-          } @empty {
-          <mat-option [value]="">Sem dados</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
 
       <mat-form-field>
         <mat-label>Curso:</mat-label>

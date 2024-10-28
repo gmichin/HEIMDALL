@@ -72,43 +72,46 @@
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="numero">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          Número da Sala
-        </th>
-        <td mat-cell *matCellDef="let row">{{ row.number }}</td>
-      </ng-container>
-      <ng-container matColumnDef="cadeiras">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cadeiras</th>
-        <td mat-cell *matCellDef="let row">{{ row.chairs }}</td>
-      </ng-container>
-      <ng-container matColumnDef="mesas">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Mesas</th>
-        <td mat-cell *matCellDef="let row">{{ row.tables }}</td>
-      </ng-container>
-      <ng-container matColumnDef="cadeirasPorMesa">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          Cadeiras por mesas
-        </th>
-        <td mat-cell *matCellDef="let row">{{ row.chairByTables }}</td>
-      </ng-container>
-      <ng-container matColumnDef="computadores">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Computadores</th>
-        <td mat-cell *matCellDef="let row">{{ row.computers }}</td>
-      </ng-container>
-      <ng-container matColumnDef="lousa">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          Capacidade da sala
-        </th>
-        <td mat-cell *matCellDef="let row">{{ row.capacity }}</td>
-      </ng-container>
-      <ng-container matColumnDef="projetor">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Projetores</th>
-        <td mat-cell *matCellDef="let row">{{ row.projectors }}</td>
-      </ng-container>
       <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Utilizavel?</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Disponível?</th>
         <td mat-cell *matCellDef="let row">{{ row.status }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="ident_sala">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Identificação da sala
+        </th>
+        <td mat-cell *matCellDef="let row">
+          {{ row.ident_sala }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="num_cadeiras">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Nº de cadeiras
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.num_cadeiras }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="num_mesas">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nº de mesas</th>
+        <td mat-cell *matCellDef="let row">{{ row.num_mesas }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="num_computadores">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Nº de computadores
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.num_computadores }}</td>
+      </ng-container>
+      <ng-container matColumnDef="num_lousas">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nº de lousas</th>
+        <td mat-cell *matCellDef="let row">{{ row.num_lousas }}</td>
+      </ng-container>
+      <ng-container matColumnDef="num_projetores">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Nº de projetores
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.num_projetores }}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

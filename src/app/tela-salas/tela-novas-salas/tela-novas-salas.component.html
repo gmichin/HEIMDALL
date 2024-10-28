@@ -27,92 +27,80 @@
 
 <mat-card>
   <mat-card-title
-    >{{ roomToEdit.valid ? "Edição" : "Cadastro" }} de Salas</mat-card-title
+    >{{ salaToEdit.valid ? "Edição" : "Cadastro" }} de Salas</mat-card-title
   >
   <mat-card-content>
     <form [formGroup]="resgiterForm" (ngSubmit)="save()">
-      <mat-form-field *ngIf="courses.length > 0">
-        <mat-label>Curso:</mat-label>
-        <mat-select formControlName="course">
-          <mat-option *ngFor="let course of courses" [value]="course.curso_id">
-            {{ course.nome }}
-          </mat-option>
+      <mat-form-field>
+        <mat-label>Identificação das salas</mat-label>
+        <input
+          formControlName="ident_sala"
+          matInput
+          type="text"
+          placeholder="Identificação das salas"
+          name="ident_sala"
+        /> </mat-form-field
+      ><mat-form-field>
+        <mat-label>Disponível?</mat-label>
+        <mat-select formControlName="status">
+          <mat-option [value]="true">Sim</mat-option>
+          <mat-option [value]="false">Não</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>Numero da Salas</mat-label>
+        <mat-label>Nº de cadeiras</mat-label>
         <input
-          formControlName="number"
+          formControlName="num_cadeiras"
           matInput
           type="number"
-          placeholder="Numero da Salas"
-          name="numeroSalas"
+          placeholder="Nº de cadeiras"
+          name="num_cadeiras"
         />
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Qte. de Cadeiras</mat-label>
+        <mat-label>Nº de mesas</mat-label>
         <input
-          formControlName="chairs"
+          formControlName="num_mesas"
           matInput
           type="number"
-          placeholder="Qte. de Cadeiras"
-          name="numeroCadeiras"
+          placeholder="Nº de mesas"
+          name="num_mesas"
         />
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Qte. de Mesas</mat-label>
+        <mat-label>Nº de computadores</mat-label>
         <input
-          formControlName="tables"
+          formControlName="num_computadores"
           matInput
           type="number"
-          placeholder="Qte. de Mesas"
-          name="numeroMesas"
+          placeholder="Nº de computadores"
+          name="num_computadores"
         />
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Qte. de Cadeiras por Mesa</mat-label>
+        <mat-label>Nº de projetores</mat-label>
         <input
-          formControlName="chairByTables"
+          formControlName="num_projetores"
           matInput
           type="number"
-          placeholder="Qte. de Cadeiras por Mesa"
-          name="cadeirasPorMesa"
+          placeholder="Nº de projetores"
+          name="num_projetores"
         />
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Qte. de Computadores</mat-label>
+        <mat-label>Nº de lousas</mat-label>
         <input
-          formControlName="computers"
+          formControlName="num_lousas"
           matInput
           type="number"
-          placeholder="Qte. de Computadores"
-          name="numeroComputadores"
-        />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Capacidade da sala</mat-label>
-        <input
-          formControlName="capacity"
-          matInput
-          type="number"
-          placeholder="Capacidade da sala"
-          name="Capacidade"
-        />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Qte. de Projetores</mat-label>
-        <input
-          formControlName="projectors"
-          matInput
-          type="number"
-          placeholder="Qte. de Projetores"
-          name="projetor"
+          placeholder="Nº de lousas"
+          name="num_lousas"
         />
       </mat-form-field>
       <br />
       <button type="submit" class="saveButton">
-        {{ roomToEdit.valid ? "Editar" : "Cadastrar" }}
+        {{ salaToEdit.valid ? "Editar" : "Cadastrar" }}
       </button>
     </form>
   </mat-card-content>

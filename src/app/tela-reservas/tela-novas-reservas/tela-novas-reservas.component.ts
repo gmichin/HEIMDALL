@@ -117,21 +117,6 @@ export class TelaNovasReservasComponent implements OnInit {
         this.errorMessage.invalid = true;
       },
     });
-
-    this.salaService.getRoomsByInst().subscribe({
-      next: (salas) => {
-        this.salaList = salas;
-        if (salas.length == 0) {
-          this.errorMessage.message =
-            'Não foram encontradas salas cadastradas ou disponíveis.';
-          this.errorMessage.invalid = true;
-        }
-      },
-      error: (err) => {
-        this.errorMessage.message = 'Não foi possível buscar as salas.';
-        this.errorMessage.invalid = true;
-      },
-    });
   }
 
   public redirectHomeAdm() {
