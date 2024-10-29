@@ -155,6 +155,3 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
     this.router.navigate(['/']);
   }
 }
-function carregarDadosProfessores() {
-  throw new Error('Function not implemented.');
-}

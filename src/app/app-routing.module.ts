@@ -69,9 +69,12 @@ const routes: Routes = [
   { path: 'tela-novas-salas', component: TelaNovasSalasComponent },
   { path: 'tela-salas-feitas', component: TelaSalasFeitasComponent },
 
-  { path: 'tela-materias', component: TelaDisciplinasComponent },
-  { path: 'tela-novas-materias', component: TelaNovasDisciplinasComponent },
-  { path: 'tela-materias-feitas', component: TelaDisciplinasFeitasComponent },
+  { path: 'tela-disciplinas', component: TelaDisciplinasComponent },
+  { path: 'tela-novas-disciplinas', component: TelaNovasDisciplinasComponent },
+  {
+    path: 'tela-disciplinas-feitas',
+    component: TelaDisciplinasFeitasComponent,
+  },
 
   { path: 'tela-mapa-horario-salas', component: TelaMapaHorarioAulasComponent },
 

@@ -30,11 +30,11 @@ export class TelaDisciplinasComponent {
 
   addData() {
     this.dialogRef.close();
-    this.router.navigate(['/tela-novas-materias']);
+    this.router.navigate(['/tela-novas-disciplinas']);
   }
 
   seeData() {
     this.dialogRef.close();
-    this.router.navigate(['/tela-materias-feitas']);
+    this.router.navigate(['/tela-disciplinas-feitas']);
   }
 }
