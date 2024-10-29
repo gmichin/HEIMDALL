@@ -496,12 +496,7 @@ export class TelaNovasReservasComponent implements OnInit {
     return user.adm == true;
   }
   goBack() {
-    if (this.tipoUsuario == 'Administrador')
-      this.router.navigate(['/home-adm']);
-    else if (this.tipoUsuario == 'Professor')
-      this.router.navigate(['/home-teacher']);
-    else if (this.tipoUsuario == 'Aluno')
-      this.router.navigate(['/home-student']);
+    this.router.navigate(['/home-adm']);
   }
   logout() {
     this.router.navigate(['/']);

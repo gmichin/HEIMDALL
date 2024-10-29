@@ -52,7 +52,7 @@
         <mat-form-field>
           <mat-label>Informe o Curso:</mat-label>
           <mat-select
-            [disabled]="salaList.length == 0"
+            [disabled]="cursoList.length == 0"
             (valueChange)="changeCourse($event)"
             formControlName="course_id"
           >

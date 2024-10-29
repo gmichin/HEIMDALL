@@ -1,15 +1,11 @@
-import { SalaService } from './../../services/sala.service';
 import { DisciplinaModel } from './../../models/disciplina.model';
 import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { SalaDataService } from 'src/app/services/sala-data.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
 import { TelaReservasComponent } from '../tela-reservas.component';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
-import { combineLatest, firstValueFrom, forkJoin } from 'rxjs';
 import { CursoService } from 'src/app/services/curso.service';
 import { CursoModel } from 'src/app/models/curso.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -35,8 +31,10 @@ export class TelaReservasFeitasComponent {
     'remove',
     'numero',
     'professor',
-    'start_time',
-    'end_time',
+    'sala',
+    'status',
+    'data_hora_inicio',
+    'data_hora_final',
   ];
   idSalaReservada: any[] = [];
   salasFiltradas: any[] = [];
