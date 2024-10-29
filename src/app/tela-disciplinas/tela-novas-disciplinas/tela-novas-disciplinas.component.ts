@@ -65,7 +65,7 @@ export class TelaNovasDisciplinasComponent implements OnInit {
         this.disciplinaToEdit.valid ? this.disciplinaToEdit.class.nome : '',
         [Validators.required],
       ],
-      description: [
+      descricao: [
         this.disciplinaToEdit.valid
           ? this.disciplinaToEdit.class.descricao
           : '',
@@ -165,7 +165,7 @@ export class TelaNovasDisciplinasComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
-  openMaterias() {
+  opendisciplinas() {
     const dialogRef = this.dialog.open(TelaDisciplinasComponent);
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
@@ -173,22 +173,19 @@ export class TelaNovasDisciplinasComponent implements OnInit {
   }
 
   public save() {
-    const instituition_id =
-      this.sessionService.getSessionData<string>('idInstitution').retorno;
-
-    const materia = new DisciplinaModel({
+    const disciplina = new DisciplinaModel({
       nome: this.ProfessorAdmForm.get('nome')?.value,
       descricao: this.ProfessorAdmForm.get('descricao')?.value,
     });
 
     if (this.disciplinaToEdit.valid) {
-      materia.disciplina_id = this.disciplinaToEdit.class.disciplina_id;
-      this.disciplinService.atualizarDisciplina(materia).subscribe({
+      disciplina.disciplina_id = this.disciplinaToEdit.class.disciplina_id;
+      this.disciplinService.atualizarDisciplina(disciplina).subscribe({
         next: (res) => {
           this.snackBar.open('Atualizado com sucesso!', '', {
             duration: 4000,
           });
-          this.router.navigate(['tela-novas-materias']);
+          this.router.navigate(['home-adm']);
         },
         error: (err) => {
           this.snackBar.open(
@@ -198,16 +195,17 @@ export class TelaNovasDisciplinasComponent implements OnInit {
               duration: 4000,
             }
           );
+          this.router.navigate(['home-adm']);
         },
       });
       return;
     }
-    this.disciplinService.criarDisciplina(materia).subscribe({
+    this.disciplinService.criarDisciplina(disciplina).subscribe({
       next: (res) => {
         this.snackBar.open('Cadastrado com sucesso!', '', {
           duration: 4000,
         });
-        this.router.navigate(['tela-novas-materias']);
+        this.router.navigate(['home-adm']);
       },
       error: (err) => {
         this.snackBar.open(
@@ -217,6 +215,7 @@ export class TelaNovasDisciplinasComponent implements OnInit {
             duration: 4000,
           }
         );
+        this.router.navigate(['home-adm']);
       },
     });
   }

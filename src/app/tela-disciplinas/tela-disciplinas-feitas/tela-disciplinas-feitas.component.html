@@ -35,7 +35,7 @@
   </mat-form-field>
 
   <div class="mat-elevation-z4">
-    <table mat-table [dataSource]="courseList" matSort>
+    <table mat-table [dataSource]="disciplinasList" matSort>
       <ng-container matColumnDef="remove">
         <th mat-header-cell *matHeaderCellDef>
           <mat-checkbox
@@ -102,7 +102,7 @@
   <button
     mat-raised-button
     [disabled]="selection.selected.length == 0"
-    (click)="editMateria()"
+    (click)="editDisciplinas()"
     class="demo-button"
   >
     EDITAR MATÉRIA
@@ -110,7 +110,7 @@
   <button
     mat-raised-button
     [disabled]="selectionReject.selected.length < 1"
-    (click)="apagarMaterias()"
+    (click)="apagarDisciplinas()"
     class="demo-button"
   >
     EXCLUIR MATÉRIA

@@ -39,6 +39,7 @@
           placeholder="Nome da Matéria"
         />
       </mat-form-field>
+      <br />
       <mat-form-field>
         <mat-label>Descrição:</mat-label>
         <input
@@ -50,17 +51,6 @@
       </mat-form-field>
       <br />
 
-      <mat-form-field>
-        <mat-label>Curso:</mat-label>
-        <mat-select formControlName="course_id">
-          @for (course of courses; track course) {
-          <mat-option [value]="course.curso_id">{{ course.nome }}</mat-option>
-          } @empty {
-          <mat-option [value]="">Sem dados</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-      <br />
       <button type="submit" class="saveButton">
         {{ disciplinaToEdit.valid ? "Editar" : "Cadastrar" }}
       </button>

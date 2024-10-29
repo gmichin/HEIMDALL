@@ -10,8 +10,6 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { DisciplinaModel } from 'src/app/models/disciplina.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TelaDisciplinasComponent } from '../tela-disciplinas.component';
-import { CursoService } from 'src/app/services/curso.service';
-import { CursoModel } from 'src/app/models/curso.model';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import {
   AbstractControl,
@@ -31,12 +29,11 @@ export class TelaDisciplinasFeitasComponent {
   selectionCourse = new SelectionModel<string>(true, []);
   selection = new SelectionModel<DisciplinaModel>(true, []);
   selectionReject = new SelectionModel<DisciplinaModel>(true, []);
-  courseList!: CursoModel[];
+  disciplinasList!: DisciplinaModel[];
   public form: FormGroup;
 
   constructor(
     public dialog: MatDialog,
-    private cursoService: CursoService,
     private snackBar: MatSnackBar,
     private disciplinaService: DisciplinaService,
     private router: Router,
@@ -44,16 +41,16 @@ export class TelaDisciplinasFeitasComponent {
   ) {
     this.form = this.fb.group(
       {
-        disciplina_id: ['', [Validators.required]],
         nome: ['', [Validators.required]],
         descricao: ['', [Validators.required, this.emailValidator]],
+        curso_id: ['', [Validators.required]],
       },
       { validator: this.passwordMatchValidator }
     );
 
-    this.cursoService.getAllCursos().subscribe({
-      next: (cursos) => {
-        this.courseList = cursos;
+    this.disciplinaService.getAllDisciplinas().subscribe({
+      next: (disciplinas) => {
+        this.disciplinasList = disciplinas;
       },
     });
   }
@@ -78,7 +75,7 @@ export class TelaDisciplinasFeitasComponent {
     });
   }
 
-  openMaterias() {
+  openDisciplinas() {
     const dialogRef = this.dialog.open(TelaDisciplinasComponent);
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
@@ -115,7 +112,7 @@ export class TelaDisciplinasFeitasComponent {
               duration: 4000,
             }
           );
-          this.router.navigate(['tela-materias-feitas']);
+          this.router.navigate(['tela-disciplinas-feitas']);
         },
       });
   }
@@ -123,11 +120,11 @@ export class TelaDisciplinasFeitasComponent {
   @ViewChild(MatTable)
   table!: MatTable<DisciplinaModel>;
 
-  editMateria() {
+  editDisciplinas() {
     this.disciplinaService.salvarDisciplinaToEdit(this.selection.selected[0]);
   }
 
-  apagarMaterias() {
+  apagarDisciplinas() {
     this.disciplinaService
       .deletarDisciplina(this.selectionReject.selected)
       .subscribe({
@@ -135,7 +132,11 @@ export class TelaDisciplinasFeitasComponent {
           this.snackBar.open('Removida(s) com sucesso!', '', {
             duration: 4000,
           });
-          this.router.navigate(['tela-materias-feitas']);
+          this.router
+            .navigateByUrl('/', { skipLocationChange: true })
+            .then(() => {
+              this.router.navigate(['tela-disciplinas-feitas']);
+            });
         },
         error: (err) => {
           this.snackBar.open(
@@ -145,7 +146,11 @@ export class TelaDisciplinasFeitasComponent {
               duration: 4000,
             }
           );
-          this.router.navigate(['tela-materias-feitas']);
+          this.router
+            .navigateByUrl('/', { skipLocationChange: true })
+            .then(() => {
+              this.router.navigate(['tela-disciplinas-feitas']);
+            });
         },
       });
   }

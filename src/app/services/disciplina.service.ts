@@ -2,7 +2,7 @@ import { DisciplinaModel } from './../models/disciplina.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { url_config } from '../url.config';
-import { Observable, forkJoin, map } from 'rxjs';
+import { Observable, catchError, forkJoin, map, of } from 'rxjs';
 import { SessionService } from './session.service';
 import { Router } from '@angular/router';
 import { ProfessorModel } from '../models/professor.model';
@@ -17,20 +17,29 @@ export class DisciplinaService {
     private router: Router
   ) {}
 
-  public criarDisciplina(materia: DisciplinaModel) {
-    return this.http.post(url_config.url_disciplina, materia);
-  }
-
-  public atualizarDisciplina(materia: DisciplinaModel) {
-    return this.http.patch(
-      `${url_config.url_disciplina}/${materia.disciplina_id}`,
-      materia
+  public getAllDisciplinas(): Observable<DisciplinaModel[]> {
+    const url = `${url_config.url_disciplina}`;
+    return this.http.get<DisciplinaModel[]>(url).pipe(
+      catchError(() => {
+        return of([]);
+      })
     );
   }
 
-  public deletarDisciplina(materia: DisciplinaModel[]) {
+  public criarDisciplina(disciplinas: DisciplinaModel) {
+    return this.http.post(url_config.url_disciplina, disciplinas);
+  }
+
+  public atualizarDisciplina(disciplinas: DisciplinaModel) {
+    return this.http.patch(
+      `${url_config.url_disciplina}/${disciplinas.disciplina_id}`,
+      disciplinas
+    );
+  }
+
+  public deletarDisciplina(disciplinas: DisciplinaModel[]) {
     const arrReqs: Observable<any>[] = [];
-    materia.forEach((r) => {
+    disciplinas.forEach((r) => {
       arrReqs.push(
         this.http.delete(`${url_config.url_disciplina}/${r.disciplina_id}`)
       );
@@ -66,15 +75,15 @@ export class DisciplinaService {
 
   public salvarDisciplinaToEdit(matria: DisciplinaModel) {
     this.sessionService.setItem('editClass', matria);
-    this.router.navigate(['tela-novas-materias']);
+    this.router.navigate(['tela-novas-disciplinas']);
   }
 
   public getDisciplinaToEdit(): { class: DisciplinaModel; valid: boolean } {
-    const materia =
+    const disciplinas =
       this.sessionService.getSessionData<DisciplinaModel>('editClass');
-    if (materia.valido) {
+    if (disciplinas.valido) {
       sessionStorage.removeItem('editClass');
-      return { valid: true, class: materia.retorno };
+      return { valid: true, class: disciplinas.retorno };
     }
     return { valid: false, class: {} as DisciplinaModel };
   }

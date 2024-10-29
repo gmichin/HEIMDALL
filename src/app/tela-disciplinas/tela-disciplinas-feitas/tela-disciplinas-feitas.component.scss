@@ -30,9 +30,12 @@
   overflow-x: auto;
 }
 
-mat-table {
-  background-color: #83cf79;
+table {
+  background-color: #dcdee2;
   width: 100%;
+}
+mat-paginator {
+  background-color: #dcdee2;
 }
 
 .mat-mdc-form-field {
