@@ -33,6 +33,7 @@ export class TelaNovasSalasComponent implements OnInit {
     private salaService: SalaService,
     private router: Router
   ) {
+    this.salaToEdit = this.salaService.getSalaToEdit();
     this.resgiterForm = this.fb.group({
       ident_sala: [
         this.salaToEdit.valid ? this.salaToEdit.sala.ident_sala : 0,
@@ -136,7 +137,11 @@ export class TelaNovasSalasComponent implements OnInit {
           this.snackBar.open('Atualizado com sucesso!', '', {
             duration: 4000,
           });
-          this.router.navigate(['home-adm']);
+          this.router
+            .navigateByUrl('/', { skipLocationChange: true })
+            .then(() => {
+              this.router.navigate(['home-adm']);
+            });
         },
         error: (err) => {
           this.snackBar.open(
@@ -155,7 +160,11 @@ export class TelaNovasSalasComponent implements OnInit {
         this.snackBar.open('Cadastrado com sucesso!', '', {
           duration: 4000,
         });
-        this.router.navigate(['tela-novas-salas']);
+        this.router
+          .navigateByUrl('/', { skipLocationChange: true })
+          .then(() => {
+            this.router.navigate(['home-adm']);
+          });
       },
       error: (err) => {
         this.snackBar.open(

@@ -1,8 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { SalaDataService } from 'src/app/services/sala-data.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
@@ -10,10 +8,8 @@ import { TelaReservasComponent } from 'src/app/tela-reservas/tela-reservas.compo
 import { SelectionModel } from '@angular/cdk/collections';
 import { SalaModel } from 'src/app/models/sala.model';
 import { SalaService } from 'src/app/services/sala.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { TelaDisciplinasComponent } from 'src/app/tela-disciplinas/tela-disciplinas.component';
-import { ProfessorModel } from 'src/app/models/professor.model';
 import { SessionService } from 'src/app/services/session.service';
 
 @Component({
@@ -23,6 +19,8 @@ import { SessionService } from 'src/app/services/session.service';
 })
 export class TelaSalasFeitasComponent {
   displayedColumns: string[] = [
+    'edit',
+    'remove',
     'status',
     'ident_sala',
     'num_cadeiras',
@@ -43,11 +41,11 @@ export class TelaSalasFeitasComponent {
 
   constructor(
     public dialog: MatDialog,
-    private salaDataService: SalaDataService,
+    private salaService: SalaService,
     private router: Router,
     private sessionService: SessionService
   ) {
-    this.salaDataService.carregarDadosSalas().subscribe({
+    this.salaService.carregarDadosSalas().subscribe({
       next: (salas) => {
         this.dataSource.data = salas;
       },
@@ -115,11 +113,28 @@ export class TelaSalasFeitasComponent {
   }
 
   editSala() {
-    this.salaDataService.atualizarSala(this.selection.selected[0]);
+    this.salaService.saveSalaToEdit(this.selection.selected[0]);
   }
 
   apagarSalas() {
-    this.salaDataService.deletarSala(this.id);
+    const salasSelecionadas = this.selectionReject.selected;
+
+    if (salasSelecionadas.length > 0) {
+      this.salaService.deleteSala(salasSelecionadas).subscribe(() => {
+        this.dataSource.data = this.dataSource.data.filter(
+          (sala) => !this.selectionReject.isSelected(sala)
+        );
+        this.selectionReject.clear();
+
+        this.router
+          .navigateByUrl('/', { skipLocationChange: true })
+          .then(() => {
+            this.router.navigate(['tela-salas-feitas']);
+          });
+      });
+    } else {
+      alert('Selecione pelo menos uma sala para excluir.');
+    }
   }
 
   toggleAllRowsReject() {

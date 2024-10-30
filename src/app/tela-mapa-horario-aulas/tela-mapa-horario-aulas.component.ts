@@ -1,3 +1,4 @@
+import { SalaService } from 'src/app/services/sala.service';
 import { Component, OnInit } from '@angular/core';
 import { SessionService } from './../services/session.service';
 import { SalaDataService } from '../services/sala-data.service';
@@ -63,6 +64,7 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
   constructor(
     private sessionService: SessionService,
     private salaDataService: SalaDataService,
+    private salaService: SalaService,
     private router: Router,
     public dialog: MatDialog
   ) {
@@ -81,7 +83,7 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
     forkJoin({
       reservas: this.salaDataService.carregarDadosSalasReservadas(),
       turma: this.salaDataService.carregarDadosTurma(),
-      salas: this.salaDataService.carregarDadosSalas(),
+      salas: this.salaService.carregarDadosSalas(),
       professor: this.salaDataService.carregarDadosProfessores(),
     }).subscribe(({ reservas, turma, salas, professor }) => {
       this.reservas = reservas;

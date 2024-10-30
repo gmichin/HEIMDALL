@@ -23,11 +23,15 @@ export class SalaService {
     return this.http.post(url_config.url_sala, sala);
   }
 
+  public carregarDadosSalas() {
+    return this.http.get<any[]>(url_config.url_sala);
+  }
+
   public atualizarSala(sala: SalaModel) {
     return this.http.patch(`${url_config.url_sala}/${sala.sala_id}`, sala);
   }
 
-  public deletesala(sala: SalaModel[]) {
+  public deleteSala(sala: SalaModel[]) {
     const arrReqs: Observable<any>[] = [];
     sala.forEach((r) => {
       arrReqs.push(this.http.delete(`${url_config.url_sala}/${r.sala_id}`));

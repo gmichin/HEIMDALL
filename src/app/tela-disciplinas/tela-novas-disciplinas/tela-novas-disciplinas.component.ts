@@ -29,35 +29,14 @@ export class TelaNovasDisciplinasComponent implements OnInit {
   public disciplinaToEdit!: { valid: boolean; class: DisciplinaModel };
 
   newSala: any[] = [];
-  public dataProfessorAdm = <ProfessorModel>(
-    this.sessionService.getSessionData('professor').retorno
-  );
-  public dataAluno = <AlunoModel>(
-    this.sessionService.getSessionData('aluno').retorno
-  );
-  public idProfessorAdm = this.dataProfessorAdm.professor_id;
-  public idAluno = this.dataAluno.aluno_id;
-  public tipoUsuario = '';
 
   constructor(
     public dialog: MatDialog,
     private fb: FormBuilder,
-    private cursoService: CursoService,
     private snackBar: MatSnackBar,
-    private sessionService: SessionService,
-    private internsService: InternsService,
     private disciplinService: DisciplinaService,
     private router: Router
   ) {
-    switch (this.dataProfessorAdm.adm) {
-      case true:
-        this.tipoUsuario = 'Administrador';
-        break;
-      case false:
-        this.tipoUsuario = 'Professor';
-        break;
-    }
-    if (this.dataAluno) this.tipoUsuario = 'Aluno';
     this.disciplinaToEdit = this.disciplinService.getDisciplinaToEdit();
 
     this.ProfessorAdmForm = this.fb.group({
@@ -85,55 +64,7 @@ export class TelaNovasDisciplinasComponent implements OnInit {
       ],
     });
   }
-  ngOnInit(): void {
-    this.internsService.getAllTeachers().subscribe({
-      next: (res) => {
-        this.teachersList = res;
-        if (res.length == 0) {
-          this.snackBar.open(
-            'Ocorreu um erro durante a busca dos professores, por favor, tente novamente mais tarde.',
-            '',
-            {
-              duration: 4000,
-            }
-          );
-        }
-      },
-      error: (err) => {
-        this.snackBar.open(
-          'Ocorreu um erro durante a busca dos professores, por favor, tente novamente mais tarde.',
-          '',
-          {
-            duration: 2000,
-          }
-        );
-      },
-    });
-
-    this.cursoService.getAllCursos().subscribe({
-      next: (res) => {
-        this.courses = res;
-        if (res.length == 0) {
-          this.snackBar.open(
-            'Ocorreu um erro durante a busca dos cursos, por favor, tente novamente mais tarde.',
-            '',
-            {
-              duration: 4000,
-            }
-          );
-        }
-      },
-      error: (err) => {
-        this.snackBar.open(
-          'Ocorreu um erro durante a busca dos cursos, por favor, tente novamente mais tarde.',
-          '',
-          {
-            duration: 2000,
-          }
-        );
-      },
-    });
-  }
+  ngOnInit(): void {}
 
   goHome() {
     this.router.navigate(['/home-adm']);

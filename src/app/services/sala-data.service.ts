@@ -1,16 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { url_config } from '../url.config';
+import { Observable } from 'rxjs/internal/Observable';
+import { SalaModel } from '../models/sala.model';
+import { forkJoin } from 'rxjs';
+import { SessionService } from './session.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SalaDataService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private sessionService: SessionService,
+    private router: Router
+  ) {}
 
-  public carregarDadosSalas() {
-    return this.http.get<any[]>(url_config.url_sala);
-  }
   public carregarDadosProfessores() {
     return this.http.get<any[]>(url_config.url_professor);
   }
@@ -46,7 +52,17 @@ export class SalaDataService {
     return this.http.patch<any[]>(url_config.url_sala, salaAtualizada);
   }
 
-  deletarSala(numero: number) {
-    this.http.delete(url_config.url_sala);
+  public salvarSalaToEdit(matria: SalaModel) {
+    this.sessionService.setItem('editSala', matria);
+    this.router.navigate(['tela-novas-salas']);
+  }
+
+  public deletarSalas(salas: SalaModel[]) {
+    const arrReqs: Observable<any>[] = [];
+    salas.forEach((r) => {
+      arrReqs.push(this.http.delete(`${url_config.url_sala}/${r.sala_id}`));
+    });
+
+    return forkJoin(...arrReqs);
   }
 }
