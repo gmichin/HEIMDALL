@@ -98,7 +98,7 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
     });
   }
 
-  public redirectMaterias() {
+  public redirectDisciplinas() {
     const dialogT = this.dialog.open(TelaDisciplinasComponent, {
       width: '400px',
     });

@@ -36,45 +36,35 @@
 
   <div class="mat-elevation-z4">
     <table mat-table [dataSource]="dataSource" matSort>
-      <ng-container matColumnDef="APROVE">
-        <th mat-header-cell *matHeaderCellDef>
-          <mat-checkbox
-            (change)="$event ? toggleAllRowsAprove() : null"
-            [checked]="selectionAprove.hasValue() && isAllAproveSelected()"
-            [indeterminate]="
-              selectionAprove.hasValue() && !isAllAproveSelected()
-            "
-            [disabled]="validateAllSelected(selectionReject)"
-          ></mat-checkbox>
-          Aprovar
-        </th>
+      <ng-container matColumnDef="EDIT">
+        <th mat-header-cell *matHeaderCellDef>Editar</th>
         <td class="select" mat-cell *matCellDef="let row">
           <mat-checkbox
             (click)="$event.stopPropagation()"
-            (change)="$event ? selectionAprove.toggle(row) : null"
-            [checked]="selectionAprove.isSelected(row)"
-            [disabled]="selectionReject.isSelected(row)"
+            (change)="onEditCheckboxChange(row)"
+            [checked]="selectionEdit.isSelected(row)"
+            [disabled]="selectionDelete.isSelected(row)"
           ></mat-checkbox>
         </td>
       </ng-container>
-      <ng-container matColumnDef="REJECT">
+      <ng-container matColumnDef="DELETE">
         <th mat-header-cell *matHeaderCellDef>
           <mat-checkbox
-            (change)="$event ? toggleAllRowsReject() : null"
-            [checked]="selectionReject.hasValue() && isAllRejectSelected()"
+            (change)="$event ? toggleAllRowsDelete() : null"
+            [checked]="selectionDelete.hasValue() && isAllDeleteSelected()"
             [indeterminate]="
-              selectionReject.hasValue() && !isAllRejectSelected()
+              selectionDelete.hasValue() && !isAllDeleteSelected()
             "
-            [disabled]="validateAllSelected(selectionAprove)"
+            [disabled]="validateAllSelected(selectionEdit)"
           ></mat-checkbox>
-          Rejeitar
+          Deletar
         </th>
         <td class="select" mat-cell *matCellDef="let row">
           <mat-checkbox
             (click)="$event.stopPropagation()"
-            (change)="$event ? selectionReject.toggle(row) : null"
-            [checked]="selectionReject.isSelected(row)"
-            [disabled]="selectionAprove.isSelected(row)"
+            (change)="$event ? selectionDelete.toggle(row) : null"
+            [checked]="selectionDelete.isSelected(row)"
+            [disabled]="selectionEdit.isSelected(row)"
           ></mat-checkbox>
         </td>
       </ng-container>
@@ -119,17 +109,22 @@
     ></mat-paginator>
   </div>
 
-  <div class="buttons">
+  <div class="demo-button-container">
     <button
-      [disabled]="
-        selectionAprove.selected.length == 0 &&
-        selectionReject.selected.length == 0
-      "
-      mat-flat-button
-      color="primary"
-      (click)="enviarLista()"
+      mat-raised-button
+      [disabled]="selectionEdit.selected.length == 0"
+      (click)="edit(selectionEdit.selected[0])"
+      class="demo-button"
     >
-      Confirmar
+      EDITAR SALA
+    </button>
+    <button
+      mat-raised-button
+      [disabled]="selectionDelete.selected.length < 1"
+      (click)="apagar()"
+      class="demo-button"
+    >
+      EXCLUIR SALA
     </button>
   </div>
 </div>

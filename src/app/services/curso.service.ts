@@ -1,9 +1,10 @@
 import { CursoModel } from 'src/app/models/curso.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, of, switchMap } from 'rxjs';
+import { Observable, catchError, forkJoin, of, switchMap } from 'rxjs';
 import { url_config } from '../url.config';
 import { SessionService } from './session.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,7 @@ import { SessionService } from './session.service';
 export class CursoService {
   constructor(
     private http: HttpClient,
+    private router: Router,
     private sessionService: SessionService
   ) {}
 
@@ -29,5 +31,14 @@ export class CursoService {
 
   public atualizarCurso(curso: CursoModel) {
     return this.http.patch(`${url_config.url_curso}/${curso.curso_id}`, curso);
+  }
+
+  public deletarCursos(cursos: CursoModel[]) {
+    const arrReqs: Observable<any>[] = [];
+    cursos.forEach((r) => {
+      arrReqs.push(this.http.delete(`${url_config.url_curso}/${r.curso_id}`));
+    });
+
+    return forkJoin(...arrReqs);
   }
 }

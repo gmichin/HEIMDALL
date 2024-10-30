@@ -73,8 +73,8 @@ export class DisciplinaService {
       );
   }
 
-  public salvarDisciplinaToEdit(matria: DisciplinaModel) {
-    this.sessionService.setItem('editClass', matria);
+  public salvarDisciplinaToEdit(disciplina: DisciplinaModel) {
+    this.sessionService.setItem('editClass', disciplina);
     this.router.navigate(['tela-novas-disciplinas']);
   }
 

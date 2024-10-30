@@ -30,6 +30,7 @@ export class CadastroService {
         })
       );
   }
+
   atualizarAluno(request: AlunoModel) {
     let userType: string;
     userType = 'aluno';

@@ -40,7 +40,7 @@ export class TelaEditAdmComponent implements OnInit {
 
   ngOnInit() {}
 
-  cadastro() {
+  edit() {
     if (this.cadastroProfessorAdmForm.invalid) {
       return;
     }

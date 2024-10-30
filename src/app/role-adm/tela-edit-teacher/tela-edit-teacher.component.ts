@@ -33,7 +33,7 @@ export class TelaEditTeacherComponent implements OnInit {
         nome: ['', [Validators.required]],
         email: ['', [Validators.required, this.emailValidator]],
         registro: ['', [Validators.required]],
-        adm: ['', [Validators.required]],
+        adm: [false],
       },
       { validator: this.passwordMatchValidator }
     );
@@ -41,7 +41,7 @@ export class TelaEditTeacherComponent implements OnInit {
 
   ngOnInit() {}
 
-  cadastro() {
+  edit() {
     if (this.cadastroProfessorAdmForm.invalid) {
       return;
     }

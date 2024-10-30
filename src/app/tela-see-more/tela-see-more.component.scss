@@ -19,7 +19,6 @@ button:hover {
   margin: 0 auto;
   display: flex;
   justify-content: center;
-  align-items: center;
   padding-left: 2%;
 }
 
@@ -37,29 +36,8 @@ mat-paginator {
   font-size: 2em;
 }
 
-.mat-mdc-form-field {
-  font-size: 14px;
-  width: 100%;
-}
-
 .container-table {
   margin: 5%;
-}
-
-.nome {
-  width: 35%;
-}
-
-.email {
-  width: 35%;
-}
-
-.registrationNumber {
-  width: 20%;
-}
-
-.select {
-  width: 5%;
 }
 
 .spacer {
@@ -74,4 +52,32 @@ mat-paginator {
 
 .descricao {
   padding: 10px;
+}
+
+.table-container {
+  width: 95%;
+  margin: auto;
+  margin-top: 1cm;
+  overflow-x: auto;
+}
+
+mat-table {
+  background-color: #83cf79;
+  width: 100%;
+}
+
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+  margin-bottom: -20px;
+}
+
+.demo-button-container {
+  position: absolute;
+  margin: 1% auto;
+  margin-left: 3%;
+}
+
+.demo-button + .demo-button {
+  margin-left: 8px;
 }

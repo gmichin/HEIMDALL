@@ -1,7 +1,7 @@
 <h1>Edite o ADM</h1>
 <div class="container">
   <div class="dadosPessoais">
-    <form [formGroup]="cadastroProfessorAdmForm" (ngSubmit)="cadastro()">
+    <form [formGroup]="cadastroProfessorAdmForm" (ngSubmit)="edit()">
       <mat-form-field class="nome" appearance="fill">
         <mat-label>Nome do Administrador:</mat-label>
         <input formControlName="nome" matInput />
