@@ -4,12 +4,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
-import { TelaReservasComponent } from 'src/app/tela-reservas/tela-reservas.component';
 import { SelectionModel } from '@angular/cdk/collections';
 import { DisciplinaModel } from 'src/app/models/disciplina.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { TelaDisciplinasComponent } from '../tela-disciplinas.component';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import {
   AbstractControl,
@@ -29,7 +26,6 @@ export class TelaDisciplinasFeitasComponent {
   selectionCourse = new SelectionModel<string>(true, []);
   selection = new SelectionModel<DisciplinaModel>(true, []);
   selectionReject = new SelectionModel<DisciplinaModel>(true, []);
-  disciplinasList!: DisciplinaModel[];
   public form: FormGroup;
 
   constructor(
@@ -50,7 +46,7 @@ export class TelaDisciplinasFeitasComponent {
 
     this.disciplinaService.getAllDisciplinas().subscribe({
       next: (disciplinas) => {
-        this.disciplinasList = disciplinas;
+        this.dataSource.data = disciplinas;
       },
     });
   }
@@ -64,29 +60,6 @@ export class TelaDisciplinasFeitasComponent {
   public redirectProfile() {
     const dialogT = this.dialog.open(TelaPerfilComponent, {
       width: '400px',
-    });
-  }
-
-  openReservas() {
-    const dialogRef = this.dialog.open(TelaReservasComponent);
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
-    });
-  }
-
-  openDisciplinas() {
-    const dialogRef = this.dialog.open(TelaDisciplinasComponent);
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
-    });
-  }
-
-  openSalas() {
-    const dialogRef = this.dialog.open(TelaSalasComponent);
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 
