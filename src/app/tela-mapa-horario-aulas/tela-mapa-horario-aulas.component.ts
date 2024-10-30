@@ -1,3 +1,4 @@
+import { ProfessorService } from './../services/professor.service';
 import { SalaService } from 'src/app/services/sala.service';
 import { Component, OnInit } from '@angular/core';
 import { SessionService } from './../services/session.service';
@@ -65,6 +66,7 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
     private sessionService: SessionService,
     private salaDataService: SalaDataService,
     private salaService: SalaService,
+    private professorService: ProfessorService,
     private router: Router,
     public dialog: MatDialog
   ) {
@@ -84,7 +86,7 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
       reservas: this.salaDataService.carregarDadosSalasReservadas(),
       turma: this.salaDataService.carregarDadosTurma(),
       salas: this.salaService.carregarDadosSalas(),
-      professor: this.salaDataService.carregarDadosProfessores(),
+      professor: this.professorService.getAllProfessore(),
     }).subscribe(({ reservas, turma, salas, professor }) => {
       this.reservas = reservas;
       this.turmas = turma;

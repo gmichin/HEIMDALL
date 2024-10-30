@@ -1,3 +1,5 @@
+import { ProfessorService } from './../../services/professor.service';
+import { CursoService } from 'src/app/services/curso.service';
 import { SalaDataService } from './../../services/sala-data.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -31,9 +33,10 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     public dialog: MatDialog,
-    private salaDataService: SalaDataService
+    private cursoService: CursoService,
+    private professorService: ProfessorService
   ) {
-    this.salaDataService.carregarDadosProfessores().subscribe(
+    this.professorService.getAllProfessore().subscribe(
       (dadosProfessores) => {
         this.dataProfessorAdm = dadosProfessores;
         this.processarDados();
@@ -42,7 +45,7 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
         console.error('Erro ao carregar dados dos professores:', error);
       }
     );
-    this.salaDataService.carregarDadosCursos().subscribe(
+    this.cursoService.getAllCursos().subscribe(
       (dadosCursos) => {
         this.dataCursos = dadosCursos;
         this.processarDados();

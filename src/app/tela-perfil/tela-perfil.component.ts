@@ -37,14 +37,14 @@ export class TelaPerfilComponent implements OnInit {
     private router: Router,
     public cadastro: CadastroService
   ) {
-    if (this.dataProfessorAdm.adm) {
+    if (this.dataProfessorAdm.adm == true) {
       this.tipoUsuario = 'Administrador';
       this.criarFormulario(
         this.dataProfessorAdm.email,
         this.dataProfessorAdm.nome,
         this.tipoUsuario
       );
-    } else if (!this.dataProfessorAdm.adm) {
+    } else if (this.dataProfessorAdm.adm == false) {
       this.tipoUsuario = 'Professor';
       this.criarFormulario(
         this.dataProfessorAdm.email,
