@@ -57,6 +57,7 @@ import { TelaEditAdmComponent } from './role-adm/tela-edit-adm/tela-edit-adm.com
 import { TelaCreateTeacherComponent } from './role-adm/tela-create-teacher/tela-create-teacher.component';
 import { TelaCreateCourseComponent } from './role-adm/tela-create-course/tela-create-course.component';
 import { TelaCreateAdmComponent } from './role-adm/tela-create-adm/tela-create-adm.component';
+import { TelaSuporteAjudaComponent } from './tela-suporte-ajuda/tela-suporte-ajuda.component';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { TelaCreateAdmComponent } from './role-adm/tela-create-adm/tela-create-a
     TelaCreateTeacherComponent,
     TelaCreateCourseComponent,
     TelaCreateAdmComponent,
+    TelaSuporteAjudaComponent,
   ],
   imports: [
     AppRoutingModule,

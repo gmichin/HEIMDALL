@@ -1,0 +1,57 @@
+<mat-toolbar>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button (click)="openLoginSignUp()" mat-menu-item>
+      <mat-icon>dialpad</mat-icon>
+      <span>Cadastro/Login</span>
+    </button>
+  </mat-menu>
+
+  <span class="tituloH">HEIMDALL</span>
+
+  <span class="toolbar-spacer"></span>
+
+  <img src="assets/images/ifsp.logo.png" class="logo" />
+</mat-toolbar>
+<div class="box-container">
+  <div class="tryNow">
+    <h1>&nbsp;&nbsp;Suporte & Ajuda</h1>
+    <p>
+      Seja bem-vindo ao <strong>HEIMDALL</strong>, o portal dedicado à gestão e
+      reserva de salas para a nossa comunidade acadêmica. Inspirado pelo
+      guardião vigilante da mitologia nórdica, HEIMDALL é sua fonte confiável
+      para verificar e reservar salas de aula, garantindo uma experiência
+      educacional organizada e eficiente.
+    </p>
+    <p>
+      Nosso objetivo é facilitar a vida dos alunos e professores, oferecendo uma
+      plataforma intuitiva onde você pode rapidamente:
+    </p>
+    <ul>
+      <li>
+        <strong>Consultar horários de aulas:</strong> Veja em que sala sua
+        próxima aula será realizada.
+      </li>
+      <li>
+        <strong>Reservar salas:</strong> Necessita de uma sala para estudo em
+        grupo ou para uma reunião? Realize reservas de forma simples e rápida.
+      </li>
+      <li>
+        <strong>Visualizar disponibilidades:</strong> Planeje seus horários com
+        base nas disponibilidades das salas.
+      </li>
+    </ul>
+    <p>
+      HEIMDALL está aqui para manter tudo em ordem e sob controle, permitindo
+      que você se concentre no que realmente importa: o aprendizado.
+    </p>
+  </div>
+  <div style="text-align: center">
+    <div class="logo-central"></div>
+    <button mat-raised-button (click)="openLoginSignUp()" class="tryButton">
+      Tente agora!
+    </button>
+  </div>
+</div>
