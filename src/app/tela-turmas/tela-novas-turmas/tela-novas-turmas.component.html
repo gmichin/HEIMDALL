@@ -25,34 +25,51 @@
 
 <mat-card>
   <mat-card-title
-    >{{ disciplinaToEdit.valid ? "Edição" : "Cadastro" }} de
-    Disciplinas</mat-card-title
+    >{{ turmaToEdit.valid ? "Edição" : "Cadastro" }} de Turmas</mat-card-title
   >
   <mat-card-content>
-    <form [formGroup]="disciplinaForm" (ngSubmit)="save()">
+    <form [formGroup]="turmaForm" (ngSubmit)="save()">
       <mat-form-field>
-        <mat-label>Nome:</mat-label>
+        <mat-label>Professor:</mat-label>
         <input
-          formControlName="nome"
+          formControlName="professor_id"
           matInput
           type="text"
-          placeholder="Nome da Matéria"
+          placeholder="Professor da turma"
         />
       </mat-form-field>
       <br />
       <mat-form-field>
-        <mat-label>Descrição:</mat-label>
+        <mat-label>Disciplina:</mat-label>
         <input
-          formControlName="descricao"
+          formControlName="disciplina_id"
           matInput
           type="text"
-          placeholder="Descrição da Matéria"
+          placeholder="Disciplina da turma"
+        />
+      </mat-form-field>
+      <br /><mat-form-field>
+        <mat-label>Periodo:</mat-label>
+        <input
+          formControlName="periodo"
+          matInput
+          type="text"
+          placeholder="Periodo da turma"
+        />
+      </mat-form-field>
+      <br /><mat-form-field>
+        <mat-label>Aluno:</mat-label>
+        <input
+          formControlName="aluno_id"
+          matInput
+          type="text"
+          placeholder="Aluno da turma"
         />
       </mat-form-field>
       <br />
 
       <button type="submit" class="saveButton">
-        {{ disciplinaToEdit.valid ? "Editar" : "Cadastrar" }}
+        {{ turmaToEdit.valid ? "Editar" : "Cadastrar" }}
       </button>
     </form>
   </mat-card-content>

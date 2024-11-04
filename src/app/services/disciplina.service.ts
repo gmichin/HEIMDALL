@@ -56,25 +56,28 @@ export class DisciplinaService {
     );
   }
 
+  public salvarDisciplinaToEdit(disciplina: DisciplinaModel) {
+    this.sessionService.setItem('editDisciplina', disciplina);
+    this.router.navigate(['tela-novas-disciplinas']);
+  }
+
+  public getDisciplinaToEdit(): {
+    disciplina: DisciplinaModel;
+    valid: boolean;
+  } {
+    const disciplinas =
+      this.sessionService.getSessionData<DisciplinaModel>('editDisciplina');
+    if (disciplinas.valido) {
+      sessionStorage.removeItem('editDisciplina');
+      return { valid: true, disciplina: disciplinas.retorno };
+    }
+    return { valid: false, disciplina: {} as DisciplinaModel };
+  }
+
   public getProfessorPorDisciplina(
     classId: string
   ): Observable<IProfessoresByDisciplina> {
     return this.http
       .get<IProfessoresByDisciplina>(`${url_config.url_turma}/disciplina/${classId}/professores`)
-  }
-
-  public salvarDisciplinaToEdit(disciplina: DisciplinaModel) {
-    this.sessionService.setItem('editClass', disciplina);
-    this.router.navigate(['tela-novas-disciplinas']);
-  }
-
-  public getDisciplinaToEdit(): { class: DisciplinaModel; valid: boolean } {
-    const disciplinas =
-      this.sessionService.getSessionData<DisciplinaModel>('editClass');
-    if (disciplinas.valido) {
-      sessionStorage.removeItem('editClass');
-      return { valid: true, class: disciplinas.retorno };
-    }
-    return { valid: false, class: {} as DisciplinaModel };
   }
 }

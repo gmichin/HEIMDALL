@@ -1,11 +1,10 @@
-import { TurmaModel } from './../models/turma.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { url_config } from '../url.config';
 import { Observable, catchError, forkJoin, map, of } from 'rxjs';
 import { SessionService } from './session.service';
 import { Router } from '@angular/router';
-import { ProfessorModel } from '../models/professor.model';
+import { TurmaModel } from '../models/turma.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,45 +12,52 @@ import { ProfessorModel } from '../models/professor.model';
 export class TurmaService {
   constructor(
     private http: HttpClient,
+    private sessionService: SessionService,
+    private router: Router
   ) {}
 
-  public getAllTurmas(payload: {[key: string]: string}): Observable<TurmaModel[]> {
-    return this.http.get<TurmaModel[]>(this.makeQueryParameters(payload)).pipe(
+  public getAllTurmas(): Observable<TurmaModel[]> {
+    const url = `${url_config.url_turma}`;
+    return this.http.get<TurmaModel[]>(url).pipe(
       catchError(() => {
         return of([]);
       })
     );
   }
 
-  private makeQueryParameters(payload: {[key: string]: string}): string {
-    const keys = Object.keys(payload);
-    let url  = `${url_config.url_turma}?`
-    for(let i = 0; i > keys.length; i++){
-        url += `&${keys[i]}=${payload[keys[i]]}`
-    }
-    return url
+  public criarTurma(turmas: TurmaModel) {
+    return this.http.post(url_config.url_turma, turmas);
   }
 
-  public criarTurma(Turmas: TurmaModel) {
-    return this.http.post(url_config.url_turma, Turmas);
+  public atualizarTurmas(turma: TurmaModel) {
+    return this.http.patch(`${url_config.url_turma}/${turma.turma_id}`, turma);
   }
 
-  public atualizarTurma(Turmas: TurmaModel) {
-    return this.http.patch(
-      `${url_config.url_turma}/${Turmas.turma_id}`,
-      Turmas
-    );
-  }
-
-  public deletarTurma(Turmas: TurmaModel[]) {
+  public deletarTurma(turma: TurmaModel[]) {
     const arrReqs: Observable<any>[] = [];
-    Turmas.forEach((r) => {
-      arrReqs.push(
-        this.http.delete(`${url_config.url_turma}/${r.turma_id}`)
-      );
+    turma.forEach((r) => {
+      arrReqs.push(this.http.delete(`${url_config.url_turma}/${r.turma_id}`));
     });
 
     return forkJoin(...arrReqs);
   }
 
+  public getTurmaPorCurso(courseId: string): Observable<TurmaModel[]> {
+    return this.http.get<TurmaModel[]>(`${url_config.url_turma}/${courseId}`);
+  }
+
+  public salvarTurmaToEdit(turma: TurmaModel) {
+    this.sessionService.setItem('editTurmas', turma);
+    this.router.navigate(['tela-novas-turmas']);
+  }
+
+  public getTurmaToEdit(): { turma: TurmaModel; valid: boolean } {
+    const disciplinas =
+      this.sessionService.getSessionData<TurmaModel>('editTurma');
+    if (disciplinas.valido) {
+      sessionStorage.removeItem('editTurma');
+      return { valid: true, turma: disciplinas.retorno };
+    }
+    return { valid: false, turma: {} as TurmaModel };
+  }
 }

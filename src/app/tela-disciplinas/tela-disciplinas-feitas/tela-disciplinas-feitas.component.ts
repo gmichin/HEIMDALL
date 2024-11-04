@@ -39,7 +39,6 @@ export class TelaDisciplinasFeitasComponent {
       {
         nome: ['', [Validators.required]],
         descricao: ['', [Validators.required, this.emailValidator]],
-        curso_id: ['', [Validators.required]],
       },
       { validator: this.passwordMatchValidator }
     );

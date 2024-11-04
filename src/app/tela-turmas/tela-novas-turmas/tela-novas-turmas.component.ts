@@ -3,29 +3,24 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TelaReservasComponent } from 'src/app/tela-reservas/tela-reservas.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CursoService } from 'src/app/services/curso.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DisciplinaModel } from 'src/app/models/disciplina.model';
 import { CursoModel } from 'src/app/models/curso.model';
-import { SessionService } from 'src/app/services/session.service';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
-import { TelaDisciplinasComponent } from '../tela-disciplinas.component';
-import { InternsService } from 'src/app/services/interns.service';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { ProfessorModel } from 'src/app/models/professor.model';
-import { AlunoModel } from 'src/app/models/aluno.model';
-import { DisciplinaService } from 'src/app/services/disciplina.service';
+import { TurmaModel } from 'src/app/models/turma.model';
+import { TurmaService } from 'src/app/services/turma.service';
 
 @Component({
-  selector: 'app-tela-novas-disciplinas',
-  templateUrl: './tela-novas-disciplinas.component.html',
-  styleUrl: './tela-novas-disciplinas.component.scss',
+  selector: 'app-tela-novas-turmas',
+  templateUrl: './tela-novas-turmas.component.html',
+  styleUrl: './tela-novas-turmas.component.scss',
 })
-export class TelaNovasDisciplinasComponent implements OnInit {
-  public disciplinaForm: FormGroup;
+export class TelaNovasTurmasComponent implements OnInit {
+  public turmaForm: FormGroup;
   public courses: CursoModel[] = [];
   public teachersList: ProfessorModel[] = [];
-  public disciplinaToEdit!: { valid: boolean; disciplina: DisciplinaModel };
+  public turmaToEdit!: { valid: boolean; turma: TurmaModel };
 
   newSala: any[] = [];
 
@@ -33,24 +28,16 @@ export class TelaNovasDisciplinasComponent implements OnInit {
     public dialog: MatDialog,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private disciplinService: DisciplinaService,
+    private turmaService: TurmaService,
     private router: Router
   ) {
-    this.disciplinaToEdit = this.disciplinService.getDisciplinaToEdit();
+    this.turmaToEdit = this.turmaService.getTurmaToEdit();
 
-    this.disciplinaForm = this.fb.group({
-      nome: [
-        this.disciplinaToEdit.valid
-          ? this.disciplinaToEdit.disciplina.nome
-          : '',
-        [Validators.required],
-      ],
-      descricao: [
-        this.disciplinaToEdit.valid
-          ? this.disciplinaToEdit.disciplina.descricao
-          : '',
-        [Validators.required],
-      ],
+    this.turmaForm = this.fb.group({
+      professor: ['', [Validators.required]],
+      disciplina: ['', [Validators.required]],
+      periodo: ['', [Validators.required]],
+      aluno: ['', [Validators.required]],
     });
   }
   ngOnInit(): void {}
@@ -85,22 +72,18 @@ export class TelaNovasDisciplinasComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
-  opendisciplinas() {
-    const dialogRef = this.dialog.open(TelaDisciplinasComponent);
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
-    });
-  }
 
   public save() {
-    const disciplina = new DisciplinaModel({
-      nome: this.disciplinaForm.get('nome')?.value,
-      descricao: this.disciplinaForm.get('descricao')?.value,
+    const turma = new TurmaModel({
+      professor_id: this.turmaForm.get('professor_id')?.value,
+      disciplina_id: this.turmaForm.get('disciplina_id')?.value,
+      periodo: this.turmaForm.get('periodo')?.value,
+      aluno_id: this.turmaForm.get('aluno_id')?.value,
     });
 
-    if (this.disciplinaToEdit.valid) {
-      disciplina.disciplina_id = this.disciplinaToEdit.disciplina.disciplina_id;
-      this.disciplinService.atualizarDisciplina(disciplina).subscribe({
+    if (this.turmaToEdit.valid) {
+      turma.turma_id = this.turmaToEdit.turma.turma_id;
+      this.turmaService.atualizarTurmas(turma).subscribe({
         next: (res) => {
           this.snackBar.open('Atualizado com sucesso!', '', {
             duration: 4000,
@@ -120,7 +103,7 @@ export class TelaNovasDisciplinasComponent implements OnInit {
       });
       return;
     }
-    this.disciplinService.criarDisciplina(disciplina).subscribe({
+    this.turmaService.criarTurma(turma).subscribe({
       next: (res) => {
         this.snackBar.open('Cadastrado com sucesso!', '', {
           duration: 4000,
