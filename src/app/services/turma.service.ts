@@ -4,7 +4,6 @@ import { url_config } from '../url.config';
 import { Observable, catchError, forkJoin, map, of } from 'rxjs';
 import { SessionService } from './session.service';
 import { Router } from '@angular/router';
-import { ProfessorModel } from '../models/professor.model';
 import { TurmaModel } from '../models/turma.model';
 
 @Injectable({
@@ -47,12 +46,12 @@ export class TurmaService {
     return this.http.get<TurmaModel[]>(`${url_config.url_turma}/${courseId}`);
   }
 
-  public salvarDisciplinaToEdit(turma: TurmaModel) {
+  public salvarTurmaToEdit(turma: TurmaModel) {
     this.sessionService.setItem('editTurmas', turma);
     this.router.navigate(['tela-novas-turmas']);
   }
 
-  public getDisciplinaToEdit(): { turma: TurmaModel; valid: boolean } {
+  public getTurmaToEdit(): { turma: TurmaModel; valid: boolean } {
     const disciplinas =
       this.sessionService.getSessionData<TurmaModel>('editTurma');
     if (disciplinas.valido) {

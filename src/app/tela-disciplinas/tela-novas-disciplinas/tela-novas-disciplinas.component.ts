@@ -22,11 +22,10 @@ import { DisciplinaService } from 'src/app/services/disciplina.service';
   styleUrl: './tela-novas-disciplinas.component.scss',
 })
 export class TelaNovasDisciplinasComponent implements OnInit {
-  public ProfessorAdmForm: FormGroup;
-  public AlunoForm: FormGroup;
+  public disciplinaForm: FormGroup;
   public courses: CursoModel[] = [];
   public teachersList: ProfessorModel[] = [];
-  public disciplinaToEdit!: { valid: boolean; class: DisciplinaModel };
+  public disciplinaToEdit!: { valid: boolean; disciplina: DisciplinaModel };
 
   newSala: any[] = [];
 
@@ -39,26 +38,16 @@ export class TelaNovasDisciplinasComponent implements OnInit {
   ) {
     this.disciplinaToEdit = this.disciplinService.getDisciplinaToEdit();
 
-    this.ProfessorAdmForm = this.fb.group({
+    this.disciplinaForm = this.fb.group({
       nome: [
-        this.disciplinaToEdit.valid ? this.disciplinaToEdit.class.nome : '',
+        this.disciplinaToEdit.valid
+          ? this.disciplinaToEdit.disciplina.nome
+          : '',
         [Validators.required],
       ],
       descricao: [
         this.disciplinaToEdit.valid
-          ? this.disciplinaToEdit.class.descricao
-          : '',
-        [Validators.required],
-      ],
-    });
-    this.AlunoForm = this.fb.group({
-      nome: [
-        this.disciplinaToEdit.valid ? this.disciplinaToEdit.class.nome : '',
-        [Validators.required],
-      ],
-      description: [
-        this.disciplinaToEdit.valid
-          ? this.disciplinaToEdit.class.descricao
+          ? this.disciplinaToEdit.disciplina.descricao
           : '',
         [Validators.required],
       ],
@@ -105,12 +94,12 @@ export class TelaNovasDisciplinasComponent implements OnInit {
 
   public save() {
     const disciplina = new DisciplinaModel({
-      nome: this.ProfessorAdmForm.get('nome')?.value,
-      descricao: this.ProfessorAdmForm.get('descricao')?.value,
+      nome: this.disciplinaForm.get('nome')?.value,
+      descricao: this.disciplinaForm.get('descricao')?.value,
     });
 
     if (this.disciplinaToEdit.valid) {
-      disciplina.disciplina_id = this.disciplinaToEdit.class.disciplina_id;
+      disciplina.disciplina_id = this.disciplinaToEdit.disciplina.disciplina_id;
       this.disciplinService.atualizarDisciplina(disciplina).subscribe({
         next: (res) => {
           this.snackBar.open('Atualizado com sucesso!', '', {
