@@ -34,10 +34,10 @@ export class TelaNovasTurmasComponent implements OnInit {
     this.turmaToEdit = this.turmaService.getTurmaToEdit();
 
     this.turmaForm = this.fb.group({
-      professor: ['', [Validators.required]],
-      disciplina: ['', [Validators.required]],
+      professor_id: ['', [Validators.required]],
+      disciplina_id: ['', [Validators.required]],
       periodo: ['', [Validators.required]],
-      aluno: ['', [Validators.required]],
+      aluno_id: ['', [Validators.required]],
     });
   }
   ngOnInit(): void {}
