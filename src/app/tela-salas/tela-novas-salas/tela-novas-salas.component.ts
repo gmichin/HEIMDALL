@@ -36,7 +36,7 @@ export class TelaNovasSalasComponent implements OnInit {
     this.salaToEdit = this.salaService.getSalaToEdit();
     this.resgiterForm = this.fb.group({
       ident_sala: [
-        this.salaToEdit.valid ? this.salaToEdit.sala.ident_sala : 0,
+        this.salaToEdit.valid ? this.salaToEdit.sala.ident_sala : '',
         [Validators.required],
       ],
       status: [
