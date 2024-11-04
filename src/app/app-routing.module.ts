@@ -23,6 +23,9 @@ import { TelaHomeAdmComponent } from './role-adm/tela-home-adm/tela-home-adm.com
 import { TelaHomeTeacherComponent } from './role-teacher/tela-home-teacher/tela-home-teacher.component';
 import { TelaHomeStudentComponent } from './role-student/tela-home-student/tela-home-student.component';
 import { TelaSuporteAjudaComponent } from './tela-suporte-ajuda/tela-suporte-ajuda.component';
+import { TelaTurmasComponent } from './tela-turmas/tela-turmas.component';
+import { TelaTurmasFeitasComponent } from './tela-turmas/tela-turmas-feitas/tela-turmas-feitas.component';
+import { TelaNovasTurmasComponent } from './tela-turmas/tela-novas-turmas/tela-novas-turmas.component';
 
 const routes: Routes = [
   {
@@ -87,6 +90,10 @@ const routes: Routes = [
   { path: 'tela-see-more', component: TelaSeeMoreComponent },
 
   { path: 'tela-suporte-ajuda', component: TelaSuporteAjudaComponent },
+
+  { path: 'tela-turmas', component: TelaTurmasComponent },
+  { path: 'tela-turmas-feitas', component: TelaTurmasFeitasComponent },
+  { path: 'tela-novas-turmas', component: TelaNovasTurmasComponent },
 ];
 
 @NgModule({

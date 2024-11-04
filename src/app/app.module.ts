@@ -58,6 +58,9 @@ import { TelaCreateTeacherComponent } from './role-adm/tela-create-teacher/tela-
 import { TelaCreateCourseComponent } from './role-adm/tela-create-course/tela-create-course.component';
 import { TelaCreateAdmComponent } from './role-adm/tela-create-adm/tela-create-adm.component';
 import { TelaSuporteAjudaComponent } from './tela-suporte-ajuda/tela-suporte-ajuda.component';
+import { TelaNovasTurmasComponent } from './tela-turmas/tela-novas-turmas/tela-novas-turmas.component';
+import { TelaTurmasFeitasComponent } from './tela-turmas/tela-turmas-feitas/tela-turmas-feitas.component';
+import { TelaTurmasComponent } from './tela-turmas/tela-turmas.component';
 
 @NgModule({
   declarations: [
@@ -90,6 +93,9 @@ import { TelaSuporteAjudaComponent } from './tela-suporte-ajuda/tela-suporte-aju
     TelaCreateCourseComponent,
     TelaCreateAdmComponent,
     TelaSuporteAjudaComponent,
+    TelaNovasTurmasComponent,
+    TelaTurmasFeitasComponent,
+    TelaTurmasComponent,
   ],
   imports: [
     AppRoutingModule,
