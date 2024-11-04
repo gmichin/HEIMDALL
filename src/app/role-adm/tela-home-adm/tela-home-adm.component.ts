@@ -16,6 +16,7 @@ import { TelaEditCourseComponent } from '../tela-edit-course/tela-edit-course.co
 import { TelaEditTeacherComponent } from '../tela-edit-teacher/tela-edit-teacher.component';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
 import { TelaDisciplinasComponent } from 'src/app/tela-disciplinas/tela-disciplinas.component';
+import { TelaTurmasComponent } from 'src/app/tela-turmas/tela-turmas.component';
 
 @Component({
   selector: 'app-tela-home-adm',
@@ -103,6 +104,12 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
 
   public redirectDisciplinas() {
     const dialogT = this.dialog.open(TelaDisciplinasComponent, {
+      width: '400px',
+    });
+  }
+
+  public redirectTurmas() {
+    const dialogT = this.dialog.open(TelaTurmasComponent, {
       width: '400px',
     });
   }

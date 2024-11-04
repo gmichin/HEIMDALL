@@ -1,0 +1,61 @@
+.mat-toolbar {
+  background: rgb(20, 20, 20);
+  color: #1ddd04;
+  margin-bottom: 1cm;
+}
+
+.tituloH {
+  font-size: 2em;
+  font-family: Copperplate, Copperplate Gothic Light, fantasy;
+  cursor: pointer;
+}
+
+mat-card {
+  background-color: #dcdee2;
+  border-radius: 20px;
+  box-shadow: 0 2px 5px black;
+  width: 50%;
+  padding: 1cm;
+  margin: auto;
+  text-align: center;
+}
+
+mat-form-field {
+  margin-inline: 1cm;
+  width: 75%;
+}
+
+mat-card-title {
+  margin-bottom: 40px;
+  text-align: center;
+  color: black;
+  font-size: 40px;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.saveButton {
+  margin-top: 30px;
+  border-radius: 20px;
+  font-size: 25px;
+  padding: 15px;
+  background-color: black;
+  color: #1ddd04;
+  cursor: pointer;
+  margin-bottom: 20px;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  width: 80%;
+}
+.saveButton:hover {
+  background-color: #1ddd04;
+  color: black;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.logo {
+  position: relative;
+  width: 30px;
+  margin-right: 10px;
+}
