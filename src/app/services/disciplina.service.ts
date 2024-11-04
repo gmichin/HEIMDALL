@@ -73,4 +73,21 @@ export class DisciplinaService {
     }
     return { valid: false, disciplina: {} as DisciplinaModel };
   }
+
+  public getProfessorPorDisciplina(
+    classId: string
+  ): Observable<ProfessorModel[]> {
+    return this.http
+      .get<ProfessorModel[]>(`${url_config.url_disciplina}/teachers/${classId}`)
+      .pipe(
+        map((teachers) => {
+          const user =
+            this.sessionService.getSessionData<ProfessorModel>('user').retorno;
+          if (user) {
+            return teachers.filter((t) => t.professor_id == user.professor_id);
+          }
+          return teachers;
+        })
+      );
+  }
 }
