@@ -5,7 +5,7 @@ import { url_config } from '../url.config';
 import { Observable, catchError, forkJoin, map, of } from 'rxjs';
 import { SessionService } from './session.service';
 import { Router } from '@angular/router';
-import { ProfessorModel } from '../models/professor.model';
+import { IProfessoresByDisciplina, ProfessorModel } from '../models/professor.model';
 
 @Injectable({
   providedIn: 'root',
@@ -52,25 +52,15 @@ export class DisciplinaService {
     courseId: string
   ): Observable<DisciplinaModel[]> {
     return this.http.get<DisciplinaModel[]>(
-      `${url_config.url_disciplina}/${courseId}`
+      `${url_config.url_disciplina}/curso/${courseId}`
     );
   }
 
   public getProfessorPorDisciplina(
     classId: string
-  ): Observable<ProfessorModel[]> {
+  ): Observable<IProfessoresByDisciplina> {
     return this.http
-      .get<ProfessorModel[]>(`${url_config.url_disciplina}/teachers/${classId}`)
-      .pipe(
-        map((teachers) => {
-          const user =
-            this.sessionService.getSessionData<ProfessorModel>('user').retorno;
-          if (user) {
-            return teachers.filter((t) => t.professor_id == user.professor_id);
-          }
-          return teachers;
-        })
-      );
+      .get<IProfessoresByDisciplina>(`${url_config.url_turma}/disciplina/${classId}/professores`)
   }
 
   public salvarDisciplinaToEdit(disciplina: DisciplinaModel) {

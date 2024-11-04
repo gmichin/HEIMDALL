@@ -8,13 +8,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { TelaReservasComponent } from '../tela-reservas/tela-reservas.component';
-import { ReservaModel } from '../models/reserva.model';
 import { ProfessorModel } from '../models/professor.model';
 import { AlunoModel } from '../models/aluno.model';
 import { TurmaModel } from '../models/turma.model';
 import { SalaModel } from '../models/sala.model';
 import { DisciplinaModel } from '../models/disciplina.model';
 import { CursoModel } from '../models/curso.model';
+import { IReserva } from '../models/reserva.model';
 
 interface CronogramaModel {
   professor_id: number;
@@ -37,7 +37,7 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
   );
   public idProfessorAdm = this.dataProfessorAdm.professor_id;
   public idAluno = this.dataAluno.aluno_id;
-  public usuarioReservas: ReservaModel[] = [];
+  public usuarioReservas: IReserva[] = [];
   public cronograma: CronogramaModel[] = [];
   public exceptions: any[] = [];
   public tipoUsuario = '';
@@ -45,7 +45,7 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
   public turmas: TurmaModel[] = [];
   public salas: SalaModel[] = [];
   public professores: ProfessorModel[] = [];
-  public reservas: ReservaModel[] = [];
+  public reservas: IReserva[] = [];
   public disciplinas: DisciplinaModel[] = [];
   public cursos: CursoModel[] = [];
 

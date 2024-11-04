@@ -12,13 +12,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReservationService } from 'src/app/services/reservation.service';
-import { ReservaModel } from 'src/app/models/reserva.model';
 import { SessionService } from 'src/app/services/session.service';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { SalaModel } from 'src/app/models/sala.model';
 import { ProfessorModel } from 'src/app/models/professor.model';
 import { AlunoModel } from 'src/app/models/aluno.model';
 import { DisciplinaService } from 'src/app/services/disciplina.service';
+import { IReserva } from 'src/app/models/reserva.model';
 
 @Component({
   selector: 'app-tela-reservas-feitas',
@@ -44,9 +44,9 @@ export class TelaReservasFeitasComponent {
 
   public courseList: CursoModel[] = [];
   public classList: DisciplinaModel[] = [];
-  public reserveList: ReservaModel[] = [];
-  dataSource = new MatTableDataSource<ReservaModel>();
-  selectionReject = new SelectionModel<ReservaModel>(true, []);
+  public reserveList: IReserva[] = [];
+  dataSource = new MatTableDataSource<IReserva>();
+  selectionReject = new SelectionModel<IReserva>(true, []);
 
   public selectionCourse = new SelectionModel<string>(true, []);
   public selectionClass = new SelectionModel<string>(true, []);
