@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { url_config } from '../url.config';
-import { ReservaModel } from '../models/reserva.model';
+import { IReserva } from '../models/reserva.model';
 import { Observable, forkJoin } from 'rxjs';
 
 @Injectable({
@@ -10,17 +10,17 @@ import { Observable, forkJoin } from 'rxjs';
 export class ReservationService {
   constructor(private http: HttpClient) {}
 
-  public createReservation(reserve: any): Observable<ReservaModel> {
-    return this.http.post<ReservaModel>(url_config.url_reserva, reserve);
+  public createReservation(reserve: IReserva): Observable<IReserva> {
+    return this.http.post<IReserva>(url_config.url_reserva, reserve);
   }
 
-  public findByClass(class_id: any): Observable<ReservaModel[]> {
-    return this.http.get<ReservaModel[]>(
+  public findByClass(class_id: any): Observable<IReserva[]> {
+    return this.http.get<IReserva[]>(
       `${url_config.url_reserva}/by-class/${class_id}`
     );
   }
 
-  public deleteReserve(reservas: ReservaModel[]) {
+  public deleteReserve(reservas: IReserva[]) {
     const arrReqs: Observable<any>[] = [];
     reservas.forEach((r) => {
       arrReqs.push(

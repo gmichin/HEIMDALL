@@ -18,7 +18,7 @@ import {
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CursoModel } from 'src/app/models/curso.model';
-import { ReservaModel } from 'src/app/models/reserva.model';
+import { IReserva } from 'src/app/models/reserva.model';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { SessionService } from 'src/app/services/session.service';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
@@ -26,6 +26,8 @@ import { AlunoModel } from 'src/app/models/aluno.model';
 import { ProfessorModel } from 'src/app/models/professor.model';
 import { SalaDataService } from 'src/app/services/sala-data.service';
 import { SalaService } from 'src/app/services/sala.service';
+import { combineLatest, debounceTime, filter } from 'rxjs';
+import { TurmaService } from 'src/app/services/turma.service';
 
 @Component({
   selector: 'app-tela-novas-reservas',
@@ -78,6 +80,7 @@ export class TelaNovasReservasComponent implements OnInit {
     public dialog: MatDialog,
     private salaService: SalaService,
     private cursoService: CursoService,
+    private turmaService: TurmaService,
     private disciplinaService: DisciplinaService,
     private snackBar: MatSnackBar,
     private reservationService: ReservationService,
@@ -96,12 +99,15 @@ export class TelaNovasReservasComponent implements OnInit {
     if (this.dataAluno) this.tipoUsuario = 'Aluno';
 
     this.resgiterForm = this.fb.group({
-      reserva_id: ['', [Validators.required]],
-      professor_id: ['', [Validators.required]],
+      professor_id: [null, [Validators.required]],
       sala_id: ['', [Validators.required]],
-      status: ['', [Validators.required]],
-      data_hora_inicio: ['', [Validators.required]],
-      data_hora_final: ['', [Validators.required]],
+      turma_id: ['', [Validators.required]],
+      disciplina_id: [null, [Validators.required]],
+      status: [false, [Validators.required]],
+      horaInicio: ['', [Validators.required]],
+      horaFim: ['', [Validators.required]],
+      dataInicio: ['', [Validators.required]],
+      dataFim: ['', [Validators.required]],
     });
     this.cursoService.getAllCursos().subscribe({
       next: (cursos) => {
@@ -117,6 +123,13 @@ export class TelaNovasReservasComponent implements OnInit {
         this.errorMessage.invalid = true;
       },
     });
+
+    this.salaService.carregarDadosSalas().subscribe({
+      next: (salas) => this.salaList = salas,
+      error: (err) => {
+        this.errorMessage = { invalid: true, message: 'Ocorreu um erro durante a busca pelas salas.'}
+      }
+    })
   }
 
   public redirectHomeAdm() {
@@ -345,22 +358,19 @@ export class TelaNovasReservasComponent implements OnInit {
   }
 
   public saveDate() {
-    const formValue = this.resgiterForm.value;
-    const formattedData = this.formatDatesAndHours(formValue);
-    console.log('Form Submitted!', formattedData);
-    const reserve = new ReservaModel({
-      sala_id: formattedData.sala_id,
-      professor_id: formattedData.professor_id,
-      data_hora_inicio: formattedData.data_hora_inicio,
-      data_hora_final: formattedData.data_hora_final,
-      status: formattedData.status,
-    });
-    this.reservationService.createReservation(reserve).subscribe({
+    const dataInicio = new Date(this.resgiterForm.controls['dataInicio'].value).toISOString().split('T')[0];
+    const dataFim = new Date(this.resgiterForm.controls['dataFim'].value).toISOString().split('T')[0];
+
+    this.resgiterForm.controls['dataInicio'].setValue(dataInicio);
+    this.resgiterForm.controls['dataFim'].setValue(dataFim);
+
+    const reserva: IReserva = this.resgiterForm.value;
+    this.reservationService.createReservation(reserva).subscribe({
       next: (res) => {
         this.snackBar.open('Reserva realizada com sucesso.', '', {
           duration: 4000,
         });
-        this.router.navigate(['tela-novas-reservas']);
+        this.router.navigate(['redirecionar']);
       },
       error: (err) => {
         this.snackBar.open(
@@ -475,11 +485,12 @@ export class TelaNovasReservasComponent implements OnInit {
       .getProfessorPorDisciplina(this.selectionClass.selected[0])
       .subscribe({
         next: (res) => {
-          this.teacherList = res;
+          this.teacherList = res.professores;
+          this.resgiterForm.controls['turma_id'].setValue(res.turma_id);
         },
         error: (err) => {
           this.snackBar.open(
-            'Ocorreu um erro durante a busca por matérias, por favor, tente novamente mais tarde.',
+            'Ocorreu um erro durante a busca por professores, por favor, tente novamente mais tarde.',
             '',
             {
               duration: 4000,

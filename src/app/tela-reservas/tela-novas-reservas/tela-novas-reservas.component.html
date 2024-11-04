@@ -54,7 +54,6 @@
           <mat-select
             [disabled]="cursoList.length == 0"
             (valueChange)="changeCourse($event)"
-            formControlName="course_id"
           >
             @for (course of cursoList; track course) {
             <mat-option [value]="course.curso_id">{{ course.nome }}</mat-option>
@@ -68,7 +67,7 @@
           <mat-label>Informe a Matéria:</mat-label>
           <mat-select
             (valueChange)="changeClass($event)"
-            formControlName="class_id"
+            formControlName="disciplina_id"
           >
             @for (class of disciplinaList; track class) {
             <mat-option [value]="class.disciplina_id">{{
@@ -90,7 +89,7 @@
           <h5>Escolha a sala que deseja reservar:</h5>
           <mat-form-field *ngIf="disciplinaList.length > 0">
             <mat-label>Sala:</mat-label>
-            <mat-select formControlName="room_id">
+            <mat-select formControlName="sala_id">
               @for (room of salaList; track room) {
               <mat-option [value]="room.sala_id">{{
                 room.ident_sala
@@ -104,7 +103,7 @@
           <h5>Reserve os horários requeridos:</h5>
           <mat-form-field class="boxSize">
             <mat-label>Hora de Início:</mat-label>
-            <mat-select [(ngModel)]="startTime" formControlName="start_hour">
+            <mat-select [(ngModel)]="startTime" formControlName="horaInicio">
               <mat-option *ngFor="let hour of hours" [value]="hour">{{
                 hour
               }}</mat-option>
@@ -112,11 +111,11 @@
           </mat-form-field>
 
           <mat-form-field
-            *ngIf="resgiterForm.get('start_hour')?.value !== ''"
+            *ngIf="resgiterForm.get('horaInicio')?.value !== ''"
             class="boxSizeAppear"
           >
             <mat-label>Hora de Término:</mat-label>
-            <mat-select [(ngModel)]="endTime" formControlName="end_hour">
+            <mat-select [(ngModel)]="endTime" formControlName="horaFim">
               <mat-option *ngFor="let hour of hours" [value]="hour">{{
                 hour
               }}</mat-option>
@@ -126,8 +125,8 @@
           <div *ngIf="error" style="color: red; margin-bottom: 1cm">
             {{ error }}
           </div>
-          <div *ngIf="showPickers">
-            <mat-form-field *ngIf="startTime && endTime" class="boxSizeAppear">
+          <div>
+            <mat-form-field class="boxSizeAppear">
               <mat-label>Selecione um periodo</mat-label>
               <mat-date-range-input
                 [rangePicker]="rangePicker"
@@ -135,12 +134,12 @@
               >
                 <input
                   matStartDate
-                  formControlName="start_date"
+                  formControlName="dataInicio"
                   placeholder="Start date"
                 />
                 <input
                   matEndDate
-                  formControlName="end_date"
+                  formControlName="dataFim"
                   placeholder="End date"
                 />
               </mat-date-range-input>
@@ -171,7 +170,7 @@
             <mat-label>Nome do Professor:</mat-label>
             <mat-select
               [disabled]="teacherList.length == 0"
-              formControlName="teacher_id"
+              formControlName="professor_id"
             >
               @for (teacher of teacherList; track teacher) {
               <mat-option [value]="teacher.professor_id">{{
@@ -189,7 +188,6 @@
       <button
         type="submit"
         class="saveButton"
-        [disabled]="resgiterForm.invalid"
       >
         Reservar
       </button>
