@@ -26,6 +26,7 @@ import { TelaSuporteAjudaComponent } from './tela-suporte-ajuda/tela-suporte-aju
 import { TelaTurmasComponent } from './tela-turmas/tela-turmas.component';
 import { TelaTurmasFeitasComponent } from './tela-turmas/tela-turmas-feitas/tela-turmas-feitas.component';
 import { TelaNovasTurmasComponent } from './tela-turmas/tela-novas-turmas/tela-novas-turmas.component';
+import { ValidacaoProfessoresComponent } from './validacao-professores/validacao-professores.component';
 
 const routes: Routes = [
   {
@@ -85,6 +86,10 @@ const routes: Routes = [
   {
     path: 'validacao-alunos',
     component: ValidacaoAlunosComponent,
+  },
+  {
+    path: 'validacao-professores',
+    component: ValidacaoProfessoresComponent,
   },
 
   { path: 'tela-see-more', component: TelaSeeMoreComponent },

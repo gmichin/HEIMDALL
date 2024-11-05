@@ -61,6 +61,7 @@ import { TelaSuporteAjudaComponent } from './tela-suporte-ajuda/tela-suporte-aju
 import { TelaNovasTurmasComponent } from './tela-turmas/tela-novas-turmas/tela-novas-turmas.component';
 import { TelaTurmasFeitasComponent } from './tela-turmas/tela-turmas-feitas/tela-turmas-feitas.component';
 import { TelaTurmasComponent } from './tela-turmas/tela-turmas.component';
+import { ValidacaoProfessoresComponent } from './validacao-professores/validacao-professores.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { TelaTurmasComponent } from './tela-turmas/tela-turmas.component';
     TelaSalasFeitasComponent,
     TelaNovasSalasComponent,
     ValidacaoAlunosComponent,
+    ValidacaoProfessoresComponent,
     TelaMapaHorarioAulasComponent,
     TelaDisciplinasComponent,
     TelaNovasDisciplinasComponent,

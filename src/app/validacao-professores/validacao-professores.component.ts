@@ -1,4 +1,3 @@
-import { AlunoService } from './../services/aluno.service';
 import { ProfessorService } from 'src/app/services/professor.service';
 import { SalaDataService } from 'src/app/services/sala-data.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -10,43 +9,44 @@ import { MatSort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ResgistrationRequestsService } from '../services/resgistration-requests.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AlunoModel } from '../models/aluno.model';
 import { Router } from '@angular/router';
+import { ProfessorModel } from '../models/professor.model';
 
 @Component({
-  selector: 'app-validacao-alunos',
-  templateUrl: './validacao-alunos.component.html',
-  styleUrls: ['./validacao-alunos.component.scss'],
+  selector: 'app-validacao-professores',
+  templateUrl: './validacao-professores.component.html',
+  styleUrl: './validacao-professores.component.scss',
 })
-export class ValidacaoAlunosComponent implements OnInit {
+export class ValidacaoProfessoresComponent implements OnInit {
   displayedColumns: string[] = [
     'APROVE',
     'REJEITE',
     'registro',
     'nome',
     'email',
-    'ano_entrada',
   ];
 
-  dataSource: MatTableDataSource<AlunoModel> =
-    new MatTableDataSource<AlunoModel>([]);
+  dataSource: MatTableDataSource<ProfessorModel> =
+    new MatTableDataSource<ProfessorModel>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  selectionAprove = new SelectionModel<AlunoModel>(true, []);
-  selectionReject = new SelectionModel<AlunoModel>(true, []);
+  selectionAprove = new SelectionModel<ProfessorModel>(true, []);
+  selectionReject = new SelectionModel<ProfessorModel>(true, []);
 
   constructor(
     public dialog: MatDialog,
     private readonly _registrationService: ResgistrationRequestsService,
     private snackBar: MatSnackBar,
-    private alunoService: AlunoService,
+    private professorService: ProfessorService,
     private router: Router
   ) {
-    this.alunoService.getAllAlunos().subscribe(
-      (dataAlunos: AlunoModel[]) => {
-        this.dataSource = new MatTableDataSource<AlunoModel>(dataAlunos);
+    this.professorService.getAllProfessores().subscribe(
+      (dataProfessores: ProfessorModel[]) => {
+        this.dataSource = new MatTableDataSource<ProfessorModel>(
+          dataProfessores
+        );
       },
       (error) => {
         console.error('Erro ao carregar dados dos alunos:', error);
@@ -80,7 +80,7 @@ export class ValidacaoAlunosComponent implements OnInit {
     });
 
     this._registrationService
-      .sendResquestResponsAluno([
+      .sendResquestResponsProfessor([
         ...this.selectionAprove.selected,
         ...this.selectionReject.selected,
       ])
@@ -89,7 +89,7 @@ export class ValidacaoAlunosComponent implements OnInit {
           this.snackBar.open(`Respostas enviadas com sucesso`, '', {
             duration: 5000,
           });
-          this.router.navigate(['validacao-alunos']);
+          this.router.navigate(['validacao-professores']);
         },
         error: (err) => {
           this.snackBar.open(`Ocorreu um erro durante sua solicitação.`, '', {
@@ -105,7 +105,7 @@ export class ValidacaoAlunosComponent implements OnInit {
     });
   }
 
-  validateAllSelected(selection: SelectionModel<AlunoModel>) {
+  validateAllSelected(selection: SelectionModel<ProfessorModel>) {
     const numSelected = selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;

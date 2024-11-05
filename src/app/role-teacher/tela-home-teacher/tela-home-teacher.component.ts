@@ -28,7 +28,7 @@ export class TelaHomeTeacherComponent implements OnInit, OnDestroy {
     private professorService: ProfessorService,
     private cursoService: CursoService
   ) {
-    this.professorService.getAllProfessore().subscribe(
+    this.professorService.getAllProfessores().subscribe(
       (dadosProfessores) => {
         this.dataProfessorAdm = dadosProfessores;
         this.processarDados();

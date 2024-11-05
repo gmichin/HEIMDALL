@@ -97,15 +97,6 @@
         <td class="email" mat-cell *matCellDef="let row">{{ row.email }}</td>
       </ng-container>
 
-      <ng-container matColumnDef="ano_entrada">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          Ano de entrada do aluno
-        </th>
-        <td class="ano_entrada" mat-cell *matCellDef="let row">
-          {{ row.ano_entrada }}
-        </td>
-      </ng-container>
-
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 

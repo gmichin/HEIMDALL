@@ -86,7 +86,7 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
       reservas: this.salaDataService.carregarDadosSalasReservadas(),
       turma: this.salaDataService.carregarDadosTurma(),
       salas: this.salaService.carregarDadosSalas(),
-      professor: this.professorService.getAllProfessore(),
+      professor: this.professorService.getAllProfessores(),
     }).subscribe(({ reservas, turma, salas, professor }) => {
       this.reservas = reservas;
       this.turmas = turma;

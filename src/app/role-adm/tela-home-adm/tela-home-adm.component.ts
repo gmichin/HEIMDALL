@@ -37,7 +37,7 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
     private cursoService: CursoService,
     private professorService: ProfessorService
   ) {
-    this.professorService.getAllProfessore().subscribe(
+    this.professorService.getAllProfessores().subscribe(
       (dadosProfessores) => {
         this.dataProfessorAdm = dadosProfessores;
         this.processarDados();
@@ -79,6 +79,9 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
 
   public redirectValidacaoAlunos() {
     this.router.navigate(['validacao-alunos']);
+  }
+  public redirectValidacaoProfessores() {
+    this.router.navigate(['validacao-professores']);
   }
 
   public redirectProfile() {
