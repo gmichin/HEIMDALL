@@ -3,21 +3,20 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { TelaSolicitacoesRegistroComponent } from './tela-solicitacoes-registro.component';
+import { ValidacaoAlunosComponent } from './validacao-alunos.component';
 
-describe('TelaSolicitacoesRegistroComponent', () => {
-  let component: TelaSolicitacoesRegistroComponent;
-  let fixture: ComponentFixture<TelaSolicitacoesRegistroComponent>;
+describe('ValidacaoAlunosComponent', () => {
+  let component: ValidacaoAlunosComponent;
+  let fixture: ComponentFixture<ValidacaoAlunosComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TelaSolicitacoesRegistroComponent ]
-    })
-    .compileComponents();
+      declarations: [ValidacaoAlunosComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TelaSolicitacoesRegistroComponent);
+    fixture = TestBed.createComponent(ValidacaoAlunosComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

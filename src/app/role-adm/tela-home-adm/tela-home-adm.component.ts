@@ -77,8 +77,8 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
     ];
   }
 
-  public redirectRegistrationList() {
-    this.router.navigate(['tela-solicitacoes-registro']);
+  public redirectValidacaoAlunos() {
+    this.router.navigate(['validacao-alunos']);
   }
 
   public redirectProfile() {

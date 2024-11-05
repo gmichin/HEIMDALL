@@ -12,11 +12,11 @@ import { AlunoModel } from '../models/aluno.model';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-tela-solicitacoes-registro',
-  templateUrl: './tela-solicitacoes-registro.component.html',
-  styleUrls: ['./tela-solicitacoes-registro.component.scss'],
+  selector: 'app-validacao-alunos',
+  templateUrl: './validacao-alunos.component.html',
+  styleUrls: ['./validacao-alunos.component.scss'],
 })
-export class TelaSolicitacoesRegistroComponent implements OnInit {
+export class ValidacaoAlunosComponent implements OnInit {
   displayedColumns: string[] = [
     'APROVE',
     'REJEITE',

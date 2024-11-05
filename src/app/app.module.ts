@@ -39,7 +39,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TelaSalasComponent } from './tela-salas/tela-salas.component';
 import { TelaSalasFeitasComponent } from './tela-salas/tela-salas-feitas/tela-salas-feitas.component';
 import { TelaNovasSalasComponent } from './tela-salas/tela-novas-salas/tela-novas-salas.component';
-import { TelaSolicitacoesRegistroComponent } from './tela-solicitacoes-registro/tela-solicitacoes-registro.component';
+import { ValidacaoAlunosComponent } from './validacao-alunos/validacao-alunos.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { TelaMapaHorarioAulasComponent } from './tela-mapa-horario-aulas/tela-mapa-horario-aulas.component';
@@ -76,7 +76,7 @@ import { TelaTurmasComponent } from './tela-turmas/tela-turmas.component';
     TelaSalasComponent,
     TelaSalasFeitasComponent,
     TelaNovasSalasComponent,
-    TelaSolicitacoesRegistroComponent,
+    ValidacaoAlunosComponent,
     TelaMapaHorarioAulasComponent,
     TelaDisciplinasComponent,
     TelaNovasDisciplinasComponent,
