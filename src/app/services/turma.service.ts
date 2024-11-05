@@ -42,8 +42,20 @@ export class TurmaService {
     return forkJoin(...arrReqs);
   }
 
-  public getTurmaPorCurso(courseId: string): Observable<TurmaModel[]> {
-    return this.http.get<TurmaModel[]>(`${url_config.url_turma}/${courseId}`);
+  public getTurmaPorProfessor(professorId: string): Observable<TurmaModel[]> {
+    return this.http.get<TurmaModel[]>(
+      `${url_config.url_turma}?professor_id=${professorId}`
+    );
+  }
+  public getTurmaPorDisciplina(disciplinaId: string): Observable<TurmaModel[]> {
+    return this.http.get<TurmaModel[]>(
+      `${url_config.url_turma}?disciplina_id=${disciplinaId}`
+    );
+  }
+  public getTurmaPorPeriodo(periodo: string): Observable<TurmaModel[]> {
+    return this.http.get<TurmaModel[]>(
+      `${url_config.url_turma}?periodo=${periodo}`
+    );
   }
 
   public salvarTurmaToEdit(turma: TurmaModel) {

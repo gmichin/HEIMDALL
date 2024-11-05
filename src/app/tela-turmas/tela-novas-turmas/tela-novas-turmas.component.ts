@@ -1,15 +1,20 @@
+import { DisciplinaService } from 'src/app/services/disciplina.service';
+import { ProfessorService } from 'src/app/services/professor.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TelaReservasComponent } from 'src/app/tela-reservas/tela-reservas.component';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CursoModel } from 'src/app/models/curso.model';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { ProfessorModel } from 'src/app/models/professor.model';
 import { TurmaModel } from 'src/app/models/turma.model';
 import { TurmaService } from 'src/app/services/turma.service';
+import { SelectionModel } from '@angular/cdk/collections';
+import { DisciplinaModel } from 'src/app/models/disciplina.model';
+import { AlunoModel } from 'src/app/models/aluno.model';
+import { AlunoService } from 'src/app/services/aluno.service';
 
 @Component({
   selector: 'app-tela-novas-turmas',
@@ -18,9 +23,14 @@ import { TurmaService } from 'src/app/services/turma.service';
 })
 export class TelaNovasTurmasComponent implements OnInit {
   public turmaForm: FormGroup;
-  public courses: CursoModel[] = [];
   public teachersList: ProfessorModel[] = [];
   public turmaToEdit!: { valid: boolean; turma: TurmaModel };
+
+  public errorMessage = { invalid: false, message: '' };
+
+  public professorList: ProfessorModel[] = [];
+  public disciplinaList: DisciplinaModel[] = [];
+  public alunoList: AlunoModel[] = [];
 
   newSala: any[] = [];
 
@@ -29,7 +39,10 @@ export class TelaNovasTurmasComponent implements OnInit {
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private turmaService: TurmaService,
-    private router: Router
+    private router: Router,
+    private professorService: ProfessorService,
+    private disciplinaService: DisciplinaService,
+    private alunoService: AlunoService
   ) {
     this.turmaToEdit = this.turmaService.getTurmaToEdit();
 
@@ -37,10 +50,55 @@ export class TelaNovasTurmasComponent implements OnInit {
       professor_id: ['', [Validators.required]],
       disciplina_id: ['', [Validators.required]],
       periodo: ['', [Validators.required]],
-      aluno_id: ['', [Validators.required]],
+      aluno_ids: this.fb.array([
+        this.fb.group({ aluno_id: ['', Validators.required] }),
+      ]),
     });
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.professorService.getAllProfessores().subscribe({
+      next: (professores) => {
+        this.professorList = professores;
+        if (professores.length == 0) {
+          this.errorMessage.message =
+            'Não foram encontrados cursos cadastrados.';
+          this.errorMessage.invalid = true;
+        }
+      },
+      error: (err) => {
+        this.errorMessage.message = 'Não foi possível buscar os cursos.';
+        this.errorMessage.invalid = true;
+      },
+    });
+    this.disciplinaService.getAllDisciplinas().subscribe({
+      next: (disciplinas) => {
+        this.disciplinaList = disciplinas;
+        if (disciplinas.length == 0) {
+          this.errorMessage.message =
+            'Não foram encontrados cursos cadastrados.';
+          this.errorMessage.invalid = true;
+        }
+      },
+      error: (err) => {
+        this.errorMessage.message = 'Não foi possível buscar os cursos.';
+        this.errorMessage.invalid = true;
+      },
+    });
+    this.alunoService.getAllAlunos().subscribe({
+      next: (alunos) => {
+        this.alunoList = alunos;
+        if (alunos.length == 0) {
+          this.errorMessage.message =
+            'Não foram encontrados cursos cadastrados.';
+          this.errorMessage.invalid = true;
+        }
+      },
+      error: (err) => {
+        this.errorMessage.message = 'Não foi possível buscar os cursos.';
+        this.errorMessage.invalid = true;
+      },
+    });
+  }
 
   goHome() {
     this.router.navigate(['/home-adm']);
@@ -73,53 +131,49 @@ export class TelaNovasTurmasComponent implements OnInit {
     });
   }
 
+  get alunoControls() {
+    return this.turmaForm.get('aluno_ids') as FormArray;
+  }
+
+  addAluno() {
+    this.alunoControls.push(
+      this.fb.group({ aluno_id: ['', Validators.required] })
+    );
+  }
+
+  removeAluno(index: number) {
+    this.alunoControls.removeAt(index);
+  }
+
   public save() {
-    const turma = new TurmaModel({
-      professor_id: this.turmaForm.get('professor_id')?.value,
-      disciplina_id: this.turmaForm.get('disciplina_id')?.value,
-      periodo: this.turmaForm.get('periodo')?.value,
-      aluno_id: this.turmaForm.get('aluno_id')?.value,
-    });
+    const formValues = this.turmaForm.value;
+    const alunoIds = formValues.aluno_ids.map((aluno: any) => aluno.aluno_id);
+
+    const turma = {
+      professor_id: formValues.professor_id,
+      disciplina_id: formValues.disciplina_id,
+      periodo: formValues.periodo,
+      aluno_ids: alunoIds,
+    };
 
     if (this.turmaToEdit.valid) {
-      turma.turma_id = this.turmaToEdit.turma.turma_id;
-      this.turmaService.atualizarTurmas(turma).subscribe({
-        next: (res) => {
-          this.snackBar.open('Atualizado com sucesso!', '', {
-            duration: 4000,
-          });
+      // Lógica de atualização
+    } else {
+      this.turmaService.criarTurma(turma).subscribe({
+        next: () => {
+          this.snackBar.open('Cadastrado com sucesso!', '', { duration: 4000 });
           this.router.navigate(['home-adm']);
         },
-        error: (err) => {
+        error: () => {
           this.snackBar.open(
-            'Ocorreu um erro durante a atualização, por favor, tente novamente mais tarde.',
+            'Ocorreu um erro durante o cadastro, por favor, tente novamente mais tarde.',
             '',
             {
               duration: 4000,
             }
           );
-          this.router.navigate(['home-adm']);
         },
       });
-      return;
     }
-    this.turmaService.criarTurma(turma).subscribe({
-      next: (res) => {
-        this.snackBar.open('Cadastrado com sucesso!', '', {
-          duration: 4000,
-        });
-        this.router.navigate(['home-adm']);
-      },
-      error: (err) => {
-        this.snackBar.open(
-          'Ocorreu um erro durante o cadastro, por favor, tente novamente mais tarde.',
-          '',
-          {
-            duration: 4000,
-          }
-        );
-        this.router.navigate(['home-adm']);
-      },
-    });
   }
 }
