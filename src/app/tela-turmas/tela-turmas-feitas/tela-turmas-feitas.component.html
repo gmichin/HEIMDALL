@@ -74,19 +74,23 @@
 
       <ng-container matColumnDef="professor">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Professor</th>
-        <td mat-cell *matCellDef="let row">{{ row.professor }}</td>
+        <td mat-cell *matCellDef="let row">{{ row.professor.nome }}</td>
       </ng-container>
       <ng-container matColumnDef="disciplina">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Disciplina</th>
-        <td mat-cell *matCellDef="let row">{{ row.disciplina }}</td>
+        <td mat-cell *matCellDef="let row">{{ row.disciplina.nome }}</td>
       </ng-container>
       <ng-container matColumnDef="periodo">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Periodo</th>
         <td mat-cell *matCellDef="let row">{{ row.periodo }}</td>
       </ng-container>
-      <ng-container matColumnDef="aluno">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Aluno</th>
-        <td mat-cell *matCellDef="let row">{{ row.aluno }}</td>
+      <ng-container matColumnDef="aluno_ids">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Alunos</th>
+        <td mat-cell *matCellDef="let row">
+          <ul class="alunos-list">
+            <li *ngFor="let aluno of row.alunos">{{ aluno.nome }}</li>
+          </ul>
+        </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -110,7 +114,7 @@
   <button
     mat-raised-button
     [disabled]="selection.selected.length == 0"
-    (click)="editDisciplinas()"
+    (click)="editTurmas()"
     class="demo-button"
   >
     EDITAR MATÉRIA
@@ -118,7 +122,7 @@
   <button
     mat-raised-button
     [disabled]="selectionReject.selected.length < 1"
-    (click)="apagarDisciplinas()"
+    (click)="apagarTurmas()"
     class="demo-button"
   >
     EXCLUIR MATÉRIA

@@ -24,7 +24,7 @@ import { AlunoService } from 'src/app/services/aluno.service';
 export class TelaNovasTurmasComponent implements OnInit {
   public turmaForm: FormGroup;
   public teachersList: ProfessorModel[] = [];
-  public turmaToEdit!: { valid: boolean; turma: TurmaModel };
+  public turmaToEdit!: { valid: boolean; turma: any };
 
   public errorMessage = { invalid: false, message: '' };
 
@@ -45,14 +45,32 @@ export class TelaNovasTurmasComponent implements OnInit {
     private alunoService: AlunoService
   ) {
     this.turmaToEdit = this.turmaService.getTurmaToEdit();
-
     this.turmaForm = this.fb.group({
-      professor_id: ['', [Validators.required]],
-      disciplina_id: ['', [Validators.required]],
-      periodo: ['', [Validators.required]],
-      aluno_ids: this.fb.array([
-        this.fb.group({ aluno_id: ['', Validators.required] }),
-      ]),
+      professor_id: [
+        this.turmaToEdit.valid
+          ? this.turmaToEdit.turma.professor.professor_id
+          : '',
+        [Validators.required],
+      ],
+      disciplina_id: [
+        this.turmaToEdit.valid
+          ? this.turmaToEdit.turma.disciplina.disciplina_id
+          : '',
+        [Validators.required],
+      ],
+      periodo: [
+        this.turmaToEdit.valid ? this.turmaToEdit.turma.periodo : '',
+        [Validators.required],
+      ],
+      aluno_ids: this.fb.array(
+        this.turmaToEdit.valid
+          ? this.turmaToEdit.turma.alunos.map((aluno: any) =>
+              this.fb.group({
+                aluno_id: [aluno.aluno_id, Validators.required],
+              })
+            )
+          : [this.fb.group({ aluno_id: ['', Validators.required] })]
+      ),
     });
   }
   ngOnInit(): void {
@@ -146,18 +164,34 @@ export class TelaNovasTurmasComponent implements OnInit {
   }
 
   public save() {
-    const formValues = this.turmaForm.value;
-    const alunoIds = formValues.aluno_ids.map((aluno: any) => aluno.aluno_id);
-
-    const turma = {
-      professor_id: formValues.professor_id,
-      disciplina_id: formValues.disciplina_id,
-      periodo: formValues.periodo,
-      aluno_ids: alunoIds,
-    };
+    const turma = new TurmaModel({
+      professor_id: this.turmaForm.get('professor_id')?.value,
+      disciplina_id: this.turmaForm.get('disciplina_id')?.value,
+      periodo: this.turmaForm.get('periodo')?.value,
+      aluno_ids: this.turmaForm.get('aluno_ids')?.value,
+    });
 
     if (this.turmaToEdit.valid) {
-      // Lógica de atualização
+      turma.turma_id = this.turmaToEdit.turma.turma_id;
+      this.turmaService.atualizarTurmas(turma).subscribe({
+        next: (res) => {
+          this.snackBar.open('Atualizado com sucesso!', '', {
+            duration: 4000,
+          });
+          this.router.navigate(['home-adm']);
+        },
+        error: (err) => {
+          this.snackBar.open(
+            'Ocorreu um erro durante a atualização, por favor, tente novamente mais tarde.',
+            '',
+            {
+              duration: 4000,
+            }
+          );
+          this.router.navigate(['home-adm']);
+        },
+      });
+      return;
     } else {
       this.turmaService.criarTurma(turma).subscribe({
         next: () => {

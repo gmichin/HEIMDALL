@@ -64,11 +64,10 @@ export class TurmaService {
   }
 
   public getTurmaToEdit(): { turma: TurmaModel; valid: boolean } {
-    const disciplinas =
-      this.sessionService.getSessionData<TurmaModel>('editTurma');
-    if (disciplinas.valido) {
-      sessionStorage.removeItem('editTurma');
-      return { valid: true, turma: disciplinas.retorno };
+    const turmas = this.sessionService.getSessionData<TurmaModel>('editTurmas');
+    if (turmas.valido) {
+      sessionStorage.removeItem('editTurmas');
+      return { valid: true, turma: turmas.retorno };
     }
     return { valid: false, turma: {} as TurmaModel };
   }
