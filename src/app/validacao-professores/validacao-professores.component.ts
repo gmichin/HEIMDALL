@@ -44,8 +44,12 @@ export class ValidacaoProfessoresComponent implements OnInit {
   ) {
     this.professorService.getAllProfessores().subscribe(
       (dataProfessores: ProfessorModel[]) => {
+        const professoresFiltrados = dataProfessores.filter(
+          (professor) => !professor.adm
+        );
+
         this.dataSource = new MatTableDataSource<ProfessorModel>(
-          dataProfessores
+          professoresFiltrados
         );
       },
       (error) => {

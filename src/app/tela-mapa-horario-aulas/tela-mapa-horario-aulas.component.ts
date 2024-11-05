@@ -1,4 +1,4 @@
-import { ProfessorService } from './../services/professor.service';
+import { ProfessorService } from '../services/professor.service';
 import { SalaService } from 'src/app/services/sala.service';
 import { Component, OnInit } from '@angular/core';
 import { SessionService } from './../services/session.service';
