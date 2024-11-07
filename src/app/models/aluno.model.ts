@@ -16,3 +16,7 @@ export class AlunoModel {
     this.status = data.status;
   }
 }
+
+export interface RespostaAluno {
+  retorno: AlunoModel;
+}

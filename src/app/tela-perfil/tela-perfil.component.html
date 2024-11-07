@@ -4,11 +4,7 @@
     <form [formGroup]="form" (ngSubmit)="salvar()" style="margin-top: 20px">
       <mat-form-field appearance="fill">
         <mat-label>Nome:</mat-label>
-        <input
-          formControlName="nome"
-          [value]="nomeAluno || nomeProfessor"
-          matInput
-        />
+        <input formControlName="nome" [value]="nome" matInput />
         <mat-icon matSuffix>account_circle</mat-icon> </mat-form-field
       ><br />
       <mat-form-field appearance="fill">
@@ -18,14 +14,52 @@
       ><br />
       <mat-form-field appearance="fill">
         <mat-label>Email:</mat-label>
-        <input
-          formControlName="email"
-          type="email"
-          [value]="emailAluno || emailProfessor"
-          matInput
-        />
+        <input formControlName="email" type="email" [value]="email" matInput />
         <mat-icon matSuffix>email</mat-icon>
       </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Registro:</mat-label>
+        <input
+          formControlName="registro"
+          type="text"
+          [value]="registro"
+          matInput
+        />
+        <mat-icon matSuffix>assignment</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Senha:</mat-label>
+        <input
+          formControlName="senha"
+          [type]="senhaVisivel ? 'text' : 'password'"
+          [value]="senha"
+          matInput
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          (click)="senhaVisivel = !senhaVisivel"
+        >
+          <mat-icon>{{
+            senhaVisivel ? "visibility" : "visibility_off"
+          }}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" *ngIf="this.tipoUsuario == 'Aluno'">
+        <mat-label>Ano de entrada:</mat-label>
+        <input
+          formControlName="ano_entrada"
+          type="text"
+          [value]="anoAluno"
+          matInput
+        />
+        <mat-icon matSuffix>calendar_today</mat-icon>
+      </mat-form-field>
+
       <div class="alterarEmail">
         <button
           *ngIf="true"
