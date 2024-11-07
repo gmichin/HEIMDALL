@@ -178,11 +178,11 @@ export class TelaLoginCadastroComponent {
   }
 
   private isProfessorModel(obj: any): obj is ProfessorModel {
-    return obj && typeof obj.adm !== 'undefined';
+    return obj && typeof obj.adm !== 'undefined' && obj.status == true;
   }
 
   private isAlunoModel(obj: any): obj is AlunoModel {
-    return obj && typeof obj.ano_entrada !== 'undefined';
+    return obj && typeof obj.ano_entrada !== 'undefined' && obj.status == true;
   }
 
   private resetForms(form: FormGroup): void {

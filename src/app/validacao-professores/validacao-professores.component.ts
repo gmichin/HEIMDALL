@@ -45,7 +45,7 @@ export class ValidacaoProfessoresComponent implements OnInit {
     this.professorService.getAllProfessores().subscribe(
       (dataProfessores: ProfessorModel[]) => {
         const professoresFiltrados = dataProfessores.filter(
-          (professor) => !professor.adm
+          (professor) => !professor.adm && professor.status == false
         );
 
         this.dataSource = new MatTableDataSource<ProfessorModel>(
@@ -78,29 +78,62 @@ export class ValidacaoProfessoresComponent implements OnInit {
   public enviarLista() {
     this.selectionAprove.selected.forEach((request) => {
       request.status = true;
-    });
-    this.selectionReject.selected.forEach((request) => {
-      request.status = false;
-    });
-
-    this._registrationService
-      .sendResquestResponsProfessor([
-        ...this.selectionAprove.selected,
-        ...this.selectionReject.selected,
-      ])
-      .subscribe({
+      this.professorService.atualizarProfessor(request).subscribe({
         next: (res) => {
-          this.snackBar.open(`Respostas enviadas com sucesso`, '', {
-            duration: 5000,
+          this.snackBar.open('Atualizado com sucesso!', '', {
+            duration: 4000,
           });
-          this.router.navigate(['validacao-professores']);
+          this.router
+            .navigateByUrl('/', { skipLocationChange: true })
+            .then(() => {
+              this.router.navigate(['validacao-professores']);
+            });
         },
         error: (err) => {
-          this.snackBar.open(`Ocorreu um erro durante sua solicitação.`, '', {
-            duration: 2000,
-          });
+          this.snackBar.open(
+            'Ocorreu um erro durante a atualização, por favor, tente novamente mais tarde.',
+            '',
+            {
+              duration: 4000,
+            }
+          );
+          this.router
+            .navigateByUrl('/', { skipLocationChange: true })
+            .then(() => {
+              this.router.navigate(['validacao-professores']);
+            });
         },
       });
+    });
+
+    const toDelete = this.selectionReject.selected.map((request) => {
+      return request;
+    });
+
+    this.professorService.deletarProfessores(toDelete).subscribe({
+      next: (res) => {
+        this.snackBar.open('Removido(s) com sucesso!', '', {
+          duration: 4000,
+        });
+        this.router
+          .navigateByUrl('/', { skipLocationChange: true })
+          .then(() => {
+            this.router.navigate(['validacao-professores']);
+          });
+      },
+      error: (err) => {
+        this.snackBar.open(
+          'Ocorreu um erro durante a solicitação, por favor, tente novamente mais tarde.',
+          '',
+          { duration: 4000 }
+        );
+        this.router
+          .navigateByUrl('/', { skipLocationChange: true })
+          .then(() => {
+            this.router.navigate(['validacao-professores']);
+          });
+      },
+    });
   }
 
   public redirectProfile() {

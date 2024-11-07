@@ -11,7 +11,6 @@ import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { ProfessorModel } from 'src/app/models/professor.model';
 import { TurmaModel } from 'src/app/models/turma.model';
 import { TurmaService } from 'src/app/services/turma.service';
-import { SelectionModel } from '@angular/cdk/collections';
 import { DisciplinaModel } from 'src/app/models/disciplina.model';
 import { AlunoModel } from 'src/app/models/aluno.model';
 import { AlunoService } from 'src/app/services/aluno.service';
@@ -178,7 +177,7 @@ export class TelaNovasTurmasComponent implements OnInit {
           this.snackBar.open('Atualizado com sucesso!', '', {
             duration: 4000,
           });
-          this.router.navigate(['home-adm']);
+          this.router.navigate(['tela-turmas-feitas']);
         },
         error: (err) => {
           this.snackBar.open(
@@ -188,7 +187,7 @@ export class TelaNovasTurmasComponent implements OnInit {
               duration: 4000,
             }
           );
-          this.router.navigate(['home-adm']);
+          this.router.navigate(['tela-turmas-feitas']);
         },
       });
       return;
@@ -196,7 +195,7 @@ export class TelaNovasTurmasComponent implements OnInit {
       this.turmaService.criarTurma(turma).subscribe({
         next: () => {
           this.snackBar.open('Cadastrado com sucesso!', '', { duration: 4000 });
-          this.router.navigate(['home-adm']);
+          this.router.navigate(['tela-turmas-feitas']);
         },
         error: () => {
           this.snackBar.open(

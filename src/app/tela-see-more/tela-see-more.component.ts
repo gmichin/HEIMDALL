@@ -45,7 +45,8 @@ export class TelaSeeMoreComponent implements OnInit {
     private sessionService: SessionService
   ) {
     if (this.state && this.state['data']) {
-      const items: (CursoModel | ProfessorModel)[] = this.state['data'];
+      let items: (CursoModel | ProfessorModel)[] = this.state['data'];
+
       if (items.length > 0) {
         console.log('Primeiro item:', items[0]);
 
@@ -57,10 +58,16 @@ export class TelaSeeMoreComponent implements OnInit {
             'email',
             'registrationNumber',
           ];
+
+          // Filtra apenas os professores com status true
+          items = items.filter(
+            (item) => 'professor_id' in item && item['status'] === true
+          );
         } else if ('curso_id' in items[0] || 'descricao' in items[0]) {
           this.displayedColumns = ['EDIT', 'DELETE', 'nome', 'descricao'];
         }
 
+        // Configura o dataSource com os itens filtrados (se necessário)
         this.dataSource = new MatTableDataSource(items);
       }
     }

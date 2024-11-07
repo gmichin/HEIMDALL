@@ -30,6 +30,7 @@ export class TurmaService {
   }
 
   public atualizarTurmas(turma: TurmaModel) {
+    console.log(turma);
     return this.http.patch(`${url_config.url_turma}/${turma.turma_id}`, turma);
   }
 

@@ -46,7 +46,10 @@ export class ValidacaoAlunosComponent implements OnInit {
   ) {
     this.alunoService.getAllAlunos().subscribe(
       (dataAlunos: AlunoModel[]) => {
-        this.dataSource = new MatTableDataSource<AlunoModel>(dataAlunos);
+        const alunosFiltrados = dataAlunos.filter(
+          (aluno) => aluno.status == false
+        );
+        this.dataSource = new MatTableDataSource<AlunoModel>(alunosFiltrados);
       },
       (error) => {
         console.error('Erro ao carregar dados dos alunos:', error);
