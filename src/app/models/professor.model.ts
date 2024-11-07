@@ -21,7 +21,3 @@ export interface IProfessoresByDisciplina {
   turma_id: number;
   professores: ProfessorModel[];
 }
-
-export interface RespostaProfessor {
-  retorno: ProfessorModel;
-}
