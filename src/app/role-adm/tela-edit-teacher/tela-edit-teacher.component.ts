@@ -10,8 +10,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ProfessorModel } from 'src/app/models/professor.model';
-import { CadastroService } from 'src/app/services/cadastros.service';
-import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-tela-edit-teacher',

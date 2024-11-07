@@ -8,7 +8,6 @@ import {
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CadastroService } from 'src/app/services/cadastros.service';
 import { TelaCreateAlunoComponent } from '../tela-create-aluno/tela-create-aluno.component';
 import { ProfessorModel } from 'src/app/models/professor.model';
 import { Router } from '@angular/router';

@@ -5,14 +5,12 @@ import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { LoginUserService } from '../services/login.service';
-import { CadastroService } from '../services/cadastros.service';
 import { ProfessorModel } from '../models/professor.model';
 import { AlunoModel } from '../models/aluno.model';
 import { SessionService } from '../services/session.service'; // Importando o SessionService

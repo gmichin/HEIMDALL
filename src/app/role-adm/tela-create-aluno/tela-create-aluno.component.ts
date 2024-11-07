@@ -1,6 +1,4 @@
 import { AlunoService } from 'src/app/services/aluno.service';
-import { CadastroService } from '../../services/cadastros.service';
-import { ProfessorModel } from '../../models/professor.model';
 import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,

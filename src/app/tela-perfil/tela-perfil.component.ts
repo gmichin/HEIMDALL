@@ -5,7 +5,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SessionService } from './../services/session.service';
-import { CadastroService } from '../services/cadastros.service';
 import { AlunoModel } from '../models/aluno.model';
 import { ProfessorModel } from '../models/professor.model';
 import { Router } from '@angular/router';
