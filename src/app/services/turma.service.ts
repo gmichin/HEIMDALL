@@ -30,8 +30,15 @@ export class TurmaService {
   }
 
   public atualizarTurmas(turma: TurmaModel) {
-    console.log(turma);
-    return this.http.patch(`${url_config.url_turma}/${turma.turma_id}`, turma);
+    const turmaAtualizada = {
+      professor: turma.professor_id,
+      disciplina: turma.disciplina_id,
+      periodo: turma.periodo,
+    };
+    return this.http.patch(
+      `${url_config.url_turma}/${turma.turma_id}`,
+      turmaAtualizada
+    );
   }
 
   public deletarTurma(turma: TurmaModel[]) {
