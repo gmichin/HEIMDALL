@@ -1,5 +1,4 @@
 import { ProfessorService } from 'src/app/services/professor.service';
-import { SalaDataService } from 'src/app/services/sala-data.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TelaPerfilComponent } from '../tela-perfil/tela-perfil.component';
@@ -7,7 +6,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
-import { ResgistrationRequestsService } from '../services/resgistration-requests.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ProfessorModel } from '../models/professor.model';
@@ -37,7 +35,6 @@ export class ValidacaoProfessoresComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private readonly _registrationService: ResgistrationRequestsService,
     private snackBar: MatSnackBar,
     private professorService: ProfessorService,
     private router: Router

@@ -24,7 +24,6 @@ import { SessionService } from 'src/app/services/session.service';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { AlunoModel } from 'src/app/models/aluno.model';
 import { ProfessorModel } from 'src/app/models/professor.model';
-import { SalaDataService } from 'src/app/services/sala-data.service';
 import { SalaService } from 'src/app/services/sala.service';
 import { combineLatest, debounceTime, filter } from 'rxjs';
 import { TurmaService } from 'src/app/services/turma.service';
@@ -125,11 +124,14 @@ export class TelaNovasReservasComponent implements OnInit {
     });
 
     this.salaService.carregarDadosSalas().subscribe({
-      next: (salas) => this.salaList = salas,
+      next: (salas) => (this.salaList = salas),
       error: (err) => {
-        this.errorMessage = { invalid: true, message: 'Ocorreu um erro durante a busca pelas salas.'}
-      }
-    })
+        this.errorMessage = {
+          invalid: true,
+          message: 'Ocorreu um erro durante a busca pelas salas.',
+        };
+      },
+    });
   }
 
   public redirectHomeAdm() {
@@ -358,8 +360,12 @@ export class TelaNovasReservasComponent implements OnInit {
   }
 
   public saveDate() {
-    const dataInicio = new Date(this.resgiterForm.controls['dataInicio'].value).toISOString().split('T')[0];
-    const dataFim = new Date(this.resgiterForm.controls['dataFim'].value).toISOString().split('T')[0];
+    const dataInicio = new Date(this.resgiterForm.controls['dataInicio'].value)
+      .toISOString()
+      .split('T')[0];
+    const dataFim = new Date(this.resgiterForm.controls['dataFim'].value)
+      .toISOString()
+      .split('T')[0];
 
     this.resgiterForm.controls['dataInicio'].setValue(dataInicio);
     this.resgiterForm.controls['dataFim'].setValue(dataFim);

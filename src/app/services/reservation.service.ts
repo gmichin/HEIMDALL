@@ -30,4 +30,8 @@ export class ReservationService {
 
     return forkJoin(...arrReqs);
   }
+
+  public carregarDadosSalasReservadas() {
+    return this.http.get<any[]>(url_config.url_reserva);
+  }
 }

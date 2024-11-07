@@ -1,6 +1,5 @@
 import { ProfessorService } from '../../services/professor.service';
 import { CursoService } from 'src/app/services/curso.service';
-import { SalaDataService } from './../../services/sala-data.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
