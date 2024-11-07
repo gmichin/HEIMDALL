@@ -65,7 +65,7 @@ export class TelaEditCourseComponent implements OnInit {
         this.router
           .navigateByUrl('/', { skipLocationChange: true })
           .then(() => {
-            this.router.navigate(['validacao-alunos']);
+            this.router.navigate(['home-adm']);
           });
         this.dialogRef.close('close');
       },
