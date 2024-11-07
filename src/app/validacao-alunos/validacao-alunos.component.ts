@@ -77,29 +77,62 @@ export class ValidacaoAlunosComponent implements OnInit {
   public enviarLista() {
     this.selectionAprove.selected.forEach((request) => {
       request.status = true;
-    });
-    this.selectionReject.selected.forEach((request) => {
-      request.status = false;
-    });
-
-    this._registrationService
-      .sendResquestResponsAluno([
-        ...this.selectionAprove.selected,
-        ...this.selectionReject.selected,
-      ])
-      .subscribe({
+      this.alunoService.atualizarAluno(request).subscribe({
         next: (res) => {
-          this.snackBar.open(`Respostas enviadas com sucesso`, '', {
-            duration: 5000,
+          this.snackBar.open('Atualizado com sucesso!', '', {
+            duration: 4000,
           });
-          this.router.navigate(['validacao-alunos']);
+          this.router
+            .navigateByUrl('/', { skipLocationChange: true })
+            .then(() => {
+              this.router.navigate(['validacao-alunos']);
+            });
         },
         error: (err) => {
-          this.snackBar.open(`Ocorreu um erro durante sua solicitação.`, '', {
-            duration: 2000,
-          });
+          this.snackBar.open(
+            'Ocorreu um erro durante a atualização, por favor, tente novamente mais tarde.',
+            '',
+            {
+              duration: 4000,
+            }
+          );
+          this.router
+            .navigateByUrl('/', { skipLocationChange: true })
+            .then(() => {
+              this.router.navigate(['validacao-alunos']);
+            });
         },
       });
+    });
+
+    const toDelete = this.selectionReject.selected.map((request) => {
+      return request;
+    });
+
+    this.alunoService.deletarAlunos(toDelete).subscribe({
+      next: (res) => {
+        this.snackBar.open('Removido(s) com sucesso!', '', {
+          duration: 4000,
+        });
+        this.router
+          .navigateByUrl('/', { skipLocationChange: true })
+          .then(() => {
+            this.router.navigate(['validacao-alunos']);
+          });
+      },
+      error: (err) => {
+        this.snackBar.open(
+          'Ocorreu um erro durante a solicitação, por favor, tente novamente mais tarde.',
+          '',
+          { duration: 4000 }
+        );
+        this.router
+          .navigateByUrl('/', { skipLocationChange: true })
+          .then(() => {
+            this.router.navigate(['validacao-alunos']);
+          });
+      },
+    });
   }
 
   public redirectProfile() {

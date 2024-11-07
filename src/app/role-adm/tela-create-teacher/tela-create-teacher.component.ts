@@ -1,3 +1,4 @@
+import { ProfessorService } from 'src/app/services/professor.service';
 import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -8,7 +9,7 @@ import {
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CadastroService } from 'src/app/services/cadastros.service';
-import { TelaCreateAdmComponent } from '../tela-create-adm/tela-create-adm.component';
+import { TelaCreateAlunoComponent } from '../tela-create-aluno/tela-create-aluno.component';
 import { ProfessorModel } from 'src/app/models/professor.model';
 import { Router } from '@angular/router';
 
@@ -18,16 +19,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./tela-create-teacher.component.scss'],
 })
 export class TelaCreateTeacherComponent implements OnInit {
-  public cadastroProfessorAdmForm: FormGroup;
+  public cadastroProfessorForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private cadastroService: CadastroService,
     private router: Router,
-    public dialogRef: MatDialogRef<TelaCreateAdmComponent>
+    private professorService: ProfessorService,
+    public dialogRef: MatDialogRef<TelaCreateAlunoComponent>
   ) {
-    this.cadastroProfessorAdmForm = this.fb.group(
+    this.cadastroProfessorForm = this.fb.group(
       {
         nome: ['', [Validators.required]],
         email: ['', [Validators.required, this.emailValidator]],
@@ -43,21 +44,21 @@ export class TelaCreateTeacherComponent implements OnInit {
   ngOnInit() {}
 
   cadastro() {
-    if (this.cadastroProfessorAdmForm.invalid) {
+    if (this.cadastroProfessorForm.invalid) {
       this.snackBar.open(`Cadastro inválido, revise os campos.`, '', {
         duration: 5000,
       });
       return;
     }
     const request = new ProfessorModel({
-      nome: this.cadastroProfessorAdmForm.get('nome')?.value,
-      email: this.cadastroProfessorAdmForm.get('email')?.value,
-      senha: this.cadastroProfessorAdmForm.get('senha')?.value,
-      registro: this.cadastroProfessorAdmForm.get('registro')?.value,
+      nome: this.cadastroProfessorForm.get('nome')?.value,
+      email: this.cadastroProfessorForm.get('email')?.value,
+      senha: this.cadastroProfessorForm.get('senha')?.value,
+      registro: this.cadastroProfessorForm.get('registro')?.value,
       adm: false,
       status: false,
     });
-    this.cadastroService.cadastroProfessorAdm(request).subscribe({
+    this.professorService.criarProfessor(request).subscribe({
       next: () => {
         this.snackBar.open(
           `Cadastro realizado, há a possibilidade do adm não permitir que a conta seja mantida.`,
@@ -66,7 +67,7 @@ export class TelaCreateTeacherComponent implements OnInit {
             duration: 5000,
           }
         );
-        this.resetForms(this.cadastroProfessorAdmForm);
+        this.resetForms(this.cadastroProfessorForm);
         this.router
           .navigateByUrl('/', { skipLocationChange: true })
           .then(() => {

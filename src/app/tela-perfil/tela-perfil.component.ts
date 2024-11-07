@@ -1,3 +1,5 @@
+import { ProfessorService } from 'src/app/services/professor.service';
+import { AlunoService } from 'src/app/services/aluno.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -35,7 +37,8 @@ export class TelaPerfilComponent implements OnInit {
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<TelaPerfilComponent>,
     private router: Router,
-    public cadastro: CadastroService
+    private alunoService: AlunoService,
+    private professorService: ProfessorService
   ) {
     if (this.dataProfessorAdm.adm == true) {
       this.tipoUsuario = 'Administrador';
@@ -82,7 +85,7 @@ export class TelaPerfilComponent implements OnInit {
       console.log(this.dataAluno);
       this.dataAluno.email = this.form.get('email')?.value;
       this.dataAluno.nome = this.form.get('nome')?.value;
-      this.cadastro.atualizarAluno(this.dataAluno).subscribe({
+      this.alunoService.atualizarAluno(this.dataAluno).subscribe({
         next: () => {
           this.snackBar.open('Dados Atualizados com sucesso.', '', {
             duration: 1000,
@@ -108,25 +111,27 @@ export class TelaPerfilComponent implements OnInit {
       console.log(this.dataProfessorAdm);
       this.dataProfessorAdm.email = this.form.get('email')?.value;
       this.dataProfessorAdm.nome = this.form.get('nome')?.value;
-      this.cadastro.atualizarProfessor(this.dataProfessorAdm).subscribe({
-        next: () => {
-          this.snackBar.open('Dados Atualizados com sucesso.', '', {
-            duration: 1000,
-          });
-          this.router
-            .navigateByUrl('/', { skipLocationChange: true })
-            .then(() => {
-              this.router.navigate(['home-adm']);
+      this.professorService
+        .atualizarProfessor(this.dataProfessorAdm)
+        .subscribe({
+          next: () => {
+            this.snackBar.open('Dados Atualizados com sucesso.', '', {
+              duration: 1000,
             });
-          this.dialogRef.close('close');
-        },
-        error: () => {
-          this.snackBar.open('Ocorreu um erro durante sua solicitação.', '', {
-            duration: 1000,
-          });
-          this.dialogRef.close();
-        },
-      });
+            this.router
+              .navigateByUrl('/', { skipLocationChange: true })
+              .then(() => {
+                this.router.navigate(['home-adm']);
+              });
+            this.dialogRef.close('close');
+          },
+          error: () => {
+            this.snackBar.open('Ocorreu um erro durante sua solicitação.', '', {
+              duration: 1000,
+            });
+            this.dialogRef.close();
+          },
+        });
     }
   }
 

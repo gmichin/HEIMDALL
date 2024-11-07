@@ -1,3 +1,5 @@
+import { ProfessorService } from 'src/app/services/professor.service';
+import { AlunoService } from 'src/app/services/aluno.service';
 import { Component } from '@angular/core';
 import {
   AbstractControl,
@@ -31,9 +33,10 @@ export class TelaLoginCadastroComponent {
     private router: Router,
     public dialogRef: MatDialogRef<TelaLoginCadastroComponent>,
     private fb: FormBuilder,
-    private cadastroService: CadastroService,
     private loginUserService: LoginUserService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private alunoService: AlunoService,
+    private professorService: ProfessorService
   ) {
     this.cadastroAlunoForm = this.fb.group(
       {
@@ -80,7 +83,7 @@ export class TelaLoginCadastroComponent {
       ano_entrada: this.cadastroAlunoForm.get('ano_entrada')?.value,
       status: false,
     });
-    this.cadastroService.cadastroAluno(request).subscribe({
+    this.alunoService.criarAluno(request).subscribe({
       next: () => {
         this.snackBar.open(
           `Cadastro realizado, há a possibilidade do adm não permitir que a conta seja mantida.`,
@@ -114,7 +117,7 @@ export class TelaLoginCadastroComponent {
       adm: this.cadastroProfessorAdmForm.get('adm')?.value,
       status: false,
     });
-    this.cadastroService.cadastroProfessorAdm(request).subscribe({
+    this.professorService.criarProfessor(request).subscribe({
       next: () => {
         this.snackBar.open(
           `Cadastro realizado, há a possibilidade do adm não permitir que a conta seja mantida.`,

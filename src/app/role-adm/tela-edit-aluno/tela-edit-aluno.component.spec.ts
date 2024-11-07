@@ -3,21 +3,20 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { TelaCreateAdmComponent } from './tela-create-adm.component';
+import { TelaEditAlunoComponent } from './tela-edit-aluno.component';
 
-describe('TelaCreateAdmComponent', () => {
-  let component: TelaCreateAdmComponent;
-  let fixture: ComponentFixture<TelaCreateAdmComponent>;
+describe('TelaEditAdmComponent', () => {
+  let component: TelaEditAlunoComponent;
+  let fixture: ComponentFixture<TelaEditAlunoComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TelaCreateAdmComponent ]
-    })
-    .compileComponents();
+      declarations: [TelaEditAlunoComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TelaCreateAdmComponent);
+    fixture = TestBed.createComponent(TelaEditAlunoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

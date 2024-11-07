@@ -1,3 +1,4 @@
+import { ProfessorService } from 'src/app/services/professor.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -23,8 +24,8 @@ export class TelaEditTeacherComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private cadastroService: CadastroService,
     private router: Router,
+    private professorService: ProfessorService,
     public dialogRef: MatDialogRef<TelaEditTeacherComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ProfessorModel
   ) {
@@ -50,7 +51,7 @@ export class TelaEditTeacherComponent implements OnInit {
       (this.data.registro =
         this.cadastroProfessorAdmForm.get('registro')?.value),
       (this.data.adm = this.cadastroProfessorAdmForm.get('adm')?.value),
-      this.cadastroService.atualizarProfessor(this.data).subscribe({
+      this.professorService.atualizarProfessor(this.data).subscribe({
         next: () => {
           this.snackBar.open('Dados atualizados com sucesso.', '', {
             duration: 3000,

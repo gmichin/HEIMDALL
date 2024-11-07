@@ -53,10 +53,10 @@ import { TelaHomeStudentComponent } from './role-student/tela-home-student/tela-
 import { TelaHomeTeacherComponent } from './role-teacher/tela-home-teacher/tela-home-teacher.component';
 import { TelaEditTeacherComponent } from './role-adm/tela-edit-teacher/tela-edit-teacher.component';
 import { TelaEditCourseComponent } from './role-adm/tela-edit-course/tela-edit-course.component';
-import { TelaEditAdmComponent } from './role-adm/tela-edit-adm/tela-edit-adm.component';
+import { TelaEditAlunoComponent } from './role-adm/tela-edit-aluno/tela-edit-aluno.component';
 import { TelaCreateTeacherComponent } from './role-adm/tela-create-teacher/tela-create-teacher.component';
 import { TelaCreateCourseComponent } from './role-adm/tela-create-course/tela-create-course.component';
-import { TelaCreateAdmComponent } from './role-adm/tela-create-adm/tela-create-adm.component';
+import { TelaCreateAlunoComponent } from './role-adm/tela-create-aluno/tela-create-aluno.component';
 import { TelaSuporteAjudaComponent } from './tela-suporte-ajuda/tela-suporte-ajuda.component';
 import { TelaNovasTurmasComponent } from './tela-turmas/tela-novas-turmas/tela-novas-turmas.component';
 import { TelaTurmasFeitasComponent } from './tela-turmas/tela-turmas-feitas/tela-turmas-feitas.component';
@@ -90,10 +90,10 @@ import { ValidacaoProfessoresComponent } from './validacao-professores/validacao
     TelaHomeTeacherComponent,
     TelaEditTeacherComponent,
     TelaEditCourseComponent,
-    TelaEditAdmComponent,
+    TelaEditAlunoComponent,
     TelaCreateTeacherComponent,
     TelaCreateCourseComponent,
-    TelaCreateAdmComponent,
+    TelaCreateAlunoComponent,
     TelaSuporteAjudaComponent,
     TelaNovasTurmasComponent,
     TelaTurmasFeitasComponent,
