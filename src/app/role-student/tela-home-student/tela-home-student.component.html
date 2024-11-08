@@ -19,38 +19,43 @@
 
   <img src="assets/images/ifsp.logo.png" class="logo" />
 </mat-toolbar>
-
 <div class="blocos-container">
   <div class="content">
     <div class="bloco">
       <div class="header">
-        <mat-icon>flash_on</mat-icon>
-        <h2>Acesso Rápido</h2>
+        <mat-icon>thumb_up</mat-icon>
+        <h2 style="margin-left: 10px">Interesses</h2>
       </div>
       <div class="container">
         <div class="cards">
           <mat-card class="card-width">
             <mat-card-header>
               <mat-card-title class="title-card"
-                >Horários de Aula</mat-card-title
-              >
-            </mat-card-header>
-            <mat-card-actions>
-              <button (click)="redirectHorarios()" mat-button>
-                Selecionar
-              </button>
-            </mat-card-actions>
-          </mat-card>
-          <mat-card class="card-width">
-            <mat-card-header>
-              <mat-card-title class="title-card"
-                >Solicitar interesse em alguma turma</mat-card-title
+                >Solicitar interesse em turma</mat-card-title
               >
             </mat-card-header>
             <mat-card-actions>
               <button (click)="redirectSolicitarTurma()" mat-button>
                 Selecionar
               </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+    <div class="bloco">
+      <div class="header">
+        <mat-icon>meeting_room</mat-icon>
+        <h2 style="margin-left: 10px">Reservas</h2>
+      </div>
+      <div class="container">
+        <div class="cards">
+          <mat-card class="card-width">
+            <mat-card-header>
+              <mat-card-title class="title-card">Ver reservas</mat-card-title>
+            </mat-card-header>
+            <mat-card-actions>
+              <button (click)="verReserva()" mat-button>Selecionar</button>
             </mat-card-actions>
           </mat-card>
         </div>

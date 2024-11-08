@@ -27,9 +27,10 @@ export class TelaHomeStudentComponent implements OnInit, OnDestroy {
 
   ngOnInit() {}
 
-  public redirectHorarios() {
-    this.router.navigate(['/tela-mapa-horario-salas']);
+  public verReserva() {
+    this.router.navigate(['/tela-reservas-feitas']);
   }
+
   public redirectSolicitarTurma() {
     this.router.navigate(['/solicitar-interesse']);
   }
