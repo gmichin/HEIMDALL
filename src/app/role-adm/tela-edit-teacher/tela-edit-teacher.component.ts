@@ -1,3 +1,4 @@
+import { ProfessorService } from 'src/app/services/professor.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -9,8 +10,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ProfessorModel } from 'src/app/models/professor.model';
-import { CadastroService } from 'src/app/services/cadastros.service';
-import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-tela-edit-teacher',
@@ -23,8 +22,8 @@ export class TelaEditTeacherComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private cadastroService: CadastroService,
     private router: Router,
+    private professorService: ProfessorService,
     public dialogRef: MatDialogRef<TelaEditTeacherComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ProfessorModel
   ) {
@@ -50,7 +49,7 @@ export class TelaEditTeacherComponent implements OnInit {
       (this.data.registro =
         this.cadastroProfessorAdmForm.get('registro')?.value),
       (this.data.adm = this.cadastroProfessorAdmForm.get('adm')?.value),
-      this.cadastroService.atualizarProfessor(this.data).subscribe({
+      this.professorService.atualizarProfessor(this.data).subscribe({
         next: () => {
           this.snackBar.open('Dados atualizados com sucesso.', '', {
             duration: 3000,

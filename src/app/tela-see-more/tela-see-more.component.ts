@@ -11,9 +11,11 @@ import { SessionService } from '../services/session.service';
 import { TelaPerfilComponent } from '../tela-perfil/tela-perfil.component';
 import { ProfessorModel } from '../models/professor.model';
 import { TelaEditCourseComponent } from '../role-adm/tela-edit-course/tela-edit-course.component';
-import { TelaEditAdmComponent } from '../role-adm/tela-edit-adm/tela-edit-adm.component';
+import { TelaEditAlunoComponent } from '../role-adm/tela-edit-aluno/tela-edit-aluno.component';
 import { TelaEditTeacherComponent } from '../role-adm/tela-edit-teacher/tela-edit-teacher.component';
 import { ProfessorService } from '../services/professor.service';
+import { AlunoModel } from '../models/aluno.model';
+import { AlunoService } from '../services/aluno.service';
 @Component({
   selector: 'app-tela-see-more',
   templateUrl: './tela-see-more.component.html',
@@ -21,19 +23,19 @@ import { ProfessorService } from '../services/professor.service';
 })
 export class TelaSeeMoreComponent implements OnInit {
   displayedColumns: string[] = [];
-  dataSource!: MatTableDataSource<CursoModel | ProfessorModel>;
+  dataSource!: MatTableDataSource<CursoModel | ProfessorModel | AlunoModel>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  selectionEdit = new SelectionModel<CursoModel | ProfessorModel>(true, []);
-  selectionDelete = new SelectionModel<CursoModel | ProfessorModel>(true, []);
-
-  public dataUser = <ProfessorModel>(
-    this.sessionService.getSessionData('professor').retorno
+  selectionEdit = new SelectionModel<CursoModel | ProfessorModel | AlunoModel>(
+    true,
+    []
   );
-  public id = this.dataUser.professor_id;
-  public tipoUsuario = '';
+  selectionDelete = new SelectionModel<
+    CursoModel | ProfessorModel | AlunoModel
+  >(true, []);
+
   public navigation = this.router.getCurrentNavigation();
   public state = this.navigation?.extras.state;
 
@@ -42,14 +44,16 @@ export class TelaSeeMoreComponent implements OnInit {
     private router: Router,
     private cursoService: CursoService,
     private professorService: ProfessorService,
-    private sessionService: SessionService
+    private alunoService: AlunoService
   ) {
     if (this.state && this.state['data']) {
-      const items: (CursoModel | ProfessorModel)[] = this.state['data'];
+      let items: (CursoModel | ProfessorModel | AlunoModel)[] =
+        this.state['data'];
+
       if (items.length > 0) {
         console.log('Primeiro item:', items[0]);
 
-        if ('professor_id' in items[0] || 'email' in items[0]) {
+        if ('professor_id' in items[0]) {
           this.displayedColumns = [
             'EDIT',
             'DELETE',
@@ -57,10 +61,25 @@ export class TelaSeeMoreComponent implements OnInit {
             'email',
             'registrationNumber',
           ];
-        } else if ('curso_id' in items[0] || 'descricao' in items[0]) {
-          this.displayedColumns = ['EDIT', 'DELETE', 'nome', 'descricao'];
-        }
 
+          items = items.filter(
+            (item) => 'professor_id' in item && item['status'] === true
+          );
+        } else if ('curso_id' in items[0]) {
+          this.displayedColumns = ['EDIT', 'DELETE', 'nome', 'descricao'];
+        } else if ('aluno_id' in items[0]) {
+          this.displayedColumns = [
+            'EDIT',
+            'DELETE',
+            'nome',
+            'email',
+            'registrationNumber',
+          ];
+
+          items = items.filter(
+            (item) => 'aluno_id' in item && item['status'] === true
+          );
+        }
         this.dataSource = new MatTableDataSource(items);
       }
     }
@@ -84,30 +103,31 @@ export class TelaSeeMoreComponent implements OnInit {
     }
   }
 
-  edit(item?: CursoModel | ProfessorModel) {
+  edit(item?: CursoModel | ProfessorModel | AlunoModel) {
     if (this.state && this.state['data']) {
-      const items: (CursoModel | ProfessorModel)[] = this.state['data'];
+      const items: (CursoModel | ProfessorModel | AlunoModel)[] =
+        this.state['data'];
 
       if (items.length > 0) {
         console.log('Primeiro item:', items[0]);
 
-        if (
-          ('professor_id' in items[0] || 'email' in items[0]) &&
-          items[0].adm == true
-        ) {
-          const dialogT = this.dialog.open(TelaEditAdmComponent, {
+        if ('aluno_id' in items[0]) {
+          // Check if item is a student
+          const dialogT = this.dialog.open(TelaEditAlunoComponent, {
             data: item,
             width: '400px',
           });
-        } else if (
-          'professor_id' in items[0] ||
-          ('email' in items[0] && items[0].adm == false)
-        ) {
-          const dialogT = this.dialog.open(TelaEditTeacherComponent, {
-            data: item,
-            width: '400px',
-          });
+        } else if ('professor_id' in items[0]) {
+          // Check if item is a professor and only then access adm
+          const professor = item as ProfessorModel;
+          if (professor.adm === false) {
+            const dialogT = this.dialog.open(TelaEditTeacherComponent, {
+              data: item,
+              width: '400px',
+            });
+          }
         } else if ('curso_id' in items[0] || 'descricao' in items[0]) {
+          // If item is a course
           const dialogT = this.dialog.open(TelaEditCourseComponent, {
             data: item,
             width: '400px',
@@ -119,13 +139,14 @@ export class TelaSeeMoreComponent implements OnInit {
 
   apagar() {
     if (this.state && this.state['data']) {
-      const items: (CursoModel | ProfessorModel)[] = this.state['data'];
+      const items: (CursoModel | ProfessorModel | AlunoModel)[] =
+        this.state['data'];
 
       if (items.length > 0) {
         const selectedItems = this.selectionDelete.selected;
 
         if (selectedItems.length > 0) {
-          if ('professor_id' in items[0] || 'email' in items[0]) {
+          if ('professor_id' in items[0]) {
             this.professorService
               .deletarProfessores(selectedItems as ProfessorModel[])
               .subscribe(() => {
@@ -140,12 +161,27 @@ export class TelaSeeMoreComponent implements OnInit {
                     this.router.navigate(['home-adm']);
                   });
               });
-          } else if ('curso_id' in items[0] || 'descricao' in items[0]) {
+          } else if ('curso_id' in items[0]) {
             this.cursoService
               .deletarCursos(selectedItems as CursoModel[])
               .subscribe(() => {
                 this.dataSource.data = this.dataSource.data.filter(
                   (curso) => !this.selectionDelete.isSelected(curso)
+                );
+                this.selectionDelete.clear();
+
+                this.router
+                  .navigateByUrl('/', { skipLocationChange: true })
+                  .then(() => {
+                    this.router.navigate(['home-adm']);
+                  });
+              });
+          } else if ('aluno_id' in items[0]) {
+            this.alunoService
+              .deletarAlunos(selectedItems as AlunoModel[])
+              .subscribe(() => {
+                this.dataSource.data = this.dataSource.data.filter(
+                  (aluno) => !this.selectionDelete.isSelected(aluno)
                 );
                 this.selectionDelete.clear();
 
@@ -167,7 +203,9 @@ export class TelaSeeMoreComponent implements OnInit {
     });
   }
 
-  validateAllSelected(selection: SelectionModel<CursoModel | ProfessorModel>) {
+  validateAllSelected(
+    selection: SelectionModel<CursoModel | ProfessorModel | AlunoModel>
+  ) {
     if (!this.dataSource || !this.dataSource.data) {
       return false;
     }
@@ -202,7 +240,7 @@ export class TelaSeeMoreComponent implements OnInit {
     }
   }
 
-  onEditCheckboxChange(row: CursoModel | ProfessorModel) {
+  onEditCheckboxChange(row: CursoModel | ProfessorModel | AlunoModel) {
     this.selectionEdit.clear();
     this.selectionEdit.select(row);
   }

@@ -1,28 +1,28 @@
-<h1>Adicione um professor</h1>
+<h1>Adicione um aluno</h1>
 <div class="container">
   <div class="dadosPessoais">
-    <form [formGroup]="cadastroProfessorForm" (ngSubmit)="cadastro()">
-      <mat-form-field class="nome" appearance="fill">
-        <mat-label>Nome do Professor:</mat-label>
+    <form [formGroup]="cadastroAlunosForm" (ngSubmit)="cadastro()">
+      <mat-form-field appearance="fill">
+        <mat-label>Nome do aluno:</mat-label>
         <input formControlName="nome" matInput />
         <mat-icon matSuffix>account_circle</mat-icon>
       </mat-form-field>
 
-      <mat-form-field class="nome" appearance="fill">
+      <mat-form-field appearance="fill">
         <mat-label>Email:</mat-label>
         <input formControlName="email" matInput />
         <mat-icon matSuffix>email</mat-icon>
       </mat-form-field>
 
-      <mat-form-field class="nome" appearance="fill">
+      <mat-form-field appearance="fill">
         <mat-label>Senha:</mat-label>
-        <input formControlName="senha" type="password" matInput />
+        <input type="password" formControlName="senha" matInput />
         <mat-icon matSuffix>vpn_key</mat-icon>
       </mat-form-field>
 
-      <mat-form-field class="nome" appearance="fill">
+      <mat-form-field appearance="fill">
         <mat-label>Confirme a senha:</mat-label>
-        <input formControlName="confirmarSenha" type="password" matInput />
+        <input type="password" formControlName="confirmarSenha" matInput />
         <mat-icon matSuffix>vpn_key</mat-icon>
       </mat-form-field>
 
@@ -37,6 +37,19 @@
         />
         <mat-icon matSuffix>assignment_ind</mat-icon>
       </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Ano de Entrada</mat-label>
+        <input
+          formControlName="ano_entrada"
+          type="number"
+          matInput
+          placeholder="ano_entrada"
+          value=""
+        />
+        <mat-icon matSuffix>assignment_ind</mat-icon>
+      </mat-form-field>
+
       <div class="alterarEmail">
         <button
           mat-button

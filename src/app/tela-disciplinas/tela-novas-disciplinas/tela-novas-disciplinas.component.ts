@@ -3,17 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TelaReservasComponent } from 'src/app/tela-reservas/tela-reservas.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CursoService } from 'src/app/services/curso.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DisciplinaModel } from 'src/app/models/disciplina.model';
 import { CursoModel } from 'src/app/models/curso.model';
-import { SessionService } from 'src/app/services/session.service';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
 import { TelaDisciplinasComponent } from '../tela-disciplinas.component';
-import { InternsService } from 'src/app/services/interns.service';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { ProfessorModel } from 'src/app/models/professor.model';
-import { AlunoModel } from 'src/app/models/aluno.model';
 import { DisciplinaService } from 'src/app/services/disciplina.service';
 
 @Component({

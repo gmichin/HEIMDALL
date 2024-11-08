@@ -1,9 +1,10 @@
+import { ProfessorService } from 'src/app/services/professor.service';
+import { AlunoService } from 'src/app/services/aluno.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SessionService } from './../services/session.service';
-import { CadastroService } from '../services/cadastros.service';
 import { AlunoModel } from '../models/aluno.model';
 import { ProfessorModel } from '../models/professor.model';
 import { Router } from '@angular/router';
@@ -26,6 +27,17 @@ export class TelaPerfilComponent implements OnInit {
   public emailAluno = this.dataAluno.email;
   public nomeProfessor = this.dataProfessorAdm.nome;
   public emailProfessor = this.dataProfessorAdm.email;
+  public senhaAluno = this.dataAluno.senha;
+  public senhaProfessor = this.dataProfessorAdm.senha;
+  public registroAluno = this.dataAluno.registro;
+  public registroProfessor = this.dataProfessorAdm.registro;
+
+  public nome = this.dataAluno?.nome ?? this.dataProfessorAdm?.nome;
+  public email = this.dataAluno?.email ?? this.dataProfessorAdm?.email;
+  public senha = this.senhaAluno ?? this.senhaProfessor;
+  public registro = this.registroAluno ?? this.registroProfessor;
+  public anoAluno = this.dataAluno.ano_entrada;
+  public senhaVisivel = false;
 
   public form!: FormGroup;
 
@@ -35,39 +47,65 @@ export class TelaPerfilComponent implements OnInit {
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<TelaPerfilComponent>,
     private router: Router,
-    public cadastro: CadastroService
+    private alunoService: AlunoService,
+    private professorService: ProfessorService
   ) {
-    if (this.dataProfessorAdm.adm == true) {
-      this.tipoUsuario = 'Administrador';
-      this.criarFormulario(
-        this.dataProfessorAdm.email,
-        this.dataProfessorAdm.nome,
-        this.tipoUsuario
+    if (this.dataProfessorAdm.professor_id) {
+      this.tipoUsuario = this.dataProfessorAdm.adm
+        ? 'Administrador'
+        : 'Professor';
+      this.criarFormularioProfessor(
+        this.email,
+        this.nome,
+        this.tipoUsuario,
+        this.registro,
+        this.senha
       );
-    } else if (this.dataProfessorAdm.adm == false) {
-      this.tipoUsuario = 'Professor';
-      this.criarFormulario(
-        this.dataProfessorAdm.email,
-        this.dataProfessorAdm.nome,
-        this.tipoUsuario
-      );
-    } else if (this.dataAluno) {
+    } else if (this.dataAluno.aluno_id) {
       this.tipoUsuario = 'Aluno';
-      this.criarFormulario(
-        this.dataAluno.email,
-        this.dataAluno.nome,
-        this.tipoUsuario
+      this.criarFormularioAluno(
+        this.email,
+        this.nome,
+        this.tipoUsuario,
+        this.registro,
+        this.senha,
+        this.anoAluno
       );
     }
   }
 
   ngOnInit() {}
 
-  private criarFormulario(email: string, nome: string, role: string) {
+  private criarFormularioProfessor(
+    email: string,
+    nome: string,
+    role: string,
+    registro: string,
+    senha: string
+  ) {
     this.form = this.fb.group({
       email: [email, [Validators.required, this.emailValidator]],
       nome: [nome, [Validators.required]],
       role: [role, [Validators.required]],
+      registro: [registro, [Validators.required]],
+      senha: [senha, [Validators.required]],
+    });
+  }
+  private criarFormularioAluno(
+    email: string,
+    nome: string,
+    role: string,
+    registro: string,
+    senha: string,
+    ano_entrada: number
+  ) {
+    this.form = this.fb.group({
+      email: [email, [Validators.required, this.emailValidator]],
+      nome: [nome, [Validators.required]],
+      role: [role, [Validators.required]],
+      registro: [registro, [Validators.required]],
+      senha: [senha, [Validators.required]],
+      ano_entrada: [ano_entrada, [Validators.required]],
     });
   }
   public salvar() {
@@ -79,10 +117,12 @@ export class TelaPerfilComponent implements OnInit {
     }
 
     if (this.tipoUsuario == 'Aluno') {
-      console.log(this.dataAluno);
       this.dataAluno.email = this.form.get('email')?.value;
       this.dataAluno.nome = this.form.get('nome')?.value;
-      this.cadastro.atualizarAluno(this.dataAluno).subscribe({
+      this.dataAluno.registro = this.form.get('registro')?.value;
+      this.dataAluno.senha = this.form.get('senha')?.value;
+      this.dataAluno.ano_entrada = this.form.get('ano_entrada')?.value;
+      this.alunoService.atualizarAluno(this.dataAluno).subscribe({
         next: () => {
           this.snackBar.open('Dados Atualizados com sucesso.', '', {
             duration: 1000,
@@ -90,7 +130,7 @@ export class TelaPerfilComponent implements OnInit {
           this.router
             .navigateByUrl('/', { skipLocationChange: true })
             .then(() => {
-              this.router.navigate(['home-adm']);
+              this.router.navigate(['inicial']);
             });
           this.dialogRef.close('close');
         },
@@ -105,28 +145,39 @@ export class TelaPerfilComponent implements OnInit {
       this.tipoUsuario == 'Professor' ||
       this.tipoUsuario == 'Administrador'
     ) {
-      console.log(this.dataProfessorAdm);
       this.dataProfessorAdm.email = this.form.get('email')?.value;
       this.dataProfessorAdm.nome = this.form.get('nome')?.value;
-      this.cadastro.atualizarProfessor(this.dataProfessorAdm).subscribe({
-        next: () => {
-          this.snackBar.open('Dados Atualizados com sucesso.', '', {
-            duration: 1000,
-          });
-          this.router
-            .navigateByUrl('/', { skipLocationChange: true })
-            .then(() => {
-              this.router.navigate(['home-adm']);
+      this.dataProfessorAdm.registro = this.form.get('registro')?.value;
+      this.dataProfessorAdm.senha = this.form.get('senha')?.value;
+      this.professorService
+        .atualizarProfessor(this.dataProfessorAdm)
+        .subscribe({
+          next: () => {
+            this.snackBar.open('Dados Atualizados com sucesso.', '', {
+              duration: 1000,
             });
-          this.dialogRef.close('close');
-        },
-        error: () => {
-          this.snackBar.open('Ocorreu um erro durante sua solicitação.', '', {
-            duration: 1000,
-          });
-          this.dialogRef.close();
-        },
-      });
+            if (this.tipoUsuario == 'Administrador') {
+              this.router
+                .navigateByUrl('/', { skipLocationChange: true })
+                .then(() => {
+                  this.router.navigate(['inicial']);
+                });
+            } else if (this.tipoUsuario == 'Professor') {
+              this.router
+                .navigateByUrl('/', { skipLocationChange: true })
+                .then(() => {
+                  this.router.navigate(['inicial']);
+                });
+            }
+            this.dialogRef.close('close');
+          },
+          error: () => {
+            this.snackBar.open('Ocorreu um erro durante sua solicitação.', '', {
+              duration: 1000,
+            });
+            this.dialogRef.close();
+          },
+        });
     }
   }
 

@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { CursoModel } from 'src/app/models/curso.model';
 import { CursoService } from 'src/app/services/curso.service';
 import { ProfessorService } from 'src/app/services/professor.service';
-import { SalaDataService } from 'src/app/services/sala-data.service';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { TelaReservasComponent } from 'src/app/tela-reservas/tela-reservas.component';
 
@@ -28,7 +27,7 @@ export class TelaHomeTeacherComponent implements OnInit, OnDestroy {
     private professorService: ProfessorService,
     private cursoService: CursoService
   ) {
-    this.professorService.getAllProfessore().subscribe(
+    this.professorService.getAllProfessores().subscribe(
       (dadosProfessores) => {
         this.dataProfessorAdm = dadosProfessores;
         this.processarDados();

@@ -1,16 +1,16 @@
+import { ProfessorService } from 'src/app/services/professor.service';
+import { AlunoService } from 'src/app/services/aluno.service';
 import { Component } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { LoginUserService } from '../services/login.service';
-import { CadastroService } from '../services/cadastros.service';
 import { ProfessorModel } from '../models/professor.model';
 import { AlunoModel } from '../models/aluno.model';
 import { SessionService } from '../services/session.service'; // Importando o SessionService
@@ -31,9 +31,10 @@ export class TelaLoginCadastroComponent {
     private router: Router,
     public dialogRef: MatDialogRef<TelaLoginCadastroComponent>,
     private fb: FormBuilder,
-    private cadastroService: CadastroService,
     private loginUserService: LoginUserService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private alunoService: AlunoService,
+    private professorService: ProfessorService
   ) {
     this.cadastroAlunoForm = this.fb.group(
       {
@@ -80,7 +81,7 @@ export class TelaLoginCadastroComponent {
       ano_entrada: this.cadastroAlunoForm.get('ano_entrada')?.value,
       status: false,
     });
-    this.cadastroService.cadastroAluno(request).subscribe({
+    this.alunoService.criarAluno(request).subscribe({
       next: () => {
         this.snackBar.open(
           `Cadastro realizado, há a possibilidade do adm não permitir que a conta seja mantida.`,
@@ -114,7 +115,7 @@ export class TelaLoginCadastroComponent {
       adm: this.cadastroProfessorAdmForm.get('adm')?.value,
       status: false,
     });
-    this.cadastroService.cadastroProfessorAdm(request).subscribe({
+    this.professorService.criarProfessor(request).subscribe({
       next: () => {
         this.snackBar.open(
           `Cadastro realizado, há a possibilidade do adm não permitir que a conta seja mantida.`,
@@ -178,11 +179,11 @@ export class TelaLoginCadastroComponent {
   }
 
   private isProfessorModel(obj: any): obj is ProfessorModel {
-    return obj && typeof obj.adm !== 'undefined';
+    return obj && typeof obj.adm !== 'undefined' && obj.status == true;
   }
 
   private isAlunoModel(obj: any): obj is AlunoModel {
-    return obj && typeof obj.ano_entrada !== 'undefined';
+    return obj && typeof obj.ano_entrada !== 'undefined' && obj.status == true;
   }
 
   private resetForms(form: FormGroup): void {

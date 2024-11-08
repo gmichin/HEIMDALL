@@ -30,42 +30,86 @@
   <mat-card-content>
     <form [formGroup]="turmaForm" (ngSubmit)="save()">
       <mat-form-field>
-        <mat-label>Professor:</mat-label>
-        <input
+        <mat-label>Informe o professor:</mat-label>
+        <mat-select
           formControlName="professor_id"
-          matInput
-          type="text"
-          placeholder="Professor da turma"
-        />
+          [disabled]="professorList.length == 0"
+        >
+          <mat-option
+            *ngFor="let professor of professorList"
+            [value]="professor.professor_id"
+          >
+            {{ professor.nome }}
+          </mat-option>
+          <mat-option *ngIf="professorList.length === 0" [value]=""
+            >Sem dados</mat-option
+          >
+        </mat-select>
       </mat-form-field>
+
       <br />
       <mat-form-field>
-        <mat-label>Disciplina:</mat-label>
-        <input
+        <mat-label>Informe a disciplina:</mat-label>
+        <mat-select
           formControlName="disciplina_id"
-          matInput
-          type="text"
-          placeholder="Disciplina da turma"
-        />
+          [disabled]="disciplinaList.length == 0"
+        >
+          <mat-option
+            *ngFor="let disciplina of disciplinaList"
+            [value]="disciplina.disciplina_id"
+          >
+            {{ disciplina.nome }}
+          </mat-option>
+          <mat-option *ngIf="disciplinaList.length === 0" [value]=""
+            >Sem dados</mat-option
+          >
+        </mat-select>
       </mat-form-field>
-      <br /><mat-form-field>
+
+      <br />
+      <mat-form-field>
         <mat-label>Periodo:</mat-label>
-        <input
-          formControlName="periodo"
-          matInput
-          type="text"
-          placeholder="Periodo da turma"
-        />
+        <mat-select formControlName="periodo">
+          <mat-option value="matutino">Matutino</mat-option>
+          <mat-option value="noturno">Noturno</mat-option>
+        </mat-select>
       </mat-form-field>
-      <br /><mat-form-field>
-        <mat-label>Aluno:</mat-label>
-        <input
-          formControlName="aluno_id"
-          matInput
-          type="text"
-          placeholder="Aluno da turma"
-        />
-      </mat-form-field>
+
+      <br />
+
+      <div formArrayName="aluno_ids">
+        <div *ngFor="let alunoControl of alunoControls.controls; let i = index">
+          <mat-form-field [formGroupName]="i">
+            <mat-label>Informe o aluno:</mat-label>
+            <mat-select
+              formControlName="aluno_id"
+              [disabled]="alunoList.length == 0"
+            >
+              <mat-option
+                *ngFor="let aluno of alunoList"
+                [value]="aluno.aluno_id"
+                >{{ aluno.nome }}</mat-option
+              >
+              <mat-option *ngIf="alunoList.length === 0" [value]=""
+                >Sem dados</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+          <button
+            type="button"
+            mat-icon-button
+            color="warn"
+            (click)="removeAluno(i)"
+          >
+            <mat-icon>remove_circle</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <button type="button" mat-button (click)="addAluno()">
+        Adicionar aluno
+      </button>
+
       <br />
 
       <button type="submit" class="saveButton">

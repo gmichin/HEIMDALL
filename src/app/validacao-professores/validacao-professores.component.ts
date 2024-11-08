@@ -1,4 +1,4 @@
-import { SalaDataService } from 'src/app/services/sala-data.service';
+import { ProfessorService } from 'src/app/services/professor.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TelaPerfilComponent } from '../tela-perfil/tela-perfil.component';
@@ -6,17 +6,16 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
-import { ResgistrationRequestsService } from '../services/resgistration-requests.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AlunoModel } from '../models/aluno.model';
 import { Router } from '@angular/router';
+import { ProfessorModel } from '../models/professor.model';
 
 @Component({
-  selector: 'app-tela-solicitacoes-registro',
-  templateUrl: './tela-solicitacoes-registro.component.html',
-  styleUrls: ['./tela-solicitacoes-registro.component.scss'],
+  selector: 'app-validacao-professores',
+  templateUrl: './validacao-professores.component.html',
+  styleUrl: './validacao-professores.component.scss',
 })
-export class TelaSolicitacoesRegistroComponent implements OnInit {
+export class ValidacaoProfessoresComponent implements OnInit {
   displayedColumns: string[] = [
     'APROVE',
     'REJEITE',
@@ -25,25 +24,30 @@ export class TelaSolicitacoesRegistroComponent implements OnInit {
     'email',
   ];
 
-  dataSource: MatTableDataSource<AlunoModel> =
-    new MatTableDataSource<AlunoModel>([]);
+  dataSource: MatTableDataSource<ProfessorModel> =
+    new MatTableDataSource<ProfessorModel>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  selectionAprove = new SelectionModel<AlunoModel>(true, []);
-  selectionReject = new SelectionModel<AlunoModel>(true, []);
+  selectionAprove = new SelectionModel<ProfessorModel>(true, []);
+  selectionReject = new SelectionModel<ProfessorModel>(true, []);
 
   constructor(
     public dialog: MatDialog,
-    private readonly _registrationService: ResgistrationRequestsService,
     private snackBar: MatSnackBar,
-    private salaDataService: SalaDataService,
+    private professorService: ProfessorService,
     private router: Router
   ) {
-    this.salaDataService.carregarDadosAlunos().subscribe(
-      (dataAlunos: AlunoModel[]) => {
-        this.dataSource = new MatTableDataSource<AlunoModel>(dataAlunos);
+    this.professorService.getAllProfessores().subscribe(
+      (dataProfessores: ProfessorModel[]) => {
+        const professoresFiltrados = dataProfessores.filter(
+          (professor) => !professor.adm && professor.status == false
+        );
+
+        this.dataSource = new MatTableDataSource<ProfessorModel>(
+          professoresFiltrados
+        );
       },
       (error) => {
         console.error('Erro ao carregar dados dos alunos:', error);
@@ -71,29 +75,62 @@ export class TelaSolicitacoesRegistroComponent implements OnInit {
   public enviarLista() {
     this.selectionAprove.selected.forEach((request) => {
       request.status = true;
-    });
-    this.selectionReject.selected.forEach((request) => {
-      request.status = false;
-    });
-
-    this._registrationService
-      .sendResquestResponse([
-        ...this.selectionAprove.selected,
-        ...this.selectionReject.selected,
-      ])
-      .subscribe({
+      this.professorService.atualizarProfessor(request).subscribe({
         next: (res) => {
-          this.snackBar.open(`Respostas enviadas com sucesso`, '', {
-            duration: 5000,
+          this.snackBar.open('Atualizado com sucesso!', '', {
+            duration: 4000,
           });
-          this.router.navigate(['tela-solicitacoes-registro']);
+          this.router
+            .navigateByUrl('/', { skipLocationChange: true })
+            .then(() => {
+              this.router.navigate(['validacao-professores']);
+            });
         },
         error: (err) => {
-          this.snackBar.open(`Ocorreu um erro durante sua solicitação.`, '', {
-            duration: 2000,
-          });
+          this.snackBar.open(
+            'Ocorreu um erro durante a atualização, por favor, tente novamente mais tarde.',
+            '',
+            {
+              duration: 4000,
+            }
+          );
+          this.router
+            .navigateByUrl('/', { skipLocationChange: true })
+            .then(() => {
+              this.router.navigate(['validacao-professores']);
+            });
         },
       });
+    });
+
+    const toDelete = this.selectionReject.selected.map((request) => {
+      return request;
+    });
+
+    this.professorService.deletarProfessores(toDelete).subscribe({
+      next: (res) => {
+        this.snackBar.open('Removido(s) com sucesso!', '', {
+          duration: 4000,
+        });
+        this.router
+          .navigateByUrl('/', { skipLocationChange: true })
+          .then(() => {
+            this.router.navigate(['validacao-professores']);
+          });
+      },
+      error: (err) => {
+        this.snackBar.open(
+          'Ocorreu um erro durante a solicitação, por favor, tente novamente mais tarde.',
+          '',
+          { duration: 4000 }
+        );
+        this.router
+          .navigateByUrl('/', { skipLocationChange: true })
+          .then(() => {
+            this.router.navigate(['validacao-professores']);
+          });
+      },
+    });
   }
 
   public redirectProfile() {
@@ -102,7 +139,7 @@ export class TelaSolicitacoesRegistroComponent implements OnInit {
     });
   }
 
-  validateAllSelected(selection: SelectionModel<AlunoModel>) {
+  validateAllSelected(selection: SelectionModel<ProfessorModel>) {
     const numSelected = selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
@@ -148,10 +185,4 @@ export class TelaSolicitacoesRegistroComponent implements OnInit {
   logout() {
     this.router.navigate(['/']);
   }
-}
-
-export interface UserData {
-  registrationNumber: string;
-  nome: string;
-  email: string;
 }

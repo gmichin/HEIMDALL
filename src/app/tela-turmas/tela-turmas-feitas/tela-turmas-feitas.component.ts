@@ -27,7 +27,7 @@ export class TelaTurmasFeitasComponent {
     'remove',
     'edit',
     'professor',
-    'alunos',
+    'aluno_ids',
     'disciplina',
     'periodo',
   ];
@@ -44,15 +44,14 @@ export class TelaTurmasFeitasComponent {
     private router: Router,
     private fb: FormBuilder
   ) {
-    this.form = this.fb.group(
-      {
-        professor: ['', [Validators.required]],
-        alunos: ['', [Validators.required]],
-        disciplina: ['', [Validators.required]],
-        periodo: ['', [Validators.required]],
-      },
-      { validator: this.passwordMatchValidator }
-    );
+    this.form = this.fb.group({
+      professor_id: ['', [Validators.required]],
+      disciplina_id: ['', [Validators.required]],
+      periodo: ['', [Validators.required]],
+      aluno_ids: this.fb.array([
+        this.fb.group({ aluno_id: ['', Validators.required] }),
+      ]),
+    });
 
     this.turmaService.getAllTurmas().subscribe({
       next: (turmas) => {
@@ -60,6 +59,7 @@ export class TelaTurmasFeitasComponent {
       },
     });
   }
+
   goBack() {
     this.router.navigate(['/home-adm']);
   }
@@ -81,11 +81,11 @@ export class TelaTurmasFeitasComponent {
   @ViewChild(MatTable)
   table!: MatTable<DisciplinaModel>;
 
-  editDisciplinas() {
+  editTurmas() {
     this.turmaService.salvarTurmaToEdit(this.selection.selected[0]);
   }
 
-  apagarDisciplinas() {
+  apagarTurmas() {
     this.turmaService.deletarTurma(this.selectionReject.selected).subscribe({
       next: (res) => {
         this.snackBar.open('Removida(s) com sucesso!', '', {
@@ -128,18 +128,5 @@ export class TelaTurmasFeitasComponent {
 
   isAllRejectSelected() {
     return this.selectionReject.selected.length > 0;
-  }
-
-  private passwordMatchValidator(
-    control: AbstractControl
-  ): { [key: string]: boolean } | null {
-    const senha = control.get('senha');
-    const confirmarSenha = control.get('confirmarSenha');
-
-    if (senha?.value !== confirmarSenha?.value) {
-      return { passwordMismatch: true };
-    }
-
-    return null;
   }
 }

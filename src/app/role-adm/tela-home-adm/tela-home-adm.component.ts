@@ -1,6 +1,5 @@
-import { ProfessorService } from './../../services/professor.service';
+import { ProfessorService } from '../../services/professor.service';
 import { CursoService } from 'src/app/services/curso.service';
-import { SalaDataService } from './../../services/sala-data.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -8,14 +7,17 @@ import { CursoModel } from 'src/app/models/curso.model';
 import { ProfessorModel } from 'src/app/models/professor.model';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { TelaReservasComponent } from 'src/app/tela-reservas/tela-reservas.component';
-import { TelaCreateAdmComponent } from '../tela-create-adm/tela-create-adm.component';
+import { TelaCreateAlunoComponent } from '../tela-create-aluno/tela-create-aluno.component';
 import { TelaCreateCourseComponent } from '../tela-create-course/tela-create-course.component';
 import { TelaCreateTeacherComponent } from '../tela-create-teacher/tela-create-teacher.component';
-import { TelaEditAdmComponent } from '../tela-edit-adm/tela-edit-adm.component';
+import { TelaEditAlunoComponent } from '../tela-edit-aluno/tela-edit-aluno.component';
 import { TelaEditCourseComponent } from '../tela-edit-course/tela-edit-course.component';
 import { TelaEditTeacherComponent } from '../tela-edit-teacher/tela-edit-teacher.component';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
 import { TelaDisciplinasComponent } from 'src/app/tela-disciplinas/tela-disciplinas.component';
+import { TelaTurmasComponent } from 'src/app/tela-turmas/tela-turmas.component';
+import { AlunoService } from 'src/app/services/aluno.service';
+import { AlunoModel } from 'src/app/models/aluno.model';
 
 @Component({
   selector: 'app-tela-home-adm',
@@ -24,21 +26,32 @@ import { TelaDisciplinasComponent } from 'src/app/tela-disciplinas/tela-discipli
 })
 export class TelaHomeAdmComponent implements OnInit, OnDestroy {
   public data: {
-    name: 'Cursos' | 'Professores' | 'Administradores';
+    name: 'Cursos' | 'Professores' | 'Alunos';
     arr: any[];
   }[] = [];
-  public dataProfessorAdm: any[] = [];
+  public dataProfessor: any[] = [];
   public dataCursos: any[] = [];
+  public dataAluno: any[] = [];
 
   constructor(
     private router: Router,
     public dialog: MatDialog,
     private cursoService: CursoService,
-    private professorService: ProfessorService
+    private professorService: ProfessorService,
+    private alunoService: AlunoService
   ) {
-    this.professorService.getAllProfessore().subscribe(
+    this.alunoService.getAllAlunos().subscribe(
+      (dadosAlunos) => {
+        this.dataAluno = dadosAlunos;
+        this.processarDados();
+      },
+      (error) => {
+        console.error('Erro ao carregar dados dos alunos:', error);
+      }
+    );
+    this.professorService.getAllProfessores().subscribe(
       (dadosProfessores) => {
-        this.dataProfessorAdm = dadosProfessores;
+        this.dataProfessor = dadosProfessores;
         this.processarDados();
       },
       (error) => {
@@ -61,23 +74,24 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
   ngOnInit() {}
 
   private processarDados() {
-    const administradores = this.dataProfessorAdm.filter(
-      (professor) => professor.adm === true
-    );
-    const professores = this.dataProfessorAdm.filter(
-      (professor) => professor.adm === false
+    const alunos = this.dataAluno.filter((aluno) => aluno.status === true);
+    const professores = this.dataProfessor.filter(
+      (professor) => professor.adm === false && professor.status === true
     );
     const cursos = this.dataCursos.length > 0 ? this.dataCursos : [];
 
     this.data = [
-      { name: 'Administradores', arr: administradores },
+      { name: 'Alunos', arr: alunos },
       { name: 'Professores', arr: professores },
       { name: 'Cursos', arr: cursos },
     ];
   }
 
-  public redirectRegistrationList() {
-    this.router.navigate(['tela-solicitacoes-registro']);
+  public redirectValidacaoAlunos() {
+    this.router.navigate(['validacao-alunos']);
+  }
+  public redirectValidacaoProfessores() {
+    this.router.navigate(['validacao-professores']);
   }
 
   public redirectProfile() {
@@ -106,15 +120,21 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
       width: '400px',
     });
   }
+
+  public redirectTurmas() {
+    const dialogT = this.dialog.open(TelaTurmasComponent, {
+      width: '400px',
+    });
+  }
   public createItem(
-    blockName: 'Cursos' | 'Professores' | 'Administradores',
-    item?: CursoModel | ProfessorModel,
-    items?: (CursoModel | ProfessorModel)[]
+    blockName: 'Cursos' | 'Professores' | 'Alunos',
+    item?: CursoModel | ProfessorModel | AlunoModel,
+    items?: (CursoModel | ProfessorModel | AlunoModel)[]
   ): void {
     const type: any = {
       Cursos: TelaCreateCourseComponent,
       Professores: TelaCreateTeacherComponent,
-      Administradores: TelaCreateAdmComponent,
+      Alunos: TelaCreateAlunoComponent,
     };
     1;
     const dialogT = this.dialog.open(type[blockName], {
@@ -127,13 +147,13 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
   }
 
   public editItem(
-    blockName: 'Cursos' | 'Professores' | 'Administradores',
-    item?: CursoModel | ProfessorModel
+    blockName: 'Cursos' | 'Professores' | 'Alunos',
+    item?: CursoModel | ProfessorModel | AlunoModel
   ): void {
     const type: any = {
       Cursos: TelaEditCourseComponent,
       Professores: TelaEditTeacherComponent,
-      Administradores: TelaEditAdmComponent,
+      Alunos: TelaEditAlunoComponent,
     };
 
     const dialogT = this.dialog.open(type[blockName], {
@@ -150,7 +170,7 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
     this.router.navigate(['home-adm']);
   }
 
-  public seeMore(items: (CursoModel | ProfessorModel)[]): void {
+  public seeMore(items: (CursoModel | ProfessorModel | AlunoModel)[]): void {
     this.router.navigate(['tela-see-more'], { state: { data: items } });
   }
 

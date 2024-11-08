@@ -1,3 +1,4 @@
+import { AlunoService } from 'src/app/services/aluno.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -8,31 +9,31 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { ProfessorModel } from 'src/app/models/professor.model';
-import { CadastroService } from 'src/app/services/cadastros.service';
+import { AlunoModel } from 'src/app/models/aluno.model';
 
 @Component({
-  selector: 'app-tela-edit-adm',
-  templateUrl: './tela-edit-adm.component.html',
-  styleUrls: ['./tela-edit-adm.component.scss'],
+  selector: 'app-tela-edit-aluno',
+  templateUrl: './tela-edit-aluno.component.html',
+  styleUrls: ['./tela-edit-aluno.component.scss'],
 })
-export class TelaEditAdmComponent implements OnInit {
-  public cadastroProfessorAdmForm: FormGroup;
+export class TelaEditAlunoComponent implements OnInit {
+  public cadastroAlunoForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private cadastroService: CadastroService,
     private router: Router,
-    public dialogRef: MatDialogRef<TelaEditAdmComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ProfessorModel
+    private alunoService: AlunoService,
+    public dialogRef: MatDialogRef<TelaEditAlunoComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: AlunoModel
   ) {
-    this.cadastroProfessorAdmForm = this.fb.group(
+    this.cadastroAlunoForm = this.fb.group(
       {
         nome: ['', [Validators.required]],
         email: ['', [Validators.required, this.emailValidator]],
         registro: ['', [Validators.required]],
-        adm: [true],
+        ano_entrada: ['', [Validators.required]],
+        status: [[true]],
       },
       { validator: this.passwordMatchValidator }
     );
@@ -41,22 +42,25 @@ export class TelaEditAdmComponent implements OnInit {
   ngOnInit() {}
 
   edit() {
-    if (this.cadastroProfessorAdmForm.invalid) {
+    if (this.cadastroAlunoForm.invalid) {
+      console.log(this.cadastroAlunoForm.invalid);
       return;
     }
 
-    this.data.nome = this.cadastroProfessorAdmForm.get('nome')?.value;
-    this.data.email = this.cadastroProfessorAdmForm.get('email')?.value;
-    this.data.registro = this.cadastroProfessorAdmForm.get('registro')?.value;
-    this.data.adm = this.cadastroProfessorAdmForm.get('adm')?.value;
+    (this.data.nome = this.cadastroAlunoForm.get('nome')?.value),
+      (this.data.email = this.cadastroAlunoForm.get('email')?.value),
+      (this.data.registro = this.cadastroAlunoForm.get('registro')?.value),
+      (this.data.ano_entrada =
+        this.cadastroAlunoForm.get('ano_entrada')?.value),
+      (this.data.status = true);
 
-    this.cadastroService.atualizarProfessor(this.data).subscribe({
+    this.alunoService.atualizarAluno(this.data).subscribe({
       next: () => {
         this.snackBar.open('Dados atualizados com sucesso.', '', {
           duration: 3000,
         });
         this.dialogRef.close();
-        this.resetForms(this.cadastroProfessorAdmForm);
+        this.resetForms(this.cadastroAlunoForm);
         this.router
           .navigateByUrl('/', { skipLocationChange: true })
           .then(() => {

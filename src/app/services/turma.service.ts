@@ -30,7 +30,15 @@ export class TurmaService {
   }
 
   public atualizarTurmas(turma: TurmaModel) {
-    return this.http.patch(`${url_config.url_turma}/${turma.turma_id}`, turma);
+    const turmaAtualizada = {
+      professor: turma.professor_id,
+      disciplina: turma.disciplina_id,
+      periodo: turma.periodo,
+    };
+    return this.http.patch(
+      `${url_config.url_turma}/${turma.turma_id}`,
+      turmaAtualizada
+    );
   }
 
   public deletarTurma(turma: TurmaModel[]) {
@@ -42,8 +50,20 @@ export class TurmaService {
     return forkJoin(...arrReqs);
   }
 
-  public getTurmaPorCurso(courseId: string): Observable<TurmaModel[]> {
-    return this.http.get<TurmaModel[]>(`${url_config.url_turma}/${courseId}`);
+  public getTurmaPorProfessor(professorId: string): Observable<TurmaModel[]> {
+    return this.http.get<TurmaModel[]>(
+      `${url_config.url_turma}?professor_id=${professorId}`
+    );
+  }
+  public getTurmaPorDisciplina(disciplinaId: string): Observable<TurmaModel[]> {
+    return this.http.get<TurmaModel[]>(
+      `${url_config.url_turma}?disciplina_id=${disciplinaId}`
+    );
+  }
+  public getTurmaPorPeriodo(periodo: string): Observable<TurmaModel[]> {
+    return this.http.get<TurmaModel[]>(
+      `${url_config.url_turma}?periodo=${periodo}`
+    );
   }
 
   public salvarTurmaToEdit(turma: TurmaModel) {
@@ -52,11 +72,10 @@ export class TurmaService {
   }
 
   public getTurmaToEdit(): { turma: TurmaModel; valid: boolean } {
-    const disciplinas =
-      this.sessionService.getSessionData<TurmaModel>('editTurma');
-    if (disciplinas.valido) {
-      sessionStorage.removeItem('editTurma');
-      return { valid: true, turma: disciplinas.retorno };
+    const turmas = this.sessionService.getSessionData<TurmaModel>('editTurmas');
+    if (turmas.valido) {
+      sessionStorage.removeItem('editTurmas');
+      return { valid: true, turma: turmas.retorno };
     }
     return { valid: false, turma: {} as TurmaModel };
   }

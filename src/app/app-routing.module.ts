@@ -10,7 +10,7 @@ import { TelaPermissaoReservasComponent } from './tela-reservas/tela-permissao-r
 import { TelaSalasComponent } from './tela-salas/tela-salas.component';
 import { TelaNovasSalasComponent } from './tela-salas/tela-novas-salas/tela-novas-salas.component';
 import { TelaSalasFeitasComponent } from './tela-salas/tela-salas-feitas/tela-salas-feitas.component';
-import { TelaSolicitacoesRegistroComponent } from './tela-solicitacoes-registro/tela-solicitacoes-registro.component';
+import { ValidacaoAlunosComponent } from './validacao-alunos/validacao-alunos.component';
 import { TelaMapaHorarioAulasComponent } from './tela-mapa-horario-aulas/tela-mapa-horario-aulas.component';
 import { TelaDisciplinasComponent } from './tela-disciplinas/tela-disciplinas.component';
 import { TelaNovasDisciplinasComponent } from './tela-disciplinas/tela-novas-disciplinas/tela-novas-disciplinas.component';
@@ -26,6 +26,7 @@ import { TelaSuporteAjudaComponent } from './tela-suporte-ajuda/tela-suporte-aju
 import { TelaTurmasComponent } from './tela-turmas/tela-turmas.component';
 import { TelaTurmasFeitasComponent } from './tela-turmas/tela-turmas-feitas/tela-turmas-feitas.component';
 import { TelaNovasTurmasComponent } from './tela-turmas/tela-novas-turmas/tela-novas-turmas.component';
+import { ValidacaoProfessoresComponent } from './validacao-professores/validacao-professores.component';
 
 const routes: Routes = [
   {
@@ -83,8 +84,12 @@ const routes: Routes = [
   { path: 'tela-mapa-horario-salas', component: TelaMapaHorarioAulasComponent },
 
   {
-    path: 'tela-solicitacoes-registro',
-    component: TelaSolicitacoesRegistroComponent,
+    path: 'validacao-alunos',
+    component: ValidacaoAlunosComponent,
+  },
+  {
+    path: 'validacao-professores',
+    component: ValidacaoProfessoresComponent,
   },
 
   { path: 'tela-see-more', component: TelaSeeMoreComponent },

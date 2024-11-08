@@ -1,6 +1,6 @@
+import { ReservationService } from 'src/app/services/reservation.service';
 import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { SalaDataService } from 'src/app/services/sala-data.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
@@ -47,12 +47,14 @@ export class TelaPermissaoReservasComponent {
     public dialog: MatDialog,
     private router: Router,
     private sessionService: SessionService,
-    private salaDataService: SalaDataService
+    private reservationService: ReservationService
   ) {
-    this.salaDataService.carregarDadosSalasReservadas().subscribe((salas) => {
-      this.requests = salas;
-      this.dataSource.data = this.requests;
-    });
+    this.reservationService
+      .carregarDadosSalasReservadas()
+      .subscribe((salas) => {
+        this.requests = salas;
+        this.dataSource.data = this.requests;
+      });
 
     switch (this.dataProfessorAdm.adm) {
       case true:

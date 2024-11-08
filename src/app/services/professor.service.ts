@@ -17,7 +17,7 @@ export class ProfessorService {
     private sessionService: SessionService
   ) {}
 
-  public getAllProfessore(): Observable<ProfessorModel[]> {
+  public getAllProfessores(): Observable<ProfessorModel[]> {
     const url = `${url_config.url_professor}`;
     return this.http.get<ProfessorModel[]>(url).pipe(
       catchError(() => {

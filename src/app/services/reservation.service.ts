@@ -27,5 +27,8 @@ export class ReservationService {
       .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`)
       .join('&');
   }
-  
+
+  public carregarDadosSalasReservadas() {
+    return this.http.get<any[]>(url_config.url_reserva);
+  }
 }

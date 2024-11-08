@@ -1,8 +1,9 @@
-import { ProfessorService } from './../services/professor.service';
+import { TurmaService } from 'src/app/services/turma.service';
+import { ReservationService } from 'src/app/services/reservation.service';
+import { ProfessorService } from '../services/professor.service';
 import { SalaService } from 'src/app/services/sala.service';
 import { Component, OnInit } from '@angular/core';
 import { SessionService } from './../services/session.service';
-import { SalaDataService } from '../services/sala-data.service';
 import { forkJoin } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -64,9 +65,10 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
 
   constructor(
     private sessionService: SessionService,
-    private salaDataService: SalaDataService,
     private salaService: SalaService,
     private professorService: ProfessorService,
+    private reservationService: ReservationService,
+    private turmaService: TurmaService,
     private router: Router,
     public dialog: MatDialog
   ) {
@@ -83,10 +85,10 @@ export class TelaMapaHorarioAulasComponent implements OnInit {
 
   ngOnInit() {
     forkJoin({
-      reservas: this.salaDataService.carregarDadosSalasReservadas(),
-      turma: this.salaDataService.carregarDadosTurma(),
+      reservas: this.reservationService.carregarDadosSalasReservadas(),
+      turma: this.turmaService.getAllTurmas(),
       salas: this.salaService.carregarDadosSalas(),
-      professor: this.professorService.getAllProfessore(),
+      professor: this.professorService.getAllProfessores(),
     }).subscribe(({ reservas, turma, salas, professor }) => {
       this.reservas = reservas;
       this.turmas = turma;
