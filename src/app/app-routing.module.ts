@@ -11,7 +11,6 @@ import { TelaSalasComponent } from './tela-salas/tela-salas.component';
 import { TelaNovasSalasComponent } from './tela-salas/tela-novas-salas/tela-novas-salas.component';
 import { TelaSalasFeitasComponent } from './tela-salas/tela-salas-feitas/tela-salas-feitas.component';
 import { ValidacaoAlunosComponent } from './validacao-alunos/validacao-alunos.component';
-import { TelaMapaHorarioAulasComponent } from './tela-mapa-horario-aulas/tela-mapa-horario-aulas.component';
 import { TelaDisciplinasComponent } from './tela-disciplinas/tela-disciplinas.component';
 import { TelaNovasDisciplinasComponent } from './tela-disciplinas/tela-novas-disciplinas/tela-novas-disciplinas.component';
 import { TelaDisciplinasFeitasComponent } from './tela-disciplinas/tela-disciplinas-feitas/tela-disciplinas-feitas.component';
@@ -83,8 +82,6 @@ const routes: Routes = [
     path: 'tela-disciplinas-feitas',
     component: TelaDisciplinasFeitasComponent,
   },
-
-  { path: 'tela-mapa-horario-salas', component: TelaMapaHorarioAulasComponent },
 
   {
     path: 'validacao-alunos',

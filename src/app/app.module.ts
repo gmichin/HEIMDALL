@@ -42,7 +42,6 @@ import { TelaNovasSalasComponent } from './tela-salas/tela-novas-salas/tela-nova
 import { ValidacaoAlunosComponent } from './validacao-alunos/validacao-alunos.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { TelaMapaHorarioAulasComponent } from './tela-mapa-horario-aulas/tela-mapa-horario-aulas.component';
 import { TelaDisciplinasComponent } from './tela-disciplinas/tela-disciplinas.component';
 import { TelaNovasDisciplinasComponent } from './tela-disciplinas/tela-novas-disciplinas/tela-novas-disciplinas.component';
 import { TelaDisciplinasFeitasComponent } from './tela-disciplinas/tela-disciplinas-feitas/tela-disciplinas-feitas.component';
@@ -82,7 +81,6 @@ import { MeusInteressesComponent } from './meus-interesses/meus-interesses.compo
     TelaNovasSalasComponent,
     ValidacaoAlunosComponent,
     ValidacaoProfessoresComponent,
-    TelaMapaHorarioAulasComponent,
     TelaDisciplinasComponent,
     TelaNovasDisciplinasComponent,
     TelaDisciplinasFeitasComponent,
