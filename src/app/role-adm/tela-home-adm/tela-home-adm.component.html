@@ -7,9 +7,9 @@
       <mat-icon> account_circle </mat-icon>
       <span>Perfil</span>
     </button>
-    <button mat-menu-item disabled>
-      <mat-icon>apartment</mat-icon>
-      <span>Instituição</span>
+    <button (click)="redirectValidarInteresse()" mat-menu-item>
+      <mat-icon>thumb_up</mat-icon>
+      <span>Interesse: aluno -> turma</span>
     </button>
     <button (click)="redirectValidacaoAlunos()" mat-menu-item>
       <mat-icon>how_to_reg</mat-icon>

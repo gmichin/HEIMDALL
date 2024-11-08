@@ -86,6 +86,9 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
       { name: 'Cursos', arr: cursos },
     ];
   }
+  public redirectValidarInteresse() {
+    this.router.navigate(['validar-interesse']);
+  }
 
   public redirectValidacaoAlunos() {
     this.router.navigate(['validacao-alunos']);
