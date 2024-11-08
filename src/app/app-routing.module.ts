@@ -27,6 +27,9 @@ import { TelaTurmasComponent } from './tela-turmas/tela-turmas.component';
 import { TelaTurmasFeitasComponent } from './tela-turmas/tela-turmas-feitas/tela-turmas-feitas.component';
 import { TelaNovasTurmasComponent } from './tela-turmas/tela-novas-turmas/tela-novas-turmas.component';
 import { ValidacaoProfessoresComponent } from './validacao-professores/validacao-professores.component';
+import { SolicitarInteresseComponent } from './solicitar-interesse/solicitar-interesse.component';
+import { ValidarInteresseComponent } from './validar-interesse/validar-interesse.component';
+import { MeusInteressesComponent } from './meus-interesses/meus-interesses.component';
 
 const routes: Routes = [
   {
@@ -99,6 +102,10 @@ const routes: Routes = [
   { path: 'tela-turmas', component: TelaTurmasComponent },
   { path: 'tela-turmas-feitas', component: TelaTurmasFeitasComponent },
   { path: 'tela-novas-turmas', component: TelaNovasTurmasComponent },
+
+  { path: 'solicitar-interesse', component: SolicitarInteresseComponent },
+  { path: 'validar-interesse', component: ValidarInteresseComponent },
+  { path: 'meus-interesses', component: MeusInteressesComponent },
 ];
 
 @NgModule({

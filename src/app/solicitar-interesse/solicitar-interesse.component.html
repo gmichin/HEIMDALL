@@ -1,0 +1,59 @@
+<mat-toolbar>
+  <button mat-icon-button (click)="goBack()">
+    <mat-icon>home</mat-icon>
+  </button>
+
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button (click)="redirectProfile()" mat-menu-item>
+      <mat-icon>account_circle</mat-icon>
+      <span>Perfil</span>
+    </button>
+  </mat-menu>
+
+  <span class="tituloH">HEIMDALL</span>
+
+  <span class="spacer"></span>
+
+  <button mat-icon-button (click)="logout()">
+    <mat-icon>logout</mat-icon>
+  </button>
+  <img src="assets/images/ifsp.logo.png" class="logo" />
+</mat-toolbar>
+
+<mat-card>
+  <mat-card-title
+    >{{ interesseToEdit.valid ? "Edição" : "Cadastro" }} de
+    interesse</mat-card-title
+  >
+  <mat-card-content>
+    <form [formGroup]="interesseForm" (ngSubmit)="save()">
+      <mat-form-field appearance="fill">
+        <mat-label>Aluno:</mat-label>
+        <input [value]="aluno" matInput [disabled]="true" />
+        <mat-icon matSuffix>remember_me</mat-icon> </mat-form-field
+      ><br />
+      <mat-form-field>
+        <mat-label>Informe a turma:</mat-label>
+        <mat-select
+          formControlName="turma_id"
+          [disabled]="turmaList.length == 0"
+        >
+          <mat-option *ngFor="let turma of turmaList" [value]="turma.turma_id">
+            {{ turma.cursoNome }}: {{ turma.disciplina.nome }} ({{
+              turma.periodo
+            }}) -> {{ turma.professor.nome }}
+          </mat-option>
+          <mat-option *ngIf="turmaList.length === 0" [value]=""
+            >Sem dados</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+      <button type="submit" class="saveButton">
+        {{ interesseToEdit.valid ? "Editar" : "Cadastrar" }}
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>

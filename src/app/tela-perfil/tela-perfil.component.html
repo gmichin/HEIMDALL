@@ -20,12 +20,8 @@
 
       <mat-form-field appearance="fill">
         <mat-label>Registro:</mat-label>
-        <input
-          formControlName="registro"
-          type="text"
-          [value]="registro"
-          matInput
-        />
+
+        <input [value]="registro" matInput [disabled]="true" />
         <mat-icon matSuffix>assignment</mat-icon>
       </mat-form-field>
 

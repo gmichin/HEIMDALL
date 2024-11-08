@@ -30,6 +30,9 @@ export class TelaHomeStudentComponent implements OnInit, OnDestroy {
   public redirectHorarios() {
     this.router.navigate(['/tela-mapa-horario-salas']);
   }
+  public redirectSolicitarTurma() {
+    this.router.navigate(['/solicitar-interesse']);
+  }
 
   public redirectProfile() {
     const dialogT = this.dialog.open(TelaPerfilComponent, {

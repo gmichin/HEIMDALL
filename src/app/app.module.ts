@@ -62,6 +62,9 @@ import { TelaNovasTurmasComponent } from './tela-turmas/tela-novas-turmas/tela-n
 import { TelaTurmasFeitasComponent } from './tela-turmas/tela-turmas-feitas/tela-turmas-feitas.component';
 import { TelaTurmasComponent } from './tela-turmas/tela-turmas.component';
 import { ValidacaoProfessoresComponent } from './validacao-professores/validacao-professores.component';
+import { SolicitarInteresseComponent } from './solicitar-interesse/solicitar-interesse.component';
+import { ValidarInteresseComponent } from './validar-interesse/validar-interesse.component';
+import { MeusInteressesComponent } from './meus-interesses/meus-interesses.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +101,9 @@ import { ValidacaoProfessoresComponent } from './validacao-professores/validacao
     TelaNovasTurmasComponent,
     TelaTurmasFeitasComponent,
     TelaTurmasComponent,
+    SolicitarInteresseComponent,
+    ValidarInteresseComponent,
+    MeusInteressesComponent,
   ],
   imports: [
     AppRoutingModule,
