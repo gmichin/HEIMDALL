@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { url_config } from '../url.config';
-import { IReserva } from '../models/reserva.model';
+import { IConsultaReserva, IReserva } from '../models/reserva.model';
 import { Observable, forkJoin } from 'rxjs';
 
 @Injectable({
@@ -14,21 +14,18 @@ export class ReservationService {
     return this.http.post<IReserva>(url_config.url_reserva, reserve);
   }
 
-  public findByClass(class_id: any): Observable<IReserva[]> {
-    return this.http.get<IReserva[]>(
-      `${url_config.url_reserva}/by-class/${class_id}`
-    );
+  public findFilter(request: any) {
+    const queryParams = this.objectToQueryParams(request);
+    const urlWithParams = `${url_config.url_reserva}?${queryParams}`;
+    
+    return this.http.get<IConsultaReserva[]>(urlWithParams);
   }
-
-  public deleteReserve(reservas: IReserva[]) {
-    const arrReqs: Observable<any>[] = [];
-    reservas.forEach((r) => {
-      arrReqs.push(
-        this.http.delete(`${url_config.url_reserva}/${r.reserva_id}`)
-      );
-    });
-
-    return forkJoin(...arrReqs);
+  
+  private objectToQueryParams(obj: any): string {
+    return Object.keys(obj)
+      .filter(key => obj[key] !== null && obj[key] !== undefined)
+      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`)
+      .join('&');
   }
 
   public carregarDadosSalasReservadas() {

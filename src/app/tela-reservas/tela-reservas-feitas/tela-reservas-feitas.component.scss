@@ -1,3 +1,20 @@
+.container-reservas-feitas {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #dcdee2;
+  padding: 2%;
+}
+
+.formByProf {
+  display: flex;
+  align-items: start;
+  justify-content: space-evenly;
+  width: 80%;
+  height: 58px;
+}
+
+
 .example-spacer {
   flex: 1 1 auto;
 }
@@ -5,6 +22,7 @@
 .mat-toolbar {
   background: rgb(20, 20, 20);
   color: #1ddd04;
+  margin-bottom: 1cm;
 }
 
 .logo-central {
@@ -21,85 +39,73 @@
   font-family: Copperplate, Copperplate Gothic Light, fantasy;
 }
 
-.table-container {
-  width: 90%;
+h4 {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  color: black;
+  text-align: center;
+}
+
+.dia-desabilitado {
+  pointer-events: none;
+}
+
+.saveButton {
+  border-radius: 20px;
+  font-size: 16px;
+  padding-left: calc(50% - (50px / 2));
+  padding-right: calc(50% - (50px / 2));
+  padding-bottom: 20px;
+  padding-top: 20px;
+  background-color: black;
+  color: #1eff00;
+  cursor: pointer;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.saveButton:disabled {
+  background-color: #5d5d5d;
+  color: #aef4a4;
+  cursor: not-allowed;
+}
+
+.insertData {
+  color: #1ddd04;
+}
+
+.boxSize {
+  flex: auto;
+  min-width: 0;
+  width: 220px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.boxSizeAppear {
+  flex: auto;
+  min-width: 0;
+  width: 220px;
+  position: relative;
+  box-sizing: border-box;
+  margin-left: 1cm;
+}
+
+mat-card {
+  background-color: #dcdee2;
+  border-radius: 20px;
+  box-shadow: 0 2px 5px black;
+  width: 50%;
   margin: auto;
-  margin-top: 1cm;
-  border: 2px solid rgb(0, 0, 0);
-  overflow-x: auto;
+  padding: 1cm;
 }
 
-mat-table {
-  background-color: #83cf79;
-  width: 100%;
+mat-card-title {
+  margin-bottom: 1cm;
+  text-align: center;
+  font-size: 40px;
+  color: black;
+  font-family: Georgia, "Times New Roman", Times, serif;
 }
 
-.mat-mdc-form-field {
-  font-size: 14px;
-  width: 100%;
-  margin-bottom: -20px;
-}
-
-.demo-button-container {
-  position: absolute;
-  margin: 1% auto;
-  margin-left: 5%;
-}
-
-.demo-button + .demo-button {
-  margin-left: 8px;
-}
-
-@media (max-width: 768px) {
-  .tituloH {
-    font-size: 1.5em; /* Reduzir tamanho da fonte do título */
-  }
-  .mat-header-cell,
-  .mat-cell {
-    padding: 8px; /* Reduzir padding em telas pequenas */
-  }
-
-  .mat-form-field {
-    width: 100%; /* Form field ocupa toda a largura */
-  }
-
-  .demo-button-container {
-    position: relative;
-    width: 90%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: auto;
-    margin-top: 2%;
-  }
-
-  .demo-button {
-    margin-bottom: 8px;
-    width: 90%;
-    text-align: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .tituloH {
-    font-size: 1.5em; /* Reduzir tamanho da fonte do título */
-  }
-
-  .mat-header-cell,
-  .mat-cell {
-    font-size: 12px; /* Reduzir tamanho da fonte na tabela */
-  }
-
-  .mat-mdc-header-cell,
-  .mat-mdc-cell {
-    font-size: 12px; /* Reduzir tamanho da fonte na tabela */
-  }
-
-  .mat-column-materia {
-    display: none;
-  }
-}
 .spacer {
   flex: 1 1 auto;
 }

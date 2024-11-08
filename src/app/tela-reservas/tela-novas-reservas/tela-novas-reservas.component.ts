@@ -138,19 +138,6 @@ export class TelaNovasReservasComponent implements OnInit {
     this.router.navigate(['redirecionar']);
   }
 
-  private dateRangeValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const startDate = control.get('start_date')?.value;
-      const endDate = control.get('end_date')?.value;
-      const rangeDate = control.get('date')?.value;
-
-      if ((startDate && endDate) || rangeDate) {
-        return null; // Válido se start_date e end_date estiverem preenchidos, ou range_date estiver preenchido
-      }
-      return { dateRangeInvalid: true }; // Inválido se nenhuma das condições for atendida
-    };
-  }
-
   openReservas() {
     const dialogRef = this.dialog.open(TelaReservasComponent);
 
