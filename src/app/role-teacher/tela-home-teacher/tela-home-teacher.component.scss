@@ -16,6 +16,7 @@ button:hover {
   color: #1ddd04;
   border-radius: 10px;
   box-shadow: 0 2px 5px black;
+  margin-bottom: 20px;
 }
 
 .tituloH {
@@ -30,13 +31,6 @@ button:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.cards {
-  display: flex;
-  align-items: center;
-  padding: 2% 0%;
-  width: 100%;
 }
 
 mat-card {
@@ -86,10 +80,6 @@ mat-card-title {
   align-items: center;
 }
 
-.card-width {
-  width: 100%;
-  height: 150px;
-}
 .example-header-image {
   background-image: url("https://material.angular.io/assets/img/examples/shiba1.jpg");
   background-size: cover;
@@ -116,25 +106,6 @@ mat-card-title {
   width: 30px;
   margin-right: 10px;
 }
-.blocos-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.content {
-  flex: 1 1 calc(33.33% - 20px);
-  box-sizing: border-box;
-  min-width: 300px;
-  max-width: 50%;
-}
-
-.bloco {
-  background-color: #dcdee2;
-  padding: 15px;
-  border-radius: 10px;
-  margin: 10px;
-}
 
 .tryNow h1 {
   background-color: black;
@@ -142,4 +113,38 @@ mat-card-title {
   padding: 10px;
   border-radius: 20px;
   font-family: Georgia, "Times New Roman", Times, serif !important;
+}
+.blocos-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 20px;
+}
+
+.content {
+  display: flex;
+  flex: 1 1 48%;
+  box-sizing: border-box;
+}
+
+.bloco {
+  background-color: #dcdee2;
+  padding: 15px;
+  border-radius: 10px;
+  flex: 1 1 100%;
+  margin: 10px;
+  box-sizing: border-box;
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+}
+
+.card-width {
+  width: 100%;
+  margin-bottom: 10px;
 }

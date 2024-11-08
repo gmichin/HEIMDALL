@@ -7,10 +7,6 @@
       <mat-icon> account_circle </mat-icon>
       <span>Perfil</span>
     </button>
-    <button (click)="redirectReserve()" mat-menu-item>
-      <mat-icon>meeting_room</mat-icon>
-      <span>Reservas</span>
-    </button>
   </mat-menu>
 
   <span class="tituloH">HEIMDALL</span>
@@ -27,21 +23,48 @@
   <div class="content">
     <div class="bloco">
       <div class="header">
-        <mat-icon>flash_on</mat-icon>
-        <h2>Acesso Rápido</h2>
+        <mat-icon>thumb_up</mat-icon>
+        <h2 style="margin-left: 10px">Interesses</h2>
       </div>
       <div class="container">
         <div class="cards">
           <mat-card class="card-width">
             <mat-card-header>
               <mat-card-title class="title-card"
-                >Horários de Aula</mat-card-title
+                >Validar interesse de aluno em turma</mat-card-title
               >
             </mat-card-header>
             <mat-card-actions>
-              <button (click)="redirectHorarios()" mat-button>
+              <button (click)="validarInteresse()" mat-button>
                 Selecionar
               </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+    <div class="bloco">
+      <div class="header">
+        <mat-icon>meeting_room</mat-icon>
+        <h2 style="margin-left: 10px">Reservas</h2>
+      </div>
+      <div class="container">
+        <div class="cards">
+          <mat-card class="card-width">
+            <mat-card-header>
+              <mat-card-title class="title-card">Criar reserva</mat-card-title>
+            </mat-card-header>
+            <mat-card-actions>
+              <button (click)="criarReserva()" mat-button>Selecionar</button>
+            </mat-card-actions>
+          </mat-card>
+          <br />
+          <mat-card class="card-width">
+            <mat-card-header>
+              <mat-card-title class="title-card">Ver reservas</mat-card-title>
+            </mat-card-header>
+            <mat-card-actions>
+              <button (click)="verReserva()" mat-button>Selecionar</button>
             </mat-card-actions>
           </mat-card>
         </div>

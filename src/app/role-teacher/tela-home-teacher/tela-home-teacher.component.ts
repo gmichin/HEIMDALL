@@ -62,8 +62,14 @@ export class TelaHomeTeacherComponent implements OnInit, OnDestroy {
     ];
   }
 
-  public redirectHorarios() {
-    this.router.navigate(['/tela-mapa-horario-salas']);
+  public validarInteresse() {
+    this.router.navigate(['/validar-interesses']);
+  }
+  public criarReserva() {
+    this.router.navigate(['/tela-novas-reservas']);
+  }
+  public verReserva() {
+    this.router.navigate(['/tela-reservas-feitas']);
   }
 
   public redirectReserve() {

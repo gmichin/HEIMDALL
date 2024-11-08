@@ -28,11 +28,6 @@ export class TelaReservasComponent {
     this.router.navigate(['/tela-novas-reservas']);
   }
 
-  removeData() {
-    this.dialogRef.close();
-    this.router.navigate(['/tela-deletar-reservas']);
-  }
-
   permissionData() {
     this.dialogRef.close();
     this.router.navigate(['/tela-permissao-reservas']);
