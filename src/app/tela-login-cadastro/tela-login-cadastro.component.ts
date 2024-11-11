@@ -149,13 +149,8 @@ export class TelaLoginCadastroComponent {
         if (res) {
           const usuario = res.user;
 
-          if (this.isProfessorModel(usuario)) {
-            this.sessionService.setItem('professor', usuario);
-            this.router.navigate(['redirecionar']);
-          } else if (this.isAlunoModel(usuario)) {
-            this.sessionService.setItem('aluno', usuario);
-            this.router.navigate(['redirecionar']);
-          }
+         
+          this.router.navigate(['redirecionar']);
           this.dialogRef.close('close');
 
           setTimeout(() => {

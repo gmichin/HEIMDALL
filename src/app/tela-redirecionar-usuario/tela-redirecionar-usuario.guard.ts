@@ -21,19 +21,15 @@ export class RedirecionarUsuarioGuard implements CanActivate {
     state: RouterStateSnapshot
   ): boolean | UrlTree {
     const professorAdm =
-      this.sessionService.getSessionData<ProfessorModel>('professor')?.retorno;
+      this.sessionService.getSessionData<ProfessorModel>('professor');
     const aluno =
-      this.sessionService.getSessionData<AlunoModel>('aluno')?.retorno;
+      this.sessionService.getSessionData<AlunoModel>('aluno');
 
-    console.log('Professor Adm:', professorAdm);
-    console.log('Aluno:', aluno);
-
-    // Verifique se professorAdm é do tipo ProfessorModel
-    if (professorAdm && this.isProfessorModel(professorAdm)) {
-      return professorAdm.adm
+    if (professorAdm.valido) {
+      return professorAdm.retorno.adm
         ? this.router.parseUrl('/home-adm')
         : this.router.parseUrl('/home-teacher');
-    } else if (aluno) {
+    } else if (aluno.valido) {
       return this.router.parseUrl('/home-student');
     } else {
       return this.router.parseUrl('/home-adm');

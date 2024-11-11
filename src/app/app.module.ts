@@ -11,7 +11,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -64,7 +64,16 @@ import { ValidacaoProfessoresComponent } from './validacao-professores/validacao
 import { SolicitarInteresseComponent } from './solicitar-interesse/solicitar-interesse.component';
 import { ValidarInteresseComponent } from './validar-interesse/validar-interesse.component';
 import { MeusInteressesComponent } from './meus-interesses/meus-interesses.component';
+import { JWT_OPTIONS, JwtInterceptor, JwtModule } from '@auth0/angular-jwt';
+import { url_config } from './url.config';
 
+export function jwtOptionsFactory() {
+  return {
+    tokenGetter: () => localStorage.getItem('token'),
+    allowedDomains: ['https://heimdallback.eastus2.cloudapp.azure.com'], // Adapte para o domínio onde sua API está rodando
+    disallowedRoutes: ['https://heimdallback.eastus2.cloudapp.azure.com/auth/login'], // Exclua a rota de login onde o token não é necessário
+  };
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -131,11 +140,18 @@ import { MeusInteressesComponent } from './meus-interesses/meus-interesses.compo
     MatCheckboxModule,
     MatPaginatorModule,
     BrowserAnimationsModule,
+    JwtModule.forRoot({  // Use o JwtModule e configure o JWT_OPTIONS
+      jwtOptionsProvider: {
+        provide: JWT_OPTIONS,
+        useFactory: jwtOptionsFactory
+      },
+    }),
   ],
   providers: [
     { provide: MAT_DIALOG_DATA, useValue: {} },
     TelaPerfilResolver,
     provideAnimationsAsync(),
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })
