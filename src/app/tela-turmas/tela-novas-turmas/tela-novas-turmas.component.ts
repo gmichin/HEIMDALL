@@ -174,24 +174,29 @@ export class TelaNovasTurmasComponent implements OnInit {
 
     if (this.turmaToEdit.valid) {
       turma.turma_id = this.turmaToEdit.turma.turma_id;
-      this.turmaService.atualizarTurmas(turma).subscribe({
-        next: (res) => {
-          this.snackBar.open('Atualizado com sucesso!', '', {
-            duration: 4000,
-          });
+      this.turmaService
+        .deletarAlunosTurma(this.turmaToEdit.turma)
+        .toPromise()
+        .then(() => {
+          return this.turmaService.criarAlunosTurma(turma).toPromise();
+        })
+        .then(() => {
+          return this.turmaService.atualizarTurmas(turma).toPromise();
+        })
+        .then((res) => {
+          this.snackBar.open('Atualizado com sucesso!', '', { duration: 4000 });
           this.router.navigate(['tela-turmas-feitas']);
-        },
-        error: (err) => {
+        })
+        .catch((err) => {
+          console.error('Erro durante o processo');
           this.snackBar.open(
-            'Ocorreu um erro durante a atualização, por favor, tente novamente mais tarde.',
+            'Ocorreu um erro durante o processo, por favor, tente novamente mais tarde.',
             '',
-            {
-              duration: 4000,
-            }
+            { duration: 4000 }
           );
           this.router.navigate(['tela-turmas-feitas']);
-        },
-      });
+        });
+
       return;
     } else {
       this.turmaService.criarTurma(turma).subscribe({
