@@ -63,7 +63,7 @@ export class TelaHomeTeacherComponent implements OnInit, OnDestroy {
   }
 
   public validarInteresse() {
-    this.router.navigate(['/validar-interesses']);
+    this.router.navigate(['/validar-interesse']);
   }
   public criarReserva() {
     this.router.navigate(['/tela-novas-reservas']);
