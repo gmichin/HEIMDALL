@@ -75,7 +75,9 @@ export class TelaNovasTurmasComponent implements OnInit {
   ngOnInit(): void {
     this.professorService.getAllProfessores().subscribe({
       next: (professores) => {
-        this.professorList = professores;
+        this.professorList = professores.filter(
+          (professor) => professor.status === true
+        );
         if (professores.length == 0) {
           this.errorMessage.message =
             'Não foram encontrados cursos cadastrados.';
@@ -103,7 +105,7 @@ export class TelaNovasTurmasComponent implements OnInit {
     });
     this.alunoService.getAllAlunos().subscribe({
       next: (alunos) => {
-        this.alunoList = alunos;
+        this.alunoList = alunos.filter((aluno) => aluno.status === true);
         if (alunos.length == 0) {
           this.errorMessage.message =
             'Não foram encontrados cursos cadastrados.';
