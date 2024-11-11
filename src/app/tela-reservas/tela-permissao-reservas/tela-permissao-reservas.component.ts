@@ -56,15 +56,11 @@ export class TelaPermissaoReservasComponent {
         this.dataSource.data = this.requests;
       });
 
-    switch (this.dataProfessorAdm.adm) {
-      case true:
-        this.tipoUsuario = 'Administrador';
-        break;
-      case false:
-        this.tipoUsuario = 'Professor';
-        break;
-    }
-    if (this.dataAluno) this.tipoUsuario = 'Aluno';
+    if (this.dataProfessorAdm.adm == true) {
+      this.tipoUsuario = 'Administrador';
+    } else if (this.dataProfessorAdm.adm == false) {
+      this.tipoUsuario = 'Professor';
+    } else if (this.dataAluno.nome) this.tipoUsuario = 'Aluno';
   }
   openLoginSignUp() {
     const dialogRef = this.dialog.open(TelaLoginCadastroComponent);
@@ -129,6 +125,7 @@ export class TelaPermissaoReservasComponent {
     else if (this.tipoUsuario == 'Aluno')
       this.router.navigate(['/home-student']);
   }
+
   logout() {
     this.router.navigate(['/']);
   }

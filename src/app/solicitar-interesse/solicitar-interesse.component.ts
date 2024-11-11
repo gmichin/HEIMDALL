@@ -7,15 +7,12 @@ import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-log
 import { TelaReservasComponent } from 'src/app/tela-reservas/tela-reservas.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SalaModel } from 'src/app/models/sala.model';
 import { CursoModel } from 'src/app/models/curso.model';
-import { SalaService } from 'src/app/services/sala.service';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { TelaDisciplinasComponent } from 'src/app/tela-disciplinas/tela-disciplinas.component';
 import { Router } from '@angular/router';
 import { InteresseModel } from '../models/interesse.model';
 import { AlunoModel } from '../models/aluno.model';
-import { TurmaModel } from '../models/turma.model';
 import { TurmaService } from '../services/turma.service';
 @Component({
   selector: 'app-solicitar-interesse',
@@ -111,39 +108,6 @@ export class SolicitarInteresseComponent implements OnInit {
   public redirectProfile() {
     const dialogT = this.dialog.open(TelaPerfilComponent, {
       width: '400px',
-    });
-    dialogT.afterClosed().subscribe(() => {
-      this.dialogCloseSubs();
-    });
-  }
-
-  public redirectHomeAdm() {
-    this.router.navigate(['redirecionar']);
-  }
-
-  private dialogCloseSubs() {
-    this.router.navigate(['redirecionar']);
-  }
-
-  public redirectMaterias() {
-    const dialogT = this.dialog.open(TelaDisciplinasComponent, {
-      width: '400px',
-    });
-  }
-
-  openLoginSignUp() {
-    const dialogRef = this.dialog.open(TelaLoginCadastroComponent);
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
-    });
-  }
-
-  openReservas() {
-    const dialogRef = this.dialog.open(TelaReservasComponent);
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 

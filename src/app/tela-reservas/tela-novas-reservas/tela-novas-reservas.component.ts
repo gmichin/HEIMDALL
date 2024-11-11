@@ -7,14 +7,7 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TelaReservasComponent } from '../tela-reservas.component';
 import { TelaSalasComponent } from 'src/app/tela-salas/tela-salas.component';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CursoModel } from 'src/app/models/curso.model';
@@ -25,7 +18,6 @@ import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { AlunoModel } from 'src/app/models/aluno.model';
 import { ProfessorModel } from 'src/app/models/professor.model';
 import { SalaService } from 'src/app/services/sala.service';
-import { combineLatest, debounceTime, filter } from 'rxjs';
 import { TurmaService } from 'src/app/services/turma.service';
 
 @Component({
@@ -87,15 +79,11 @@ export class TelaNovasReservasComponent implements OnInit {
     private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    switch (this.dataProfessorAdm.adm) {
-      case true:
-        this.tipoUsuario = 'Administrador';
-        break;
-      case false:
-        this.tipoUsuario = 'Professor';
-        break;
-    }
-    if (this.dataAluno) this.tipoUsuario = 'Aluno';
+    if (this.dataProfessorAdm.adm == true) {
+      this.tipoUsuario = 'Administrador';
+    } else if (this.dataProfessorAdm.adm == false) {
+      this.tipoUsuario = 'Professor';
+    } else if (this.dataAluno.nome) this.tipoUsuario = 'Aluno';
 
     this.resgiterForm = this.fb.group({
       professor_id: [null, [Validators.required]],
@@ -336,7 +324,7 @@ export class TelaNovasReservasComponent implements OnInit {
         materia.id.includes(professor.id)
       );
       materiasDoProfessor.forEach((materia) => {
-        uniqueClassSet.add(materia.class); // Corrigido para 'class' ao invés de 'name'
+        uniqueClassSet.add(materia.class);
       });
     });
 
@@ -500,8 +488,14 @@ export class TelaNovasReservasComponent implements OnInit {
     return user.adm == true;
   }
   goBack() {
-    this.router.navigate(['/home-adm']);
+    if (this.tipoUsuario == 'Administrador')
+      this.router.navigate(['/home-adm']);
+    else if (this.tipoUsuario == 'Professor')
+      this.router.navigate(['/home-teacher']);
+    else if (this.tipoUsuario == 'Aluno')
+      this.router.navigate(['/home-student']);
   }
+
   logout() {
     this.router.navigate(['/']);
   }

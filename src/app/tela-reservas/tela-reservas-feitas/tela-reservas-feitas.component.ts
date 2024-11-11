@@ -20,7 +20,13 @@ import { IConsultaReserva, IReserva } from 'src/app/models/reserva.model';
   styleUrls: ['./tela-reservas-feitas.component.scss'],
 })
 export class TelaReservasFeitasComponent implements OnInit {
-  
+  public dataAluno = <AlunoModel>(
+    this.sessionService.getSessionData('aluno').retorno
+  );
+  public dataProfessorAdm = <ProfessorModel>(
+    this.sessionService.getSessionData('professor').retorno
+  );
+
   public searchForm!: FormGroup;
   public cursoList: CursoModel[] = [];
   public disciplinaList: DisciplinaModel[] = [];
@@ -28,6 +34,8 @@ export class TelaReservasFeitasComponent implements OnInit {
   public reservas!: IConsultaReserva;
   public errorMessage = { invalid: false, message: '' };
   public hours!: string[];
+
+  public tipoUsuario = '';
 
   constructor(
     private readonly router: Router,
@@ -37,9 +45,13 @@ export class TelaReservasFeitasComponent implements OnInit {
     private readonly reservationService: ReservationService,
     private readonly disciplinaService: DisciplinaService,
     private snackBar: MatSnackBar,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) {
-    
+    if (this.dataProfessorAdm.adm == true) {
+      this.tipoUsuario = 'Administrador';
+    } else if (this.dataProfessorAdm.adm == false) {
+      this.tipoUsuario = 'Professor';
+    } else if (this.dataAluno.nome) this.tipoUsuario = 'Aluno';
   }
 
   ngOnInit(): void {
@@ -54,7 +66,7 @@ export class TelaReservasFeitasComponent implements OnInit {
       sala: [null],
       data: [null],
       professor: [null],
-      turma_id: [null, [Validators.required]]
+      turma_id: [null, [Validators.required]],
     });
   }
 
@@ -87,20 +99,20 @@ export class TelaReservasFeitasComponent implements OnInit {
         this.reservas = res[0];
         this.hours = this.gerarHorarios(res[0].hora_inicio, res[0].hora_final);
       },
-      error: (err) => console.log(err)
-    })
+      error: (err) => console.log(err),
+    });
   }
 
   private gerarHorarios(inicio: string, fim: string) {
     const horarios = [];
     let horarioAtual = new Date(`1970-01-01T${inicio}Z`);
     const horarioFim = new Date(`1970-01-01T${fim}Z`);
-  
+
     while (horarioAtual <= horarioFim) {
       horarios.push(horarioAtual.toISOString().substring(11, 19));
       horarioAtual.setHours(horarioAtual.getHours() + 1);
     }
-  
+
     return horarios;
   }
 
@@ -112,12 +124,12 @@ export class TelaReservasFeitasComponent implements OnInit {
     this.searchForm.controls['turma_id'].setValue(null);
     this.searchForm.controls['curso'].setValue(event);
     this.disciplinaService
-    .getDisciplinaPorCurso(this.searchForm.controls['curso'].value)
-    .subscribe({
-      next: (res) => {
-        this.disciplinaList = res;
-      },
-      error: (err) => {
+      .getDisciplinaPorCurso(this.searchForm.controls['curso'].value)
+      .subscribe({
+        next: (res) => {
+          this.disciplinaList = res;
+        },
+        error: (err) => {
           this.snackBar.open(
             'Ocorreu um erro durante a busca por matérias, por favor, tente novamente mais tarde.',
             '',
@@ -156,7 +168,12 @@ export class TelaReservasFeitasComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/home-adm']);
+    if (this.tipoUsuario == 'Administrador')
+      this.router.navigate(['/home-adm']);
+    else if (this.tipoUsuario == 'Professor')
+      this.router.navigate(['/home-teacher']);
+    else if (this.tipoUsuario == 'Aluno')
+      this.router.navigate(['/home-student']);
   }
 
   logout() {
@@ -168,5 +185,4 @@ export class TelaReservasFeitasComponent implements OnInit {
       width: '400px',
     });
   }
-  
 }
