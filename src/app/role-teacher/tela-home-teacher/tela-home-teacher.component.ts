@@ -36,15 +36,6 @@ export class TelaHomeTeacherComponent implements OnInit, OnDestroy {
         console.error('Erro ao carregar dados dos professores:', error);
       }
     );
-    this.cursoService.getAllCursos().subscribe(
-      (dadosCursos) => {
-        this.dataCursos = dadosCursos;
-        this.processarDados();
-      },
-      (error) => {
-        console.error('Erro ao carregar dados dos cursos:', error);
-      }
-    );
   }
   ngOnDestroy(): void {}
 
