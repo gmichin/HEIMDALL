@@ -66,6 +66,7 @@ import { ValidarInteresseComponent } from './validar-interesse/validar-interesse
 import { MeusInteressesComponent } from './meus-interesses/meus-interesses.component';
 import { JWT_OPTIONS, JwtInterceptor, JwtModule } from '@auth0/angular-jwt';
 import { url_config } from './url.config';
+import { JwtInterceptorH } from './interceptors/jwt.interceptor';
 
 export function jwtOptionsFactory() {
   return {
@@ -151,7 +152,7 @@ export function jwtOptionsFactory() {
     { provide: MAT_DIALOG_DATA, useValue: {} },
     TelaPerfilResolver,
     provideAnimationsAsync(),
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorH, multi: true },
   ],
   bootstrap: [AppComponent],
 })
