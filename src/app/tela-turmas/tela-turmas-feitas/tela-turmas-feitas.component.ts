@@ -1,4 +1,4 @@
-import { DisciplinaService } from 'src/app/services/disciplina.service';
+import { DisciplinaService } from './../../services/disciplina.service';
 import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -27,9 +27,10 @@ export class TelaTurmasFeitasComponent {
     'remove',
     'edit',
     'professor',
-    'aluno_ids',
     'disciplina',
+    'curso',
     'periodo',
+    'aluno_ids',
   ];
   dataSource = new MatTableDataSource<TurmaModel>();
   selectionCourse = new SelectionModel<string>(true, []);
@@ -37,10 +38,13 @@ export class TelaTurmasFeitasComponent {
   selectionReject = new SelectionModel<TurmaModel>(true, []);
   public form: FormGroup;
 
+  disciplinasCurso: any[] = [];
+
   constructor(
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
     private turmaService: TurmaService,
+    private disciplinaService: DisciplinaService,
     private router: Router,
     private fb: FormBuilder
   ) {
@@ -55,7 +59,38 @@ export class TelaTurmasFeitasComponent {
 
     this.turmaService.getAllTurmas().subscribe({
       next: (turmas) => {
-        this.dataSource.data = turmas;
+        this.disciplinaService.getAllDisciplinas().subscribe({
+          next: (disciplinas) => {
+            disciplinas.forEach((disciplina: any) => {
+              if (disciplina.disciplina_id !== undefined) {
+                this.disciplinasCurso.push(disciplina);
+              }
+            });
+
+            turmas.forEach((turma: any) => {
+              const disciplina_id = turma.disciplina.disciplina_id;
+              if (disciplina_id !== undefined) {
+                const disciplinaEncontrada = this.disciplinasCurso.find(
+                  (disciplina: any) =>
+                    disciplina.disciplina_id === disciplina_id
+                );
+
+                if (disciplinaEncontrada) {
+                  turma.disciplina = {
+                    nome: disciplinaEncontrada.nome,
+                    descricao: disciplinaEncontrada.descricao,
+                    curso_nome: disciplinaEncontrada.curso.nome,
+                  };
+                } else {
+                  console.log('Disciplina não encontrada para esta turma');
+                }
+              }
+            });
+
+            this.dataSource.data = turmas;
+            console.log(this.dataSource.data);
+          },
+        });
       },
     });
   }

@@ -1,3 +1,4 @@
+import { CursoService } from './../../services/curso.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,6 +23,8 @@ export class TelaNovasDisciplinasComponent implements OnInit {
   public courses: CursoModel[] = [];
   public teachersList: ProfessorModel[] = [];
   public disciplinaToEdit!: { valid: boolean; disciplina: DisciplinaModel };
+  public cursoList: CursoModel[] = [];
+  public errorMessage = { invalid: false, message: '' };
 
   newSala: any[] = [];
 
@@ -30,6 +33,7 @@ export class TelaNovasDisciplinasComponent implements OnInit {
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private disciplinService: DisciplinaService,
+    private cursoService: CursoService,
     private router: Router
   ) {
     this.disciplinaToEdit = this.disciplinService.getDisciplinaToEdit();
@@ -47,9 +51,30 @@ export class TelaNovasDisciplinasComponent implements OnInit {
           : '',
         [Validators.required],
       ],
+      curso_id: [
+        this.disciplinaToEdit.valid
+          ? this.disciplinaToEdit.disciplina.curso_id
+          : '',
+        [Validators.required],
+      ],
     });
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.cursoService.getAllCursos().subscribe({
+      next: (cursos) => {
+        this.cursoList = cursos;
+        if (cursos.length == 0) {
+          this.errorMessage.message =
+            'Não foram encontrados cursos cadastrados.';
+          this.errorMessage.invalid = true;
+        }
+      },
+      error: (err) => {
+        this.errorMessage.message = 'Não foi possível buscar os cursos.';
+        this.errorMessage.invalid = true;
+      },
+    });
+  }
 
   goHome() {
     this.router.navigate(['/home-adm']);
@@ -92,6 +117,7 @@ export class TelaNovasDisciplinasComponent implements OnInit {
     const disciplina = new DisciplinaModel({
       nome: this.disciplinaForm.get('nome')?.value,
       descricao: this.disciplinaForm.get('descricao')?.value,
+      curso_id: this.disciplinaForm.get('curso_id')?.value,
     });
 
     if (this.disciplinaToEdit.valid) {
@@ -115,24 +141,25 @@ export class TelaNovasDisciplinasComponent implements OnInit {
         },
       });
       return;
-    }
-    this.disciplinService.criarDisciplina(disciplina).subscribe({
-      next: (res) => {
-        this.snackBar.open('Cadastrado com sucesso!', '', {
-          duration: 4000,
-        });
-        this.router.navigate(['home-adm']);
-      },
-      error: (err) => {
-        this.snackBar.open(
-          'Ocorreu um erro durante o cadastro, por favor, tente novamente mais tarde.',
-          '',
-          {
+    } else {
+      this.disciplinService.criarDisciplina(disciplina).subscribe({
+        next: (res) => {
+          this.snackBar.open('Cadastrado com sucesso!', '', {
             duration: 4000,
-          }
-        );
-        this.router.navigate(['home-adm']);
-      },
-    });
+          });
+          this.router.navigate(['home-adm']);
+        },
+        error: (err) => {
+          this.snackBar.open(
+            'Ocorreu um erro durante o cadastro, por favor, tente novamente mais tarde.',
+            '',
+            {
+              duration: 4000,
+            }
+          );
+          this.router.navigate(['home-adm']);
+        },
+      });
+    }
   }
 }

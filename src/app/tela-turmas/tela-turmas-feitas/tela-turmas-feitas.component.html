@@ -84,6 +84,10 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Periodo</th>
         <td mat-cell *matCellDef="let row">{{ row.periodo }}</td>
       </ng-container>
+      <ng-container matColumnDef="curso">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Curso</th>
+        <td mat-cell *matCellDef="let row">{{ row.disciplina.curso_nome }}</td>
+      </ng-container>
       <ng-container matColumnDef="aluno_ids">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Alunos</th>
         <td mat-cell *matCellDef="let row">

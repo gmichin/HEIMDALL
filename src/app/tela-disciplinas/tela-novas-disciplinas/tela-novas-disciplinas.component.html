@@ -36,7 +36,7 @@
           formControlName="nome"
           matInput
           type="text"
-          placeholder="Nome da Matéria"
+          placeholder="Nome da disciplina"
         />
       </mat-form-field>
       <br />
@@ -46,10 +46,25 @@
           formControlName="descricao"
           matInput
           type="text"
-          placeholder="Descrição da Matéria"
+          placeholder="Descrição da disciplina"
         />
       </mat-form-field>
       <br />
+
+      <mat-form-field>
+        <mat-label>Informe o curso:</mat-label>
+        <mat-select
+          formControlName="curso_id"
+          [disabled]="cursoList.length == 0"
+        >
+          <mat-option *ngFor="let curso of cursoList" [value]="curso.curso_id">
+            {{ curso.nome }}
+          </mat-option>
+          <mat-option *ngIf="cursoList.length === 0" [value]=""
+            >Sem dados</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
 
       <button type="submit" class="saveButton">
         {{ disciplinaToEdit.valid ? "Editar" : "Cadastrar" }}

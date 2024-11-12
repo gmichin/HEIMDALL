@@ -11,7 +11,6 @@ import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { ProfessorModel } from 'src/app/models/professor.model';
 import { TurmaModel } from 'src/app/models/turma.model';
 import { TurmaService } from 'src/app/services/turma.service';
-import { DisciplinaModel } from 'src/app/models/disciplina.model';
 import { AlunoModel } from 'src/app/models/aluno.model';
 import { AlunoService } from 'src/app/services/aluno.service';
 
@@ -28,7 +27,7 @@ export class TelaNovasTurmasComponent implements OnInit {
   public errorMessage = { invalid: false, message: '' };
 
   public professorList: ProfessorModel[] = [];
-  public disciplinaList: DisciplinaModel[] = [];
+  public disciplinaList: any[] = [];
   public alunoList: AlunoModel[] = [];
 
   newSala: any[] = [];

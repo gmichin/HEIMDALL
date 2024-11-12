@@ -58,7 +58,8 @@
             *ngFor="let disciplina of disciplinaList"
             [value]="disciplina.disciplina_id"
           >
-            {{ disciplina.nome }}
+            {{ disciplina.nome }} ->
+            {{ disciplina.curso?.nome || "Não vinculado a um curso" }}
           </mat-option>
           <mat-option *ngIf="disciplinaList.length === 0" [value]=""
             >Sem dados</mat-option

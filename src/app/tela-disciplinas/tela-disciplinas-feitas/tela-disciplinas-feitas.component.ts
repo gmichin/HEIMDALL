@@ -21,7 +21,7 @@ import {
   styleUrls: ['./tela-disciplinas-feitas.component.scss'],
 })
 export class TelaDisciplinasFeitasComponent {
-  displayedColumns: string[] = ['remove', 'edit', 'nome', 'descricao'];
+  displayedColumns: string[] = ['remove', 'edit', 'nome', 'descricao', 'curso'];
   dataSource = new MatTableDataSource<DisciplinaModel>();
   selectionCourse = new SelectionModel<string>(true, []);
   selection = new SelectionModel<DisciplinaModel>(true, []);
@@ -39,6 +39,7 @@ export class TelaDisciplinasFeitasComponent {
       {
         nome: ['', [Validators.required]],
         descricao: ['', [Validators.required, this.emailValidator]],
+        curso: ['', [Validators.required, this.emailValidator]],
       },
       { validator: this.passwordMatchValidator }
     );
@@ -46,6 +47,7 @@ export class TelaDisciplinasFeitasComponent {
     this.disciplinaService.getAllDisciplinas().subscribe({
       next: (disciplinas) => {
         this.dataSource.data = disciplinas;
+        console.log(this.dataSource.data);
       },
     });
   }
