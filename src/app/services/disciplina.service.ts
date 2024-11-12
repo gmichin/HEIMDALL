@@ -5,7 +5,10 @@ import { url_config } from '../url.config';
 import { Observable, catchError, forkJoin, map, of } from 'rxjs';
 import { SessionService } from './session.service';
 import { Router } from '@angular/router';
-import { IProfessoresByDisciplina, ProfessorModel } from '../models/professor.model';
+import {
+  IProfessoresByDisciplina,
+  ProfessorModel,
+} from '../models/professor.model';
 
 @Injectable({
   providedIn: 'root',
@@ -31,9 +34,14 @@ export class DisciplinaService {
   }
 
   public atualizarDisciplina(disciplinas: DisciplinaModel) {
+    const disciplina = {
+      nome: disciplinas.nome,
+      descricao: disciplinas.descricao,
+      curso: disciplinas.curso_id,
+    };
     return this.http.patch(
       `${url_config.url_disciplina}/${disciplinas.disciplina_id}`,
-      disciplinas
+      disciplina
     );
   }
 
@@ -77,7 +85,8 @@ export class DisciplinaService {
   public getProfessorPorDisciplina(
     classId: string
   ): Observable<IProfessoresByDisciplina> {
-    return this.http
-      .get<IProfessoresByDisciplina>(`${url_config.url_turma}/disciplina/${classId}/professores`)
+    return this.http.get<IProfessoresByDisciplina>(
+      `${url_config.url_turma}/disciplina/${classId}/professores`
+    );
   }
 }
