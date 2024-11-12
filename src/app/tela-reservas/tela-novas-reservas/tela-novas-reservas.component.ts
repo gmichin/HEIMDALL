@@ -150,11 +150,11 @@ export class TelaNovasReservasComponent implements OnInit {
     if (this.startTime && this.endTime && this.startTime > this.endTime) {
       this.error =
         'O horário de início deve ser menor que o horário de término';
-      this.endTime = ''; // Limpa o valor do endTime
-      this.showPickers = false; // Esconde os pickers se houver erro
+      this.endTime = '';
+      this.showPickers = false;
     } else {
-      this.error = ''; // Limpa a mensagem de erro se não houver erro
-      this.showPickers = true; // Mostra os pickers se não houver erro
+      this.error = '';
+      this.showPickers = true;
     }
   }
 
