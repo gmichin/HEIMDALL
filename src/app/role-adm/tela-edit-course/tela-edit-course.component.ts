@@ -32,8 +32,8 @@ export class TelaEditCourseComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: CursoModel
   ) {
     this.form = this.fb.group({
-      nome: ['', [Validators.required]],
-      descricao: ['', [Validators.required]],
+      nome: [data.nome || '', [Validators.required]],
+      descricao: [data.descricao || '', [Validators.required]],
     });
     if (this.dataProfessorAdm.adm) {
       this.validate = true;

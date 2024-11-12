@@ -29,8 +29,8 @@ export class LoginUserService {
         return { user: res.user, tipo: res.type };
       })
     );
-  } /* 
-  public login(
+  }
+  /* public login(
     email: string,
     senha: string
   ): Observable<{

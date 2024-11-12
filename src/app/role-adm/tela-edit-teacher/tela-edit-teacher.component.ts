@@ -29,10 +29,9 @@ export class TelaEditTeacherComponent implements OnInit {
   ) {
     this.cadastroProfessorAdmForm = this.fb.group(
       {
-        nome: ['', [Validators.required]],
-        email: ['', [Validators.required, this.emailValidator]],
-        registro: ['', [Validators.required]],
-        adm: [false],
+        nome: [data.nome || '', [Validators.required]],
+        email: [data.email || '', [Validators.required, this.emailValidator]],
+        registro: [data.registro || '', [Validators.required]],
       },
       { validator: this.passwordMatchValidator }
     );
@@ -48,7 +47,6 @@ export class TelaEditTeacherComponent implements OnInit {
       (this.data.email = this.cadastroProfessorAdmForm.get('email')?.value),
       (this.data.registro =
         this.cadastroProfessorAdmForm.get('registro')?.value),
-      (this.data.adm = this.cadastroProfessorAdmForm.get('adm')?.value),
       this.professorService.atualizarProfessor(this.data).subscribe({
         next: () => {
           this.snackBar.open('Dados atualizados com sucesso.', '', {

@@ -29,10 +29,10 @@ export class TelaEditAlunoComponent implements OnInit {
   ) {
     this.cadastroAlunoForm = this.fb.group(
       {
-        nome: ['', [Validators.required]],
-        email: ['', [Validators.required, this.emailValidator]],
-        registro: ['', [Validators.required]],
-        ano_entrada: ['', [Validators.required]],
+        nome: [data.nome || '', [Validators.required]],
+        email: [data.email || '', [Validators.required, this.emailValidator]],
+        registro: [data.registro || '', [Validators.required]],
+        ano_entrada: [data.ano_entrada || '', [Validators.required]],
         status: [[true]],
       },
       { validator: this.passwordMatchValidator }
