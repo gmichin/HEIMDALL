@@ -1,4 +1,7 @@
 <mat-toolbar>
+  <button mat-icon-button (click)="goBack()">
+    <mat-icon>home</mat-icon>
+  </button>
   <button mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon>menu</mat-icon>
   </button>
@@ -17,41 +20,102 @@
 </mat-toolbar>
 <div class="box-container">
   <div class="tryNow">
-    <h1>&nbsp;&nbsp;Suporte & Ajuda</h1>
+    <h1>Ajuda e Suporte</h1>
     <p>
-      Seja bem-vindo ao <strong>HEIMDALL</strong>, o portal dedicado à gestão e
-      reserva de salas para a nossa comunidade acadêmica. Inspirado pelo
-      guardião vigilante da mitologia nórdica, HEIMDALL é sua fonte confiável
-      para verificar e reservar salas de aula, garantindo uma experiência
-      educacional organizada e eficiente.
+      Bem-vindo à seção de suporte do HEIMDALL! Aqui você encontrará informações
+      e recursos para tirar dúvidas e resolver problemas comuns sobre o uso da
+      nossa plataforma.
     </p>
-    <p>
-      Nosso objetivo é facilitar a vida dos alunos e professores, oferecendo uma
-      plataforma intuitiva onde você pode rapidamente:
-    </p>
-    <ul>
-      <li>
-        <strong>Consultar horários de aulas:</strong> Veja em que sala sua
-        próxima aula será realizada.
-      </li>
-      <li>
-        <strong>Reservar salas:</strong> Necessita de uma sala para estudo em
-        grupo ou para uma reunião? Realize reservas de forma simples e rápida.
-      </li>
-      <li>
-        <strong>Visualizar disponibilidades:</strong> Planeje seus horários com
-        base nas disponibilidades das salas.
-      </li>
-    </ul>
-    <p>
-      HEIMDALL está aqui para manter tudo em ordem e sob controle, permitindo
-      que você se concentre no que realmente importa: o aprendizado.
-    </p>
-  </div>
-  <div style="text-align: center">
-    <div class="logo-central"></div>
-    <button mat-raised-button (click)="openLoginSignUp()" class="tryButton">
-      Tente agora!
-    </button>
+
+    <section class="first-steps-section">
+      <h2>Primeiros Passos</h2>
+      <p>
+        Se você é novo no HEIMDALL, comece criando sua conta e explorando as
+        funcionalidades de consulta e reserva.
+      </p>
+    </section>
+
+    <section class="consult-section">
+      <h2>Reservas e Consultas</h2>
+      <ul>
+        <li>
+          <strong>Consultar horários de aulas:</strong> Acesse o calendário para
+          verificar a agenda de suas aulas.
+        </li>
+        <li>
+          <strong>Reservar uma sala:</strong> Para reservar uma sala, acesse a
+          aba de reservas e siga as instruções.
+        </li>
+      </ul>
+    </section>
+
+    <section class="faq-section">
+      <h2>Dúvidas Frequentes (FAQ)</h2>
+      <ul>
+        <details>
+          <summary>Como faço para alterar ou cancelar uma reserva?</summary>
+          <p>
+            Para alterar ou cancelar uma reserva, acesse a área de "Minhas
+            Reservas" na aplicação, selecione a reserva que deseja modificar e
+            siga as instruções para alteração ou cancelamento.
+          </p>
+        </details>
+        <details>
+          <summary>Por que não estou recebendo notificações?</summary>
+          <p>
+            Verifique se as notificações estão ativadas nas configurações da
+            aplicação. Além disso, certifique-se de que as permissões de
+            notificação no seu dispositivo estejam habilitadas para o HEIMDALL.
+          </p>
+        </details>
+        <details>
+          <summary>Como posso alterar minhas informações de conta?</summary>
+          <p>
+            Para alterar suas informações de conta, vá até as configurações do
+            perfil e edite os campos desejados. Salve as alterações para que as
+            novas informações sejam atualizadas.
+          </p>
+        </details>
+      </ul>
+    </section>
+
+    <div class="support-section-container">
+      <section class="support-section">
+        <div class="support-content">
+          <h2>Contato para Suporte</h2>
+          <p>Para suporte adicional, entre em contato com nossa equipe:</p>
+          <ul>
+            <li>Telefone: (11) 1234-5678</li>
+            <li>Email: suporte&#64;heimdall.com</li>
+          </ul>
+        </div>
+
+        <div class="support-form">
+          <form>
+            <div class="form-field">
+              <mat-form-field>
+                <input matInput placeholder="Nome" required />
+              </mat-form-field>
+            </div>
+            <div class="form-field">
+              <mat-form-field>
+                <input matInput type="email" placeholder="E-mail" required />
+              </mat-form-field>
+            </div>
+            <div class="form-field">
+              <mat-form-field>
+                <textarea
+                  matInput
+                  placeholder="Descrição do Problema"
+                ></textarea>
+              </mat-form-field>
+            </div>
+            <button mat-raised-button color="primary" class="sendButton">
+              Enviar
+            </button>
+          </form>
+        </div>
+      </section>
+    </div>
   </div>
 </div>

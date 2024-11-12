@@ -5,10 +5,12 @@
   align-items: center;
   padding: 10px;
 }
+
 button:hover {
   background-color: hsl(113, 100%, 50%) !important;
   color: rgb(0, 0, 0) !important;
 }
+
 li {
   color: rgb(20, 20, 20);
   font-size: 1.2em;
@@ -17,10 +19,10 @@ li {
 }
 
 .box-container {
-  margin-top: 1cm;
-  margin-inline: 1cm;
+  margin: 30px;
   display: flex;
   align-items: center;
+  justify-content: center; // Center content horizontally
   background-color: #dcdee2;
   border-radius: 20px;
 }
@@ -40,7 +42,7 @@ li {
   padding: 5%;
   border-radius: 10px;
   z-index: 999;
-  width: 60%;
+  width: 80%;
 }
 
 .tryNow p {
@@ -50,16 +52,6 @@ li {
   color: black;
   font-family: Georgia, "Times New Roman", Times, serif;
   text-align: justify;
-}
-
-.tryButton {
-  background-color: rgb(0, 0, 0) !important;
-  color: hsl(113, 100%, 50%) !important;
-  font-family: Georgia, "Times New Roman", Times, serif !important;
-  width: 100%;
-  height: 1.5cm;
-  font-size: 20px;
-  border-radius: 30px;
 }
 
 .tituloH {
@@ -86,3 +78,112 @@ li {
   border-radius: 5px;
   font-family: Georgia, "Times New Roman", Times, serif !important;
 }
+
+.first-steps-section{
+  padding: 10px;
+}
+
+.consult-section {
+  padding: 10px;
+}
+
+.consult-section ul{
+  list-style-type: disc;
+  
+  li {
+    color: black;
+    font-size: 1.1em;
+    margin: 8px 0;
+  }
+}
+
+.faq-section{
+  padding: 10px;
+
+  details {
+    margin-bottom: 10px;
+  }
+
+  summary {
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1.1em;
+  }
+
+  summary::marker {
+    content: "▶ "; /* Ícone de seta para a pergunta */
+  }
+
+  details[open] summary::marker {
+    content: "▼ "; /* Ícone de seta para resposta aberta */
+  }
+}
+
+.faq-section ul {
+  list-style-type: disc;
+}
+
+.support-section-container {
+  padding: 10px;
+  width: 100%; 
+  box-sizing: border-box;
+  color: black;
+  border: 2px solid black;
+  border-radius: 4px;
+}
+
+.support-section {
+  padding: 10px;
+  display: grid;        // Use display: grid
+  grid-template-columns: 1fr 1fr; // Two equal columns
+  grid-gap: 20px;       // Space between grid items
+  width: 100%; // Ensure full width
+  box-sizing: border-box;
+  color: black;
+}
+
+.support-content {
+ padding-top: 15px;  
+  display: flex;
+  flex-direction: column;
+}
+
+.support-form {
+  padding-top: 15px;
+  display: flex;
+  flex-direction: column; 
+}
+
+.support-form > .form-field > mat-form-field > * { // Target input/textarea
+  flex: 1; 
+  border-radius: 20px; 
+}
+
+mat-form-field {
+  width: 100%; // Make the mat-form-field take full width
+  margin-bottom: 5px; // Add spacing between form fields
+  box-sizing: border-box;
+  
+}
+
+mat-form-field label {
+  font-weight: bold; 
+  color: #333; 
+}
+
+.sendButton {
+  background-color: #1eff00; 
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1em; // Adjust as needed to match field text size
+  margin-bottom: 10px; // Add bottom margin to button
+  width: 100%;
+  height: 40px;
+}
+
+
+  
