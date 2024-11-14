@@ -1,53 +1,54 @@
 .mat-toolbar {
-  background: rgb(20, 20, 20);
+  background: #000000;
   color: #1ddd04;
-  margin-bottom: 1cm;
+  border-bottom: 2px solid black;
+}
+
+.container {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 2%;
+}
+
+table {
+  width: 100%;
+  background-color: #dcdee2;
+}
+
+mat-paginator {
+  background-color: #dcdee2;
 }
 
 .tituloH {
-  font-size: 2em;
   font-family: Copperplate, Copperplate Gothic Light, fantasy;
-  cursor: pointer;
+  font-size: 2em;
 }
 
-mat-card {
-  background-color: #dcdee2;
-  border-radius: 20px;
-  box-shadow: 0 2px 5px black;
-  width: 50%;
-  padding: 1cm;
-  margin: auto;
-  text-align: center;
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
 }
 
-mat-form-field {
-  margin-inline: 1cm;
-  width: 80%;
+.container-table {
+  margin: 5%;
 }
 
-mat-card-title {
-  margin-bottom: 40px;
-  text-align: center;
-  color: black;
-  font-size: 40px;
-  font-family: Georgia, "Times New Roman", Times, serif;
+.nome {
+  width: 35%;
 }
 
-.saveButton {
-  margin-top: 30px;
-  border-radius: 20px;
-  font-size: 25px;
-  padding: 15px;
-  background-color: black;
-  color: #1ddd04;
-  cursor: pointer;
-  margin-bottom: 20px;
-  font-family: Georgia, "Times New Roman", Times, serif;
-  width: 80%;
+.email {
+  width: 35%;
 }
-.saveButton:hover {
-  background-color: #1ddd04;
-  color: black;
+
+.registrationNumber {
+  width: 20%;
+}
+
+.select {
+  width: 5%;
 }
 
 .spacer {
@@ -58,7 +59,4 @@ mat-card-title {
   position: relative;
   width: 30px;
   margin-right: 10px;
-}
-mat-option {
-  margin-bottom: 15px;
 }

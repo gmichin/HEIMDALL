@@ -88,7 +88,6 @@ export class TelaTurmasFeitasComponent {
             });
 
             this.dataSource.data = turmas;
-            console.log(this.dataSource.data);
           },
         });
       },

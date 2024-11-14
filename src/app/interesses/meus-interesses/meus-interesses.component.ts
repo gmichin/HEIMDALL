@@ -9,6 +9,7 @@ import { InteresseModel } from 'src/app/models/interesse.model';
 import { InteresseService } from 'src/app/services/interesse.service';
 import { TurmaService } from 'src/app/services/turma.service';
 import { DisciplinaService } from 'src/app/services/disciplina.service';
+import { AlunoModel } from 'src/app/models/aluno.model';
 @Component({
   selector: 'app-meus-interesses',
   templateUrl: './meus-interesses.component.html',
@@ -30,7 +31,9 @@ export class MeusInteressesComponent {
   public dataInteresse = <InteresseModel>(
     this.sessionService.getSessionData('interesse').retorno
   );
-
+  public dataAluno = <AlunoModel>(
+    this.sessionService.getSessionData('aluno').retorno
+  );
   constructor(
     public dialog: MatDialog,
     private interesseService: InteresseService,
@@ -41,9 +44,17 @@ export class MeusInteressesComponent {
   ) {
     this.interesseService.getAllInteresses().subscribe({
       next: (interesses) => {
-        const turmaInteresseMap = interesses.reduce(
+        const interessesFiltrados = interesses.filter(
+          (interesse: any) =>
+            interesse.aluno.aluno_id === this.dataAluno.aluno_id
+        );
+
+        const turmaInteresseMap = interessesFiltrados.reduce(
           (map: any, interesse: any) => {
-            map[interesse.turma.turma_id] = interesse.interesse_id;
+            map[interesse.turma.turma_id] = {
+              interesse_id: interesse.interesse_id,
+              aluno: interesse.aluno,
+            };
             return map;
           },
           {}
@@ -66,14 +77,17 @@ export class MeusInteressesComponent {
 
                     return {
                       turma_id: turma.turma_id,
-                      interesse_id: turmaInteresseMap[turma.turma_id],
+                      interesse_id:
+                        turmaInteresseMap[turma.turma_id].interesse_id,
                       professor: turma.professor,
                       periodo: turma.periodo,
                       disciplina: disciplinaCorrespondente,
+                      aluno: turmaInteresseMap[turma.turma_id].aluno,
                     };
                   });
 
                 this.dataSource.data = turmaComDados;
+                console.log(this.dataSource.data);
               },
               error: (err) => {
                 console.error('Erro ao buscar disciplinas: ', err);

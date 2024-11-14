@@ -81,26 +81,36 @@ export class TurmaService {
   }
 
   public criarAlunosTurma(turmas: any) {
-    // Extraindo apenas os aluno_ids em um array de números
+    console.log(turmas);
     const alunoIds = turmas.aluno_ids.map((aluno: any) => aluno.aluno_id);
 
-    console.log(alunoIds); // Verifique se está saindo como [5, 6]
-
-    // A estrutura do body agora está correta
     return this.http.post(
       `${url_config.url_turma}/${turmas.turma_id}/alunos/adicionar`,
-      { alunoIds } // Enviando o array de IDs diretamente
+      { alunoIds }
+    );
+  }
+
+  public aprovarInteresse(turmas: any) {
+    let alunoIds: number[] = [];
+
+    if (Array.isArray(turmas.aluno)) {
+      alunoIds = turmas.aluno.map((aluno: any) => aluno.aluno_id);
+    } else if (turmas.aluno && typeof turmas.aluno === 'object') {
+      alunoIds = [turmas.aluno.aluno_id];
+    }
+    return this.http.post(
+      `${url_config.url_turma}/${turmas.turma_id}/alunos/adicionar`,
+      { alunoIds }
     );
   }
 
   public deletarAlunosTurma(turmas: any) {
-    // Extraindo os IDs dos alunos para um array
     const alunoIds = turmas.alunos.map((aluno: any) => aluno.aluno_id);
 
     return this.http.delete(
       `${url_config.url_turma}/${turmas.turma_id}/alunos/remover`,
       {
-        body: { alunoIds }, // Enviando o array de IDs dos alunos
+        body: { alunoIds },
       }
     );
   }

@@ -52,6 +52,12 @@ export class InteresseService {
     return forkJoin(...arrReqs);
   }
 
+  public deleteInteressePorId(interesse: InteresseModel) {
+    return this.http.delete(
+      `${url_config.url_interesse}/${interesse.interesse_id}`
+    );
+  }
+
   public saveInteresseToEdit(interesse: InteresseModel) {
     this.sessionService.setItem('editInteresse', interesse);
     this.router.navigate(['solicitar-interesse']);
