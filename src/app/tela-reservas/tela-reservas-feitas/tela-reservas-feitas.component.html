@@ -26,6 +26,11 @@
 </mat-toolbar>
 
 <div class="container-reservas-feitas">
+  <h4>
+    Nota: é necessário preencher as abas de CURSO, DISCIPLINA, PROFESSOR e SALA.
+    Se não aparecer o campo irá aparecer o erro abaixo e não será possível fazer
+    a busca.
+  </h4>
   <form class="formByProf" [formGroup]="searchForm" (ngSubmit)="search()">
     <mat-form-field>
       <mat-label>Informe o Curso:</mat-label>

@@ -25,16 +25,17 @@ export class ReservationService {
     return this.http.get<IConsultaReserva[]>(urlWithParams);
   }
 
-  private objectToQueryParams(obj: any): string {
-    return Object.keys(obj)
-      .filter((key) => obj[key] !== null && obj[key] !== undefined)
-      .map(
-        (key) => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`
-      )
-      .join('&');
-  }
-
   public carregarDadosSalasReservadas() {
     return this.http.get<any[]>(url_config.url_reserva);
+  }
+
+  public putReservas(reserva: IReserva) {
+    return this.http.put<any[]>(url_config.url_reserva, reserva);
+  }
+
+  public apagarReservas(reserva: IReserva) {
+    return this.http.delete<any[]>(
+      `${url_config.url_reserva}/${reserva.reserva_id}`
+    );
   }
 }

@@ -209,9 +209,14 @@ export class TelaReservasFeitasComponent implements OnInit {
   public search(): void {
     this.reservationService.findFilter(this.searchForm.value).subscribe({
       next: (res) => {
-        if (res && res.length > 0) {
-          this.reservas = res;
-          this.reservaIds = res.map((r) => r.reserva_id).join('-');
+        const reservasFiltradas = res.filter(
+          (reserva) => reserva.status == true
+        );
+        if (reservasFiltradas && reservasFiltradas.length > 0) {
+          this.reservas = reservasFiltradas;
+          this.reservaIds = reservasFiltradas
+            .map((r) => r.reserva_id)
+            .join('-');
           this.formatarHorarios();
           this.resultadoEncontrado = true;
 
@@ -243,6 +248,13 @@ export class TelaReservasFeitasComponent implements OnInit {
           }
         } else {
           this.resultadoEncontrado = false;
+          this.snackBar.open(
+            'Provavelmente as reservas não foram aprovadas.',
+            '',
+            {
+              duration: 6000,
+            }
+          );
         }
       },
       error: (err) => {
