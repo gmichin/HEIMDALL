@@ -1,4 +1,3 @@
-import { InteresseService } from './../services/interesse.service';
 import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -6,7 +5,8 @@ import { Router } from '@angular/router';
 import { SelectionModel } from '@angular/cdk/collections';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { SessionService } from 'src/app/services/session.service';
-import { InteresseModel } from '../models/interesse.model';
+import { InteresseModel } from 'src/app/models/interesse.model';
+import { InteresseService } from 'src/app/services/interesse.service';
 @Component({
   selector: 'app-meus-interesses',
   templateUrl: './meus-interesses.component.html',

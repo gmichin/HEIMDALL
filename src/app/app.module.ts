@@ -61,18 +61,20 @@ import { TelaNovasTurmasComponent } from './tela-turmas/tela-novas-turmas/tela-n
 import { TelaTurmasFeitasComponent } from './tela-turmas/tela-turmas-feitas/tela-turmas-feitas.component';
 import { TelaTurmasComponent } from './tela-turmas/tela-turmas.component';
 import { ValidacaoProfessoresComponent } from './validacao-professores/validacao-professores.component';
-import { SolicitarInteresseComponent } from './solicitar-interesse/solicitar-interesse.component';
-import { ValidarInteresseComponent } from './validar-interesse/validar-interesse.component';
-import { MeusInteressesComponent } from './meus-interesses/meus-interesses.component';
+import { SolicitarInteresseComponent } from './interesses/solicitar-interesse/solicitar-interesse.component';
+import { ValidarInteresseComponent } from './interesses/validar-interesse/validar-interesse.component';
 import { JWT_OPTIONS, JwtInterceptor, JwtModule } from '@auth0/angular-jwt';
 import { url_config } from './url.config';
 import { JwtInterceptorH } from './interceptors/jwt.interceptor';
+import { MeusInteressesComponent } from './interesses/meus-interesses/meus-interesses.component';
 
 export function jwtOptionsFactory() {
   return {
     tokenGetter: () => localStorage.getItem('token'),
     allowedDomains: ['https://heimdallback.eastus2.cloudapp.azure.com'], // Adapte para o domínio onde sua API está rodando
-    disallowedRoutes: ['https://heimdallback.eastus2.cloudapp.azure.com/auth/login'], // Exclua a rota de login onde o token não é necessário
+    disallowedRoutes: [
+      'https://heimdallback.eastus2.cloudapp.azure.com/auth/login',
+    ], // Exclua a rota de login onde o token não é necessário
   };
 }
 @NgModule({
@@ -141,10 +143,11 @@ export function jwtOptionsFactory() {
     MatCheckboxModule,
     MatPaginatorModule,
     BrowserAnimationsModule,
-    JwtModule.forRoot({  // Use o JwtModule e configure o JWT_OPTIONS
+    JwtModule.forRoot({
+      // Use o JwtModule e configure o JWT_OPTIONS
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,
-        useFactory: jwtOptionsFactory
+        useFactory: jwtOptionsFactory,
       },
     }),
   ],

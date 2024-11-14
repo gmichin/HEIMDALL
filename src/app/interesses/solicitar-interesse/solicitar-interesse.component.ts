@@ -1,6 +1,6 @@
-import { DisciplinaService } from './../services/disciplina.service';
-import { SessionService } from './../services/session.service';
-import { InteresseService } from './../services/interesse.service';
+import { DisciplinaService } from '../../services/disciplina.service';
+import { SessionService } from '../../services/session.service';
+import { InteresseService } from '../../services/interesse.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TelaLoginCadastroComponent } from 'src/app/tela-login-cadastro/tela-login-cadastro.component';
@@ -11,9 +11,9 @@ import { CursoModel } from 'src/app/models/curso.model';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { TelaDisciplinasComponent } from 'src/app/tela-disciplinas/tela-disciplinas.component';
 import { Router } from '@angular/router';
-import { InteresseModel } from '../models/interesse.model';
-import { AlunoModel } from '../models/aluno.model';
-import { TurmaService } from '../services/turma.service';
+import { InteresseModel } from '../../models/interesse.model';
+import { AlunoModel } from '../../models/aluno.model';
+import { TurmaService } from '../../services/turma.service';
 @Component({
   selector: 'app-solicitar-interesse',
   templateUrl: './solicitar-interesse.component.html',
