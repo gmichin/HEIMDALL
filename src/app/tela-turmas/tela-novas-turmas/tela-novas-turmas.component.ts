@@ -171,7 +171,13 @@ export class TelaNovasTurmasComponent implements OnInit {
       aluno_ids: this.turmaForm.get('aluno_ids')?.value,
     });
 
-    if (this.turmaToEdit.valid) {
+    if (
+      this.turmaToEdit.valid &&
+      turma.professor_id !== null &&
+      turma.disciplina_id !== null &&
+      turma.periodo !== null &&
+      turma.aluno_ids !== null
+    ) {
       turma.turma_id = this.turmaToEdit.turma.turma_id;
       this.turmaService
         .deletarAlunosTurma(this.turmaToEdit.turma)
@@ -197,7 +203,12 @@ export class TelaNovasTurmasComponent implements OnInit {
         });
 
       return;
-    } else {
+    } else if (
+      turma.professor_id !== null &&
+      turma.disciplina_id !== null &&
+      turma.periodo !== null &&
+      turma.aluno_ids !== null
+    ) {
       this.turmaService.criarTurma(turma).subscribe({
         next: () => {
           this.snackBar.open('Cadastrado com sucesso!', '', { duration: 4000 });

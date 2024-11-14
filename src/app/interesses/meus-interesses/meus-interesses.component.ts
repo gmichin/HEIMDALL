@@ -7,6 +7,8 @@ import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { SessionService } from 'src/app/services/session.service';
 import { InteresseModel } from 'src/app/models/interesse.model';
 import { InteresseService } from 'src/app/services/interesse.service';
+import { TurmaService } from 'src/app/services/turma.service';
+import { DisciplinaService } from 'src/app/services/disciplina.service';
 @Component({
   selector: 'app-meus-interesses',
   templateUrl: './meus-interesses.component.html',
@@ -32,12 +34,59 @@ export class MeusInteressesComponent {
   constructor(
     public dialog: MatDialog,
     private interesseService: InteresseService,
+    private turmaService: TurmaService,
+    private disciplinaService: DisciplinaService,
     private router: Router,
     private sessionService: SessionService
   ) {
     this.interesseService.getAllInteresses().subscribe({
       next: (interesses) => {
-        this.dataSource.data = interesses;
+        const turmaInteresseMap = interesses.reduce(
+          (map: any, interesse: any) => {
+            map[interesse.turma.turma_id] = interesse.interesse_id;
+            return map;
+          },
+          {}
+        );
+
+        this.turmaService.getAllTurmas().subscribe({
+          next: (turmas) => {
+            this.disciplinaService.getAllDisciplinas().subscribe({
+              next: (disciplinas) => {
+                const turmaComDados = turmas
+                  .filter((turma: any) =>
+                    turmaInteresseMap.hasOwnProperty(turma.turma_id)
+                  )
+                  .map((turma: any) => {
+                    const disciplinaCorrespondente = disciplinas.find(
+                      (disciplina: any) =>
+                        disciplina.disciplina_id ===
+                        turma.disciplina.disciplina_id
+                    );
+
+                    return {
+                      turma_id: turma.turma_id,
+                      interesse_id: turmaInteresseMap[turma.turma_id],
+                      professor: turma.professor,
+                      periodo: turma.periodo,
+                      disciplina: disciplinaCorrespondente,
+                    };
+                  });
+
+                this.dataSource.data = turmaComDados;
+              },
+              error: (err) => {
+                console.error('Erro ao buscar disciplinas: ', err);
+              },
+            });
+          },
+          error: (err) => {
+            console.error('Erro ao buscar turmas: ', err);
+          },
+        });
+      },
+      error: (err) => {
+        console.error('Erro ao buscar interesses: ', err);
       },
     });
   }
@@ -73,7 +122,7 @@ export class MeusInteressesComponent {
         .deleteInteresse(interessesSelecionadas)
         .subscribe(() => {
           this.dataSource.data = this.dataSource.data.filter(
-            (sala) => !this.selectionReject.isSelected(sala)
+            (interesse) => !this.selectionReject.isSelected(interesse)
           );
           this.selectionReject.clear();
 

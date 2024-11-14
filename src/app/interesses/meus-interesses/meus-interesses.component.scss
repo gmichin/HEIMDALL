@@ -1,0 +1,59 @@
+.mat-toolbar {
+  background: #000000;
+  color: #1ddd04;
+}
+
+.logo-central {
+  width: 50px;
+  height: 50px;
+  background-image: url(/src/assets/images/heimdall.logo.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.tituloH {
+  font-size: 2em;
+  font-family: Copperplate, Copperplate Gothic Light, fantasy;
+  cursor: pointer;
+}
+
+.table-container {
+  width: 95%;
+  margin: auto;
+  margin-top: 1cm;
+  box-shadow: 0px 2px 5px black;
+  overflow-x: auto;
+}
+
+table {
+  background-color: #dcdee2;
+}
+mat-paginator {
+  background-color: #dcdee2;
+}
+
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+  margin-bottom: -20px;
+}
+
+.demo-button-container {
+  margin: 1% auto;
+  margin-left: 3%;
+}
+
+.demo-button + .demo-button {
+  margin-left: 8px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.logo {
+  position: relative;
+  width: 30px;
+  margin-right: 10px;
+}

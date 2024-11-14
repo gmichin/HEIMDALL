@@ -34,6 +34,9 @@ export class TelaHomeStudentComponent implements OnInit, OnDestroy {
   public redirectSolicitarTurma() {
     this.router.navigate(['/solicitar-interesse']);
   }
+  public redirectMeusInteresses() {
+    this.router.navigate(['/meus-interesses']);
+  }
 
   public redirectProfile() {
     const dialogT = this.dialog.open(TelaPerfilComponent, {

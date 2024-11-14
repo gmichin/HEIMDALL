@@ -62,8 +62,13 @@ export class SolicitarInteresseComponent implements OnInit {
     });
     this.aluno = this.dataAluno.nome;
     this.turmaService.getAllTurmas().subscribe({
-      next: (turmas) => {
-        this.turmaList = turmas;
+      next: (turmas: any) => {
+        this.turmaList = turmas.filter((turma: any) => {
+          return !turma.alunos.some(
+            (aluno: any) => aluno.aluno_id === this.dataAluno.aluno_id
+          );
+        });
+
         this.disciplinaService.getAllDisciplinas().subscribe({
           next: (disciplinas) => {
             this.turmaList.forEach((turma) => {
@@ -85,7 +90,7 @@ export class SolicitarInteresseComponent implements OnInit {
           },
         });
 
-        if (turmas.length === 0) {
+        if (this.turmaList.length === 0) {
           this.errorMessage.message =
             'Não foram encontrados cursos cadastrados.';
           this.errorMessage.invalid = true;
