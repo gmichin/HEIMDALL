@@ -35,9 +35,10 @@
 
       <div *ngIf="!errorMessage.invalid">
         <h4>
-          Os dias desabilitados não estarão disponíveis apenas no horário
-          escolhido, caso mude o horario, existe uma chance de haver o dia
-          desejado disponível
+          Garanta que existe um curso vinculado a uma disciplina (na aba de "ver
+          disciplinas") e que a disciplina esteja vinculado a uma turma (na aba
+          "ver turmas"), caso não tenha o vinculo, não aparecerá dados para
+          serem selecionados nos campos abaixos
         </h4>
 
         <div class="calendario-personalizado">
@@ -64,9 +65,9 @@
         </mat-form-field>
 
         <mat-form-field *ngIf="disciplinaList.length > 0">
-          <mat-label>Informe a Matéria:</mat-label>
+          <mat-label>Informe a disciplina:</mat-label>
           <mat-select
-            (valueChange)="changeClass($event)"
+            (valueChange)="changeDisciplina($event)"
             formControlName="disciplina_id"
           >
             @for (class of disciplinaList; track class) {
@@ -79,10 +80,42 @@
           </mat-select>
         </mat-form-field>
 
+        <h5
+          *ngIf="
+            selectionDisciplina.selected.length > 0 &&
+            selectionCurso.selected.length > 0
+          "
+        >
+          Selecione o professor para quem a sala estará reservada
+        </h5>
+        <mat-form-field
+          *ngIf="
+            selectionDisciplina.selected.length > 0 &&
+            selectionCurso.selected.length > 0
+          "
+        >
+          <mat-label>Nome do Professor:</mat-label>
+          <mat-select
+            (valueChange)="changeProfessorTurma($event)"
+            [disabled]="teacherList.turmas.length == 0"
+            formControlName="vazio"
+          >
+            <ng-container *ngFor="let teacherObj of teacherList?.turmas">
+              <mat-option [value]="teacherObj">
+                {{ teacherObj?.professor?.nome }} -> {{ teacherObj?.periodo }}
+              </mat-option>
+            </ng-container>
+            <mat-option *ngIf="teacherList?.turmas?.length === 0" [value]=""
+              >Sem dados</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+
         <div
           *ngIf="
-            selectionClass.selected.length > 0 &&
-            selectionCourse.selected.length > 0
+            selectionDisciplina.selected.length > 0 &&
+            selectionCurso.selected.length > 0 &&
+            selectionProfessorTurma.selected.length > 0
           "
           class="insertData"
         >
@@ -163,34 +196,11 @@
               </mat-date-range-picker>
             </mat-form-field>
           </div>
-
-          <h5>Selecione o professor para quem a sala estará reservada</h5>
-
-          <mat-form-field>
-            <mat-label>Nome do Professor:</mat-label>
-            <mat-select
-              [disabled]="teacherList.length == 0"
-              formControlName="professor_id"
-            >
-              @for (teacher of teacherList; track teacher) {
-              <mat-option [value]="teacher.professor_id">{{
-                teacher.nome
-              }}</mat-option>
-              } @empty {
-              <mat-option [value]="">Sem dados</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
         </div>
       </div>
       <br />
 
-      <button
-        type="submit"
-        class="saveButton"
-      >
-        Reservar
-      </button>
+      <button type="submit" class="saveButton">Reservar</button>
     </form>
   </mat-card-content>
 </mat-card>

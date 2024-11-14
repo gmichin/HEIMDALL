@@ -76,7 +76,7 @@ mat-card {
   background-color: #dcdee2;
   border-radius: 20px;
   box-shadow: 0 2px 5px black;
-  width: 50%;
+  width: 80%;
   margin: auto;
   padding: 1cm;
 }
@@ -97,4 +97,8 @@ mat-card-title {
   position: relative;
   width: 30px;
   margin-right: 10px;
+}
+
+mat-form-field {
+  width: 100%;
 }

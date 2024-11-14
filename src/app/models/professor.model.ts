@@ -18,6 +18,9 @@ export class ProfessorModel {
 }
 
 export interface IProfessoresByDisciplina {
-  turma_id: number;
-  professores: ProfessorModel[];
+  turmas: Array<{
+    professor: ProfessorModel;
+    periodo: string;
+    turma_id: number;
+  }>;
 }

@@ -83,10 +83,10 @@ export class DisciplinaService {
   }
 
   public getProfessorPorDisciplina(
-    classId: string
+    disciplinaId: string
   ): Observable<IProfessoresByDisciplina> {
     return this.http.get<IProfessoresByDisciplina>(
-      `${url_config.url_turma}/disciplina/${classId}/professores`
+      `${url_config.url_turma}/disciplina/${disciplinaId}/professores`
     );
   }
 }

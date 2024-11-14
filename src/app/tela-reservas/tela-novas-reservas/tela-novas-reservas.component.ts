@@ -16,7 +16,10 @@ import { ReservationService } from 'src/app/services/reservation.service';
 import { SessionService } from 'src/app/services/session.service';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
 import { AlunoModel } from 'src/app/models/aluno.model';
-import { ProfessorModel } from 'src/app/models/professor.model';
+import {
+  IProfessoresByDisciplina,
+  ProfessorModel,
+} from 'src/app/models/professor.model';
 import { SalaService } from 'src/app/services/sala.service';
 import { TurmaService } from 'src/app/services/turma.service';
 
@@ -60,9 +63,10 @@ export class TelaNovasReservasComponent implements OnInit {
   public cursoModel: CursoModel[] = [];
   public disciplinaList: DisciplinaModel[] = [];
   public salaList: SalaModel[] = [];
-  public teacherList: ProfessorModel[] = [];
-  public selectionCourse = new SelectionModel<string>(true, []);
-  public selectionClass = new SelectionModel<string>(true, []);
+  public teacherList: IProfessoresByDisciplina = { turmas: [] };
+  public selectionCurso = new SelectionModel<string>(true, []);
+  public selectionDisciplina = new SelectionModel<string>(true, []);
+  public selectionProfessorTurma = new SelectionModel<string>(true, []);
   public errorMessage = { invalid: false, message: '' };
   public cursoList: CursoModel[] = [];
 
@@ -95,6 +99,7 @@ export class TelaNovasReservasComponent implements OnInit {
       horaFim: ['', [Validators.required]],
       dataInicio: ['', [Validators.required]],
       dataFim: ['', [Validators.required]],
+      vazio: ['', [Validators.required]],
     });
     this.cursoService.getAllCursos().subscribe({
       next: (cursos) => {
@@ -112,7 +117,9 @@ export class TelaNovasReservasComponent implements OnInit {
     });
 
     this.salaService.carregarDadosSalas().subscribe({
-      next: (salas) => (this.salaList = salas),
+      next: (salas) => {
+        this.salaList = salas.filter((sala) => sala.status === true);
+      },
       error: (err) => {
         this.errorMessage = {
           invalid: true,
@@ -142,29 +149,7 @@ export class TelaNovasReservasComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.generateHours();
-  }
-
-  filtroCalendar(): void {
-    if (this.startTime && this.endTime && this.startTime > this.endTime) {
-      this.error =
-        'O horário de início deve ser menor que o horário de término';
-      this.endTime = '';
-      this.showPickers = false;
-    } else {
-      this.error = '';
-      this.showPickers = true;
-    }
-  }
-
-  private isSameDay(date1: Date, date2: Date): boolean {
-    return (
-      date1.getFullYear() === date2.getFullYear() &&
-      date1.getMonth() === date2.getMonth() &&
-      date1.getDate() === date2.getDate()
-    );
-  }
+  ngOnInit(): void {}
 
   applyDateRange() {
     if (this.startDate && this.endDate) {
@@ -190,15 +175,19 @@ export class TelaNovasReservasComponent implements OnInit {
       });
     }
   }
-
   getStartTime(): string {
     return this.startTime;
   }
-
   getEndTime(): string {
     return this.endTime;
   }
-
+  private isSameDay(date1: Date, date2: Date): boolean {
+    return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
+  }
   addTimeRangeToSelectedDates(date: Date, startTime: string, endTime: string) {
     const selectedDate = new Date(date);
     const startHour = parseInt(startTime.split(':')[0]);
@@ -251,37 +240,6 @@ export class TelaNovasReservasComponent implements OnInit {
     return dateArray;
   }
 
-  applyDate() {
-    if (this.singleDate && this.startTime && this.endTime) {
-      const selectedDate = new Date(this.singleDate);
-      const startHour = parseInt(this.startTime.split(':')[0]);
-      const endHour = parseInt(this.endTime.split(':')[0]);
-      const selectedDateTimeList: Date[] = [];
-
-      for (let hour = startHour; hour <= endHour; hour++) {
-        const fullHour = hour < 10 ? '0' + hour : '' + hour;
-        const selectedDateTime = new Date(selectedDate);
-        selectedDateTime.setHours(hour);
-        selectedDateTimeList.push(selectedDateTime);
-      }
-
-      const existingIndex = this.diasSelecionados.findIndex((date) =>
-        selectedDateTimeList.some((dateTime) => this.isSameDay(date, dateTime))
-      );
-
-      if (existingIndex === -1) {
-        this.diasSelecionados.push(...selectedDateTimeList);
-      } else {
-        const selectedDateTimeToRemove = selectedDateTimeList.find((dateTime) =>
-          this.isSameDay(dateTime, this.diasSelecionados[existingIndex])
-        );
-        if (selectedDateTimeToRemove) {
-          this.diasSelecionados.splice(existingIndex, 1);
-        }
-      }
-    }
-  }
-
   dateFilter: (date: Date | null) => boolean = (date: Date | null) => {
     if (!this.diasDesabilitadosCarregados || !date) {
       return true;
@@ -301,37 +259,25 @@ export class TelaNovasReservasComponent implements OnInit {
 
     return dayWeek !== 0 && dayWeek !== 6 && date >= todayDay && !isDisabled;
   };
-  generateHours(): void {
-    for (let i = 5; i < 23; i++) {
-      const hour = i < 10 ? '0' + i : '' + i;
-      this.hours.push(hour + ':00');
+
+  generateHours(periodo: string): void {
+    this.hours = [];
+    if (periodo == 'matutino') {
+      for (let i = 5; i < 12; i++) {
+        const hour = i < 10 ? '0' + i : '' + i;
+        this.hours.push(hour + ':00');
+      }
+    } else if (periodo == 'vespertino') {
+      for (let i = 12; i < 19; i++) {
+        const hour = i < 10 ? '0' + i : '' + i;
+        this.hours.push(hour + ':00');
+      }
+    } else if (periodo == 'noturno') {
+      for (let i = 19; i < 23; i++) {
+        const hour = i < 10 ? '0' + i : '' + i;
+        this.hours.push(hour + ':00');
+      }
     }
-  }
-
-  selectMateria(materia: string) {
-    this.materiaSelecionada = materia;
-  }
-
-  selectSala(numeroSala: string) {
-    this.numeroSalaSelecionada = numeroSala;
-  }
-
-  processarMateriasPorProfessor() {
-    const uniqueClassSet = new Set<string>();
-
-    this.professores.forEach((professor) => {
-      const materiasDoProfessor = this.materia.filter((materia) =>
-        materia.id.includes(professor.id)
-      );
-      materiasDoProfessor.forEach((materia) => {
-        uniqueClassSet.add(materia.class);
-      });
-    });
-
-    this.materiasPorProfessor = Array.from(uniqueClassSet);
-
-    console.log(this.professores);
-    console.log(this.materia);
   }
 
   public saveDate() {
@@ -354,13 +300,9 @@ export class TelaNovasReservasComponent implements OnInit {
         this.router.navigate(['redirecionar']);
       },
       error: (err) => {
-        this.snackBar.open(
-          'Ocorreu um erro durante sua solicitação, por favor, tente novamente mais tarde.',
-          '',
-          {
-            duration: 4000,
-          }
-        );
+        this.snackBar.open('Ocorreu algum problema', '', {
+          duration: 4000,
+        });
         this.router.navigate(['tela-novas-reservas']);
       },
     });
@@ -397,7 +339,6 @@ export class TelaNovasReservasComponent implements OnInit {
     ];
     return meses[numeroMes];
   }
-
   obterFusoHorario(offsetMinutos: number) {
     const offsetHoras = offsetMinutos / 60;
     const sinal = offsetHoras >= 0 ? '-' : '+';
@@ -407,7 +348,6 @@ export class TelaNovasReservasComponent implements OnInit {
 
     return `${sinal}${horas}:${minutos}`;
   }
-
   formatDatesAndHours(formValue: any): any {
     formValue.end_date =
       formValue.end_date == '' ? formValue.start_date : formValue.end_date;
@@ -428,7 +368,6 @@ export class TelaNovasReservasComponent implements OnInit {
 
     return formValue;
   }
-
   combineDateAndTime(date: string, time: string): string {
     const [hour, minute] = time.split(':');
     const dateTime = new Date(date);
@@ -438,10 +377,10 @@ export class TelaNovasReservasComponent implements OnInit {
   }
 
   changeCourse(event: any) {
-    this.selectionCourse.clear();
-    this.selectionCourse.toggle(event);
+    this.selectionCurso.clear();
+    this.selectionCurso.toggle(event);
     this.disciplinaService
-      .getDisciplinaPorCurso(this.selectionCourse.selected[0])
+      .getDisciplinaPorCurso(this.selectionCurso.selected[0])
       .subscribe({
         next: (res) => {
           this.disciplinaList = res;
@@ -459,15 +398,14 @@ export class TelaNovasReservasComponent implements OnInit {
       });
   }
 
-  changeClass(event: any) {
-    this.selectionClass.clear();
-    this.selectionClass.toggle(event);
+  changeDisciplina(event: any) {
+    this.selectionDisciplina.clear();
+    this.selectionDisciplina.toggle(event);
     this.disciplinaService
-      .getProfessorPorDisciplina(this.selectionClass.selected[0])
+      .getProfessorPorDisciplina(this.selectionDisciplina.selected[0])
       .subscribe({
         next: (res) => {
-          this.teacherList = res.professores;
-          this.resgiterForm.controls['turma_id'].setValue(res.turma_id);
+          this.teacherList = res;
         },
         error: (err) => {
           this.snackBar.open(
@@ -481,12 +419,18 @@ export class TelaNovasReservasComponent implements OnInit {
         },
       });
   }
-
-  validaRole() {
-    const user =
-      this.sessionService.getSessionData<ProfessorModel>('professor').retorno;
-    return user.adm == true;
+  changeProfessorTurma(event: any) {
+    this.selectionProfessorTurma.clear();
+    this.selectionProfessorTurma.toggle(event);
+    this.resgiterForm.controls['professor_id'].setValue(
+      event.professor.professor_id
+    );
+    this.resgiterForm.controls['turma_id'].setValue(event.turma_id);
+    this.teacherList.turmas.forEach((it) => {
+      if (it.turma_id == Number(event.turma_id)) this.generateHours(it.periodo);
+    });
   }
+
   goBack() {
     if (this.tipoUsuario == 'Administrador')
       this.router.navigate(['/home-adm']);

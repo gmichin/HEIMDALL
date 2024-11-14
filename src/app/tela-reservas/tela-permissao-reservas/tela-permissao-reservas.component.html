@@ -15,66 +15,137 @@
     </button>
   </mat-menu>
 
-  <!-- Título -->
   <span class="tituloH">HEIMDALL</span>
 
-  <!-- Espaço flexível para empurrar o botão de logout para a direita -->
   <span class="spacer"></span>
 
-  <!-- Botão de logout -->
   <button mat-icon-button (click)="logout()">
     <mat-icon>logout</mat-icon>
   </button>
+  <img src="assets/images/ifsp.logo.png" class="logo" />
 </mat-toolbar>
 
-<div class="table-container">
+<div class="container-reservas-feitas">
+  <form class="formByProf" [formGroup]="searchForm" (ngSubmit)="search()">
     <mat-form-field>
-      <mat-label>Filter</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. professor" #input>
+      <mat-label>Informe o Curso:</mat-label>
+      <mat-select
+        [disabled]="cursoList.length == 0"
+        (valueChange)="changeCourse($event)"
+        formControlName="curso"
+      >
+        <mat-option *ngFor="let course of cursoList" [value]="course.curso_id">
+          {{ course.nome }}
+        </mat-option>
+        <mat-option *ngIf="cursoList.length == 0" [value]=""
+          >Sem dados</mat-option
+        >
+      </mat-select>
     </mat-form-field>
-  
-    <mat-table [dataSource]="dataSource">
-      
-        <ng-container matColumnDef="accept">
-            <mat-header-cell *matHeaderCellDef>Aceitar</mat-header-cell>
-            <mat-cell *matCellDef="let sala">
-              <button mat-icon-button (click)="acceptRow(sala)">
-                <mat-icon>check_circle</mat-icon>
-              </button>
-            </mat-cell>
-        </ng-container>
 
+    <mat-form-field *ngIf="disciplinaList.length > 0">
+      <mat-label>Informe a disciplina:</mat-label>
+      <mat-select
+        (valueChange)="changeDisciplina($event)"
+        formControlName="disciplina"
+      >
+        <mat-option
+          *ngFor="let class of disciplinaList"
+          [value]="class.disciplina_id"
+        >
+          {{ class.nome }}
+        </mat-option>
+        <mat-option *ngIf="disciplinaList.length == 0" [value]=""
+          >Sem dados</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
 
-      <ng-container matColumnDef="numero">
-        <mat-header-cell *matHeaderCellDef>Número da Sala</mat-header-cell>
-        <mat-cell *matCellDef="let sala">{{ sala.numero }}</mat-cell>
-      </ng-container>
-  
-      <ng-container matColumnDef="professor">
-        <mat-header-cell *matHeaderCellDef>Nome do Professor</mat-header-cell>
-        <mat-cell *matCellDef="let sala">{{ sala.professor }}</mat-cell>
-      </ng-container>
-  
-      <ng-container matColumnDef="materia">
-        <mat-header-cell *matHeaderCellDef>Matéria</mat-header-cell>
-        <mat-cell *matCellDef="let sala">{{ sala.materia }}</mat-cell>
-      </ng-container>
-  
-      <ng-container matColumnDef="dia">
-        <mat-header-cell *matHeaderCellDef>Dia</mat-header-cell>
-        <mat-cell *matCellDef="let sala">{{ sala.dia | date:'medium' }}</mat-cell>
-      </ng-container>
+    <mat-form-field *ngIf="teacherList.turmas.length > 0">
+      <mat-label>Periodo e Professor:</mat-label>
+      <mat-select
+        (valueChange)="changeProfessor($event)"
+        formControlName="turma_id"
+      >
+        <mat-option
+          *ngFor="let teacher of teacherList.turmas"
+          [value]="teacher.turma_id"
+        >
+          {{ teacher.professor.nome }} => {{ teacher.periodo }}
+        </mat-option>
+        <mat-option *ngIf="teacherList.turmas.length === 0" [value]="">
+          Sem dados
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-      <ng-container matColumnDef="remove">
-        <mat-header-cell *matHeaderCellDef>Remover</mat-header-cell>
-        <mat-cell *matCellDef="let sala">
-          <button mat-icon-button (click)="removeRow(sala)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </mat-cell>
-    </ng-container>
-  
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
-  </div>
+    <mat-form-field *ngIf="salaList.length > 0">
+      <mat-label>Sala:</mat-label>
+      <mat-select formControlName="sala">
+        <!-- Filtrando salas para garantir que ident_sala seja único -->
+        <mat-option
+          *ngFor="let sala of getUniqueSalas()"
+          [value]="sala.sala_id"
+        >
+          {{ sala.ident_sala }}
+        </mat-option>
+        <mat-option *ngIf="salaList.length == 0" [value]=""
+          >Sem dados</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+
+    <button type="submit" mat-raised-button class="demo-button">BUSCAR</button>
+  </form>
+</div>
+
+<div class="reserva-layout">
+  <mat-card class="reserva-card" *ngIf="resultadoEncontrado">
+    <mat-card-header>
+      <mat-card-title>Info da Reserva</mat-card-title>
+      <mat-card-subtitle> Reserva(s) ID: {{ reservaIds }} </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-divider></mat-divider>
+      <div class="turma-info">
+        <p><strong>Turma:</strong> {{ reservas[0]?.turma?.periodo }}</p>
+        <p><strong>Disciplina:</strong> {{ turmaAchada?.disciplina?.nome }}</p>
+        <p><strong>Curso:</strong> {{ disciplinaAchada?.curso?.nome }}</p>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="professor-info">
+        <p><strong>Professor:</strong> {{ reservas[0]?.professor?.nome }}</p>
+        <p><strong>Email:</strong> {{ reservas[0]?.professor?.email }}</p>
+        <p><strong>Registro:</strong> {{ reservas[0]?.professor?.registro }}</p>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="sala-info">
+        <p><strong>Sala:</strong> {{ reservas[0]?.sala?.ident_sala }}</p>
+        <p>
+          <strong>Nº de cadeiras:</strong> {{ reservas[0]?.sala?.num_cadeiras }}
+        </p>
+        <p>
+          <strong>Nº de computadores:</strong>
+          {{ reservas[0]?.sala?.num_computadores }}
+        </p>
+        <p>
+          <strong>Nº de lousas:</strong> {{ reservas[0]?.sala?.num_lousas }}
+        </p>
+        <p><strong>Nº de mesas:</strong> {{ reservas[0]?.sala?.num_mesas }}</p>
+        <p>
+          <strong>Nº de projetores:</strong>
+          {{ reservas[0]?.sala?.num_projetores }}
+        </p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="lista-horarios" *ngIf="resultadoEncontrado">
+    <mat-card-title>Histórico de reservas</mat-card-title>
+    <mat-card-content>
+      <ul class="dias-reservados">
+        <li *ngFor="let horario of horariosString">{{ horario }}</li>
+      </ul>
+    </mat-card-content>
+  </mat-card>
+</div>

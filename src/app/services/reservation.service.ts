@@ -14,17 +14,23 @@ export class ReservationService {
     return this.http.post<IReserva>(url_config.url_reserva, reserve);
   }
 
-  public findFilter(request: any) {
-    const queryParams = this.objectToQueryParams(request);
-    const urlWithParams = `${url_config.url_reserva}?${queryParams}`;
-    
+  public findSalaFilter(professor: any, turma_id: number) {
+    const urlWithParams = `${url_config.url_reserva}?professorId=${professor.professor_id}&turmaId=${turma_id}`;
+
     return this.http.get<IConsultaReserva[]>(urlWithParams);
   }
-  
+
+  public findFilter(request: any) {
+    const urlWithParams = `${url_config.url_reserva}?professorId=${request.professor.professor_id}&turmaId=${request.turma_id}&salaId=${request.sala}`;
+    return this.http.get<IConsultaReserva[]>(urlWithParams);
+  }
+
   private objectToQueryParams(obj: any): string {
     return Object.keys(obj)
-      .filter(key => obj[key] !== null && obj[key] !== undefined)
-      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`)
+      .filter((key) => obj[key] !== null && obj[key] !== undefined)
+      .map(
+        (key) => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`
+      )
       .join('&');
   }
 

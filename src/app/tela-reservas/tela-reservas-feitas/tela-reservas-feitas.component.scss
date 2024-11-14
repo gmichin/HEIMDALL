@@ -14,7 +14,6 @@
   height: 58px;
 }
 
-
 .example-spacer {
   flex: 1 1 auto;
 }
@@ -45,63 +44,15 @@ h4 {
   text-align: center;
 }
 
-.dia-desabilitado {
-  pointer-events: none;
-}
-
-.saveButton {
-  border-radius: 20px;
-  font-size: 16px;
-  padding-left: calc(50% - (50px / 2));
-  padding-right: calc(50% - (50px / 2));
-  padding-bottom: 20px;
-  padding-top: 20px;
-  background-color: black;
-  color: #1eff00;
-  cursor: pointer;
-  font-family: Georgia, "Times New Roman", Times, serif;
-}
-
-.saveButton:disabled {
-  background-color: #5d5d5d;
-  color: #aef4a4;
-  cursor: not-allowed;
-}
-
-.insertData {
-  color: #1ddd04;
-}
-
-.boxSize {
-  flex: auto;
-  min-width: 0;
-  width: 220px;
-  position: relative;
-  box-sizing: border-box;
-}
-
-.boxSizeAppear {
-  flex: auto;
-  min-width: 0;
-  width: 220px;
-  position: relative;
-  box-sizing: border-box;
-  margin-left: 1cm;
-}
-
 mat-card {
   background-color: #dcdee2;
-  border-radius: 20px;
   box-shadow: 0 2px 5px black;
-  width: 50%;
-  margin: auto;
-  padding: 1cm;
 }
 
 mat-card-title {
-  margin-bottom: 1cm;
+  margin-bottom: 0.5cm;
   text-align: center;
-  font-size: 40px;
+  font-size: 30px;
   color: black;
   font-family: Georgia, "Times New Roman", Times, serif;
 }
@@ -114,4 +65,68 @@ mat-card-title {
   position: relative;
   width: 30px;
   margin-right: 10px;
+}
+
+.reserva-card {
+  background-color: #dcdee2;
+  color: rgb(20, 20, 20);
+  margin: 20px;
+  padding: 20px;
+}
+
+.mat-card-header {
+  color: rgb(20, 20, 20);
+}
+
+.sala-info,
+.professor-info,
+.turma-info {
+  margin: 10px 0;
+}
+
+.dias-reservados ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+.dias-reservados li {
+  background-color: #1ddd04;
+  color: #ffffff;
+  padding: 5px;
+  border-radius: 5px;
+  margin: 3px 0;
+}
+
+.mat-divider {
+  background-color: rgb(20, 20, 20);
+}
+.reserva-layout {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+}
+
+.reserva-card {
+  width: 35%;
+}
+
+.lista-horarios {
+  width: 35%;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.dias-reservados {
+  padding: 0;
+  list-style-type: none;
+}
+
+.dias-reservados li {
+  background-color: black;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 5px 0;
+  text-align: center;
 }

@@ -1,115 +1,132 @@
+.container-reservas-feitas {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #dcdee2;
+  padding: 2%;
+}
+
+.formByProf {
+  display: flex;
+  align-items: start;
+  justify-content: space-evenly;
+  width: 80%;
+  height: 58px;
+}
+
 .example-spacer {
-    flex: 1 1 auto;
-  }
-  
-  .mat-toolbar {
-    background: rgb(20, 20, 20);
-    color: #1ddd04;
-    margin-bottom: 1cm;
-  }
-  
-  .logo-central {
-    width: 50px;
-    height: 50px;
-    background-image: url(/src/assets/images/heimdall.logo.png);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-  
-  .tituloH {
-    font-size: 2em;
-    font-family: Copperplate, Copperplate Gothic Light, fantasy;
-  }
-
-  h1{
-    text-align: center;
-    margin: 1cm;
-  }
-  
-  .insertData{
-    width: 20cm;
-    margin-left: 1cm;
-  }
-  
-  .boxSize{
-    width: 33%;
-  }
-
-  
-.table-container {
-  width: 90%;
-  margin: auto;
-  margin-top: 1cm;
-  border: 2px solid rgb(0, 0, 0);
+  flex: 1 1 auto;
 }
 
-mat-table{
-  background-color: #83cf79;
+.mat-toolbar {
+  background: rgb(20, 20, 20);
+  color: #1ddd04;
+  margin-bottom: 1cm;
 }
 
-.mat-mdc-form-field {
-  font-size: 14px;
-  width: 100%;
-  margin-bottom: -20px;
+.logo-central {
+  width: 50px;
+  height: 50px;
+  background-image: url(/src/assets/images/heimdall.logo.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-.demo-button-container{
-  position: absolute;
-  margin-left: 2cm;
-}
-.demo-button + .demo-button {
-  margin-left: 8px;
+.tituloH {
+  font-size: 2em;
+  font-family: Copperplate, Copperplate Gothic Light, fantasy;
 }
 
-@media (max-width: 768px) {
-  .tituloH {
-    font-size: 1.5em; /* Reduzir tamanho da fonte do título */
-  }
-  .mat-header-cell, .mat-cell {
-    padding: 8px; /* Reduzir padding em telas pequenas */
-  }
-
-  .mat-form-field {
-    width: 100%; /* Form field ocupa toda a largura */
-  }
-
-  .demo-button-container {
-    position: relative;
-    width: 90%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: auto;
-    margin-top: 2%;
-  }
-
-  .demo-button {
-    margin-bottom: 8px;
-    width: 90%;
-    text-align: center;
-  }
+h4 {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  color: black;
+  text-align: center;
 }
 
-@media (max-width: 480px) {
-  .tituloH {
-    font-size: 1.5em; /* Reduzir tamanho da fonte do título */
-  }
-
-  .mat-header-cell, .mat-cell {
-    font-size: 12px; /* Reduzir tamanho da fonte na tabela */
-  }
-
-  .mat-mdc-header-cell, .mat-mdc-cell {
-    font-size: 12px; /* Reduzir tamanho da fonte na tabela */
-  }
-
-  .mat-column-materia {
-    display: none;
-  }
+mat-card {
+  background-color: #dcdee2;
+  box-shadow: 0 2px 5px black;
 }
+
+mat-card-title {
+  margin-bottom: 0.5cm;
+  text-align: center;
+  font-size: 30px;
+  color: black;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
 .spacer {
-    flex: 1 1 auto;
-  }
-  
+  flex: 1 1 auto;
+}
+
+.logo {
+  position: relative;
+  width: 30px;
+  margin-right: 10px;
+}
+
+.reserva-card {
+  background-color: #dcdee2;
+  color: rgb(20, 20, 20);
+  margin: 20px;
+  padding: 20px;
+}
+
+.mat-card-header {
+  color: rgb(20, 20, 20);
+}
+
+.sala-info,
+.professor-info,
+.turma-info {
+  margin: 10px 0;
+}
+
+.dias-reservados ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+.dias-reservados li {
+  background-color: #1ddd04;
+  color: #ffffff;
+  padding: 5px;
+  border-radius: 5px;
+  margin: 3px 0;
+}
+
+.mat-divider {
+  background-color: rgb(20, 20, 20);
+}
+.reserva-layout {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+}
+
+.reserva-card {
+  width: 35%;
+}
+
+.lista-horarios {
+  width: 35%;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.dias-reservados {
+  padding: 0;
+  list-style-type: none;
+}
+
+.dias-reservados li {
+  background-color: black;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 5px 0;
+  text-align: center;
+}
