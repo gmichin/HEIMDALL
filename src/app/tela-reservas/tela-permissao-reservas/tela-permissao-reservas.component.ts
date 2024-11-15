@@ -86,19 +86,17 @@ export class TelaPermissaoReservasComponent {
     this.selection.selected.forEach((request) => {
       const reservaFormatada = {
         reserva_id: request.reserva_id,
-        professor_id: request.professor.professor_id,
-        sala_id: request.sala.sala_id,
-        turma_id: request.turma.turma_id,
+        professor: request.professor.professor_id,
+        sala: request.sala.sala_id,
+        turma: request.turma.turma_id,
         status: true,
         dataInicio: request.dias_reservados[0],
         dataFim: request.dias_reservados[request.dias_reservados.length - 1],
-        horaInicio: request.hora_inicio,
-        horaFim: request.hora_final,
+        hora_inicio: request.hora_inicio,
+        hora_final: request.hora_final,
       };
-
-      this.reservationService.putReservas(reservaFormatada).subscribe({
+      this.reservationService.atualizarReservas(reservaFormatada).subscribe({
         next: (res) => {
-          console.log(reservaFormatada);
           this.snackBar.open('Atualizado com sucesso!', '', {
             duration: 4000,
           });
@@ -109,7 +107,6 @@ export class TelaPermissaoReservasComponent {
             });
         },
         error: (err) => {
-          console.log(reservaFormatada);
           this.snackBar.open(
             'Ocorreu um erro durante a atualização, por favor, tente novamente mais tarde.',
             '',
@@ -167,11 +164,31 @@ export class TelaPermissaoReservasComponent {
     this.dataSource.data.forEach((row) => {
       if (!this.selectionReject.isSelected(row)) {
         this.selectionReject.select(row);
+        // Desmarcar aprovar se rejeitar for selecionado
+        this.selection.deselect(row);
+      }
+    });
+  }
+
+  toggleAllRowsApprove() {
+    if (this.isAllApproveSelected()) {
+      this.selection.clear();
+      return;
+    }
+    this.dataSource.data.forEach((row) => {
+      if (!this.selection.isSelected(row)) {
+        this.selection.select(row);
+        // Desmarcar rejeitar se aprovar for selecionado
+        this.selectionReject.deselect(row);
       }
     });
   }
 
   isAllRejectSelected() {
-    return this.selectionReject.selected.length > 0;
+    return this.selectionReject.selected.length === this.dataSource.data.length;
+  }
+
+  isAllApproveSelected() {
+    return this.selection.selected.length === this.dataSource.data.length;
   }
 }

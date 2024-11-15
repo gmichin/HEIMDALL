@@ -15,7 +15,6 @@ import { IReserva } from 'src/app/models/reserva.model';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { SessionService } from 'src/app/services/session.service';
 import { TelaPerfilComponent } from 'src/app/tela-perfil/tela-perfil.component';
-import { AlunoModel } from 'src/app/models/aluno.model';
 import {
   IProfessoresByDisciplina,
   ProfessorModel,
@@ -49,13 +48,9 @@ export class TelaNovasReservasComponent implements OnInit {
   materiasPorProfessor: string[] = [];
   materiaSelecionada: string = '';
 
-  public dataAluno = <AlunoModel>(
-    this.sessionService.getSessionData('aluno').retorno
-  );
   public dataProfessorAdm = <ProfessorModel>(
     this.sessionService.getSessionData('professor').retorno
   );
-  public idAluno = this.dataAluno.aluno_id;
   public idProfessorAdm = this.dataProfessorAdm.professor_id;
   public tipoUsuario = '';
 
@@ -87,7 +82,7 @@ export class TelaNovasReservasComponent implements OnInit {
       this.tipoUsuario = 'Administrador';
     } else if (this.dataProfessorAdm.adm == false) {
       this.tipoUsuario = 'Professor';
-    } else if (this.dataAluno.nome) this.tipoUsuario = 'Aluno';
+    }
 
     this.resgiterForm = this.fb.group({
       professor_id: [null, [Validators.required]],
@@ -281,15 +276,49 @@ export class TelaNovasReservasComponent implements OnInit {
   }
 
   public saveDate() {
-    const dataInicio = new Date(this.resgiterForm.controls['dataInicio'].value)
-      .toISOString()
-      .split('T')[0];
-    const dataFim = new Date(this.resgiterForm.controls['dataFim'].value)
-      .toISOString()
-      .split('T')[0];
+    const dataInicioString = this.resgiterForm.controls['dataInicio'].value;
+    const dataFimString = this.resgiterForm.controls['dataFim'].value;
 
-    this.resgiterForm.controls['dataInicio'].setValue(dataInicio);
-    this.resgiterForm.controls['dataFim'].setValue(dataFim);
+    if (!dataInicioString || !dataFimString) {
+      this.snackBar.open('Por favor, insira datas válidas.', '', {
+        duration: 4000,
+      });
+      return;
+    }
+
+    const formatDate = (dateString: string): string => {
+      const date = new Date(dateString);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
+
+    const dataInicioISO = formatDate(dataInicioString);
+    const dataFimISO = formatDate(dataFimString);
+
+    const dataInicio = new Date(dataInicioISO + 'T00:00:00');
+    const dataFim = new Date(dataFimISO + 'T00:00:00');
+
+    if (isNaN(dataInicio.getTime()) || isNaN(dataFim.getTime())) {
+      this.snackBar.open('Formato de data inválido.', '', {
+        duration: 4000,
+      });
+      return;
+    }
+
+    const dataInicioLocal = new Date(
+      dataInicio.getTime() - dataInicio.getTimezoneOffset() * 60000
+    );
+    const dataFimLocal = new Date(
+      dataFim.getTime() - dataFim.getTimezoneOffset() * 60000
+    );
+
+    const dataInicioISOFinal = dataInicioLocal.toISOString().split('T')[0];
+    const dataFimISOFinal = dataFimLocal.toISOString().split('T')[0];
+
+    this.resgiterForm.controls['dataInicio'].setValue(dataInicioISOFinal);
+    this.resgiterForm.controls['dataFim'].setValue(dataFimISOFinal);
 
     const reserva: IReserva = this.resgiterForm.value;
     this.reservationService.createReservation(reserva).subscribe({
@@ -405,7 +434,9 @@ export class TelaNovasReservasComponent implements OnInit {
       .getProfessorPorDisciplina(this.selectionDisciplina.selected[0])
       .subscribe({
         next: (res) => {
-          this.teacherList = res;
+          if (this.tipoUsuario == 'Administrador') this.teacherList = res;
+          else if (this.tipoUsuario == 'Professor') this.teacherList = res;
+          console.log(this.teacherList);
         },
         error: (err) => {
           this.snackBar.open(

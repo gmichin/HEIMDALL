@@ -53,9 +53,11 @@
             (click)="$event.stopPropagation()"
             (change)="$event ? selectionReject.toggle(row) : null"
             [checked]="selectionReject.isSelected(row)"
+            [disabled]="selection.isSelected(row)"
           ></mat-checkbox>
         </td>
       </ng-container>
+
       <ng-container matColumnDef="aprovar">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
           Selecionar Aprovar
@@ -65,9 +67,7 @@
             (click)="$event.stopPropagation()"
             (change)="$event ? selection.toggle(row) : null"
             [checked]="selection.isSelected(row)"
-            [disabled]="
-              selection.selected.length > 0 ? !selection.isSelected(row) : false
-            "
+            [disabled]="selectionReject.isSelected(row)"
           ></mat-checkbox>
         </td>
       </ng-container>

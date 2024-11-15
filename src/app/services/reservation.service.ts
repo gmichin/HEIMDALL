@@ -29,8 +29,11 @@ export class ReservationService {
     return this.http.get<any[]>(url_config.url_reserva);
   }
 
-  public putReservas(reserva: IReserva) {
-    return this.http.put<any[]>(url_config.url_reserva, reserva);
+  public atualizarReservas(reserva: any) {
+    return this.http.patch<any[]>(
+      `${url_config.url_reserva}/${reserva.reserva_id}`,
+      reserva
+    );
   }
 
   public apagarReservas(reserva: IReserva) {
