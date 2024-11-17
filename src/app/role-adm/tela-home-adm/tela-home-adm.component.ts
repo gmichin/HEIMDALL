@@ -128,6 +128,7 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
   public redirectTurmas() {
     const dialogT = this.dialog.open(TelaTurmasComponent, {
       width: '400px',
+      height: '473px',
     });
   }
   public createItem(

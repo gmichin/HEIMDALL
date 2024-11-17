@@ -34,8 +34,13 @@ export class TelaHomeStudentComponent implements OnInit, OnDestroy {
   public redirectSolicitarTurma() {
     this.router.navigate(['/solicitar-interesse']);
   }
+
   public redirectMeusInteresses() {
     this.router.navigate(['/meus-interesses']);
+  }
+
+  public redirectMinhasTurmas() {
+    this.router.navigate(['/minhas-turmas']);
   }
 
   public redirectProfile() {

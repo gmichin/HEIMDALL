@@ -120,3 +120,15 @@ mat-card-title {
   border-radius: 10px;
   margin: 10px;
 }
+
+.container-horizontal {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 30px;
+}
+
+.validaCard {
+  flex: 1 1 calc(33.33% - 20px);
+}

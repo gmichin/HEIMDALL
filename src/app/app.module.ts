@@ -67,6 +67,7 @@ import { JWT_OPTIONS, JwtInterceptor, JwtModule } from '@auth0/angular-jwt';
 import { url_config } from './url.config';
 import { JwtInterceptorH } from './interceptors/jwt.interceptor';
 import { MeusInteressesComponent } from './interesses/meus-interesses/meus-interesses.component';
+import { MinhasTurmasComponent } from './tela-turmas/minhas-turmas/minhas-turmas.component';
 
 export function jwtOptionsFactory() {
   return {
@@ -111,6 +112,7 @@ export function jwtOptionsFactory() {
     TelaNovasTurmasComponent,
     TelaTurmasFeitasComponent,
     TelaTurmasComponent,
+    MinhasTurmasComponent,
     SolicitarInteresseComponent,
     ValidarInteresseComponent,
     MeusInteressesComponent,

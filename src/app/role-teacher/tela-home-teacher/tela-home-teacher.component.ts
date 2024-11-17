@@ -62,6 +62,9 @@ export class TelaHomeTeacherComponent implements OnInit, OnDestroy {
   public verReserva() {
     this.router.navigate(['/tela-reservas-feitas']);
   }
+  public minhasTurmas() {
+    this.router.navigate(['/minhas-turmas']);
+  }
 
   public redirectReserve() {
     const dialogT = this.dialog.open(TelaReservasComponent, {

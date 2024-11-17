@@ -37,4 +37,9 @@ export class TelaTurmasComponent {
     this.dialogRef.close();
     this.router.navigate(['/tela-turmas-feitas']);
   }
+
+  redirectMinhasTurmas() {
+    this.dialogRef.close();
+    this.router.navigate(['minhas-turmas']);
+  }
 }

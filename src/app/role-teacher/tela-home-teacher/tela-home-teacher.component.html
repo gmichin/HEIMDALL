@@ -23,8 +23,8 @@
   <div class="content">
     <div class="bloco">
       <div class="header">
-        <mat-icon>thumb_up</mat-icon>
-        <h2 style="margin-left: 10px">Interesses</h2>
+        <mat-icon>flash_on</mat-icon>
+        <h2 style="margin-left: 10px">Acesso Rápido</h2>
       </div>
       <div class="container">
         <div class="cards">
@@ -38,6 +38,15 @@
               <button (click)="validarInteresse()" mat-button>
                 Selecionar
               </button>
+            </mat-card-actions>
+          </mat-card>
+          <br />
+          <mat-card class="card-width">
+            <mat-card-header>
+              <mat-card-title class="title-card">Minhas turmas</mat-card-title>
+            </mat-card-header>
+            <mat-card-actions>
+              <button (click)="minhasTurmas()" mat-button>Selecionar</button>
             </mat-card-actions>
           </mat-card>
         </div>

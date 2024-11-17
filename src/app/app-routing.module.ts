@@ -29,6 +29,7 @@ import { ValidacaoProfessoresComponent } from './validacao-professores/validacao
 import { SolicitarInteresseComponent } from './interesses/solicitar-interesse/solicitar-interesse.component';
 import { ValidarInteresseComponent } from './interesses/validar-interesse/validar-interesse.component';
 import { MeusInteressesComponent } from './interesses/meus-interesses/meus-interesses.component';
+import { MinhasTurmasComponent } from './tela-turmas/minhas-turmas/minhas-turmas.component';
 
 const routes: Routes = [
   {
@@ -99,6 +100,7 @@ const routes: Routes = [
   { path: 'tela-turmas', component: TelaTurmasComponent },
   { path: 'tela-turmas-feitas', component: TelaTurmasFeitasComponent },
   { path: 'tela-novas-turmas', component: TelaNovasTurmasComponent },
+  { path: 'minhas-turmas', component: MinhasTurmasComponent },
 
   { path: 'solicitar-interesse', component: SolicitarInteresseComponent },
   { path: 'validar-interesse', component: ValidarInteresseComponent },
