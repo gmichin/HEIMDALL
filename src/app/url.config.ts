@@ -11,8 +11,8 @@ export const url_config = Object.freeze({
   url_login: 'https://heimdallback.eastus2.cloudapp.azure.com/auth/login',
   url_domain: 'https://heimdallback.eastus2.cloudapp.azure.com',
 });
-/* 
-export const url_config = Object.freeze({
+
+/* export const url_config = Object.freeze({
   url_interesse: 'http://localhost:3000/interesse',
   url_professor: 'http://localhost:3000/professor',
   url_aluno: 'http://localhost:3000/aluno',

@@ -1,14 +1,15 @@
 module.exports = function (config) {
   config.set({
-    basePath: '',
-    frameworks: ['jasmine', '@angular-devkit/build-angular'],
+    basePath: "",
+    frameworks: ["jasmine", "@angular-devkit/build-angular"],
     plugins: [
-      require('karma-jasmine'),
-      require('karma-chrome-launcher'),
-      require('karma-jasmine-html-reporter'),
-      require('karma-coverage'),
-      require('@angular-devkit/build-angular/plugins/karma'),
-      'karma-spec-reporter',
+      require("karma-jasmine"),
+      require("karma-chrome-launcher"),
+      require("karma-jasmine-html-reporter"),
+      require("karma-coverage"),
+      require("karma-spec-reporter"),
+      require("@angular-devkit/build-angular/plugins/karma"),
+      "karma-spec-reporter",
     ],
     client: {
       jasmine: {
@@ -17,26 +18,22 @@ module.exports = function (config) {
         // for example, you can disable the random execution with `random: false`
         // or set a specific seed with `seed: 4321`
       },
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
+      clearContext: false, // leave Jasmine Spec Runner output visible in browser
     },
     jasmineHtmlReporter: {
-      suppressAll: true // removes the duplicated traces
+      suppressAll: true, // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/cash-flow-gft'),
-      subdir: '.',
-      reporters: [
-        { type: 'html' },
-        { type: 'text-summary' },
-        { type: 'lcov' }
-      ]
+      dir: require("path").join(__dirname, "./coverage/cash-flow-gft"),
+      subdir: ".",
+      reporters: [{ type: "html" }, { type: "text-summary" }, { type: "lcov" }],
     },
-    reporters: ['progress', 'kjhtml','coverage', 'spec'],
+    reporters: ["progress", "kjhtml", "coverage", "spec"],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
     singleRun: false,
-    restartOnFileChange: true
+    restartOnFileChange: true,
   });
 };
