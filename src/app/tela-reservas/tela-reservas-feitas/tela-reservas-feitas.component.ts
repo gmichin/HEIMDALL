@@ -58,6 +58,14 @@ export class TelaReservasFeitasComponent implements OnInit {
   private horariosFormatados: HorarioFormatado[] = [];
   public proximosHorarios: string[] = [];
 
+  public proximosHorariosFormatados: {
+    dataFormatada: string;
+    diaSemana: string;
+    horario: string;
+  }[] = [];
+
+  public displayedColumns: string[] = ['data', 'horario'];
+
   constructor(
     private readonly router: Router,
     private readonly fb: FormBuilder,
@@ -86,6 +94,55 @@ export class TelaReservasFeitasComponent implements OnInit {
     this.getCursos();
   }
 
+  private formatarDiaSemana(data: Date): string {
+    const diasSemana = [
+      'Domingo',
+      'Segunda-feira',
+      'Terça-feira',
+      'Quarta-feira',
+      'Quinta-feira',
+      'Sexta-feira',
+      'Sábado',
+    ];
+    return diasSemana[data.getDay()];
+  }
+
+  private formatarProximosHorarios(): void {
+    this.proximosHorariosFormatados = this.proximosHorarios
+      .map((horarioStr) => {
+        const regex =
+          /(\d{2})\/(\d{2})\/(\d{4}) - (\d{2}):(\d{2}) às (\d{2}):(\d{2})/;
+        const match = horarioStr.match(regex);
+
+        if (!match) {
+          console.error('Formato inválido:', horarioStr);
+          return null;
+        }
+
+        const [
+          _,
+          dia,
+          mes,
+          ano,
+          horaInicio,
+          minutoInicio,
+          horaFinal,
+          minutoFinal,
+        ] = match;
+        const data = new Date(+ano, +mes - 1, +dia);
+
+        return {
+          dataFormatada: `${dia}/${mes}/${ano}`,
+          diaSemana: this.formatarDiaSemana(data),
+          horario: `${horaInicio}:${minutoInicio} às ${horaFinal}:${minutoFinal}`,
+        };
+      })
+      .filter((item) => item !== null) as {
+      dataFormatada: string;
+      diaSemana: string;
+      horario: string;
+    }[];
+  }
   createForm(): void {
     this.searchForm = this.fb.group({
       curso: [null],
@@ -244,7 +301,9 @@ export class TelaReservasFeitasComponent implements OnInit {
                   })}`
               );
 
-            console.log(this.proximosHorarios);
+            this.formatarProximosHorarios();
+            this.proximosHorariosFormatados =
+              this.proximosHorariosFormatados.slice(0, 5);
           }
         } else {
           this.resultadoEncontrado = false;

@@ -1,10 +1,8 @@
 <mat-toolbar>
-  <!-- Botão para voltar para a página anterior -->
   <button mat-icon-button (click)="goBack()">
     <mat-icon>home</mat-icon>
   </button>
 
-  <!-- Botão do menu existente -->
   <button mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon>menu</mat-icon>
   </button>
@@ -87,7 +85,6 @@
     <mat-form-field *ngIf="salaList.length > 0">
       <mat-label>Sala:</mat-label>
       <mat-select formControlName="sala">
-        <!-- Filtrando salas para garantir que ident_sala seja único -->
         <mat-option
           *ngFor="let sala of getUniqueSalas()"
           [value]="sala.sala_id"
@@ -105,6 +102,36 @@
 </div>
 
 <div class="reserva-layout">
+  <mat-card *ngIf="resultadoEncontrado">
+    <mat-card-header>
+      <mat-card-title>Próximas Aulas</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-table
+        [dataSource]="proximosHorariosFormatados"
+        class="table-content"
+      >
+        <ng-container matColumnDef="data">
+          <mat-header-cell *matHeaderCellDef> Dia </mat-header-cell>
+          <mat-cell *matCellDef="let horario">
+            {{ horario.dataFormatada }} ({{ horario.diaSemana }})
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="horario">
+          <mat-header-cell *matHeaderCellDef> Horário </mat-header-cell>
+          <mat-cell *matCellDef="let horario">
+            {{ horario.horario }}
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+    </mat-card-content>
+  </mat-card>
+
   <mat-card class="reserva-card" *ngIf="resultadoEncontrado">
     <mat-card-header>
       <mat-card-title>Info da Reserva</mat-card-title>
