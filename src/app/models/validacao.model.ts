@@ -16,3 +16,10 @@ export class ValidacaoModel {
     this.data_hora_final = data.data_hora_final;
   }
 }
+
+
+export interface ICreateSuporteDto {
+  nome: string;
+  email: string;
+  descricao: string;
+}

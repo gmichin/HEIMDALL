@@ -91,26 +91,26 @@
         </div>
 
         <div class="support-form">
-          <form>
+          <form [formGroup]="supForm" (ngSubmit)="send()">
             <div class="form-field">
               <mat-form-field>
-                <input matInput placeholder="Nome" required />
+                <input formControlName="nome" matInput placeholder="Nome" required />
               </mat-form-field>
             </div>
             <div class="form-field">
               <mat-form-field>
-                <input matInput type="email" placeholder="E-mail" required />
+                <input formControlName="email" matInput type="email" placeholder="E-mail" required />
               </mat-form-field>
             </div>
             <div class="form-field">
               <mat-form-field>
-                <textarea
+                <textarea formControlName="descricao"
                   matInput
                   placeholder="Descrição do Problema"
                 ></textarea>
               </mat-form-field>
             </div>
-            <button mat-raised-button color="primary" class="sendButton">
+            <button mat-raised-button color="primary" type="submit" class="sendButton">
               Enviar
             </button>
           </form>

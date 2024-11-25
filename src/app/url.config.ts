@@ -9,6 +9,7 @@ export const url_config = Object.freeze({
   url_reserva: 'https://heimdallback.eastus2.cloudapp.azure.com/reserva',
   url_validacao: 'https://heimdallback.eastus2.cloudapp.azure.com/validacao',
   url_login: 'https://heimdallback.eastus2.cloudapp.azure.com/auth/login',
+  url_suporte: 'https://heimdallback.eastus2.cloudapp.azure.com/suporte',
   url_domain: 'https://heimdallback.eastus2.cloudapp.azure.com',
 });
 

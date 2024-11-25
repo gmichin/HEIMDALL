@@ -6,6 +6,7 @@ import { ProfessorModel } from '../models/professor.model';
 import { url_config } from '../url.config';
 import { SessionService } from './session.service';
 import { AuthService } from './auth.service';
+import { ICreateSuporteDto } from '../models/validacao.model';
 
 @Injectable({
   providedIn: 'root',
@@ -30,47 +31,8 @@ export class LoginUserService {
       })
     );
   }
-  /* public login(
-    email: string,
-    senha: string
-  ): Observable<{
-    user: AlunoModel | ProfessorModel;
-    tipo: 'aluno' | 'professor' | 'adm';
-  } | null> {
-    return this.http.get<AlunoModel[]>(url_config.url_aluno).pipe(
-      map((alunos) => {
-        const selectedAluno = alunos.find(
-          (aluno) => aluno.email === email && aluno.senha === senha
-        );
-        if (selectedAluno) {
-          this.sessionService.setItem('aluno', selectedAluno);
-          return { user: selectedAluno, tipo: 'aluno' as const };
-        }
-        return null;
-      }),
-      catchError(() => of(null)),
-      switchMap((result) => {
-        if (result) {
-          return of(result);
-        } else {
-          return this.http.get<ProfessorModel[]>(url_config.url_professor).pipe(
-            map((professores) => {
-              const selectedProfessor = professores.find(
-                (professor) =>
-                  professor.email === email && professor.senha === senha
-              );
-              if (selectedProfessor && selectedProfessor.adm == false) {
-                this.sessionService.setItem('professor', selectedProfessor);
-                return { user: selectedProfessor, tipo: 'professor' as const };
-              } else if (selectedProfessor && selectedProfessor.adm == true) {
-                this.sessionService.setItem('adm', selectedProfessor);
-                return { user: selectedProfessor, tipo: 'adm' as const };
-              }
-              return null;
-            })
-          );
-        }
-      })
-    );
-  } */
+  
+  public sendSuporte(obj: ICreateSuporteDto): Observable<ICreateSuporteDto> {
+    return this.http.post<ICreateSuporteDto>(url_config.url_suporte, obj);
+  }
 }
