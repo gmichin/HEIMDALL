@@ -44,6 +44,7 @@ export class TelaReservasFeitasComponent implements OnInit {
   public teacherList: IProfessoresByDisciplina = { turmas: [] };
   public salaList: SalaModel[] = [];
   public reservas!: any;
+  public reservasFiltradas!: any;
   public errorMessage = { invalid: false, message: '' };
   public hours!: string[];
 
@@ -64,6 +65,8 @@ export class TelaReservasFeitasComponent implements OnInit {
     horario: string;
   }[] = [];
 
+  diasSemana: string[] = [];
+  tabelaHoras: string[] = [];
   public displayedColumns: string[] = ['data', 'horario'];
 
   constructor(
@@ -74,7 +77,6 @@ export class TelaReservasFeitasComponent implements OnInit {
     private readonly reservationService: ReservationService,
     private readonly disciplinaService: DisciplinaService,
     private readonly turmaService: TurmaService,
-    private readonly salaService: SalaService,
     private snackBar: MatSnackBar,
     public dialog: MatDialog
   ) {
@@ -92,6 +94,119 @@ export class TelaReservasFeitasComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     this.getCursos();
+    if (this.dataProfessorAdm.professor_id) {
+      this.reservationService
+        .findSalaPorProfessorFilter(this.dataProfessorAdm)
+        .subscribe({
+          next: (reservas) => {
+            const hoje = new Date();
+            this.reservasFiltradas = reservas
+              .map((reserva: { dias_reservados: any[]; hora_final: any }) => {
+                const diasValidos = reserva.dias_reservados.filter((dia) => {
+                  const dataCompleta = this.criarDataCompleta(
+                    dia,
+                    reserva.hora_final
+                  );
+                  return dataCompleta > hoje;
+                });
+                return diasValidos.length > 0
+                  ? { ...reserva, dias_reservados: diasValidos }
+                  : null;
+              })
+              .filter(Boolean)
+              .slice(0, 5);
+            console.log(this.reservasFiltradas);
+
+            const dias = new Set<string>();
+            this.reservasFiltradas.forEach(
+              (reserva: { dias_reservados: any[] }) => {
+                reserva.dias_reservados.forEach((dia) => dias.add(dia));
+              }
+            );
+            this.diasSemana = Array.from(dias).sort();
+
+            const horas = this.reservasFiltradas.map(
+              (r: { hora_inicio: string; hora_final: string }) => ({
+                inicio: this.converterHoraParaNumero(r.hora_inicio),
+                final: this.converterHoraParaNumero(r.hora_final),
+              })
+            );
+            const menorHora = Math.min(
+              ...horas.map((h: { inicio: any }) => h.inicio)
+            );
+            const maiorHora = Math.max(
+              ...horas.map((h: { final: any }) => h.final)
+            );
+            this.tabelaHoras = this.gerarHorarios(menorHora, maiorHora);
+          },
+          error: (err) => {
+            this.errorMessage.message = 'Não foi possível buscar os cursos.';
+            this.errorMessage.invalid = true;
+          },
+        });
+    }
+  }
+
+  gerarHorarios(inicio: number, fim: number): string[] {
+    const horarios: string[] = [];
+    for (let i = inicio; i <= fim; i++) {
+      horarios.push(`${i}:00`);
+    }
+    return horarios;
+  }
+
+  public temReservas(dia: string, hora: string): boolean {
+    const horaNumero = this.converterHoraParaNumero(hora);
+    return this.reservasFiltradas.some(
+      (reserva: {
+        dias_reservados: string | string[];
+        hora_inicio: string;
+        hora_final: string;
+      }) =>
+        reserva.dias_reservados.includes(dia) &&
+        horaNumero >= this.converterHoraParaNumero(reserva.hora_inicio) &&
+        horaNumero < this.converterHoraParaNumero(reserva.hora_final)
+    );
+  }
+
+  public getReservas(dia: string, hora: string): string {
+    const horaNumero = this.converterHoraParaNumero(hora);
+    const reservas = this.reservasFiltradas.filter(
+      (reserva: {
+        dias_reservados: string | string[];
+        hora_inicio: string;
+        hora_final: string;
+      }) =>
+        reserva.dias_reservados.includes(dia) &&
+        horaNumero >= this.converterHoraParaNumero(reserva.hora_inicio) &&
+        horaNumero < this.converterHoraParaNumero(reserva.hora_final)
+    );
+    return reservas
+      .map(
+        (reserva: { sala: { ident_sala: any }; turma: { periodo: any } }) =>
+          reserva.sala.ident_sala + ': ' + ' - ' + reserva.turma.periodo
+      )
+      .join(', ');
+  }
+
+  formatarData(data: string): string {
+    const date = new Date(data);
+    return new Intl.DateTimeFormat('pt-BR').format(date);
+  }
+
+  obterDiaSemana(data: string): string {
+    const date = new Date(data);
+    return new Intl.DateTimeFormat('pt-BR', { weekday: 'long' })
+      .format(date)
+      .toUpperCase();
+  }
+
+  public converterHoraParaNumero(hora: string): number {
+    return parseInt(hora.split(':')[0], 10);
+  }
+
+  public criarDataCompleta(data: string, hora: string): Date {
+    return new Date(`${data}T${hora}`);
   }
 
   private formatarDiaSemana(data: Date): string {
@@ -188,8 +303,7 @@ export class TelaReservasFeitasComponent implements OnInit {
           reserva.hora_final
         ) {
           reserva.dias_reservados.forEach((dia: string) => {
-            // Criando a data de forma que ela seja corretamente interpretada no horário local
-            const data = new Date(dia + 'T00:00:00'); // Forçando a hora a ser 00:00 para evitar ajustes automáticos
+            const data = new Date(dia + 'T00:00:00');
 
             if (isNaN(data.getTime())) {
               console.error(`Data inválida: ${dia}`);

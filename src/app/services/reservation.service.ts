@@ -13,6 +13,10 @@ export class ReservationService {
   public createReservation(reserve: IReserva): Observable<IReserva> {
     return this.http.post<IReserva>(url_config.url_reserva, reserve);
   }
+  public findSalaPorProfessorFilter(professor: any) {
+    const urlWithParams = `${url_config.url_reserva}?professorId=${professor.professor_id}`;
+    return this.http.get<IConsultaReserva[]>(urlWithParams);
+  }
 
   public findSalaFilter(professor: any, turma_id: number) {
     const urlWithParams = `${url_config.url_reserva}?professorId=${professor.professor_id}&turmaId=${turma_id}`;

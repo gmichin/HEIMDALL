@@ -101,6 +101,19 @@
   </form>
 </div>
 
+<div class="page-title">SUAS AULAS</div>
+<div class="responsive-schedule">
+  <div class="day-container" *ngFor="let day of diasSemana">
+    <h3>{{ formatarData(day) }}</h3>
+    <ng-container *ngFor="let hour of tabelaHoras">
+      <div *ngIf="temReservas(day, hour)" class="hour-container">
+        <div class="horario">{{ hour }}</div>
+        <div class="reservation">{{ getReservas(day, hour) }}</div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
 <div class="reserva-layout">
   <mat-card *ngIf="resultadoEncontrado">
     <mat-card-header>

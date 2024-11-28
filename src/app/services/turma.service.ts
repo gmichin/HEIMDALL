@@ -24,6 +24,9 @@ export class TurmaService {
       })
     );
   }
+  public getTurmasPorId(id: any): Observable<any[]> {
+    return this.http.get<TurmaModel[]>(`${url_config.url_turma}/${id}`);
+  }
 
   public criarTurma(turmas: TurmaModel) {
     return this.http.post(url_config.url_turma, turmas);
