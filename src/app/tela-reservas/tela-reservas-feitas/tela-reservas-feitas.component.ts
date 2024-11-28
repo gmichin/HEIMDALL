@@ -18,6 +18,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { SalaModel } from 'src/app/models/sala.model';
 import { SalaService } from 'src/app/services/sala.service';
+import { forkJoin, map, switchMap } from 'rxjs';
 
 interface HorarioFormatado {
   dataFormatada: string;
@@ -94,13 +95,14 @@ export class TelaReservasFeitasComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     this.getCursos();
+
     if (this.dataProfessorAdm.professor_id) {
       this.reservationService
         .findSalaPorProfessorFilter(this.dataProfessorAdm)
         .subscribe({
           next: (reservas) => {
             const hoje = new Date();
-            this.reservasFiltradas = reservas
+            const reserva = reservas
               .map((reserva: { dias_reservados: any[]; hora_final: any }) => {
                 const diasValidos = reserva.dias_reservados.filter((dia) => {
                   const dataCompleta = this.criarDataCompleta(
@@ -113,35 +115,80 @@ export class TelaReservasFeitasComponent implements OnInit {
                   ? { ...reserva, dias_reservados: diasValidos }
                   : null;
               })
-              .filter(Boolean)
-              .slice(0, 5);
-            console.log(this.reservasFiltradas);
+              .filter(Boolean);
 
-            const dias = new Set<string>();
-            this.reservasFiltradas.forEach(
-              (reserva: { dias_reservados: any[] }) => {
-                reserva.dias_reservados.forEach((dia) => dias.add(dia));
-              }
-            );
-            this.diasSemana = Array.from(dias).sort();
+            const observables: any[] = [];
 
-            const horas = this.reservasFiltradas.map(
-              (r: { hora_inicio: string; hora_final: string }) => ({
-                inicio: this.converterHoraParaNumero(r.hora_inicio),
-                final: this.converterHoraParaNumero(r.hora_final),
-              })
-            );
-            const menorHora = Math.min(
-              ...horas.map((h: { inicio: any }) => h.inicio)
-            );
-            const maiorHora = Math.max(
-              ...horas.map((h: { final: any }) => h.final)
-            );
-            this.tabelaHoras = this.gerarHorarios(menorHora, maiorHora);
+            reserva.forEach((it) => {
+              const turmaObservable = this.turmaService.getTurmasPorId(it);
+              const disciplinaObservable = turmaObservable.pipe(
+                switchMap((turma) =>
+                  this.disciplinaService.getDisciplinaPorId(turma).pipe(
+                    map((disciplina) => ({
+                      ...it,
+                      turma,
+                      disciplina,
+                    }))
+                  )
+                )
+              );
+
+              observables.push(disciplinaObservable);
+            });
+
+            forkJoin(observables).subscribe({
+              next: (resultados) => {
+                // Filtra apenas as reservas com status true
+                const reservasFiltradasComStatus = resultados.filter(
+                  (reserva: { status: boolean }) => reserva.status === true
+                );
+
+                // Atribui as reservas filtradas com status true a this.reservasFiltradas
+                this.reservasFiltradas = reservasFiltradasComStatus;
+
+                console.log(this.reservasFiltradas);
+
+                if (
+                  this.reservasFiltradas &&
+                  this.reservasFiltradas.length > 0
+                ) {
+                  const dias = new Set<string>();
+                  this.reservasFiltradas.forEach(
+                    (reserva: { dias_reservados: any[] }) => {
+                      reserva.dias_reservados.forEach((dia) => dias.add(dia));
+                    }
+                  );
+                  this.diasSemana = Array.from(dias).sort();
+
+                  const horas = this.reservasFiltradas.map(
+                    (r: { hora_inicio: string; hora_final: string }) => ({
+                      inicio: this.converterHoraParaNumero(r.hora_inicio),
+                      final: this.converterHoraParaNumero(r.hora_final),
+                    })
+                  );
+                  const menorHora = Math.min(
+                    ...horas.map((h: { inicio: any }) => h.inicio)
+                  );
+                  const maiorHora = Math.max(
+                    ...horas.map((h: { final: any }) => h.final)
+                  );
+                  this.tabelaHoras = this.gerarHorarios(menorHora, maiorHora);
+                } else {
+                  console.error('Nenhuma reserva filtrada encontrada.');
+                }
+              },
+              error: (err) => {
+                console.error('Erro ao carregar turmas ou disciplinas', err);
+                this.errorMessage.message =
+                  'Erro ao carregar turmas ou disciplinas.';
+                this.errorMessage.invalid = true;
+              },
+            });
           },
           error: (err) => {
             this.errorMessage.message = 'Não foi possível buscar os cursos.';
             this.errorMessage.invalid = true;
+            console.error(err);
           },
         });
     }
@@ -183,8 +230,15 @@ export class TelaReservasFeitasComponent implements OnInit {
     );
     return reservas
       .map(
-        (reserva: { sala: { ident_sala: any }; turma: { periodo: any } }) =>
-          reserva.sala.ident_sala + ': ' + ' - ' + reserva.turma.periodo
+        (reserva: { disciplina: any; professor: any; sala: any; turma: any }) =>
+          reserva.sala.ident_sala +
+          '\n' +
+          reserva.disciplina.nome +
+          ' (' +
+          reserva.turma.periodo +
+          ')' +
+          '\n' +
+          reserva.professor.nome
       )
       .join(', ');
   }

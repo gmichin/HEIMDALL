@@ -24,8 +24,10 @@ export class TurmaService {
       })
     );
   }
-  public getTurmasPorId(id: any): Observable<any[]> {
-    return this.http.get<TurmaModel[]>(`${url_config.url_turma}/${id}`);
+  public getTurmasPorId(reserva: any): Observable<any[]> {
+    return this.http.get<TurmaModel[]>(
+      `${url_config.url_turma}/${reserva.turma.turma_id}`
+    );
   }
 
   public criarTurma(turmas: TurmaModel) {

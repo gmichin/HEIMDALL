@@ -105,6 +105,7 @@
 <div class="responsive-schedule">
   <div class="day-container" *ngFor="let day of diasSemana">
     <h3>{{ formatarData(day) }}</h3>
+    <h3>{{ obterDiaSemana(day) }}</h3>
     <ng-container *ngFor="let hour of tabelaHoras">
       <div *ngIf="temReservas(day, hour)" class="hour-container">
         <div class="horario">{{ hour }}</div>

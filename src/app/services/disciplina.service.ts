@@ -29,6 +29,12 @@ export class DisciplinaService {
     );
   }
 
+  public getDisciplinaPorId(turma: any): Observable<any[]> {
+    return this.http.get<any[]>(
+      `${url_config.url_disciplina}/${turma.disciplina.disciplina_id}`
+    );
+  }
+
   public criarDisciplina(disciplinas: DisciplinaModel) {
     return this.http.post(url_config.url_disciplina, disciplinas);
   }
