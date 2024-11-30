@@ -103,7 +103,7 @@
 
 <div class="page-title" *ngIf="suasAulas">SUAS AULAS</div>
 <div class="responsive-schedule">
-  <div class="day-container" *ngFor="let day of diasSemana">
+  <div class="day-container" *ngFor="let day of diasSemana | slice : 0 : 4">
     <h3>{{ formatarData(day) }}</h3>
     <h3>{{ obterDiaSemana(day) }}</h3>
     <ng-container *ngFor="let hour of tabelaHoras">
