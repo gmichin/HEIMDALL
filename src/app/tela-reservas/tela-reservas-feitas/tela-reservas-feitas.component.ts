@@ -231,6 +231,9 @@ export class TelaReservasFeitasComponent implements OnInit {
     return reservas
       .map(
         (reserva: { disciplina: any; professor: any; sala: any; turma: any }) =>
+          reserva.disciplina.curso.nome +
+          '\n' +
+          'Sala: ' +
           reserva.sala.ident_sala +
           '\n' +
           reserva.disciplina.nome +
