@@ -17,6 +17,10 @@ export class ReservationService {
     const urlWithParams = `${url_config.url_reserva}?professorId=${professor.professor_id}`;
     return this.http.get<IConsultaReserva[]>(urlWithParams);
   }
+  public findSalaPorAlunoFilter(aluno: any) {
+    const urlWithParams = `${url_config.url_reserva}/aluno/${aluno.aluno_id}`;
+    return this.http.get<IConsultaReserva[]>(urlWithParams);
+  }
 
   public findSalaFilter(professor: any, turma_id: number) {
     const urlWithParams = `${url_config.url_reserva}?professorId=${professor.professor_id}&turmaId=${turma_id}`;

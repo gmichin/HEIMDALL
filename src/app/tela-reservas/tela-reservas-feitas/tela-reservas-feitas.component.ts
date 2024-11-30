@@ -52,6 +52,7 @@ export class TelaReservasFeitasComponent implements OnInit {
   public tipoUsuario = '';
 
   public resultadoEncontrado: boolean = false;
+  public suasAulas: boolean = false;
   public reservaIds: string = '';
   public turmaAchada: any;
   public disciplinaAchada: any;
@@ -96,101 +97,100 @@ export class TelaReservasFeitasComponent implements OnInit {
     this.createForm();
     this.getCursos();
 
-    if (this.dataProfessorAdm.professor_id) {
-      this.reservationService
-        .findSalaPorProfessorFilter(this.dataProfessorAdm)
-        .subscribe({
-          next: (reservas) => {
-            const hoje = new Date();
-            const reserva = reservas
-              .map((reserva: { dias_reservados: any[]; hora_final: any }) => {
-                const diasValidos = reserva.dias_reservados.filter((dia) => {
-                  const dataCompleta = this.criarDataCompleta(
-                    dia,
-                    reserva.hora_final
-                  );
-                  return dataCompleta > hoje;
-                });
-                return diasValidos.length > 0
-                  ? { ...reserva, dias_reservados: diasValidos }
-                  : null;
-              })
-              .filter(Boolean);
+    if (this.dataProfessorAdm.professor_id || this.dataAluno.aluno_id) {
+      const isProfessor = !!this.dataProfessorAdm.professor_id;
+      const observable = isProfessor
+        ? this.reservationService.findSalaPorProfessorFilter(
+            this.dataProfessorAdm
+          )
+        : this.reservationService.findSalaPorAlunoFilter(this.dataAluno);
 
-            const observables: any[] = [];
+      observable.subscribe({
+        next: (reservas) => {
+          this.suasAulas = true;
+          const hoje = new Date();
+          const reserva = reservas
+            .map((reserva: { dias_reservados: any[]; hora_final: any }) => {
+              const diasValidos = reserva.dias_reservados.filter((dia) => {
+                const dataCompleta = this.criarDataCompleta(
+                  dia,
+                  reserva.hora_final
+                );
+                return dataCompleta > hoje;
+              });
+              return diasValidos.length > 0
+                ? { ...reserva, dias_reservados: diasValidos }
+                : null;
+            })
+            .filter(Boolean);
 
-            reserva.forEach((it) => {
-              const turmaObservable = this.turmaService.getTurmasPorId(it);
-              const disciplinaObservable = turmaObservable.pipe(
-                switchMap((turma) =>
-                  this.disciplinaService.getDisciplinaPorId(turma).pipe(
-                    map((disciplina) => ({
-                      ...it,
-                      turma,
-                      disciplina,
-                    }))
-                  )
+          const observables: any[] = [];
+
+          reserva.forEach((it) => {
+            const turmaObservable = this.turmaService.getTurmasPorId(it);
+            const disciplinaObservable = turmaObservable.pipe(
+              switchMap((turma) =>
+                this.disciplinaService.getDisciplinaPorId(turma).pipe(
+                  map((disciplina) => ({
+                    ...it,
+                    turma,
+                    disciplina,
+                  }))
                 )
+              )
+            );
+
+            observables.push(disciplinaObservable);
+          });
+
+          forkJoin(observables).subscribe({
+            next: (resultados) => {
+              const reservasFiltradasComStatus = resultados.filter(
+                (reserva: { status: boolean }) => reserva.status === true
               );
 
-              observables.push(disciplinaObservable);
-            });
+              this.reservasFiltradas = reservasFiltradasComStatus;
 
-            forkJoin(observables).subscribe({
-              next: (resultados) => {
-                // Filtra apenas as reservas com status true
-                const reservasFiltradasComStatus = resultados.filter(
-                  (reserva: { status: boolean }) => reserva.status === true
+              if (this.reservasFiltradas && this.reservasFiltradas.length > 0) {
+                const dias = new Set<string>();
+                this.reservasFiltradas.forEach(
+                  (reserva: { dias_reservados: any[] }) => {
+                    reserva.dias_reservados.forEach((dia) => dias.add(dia));
+                  }
                 );
+                this.diasSemana = Array.from(dias).sort();
 
-                // Atribui as reservas filtradas com status true a this.reservasFiltradas
-                this.reservasFiltradas = reservasFiltradasComStatus;
-
-                console.log(this.reservasFiltradas);
-
-                if (
-                  this.reservasFiltradas &&
-                  this.reservasFiltradas.length > 0
-                ) {
-                  const dias = new Set<string>();
-                  this.reservasFiltradas.forEach(
-                    (reserva: { dias_reservados: any[] }) => {
-                      reserva.dias_reservados.forEach((dia) => dias.add(dia));
-                    }
-                  );
-                  this.diasSemana = Array.from(dias).sort();
-
-                  const horas = this.reservasFiltradas.map(
-                    (r: { hora_inicio: string; hora_final: string }) => ({
-                      inicio: this.converterHoraParaNumero(r.hora_inicio),
-                      final: this.converterHoraParaNumero(r.hora_final),
-                    })
-                  );
-                  const menorHora = Math.min(
-                    ...horas.map((h: { inicio: any }) => h.inicio)
-                  );
-                  const maiorHora = Math.max(
-                    ...horas.map((h: { final: any }) => h.final)
-                  );
-                  this.tabelaHoras = this.gerarHorarios(menorHora, maiorHora);
-                } else {
-                  console.error('Nenhuma reserva filtrada encontrada.');
-                }
-              },
-              error: (err) => {
-                console.error('Erro ao carregar turmas ou disciplinas', err);
-                this.errorMessage.message =
-                  'Erro ao carregar turmas ou disciplinas.';
-                this.errorMessage.invalid = true;
-              },
-            });
-          },
-          error: (err) => {
-            this.errorMessage.message = 'Não foi possível buscar os cursos.';
-            this.errorMessage.invalid = true;
-            console.error(err);
-          },
-        });
+                const horas = this.reservasFiltradas.map(
+                  (r: { hora_inicio: string; hora_final: string }) => ({
+                    inicio: this.converterHoraParaNumero(r.hora_inicio),
+                    final: this.converterHoraParaNumero(r.hora_final),
+                  })
+                );
+                const menorHora = Math.min(
+                  ...horas.map((h: { inicio: any }) => h.inicio)
+                );
+                const maiorHora = Math.max(
+                  ...horas.map((h: { final: any }) => h.final)
+                );
+                this.tabelaHoras = this.gerarHorarios(menorHora, maiorHora);
+              } else {
+                console.error('Nenhuma reserva filtrada encontrada.');
+              }
+            },
+            error: (err) => {
+              console.error('Erro ao carregar turmas ou disciplinas', err);
+              this.errorMessage.message =
+                'Erro ao carregar turmas ou disciplinas.';
+              this.errorMessage.invalid = true;
+            },
+          });
+        },
+        error: (err) => {
+          this.errorMessage.message = 'Não foi possível buscar os cursos.';
+          this.errorMessage.invalid = true;
+          console.error(err);
+        },
+      });
     }
   }
 
@@ -231,17 +231,17 @@ export class TelaReservasFeitasComponent implements OnInit {
     return reservas
       .map(
         (reserva: { disciplina: any; professor: any; sala: any; turma: any }) =>
-          reserva.disciplina.curso.nome +
-          '\n' +
           'Sala: ' +
           reserva.sala.ident_sala +
+          '\n' +
+          reserva.disciplina.curso.nome +
           '\n' +
           reserva.disciplina.nome +
           ' (' +
           reserva.turma.periodo +
           ')' +
           '\n' +
-          reserva.professor.nome
+          reserva.turma.professor.nome
       )
       .join(', ');
   }

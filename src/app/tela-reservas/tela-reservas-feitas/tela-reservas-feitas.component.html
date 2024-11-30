@@ -101,7 +101,7 @@
   </form>
 </div>
 
-<div class="page-title">SUAS AULAS</div>
+<div class="page-title" *ngIf="suasAulas">SUAS AULAS</div>
 <div class="responsive-schedule">
   <div class="day-container" *ngFor="let day of diasSemana">
     <h3>{{ formatarData(day) }}</h3>
