@@ -81,8 +81,8 @@ export class TelaHomeAdmComponent implements OnInit, OnDestroy {
     const cursos = this.dataCursos.length > 0 ? this.dataCursos : [];
 
     this.data = [
-      { name: 'Alunos', arr: alunos },
       { name: 'Professores', arr: professores },
+      { name: 'Alunos', arr: alunos },
       { name: 'Cursos', arr: cursos },
     ];
   }

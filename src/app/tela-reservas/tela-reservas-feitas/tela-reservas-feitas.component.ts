@@ -212,7 +212,7 @@ export class TelaReservasFeitasComponent implements OnInit {
       }) =>
         reserva.dias_reservados.includes(dia) &&
         horaNumero >= this.converterHoraParaNumero(reserva.hora_inicio) &&
-        horaNumero < this.converterHoraParaNumero(reserva.hora_final)
+        horaNumero <= this.converterHoraParaNumero(reserva.hora_final)
     );
   }
 
@@ -226,7 +226,7 @@ export class TelaReservasFeitasComponent implements OnInit {
       }) =>
         reserva.dias_reservados.includes(dia) &&
         horaNumero >= this.converterHoraParaNumero(reserva.hora_inicio) &&
-        horaNumero < this.converterHoraParaNumero(reserva.hora_final)
+        horaNumero <= this.converterHoraParaNumero(reserva.hora_final)
     );
     return reservas
       .map(
@@ -247,12 +247,12 @@ export class TelaReservasFeitasComponent implements OnInit {
   }
 
   formatarData(data: string): string {
-    const date = new Date(data);
+    const date = new Date(`${data}T00:00:00`);
     return new Intl.DateTimeFormat('pt-BR').format(date);
   }
 
   obterDiaSemana(data: string): string {
-    const date = new Date(data);
+    const date = new Date(`${data}T00:00:00`);
     return new Intl.DateTimeFormat('pt-BR', { weekday: 'long' })
       .format(date)
       .toUpperCase();
