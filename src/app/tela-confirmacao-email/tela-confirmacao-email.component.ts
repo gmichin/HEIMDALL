@@ -81,7 +81,7 @@ export class TelaConfirmacaoEmailComponent {
     this.professorService.sendCodeEmail(request, url).subscribe({
       next: () => {
         this.snackBar.open(
-          `Cadastro realizado, há a possibilidade do adm não permitir que a conta seja mantida.`,
+          `Cadastro realizado, aguardando aprovação do administrador`,
           '',
           {
             duration: 5000,

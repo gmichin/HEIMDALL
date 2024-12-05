@@ -59,7 +59,7 @@ export class TelaCreateAlunoComponent implements OnInit {
     this.alunoService.criarAluno(request).subscribe({
       next: () => {
         this.snackBar.open(
-          `Cadastro realizado, há a possibilidade do adm não permitir que a conta seja mantida.`,
+          `Cadastro realizado, aguardando aprovação do administrador`,
           '',
           {
             duration: 5000,
