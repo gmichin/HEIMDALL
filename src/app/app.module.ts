@@ -68,6 +68,7 @@ import { url_config } from './url.config';
 import { JwtInterceptorH } from './interceptors/jwt.interceptor';
 import { MeusInteressesComponent } from './interesses/meus-interesses/meus-interesses.component';
 import { MinhasTurmasComponent } from './tela-turmas/minhas-turmas/minhas-turmas.component';
+import { TelaConfirmacaoEmailComponent } from './tela-confirmacao-email/tela-confirmacao-email.component';
 
 export function jwtOptionsFactory() {
   return {
@@ -116,6 +117,7 @@ export function jwtOptionsFactory() {
     SolicitarInteresseComponent,
     ValidarInteresseComponent,
     MeusInteressesComponent,
+    TelaConfirmacaoEmailComponent,
   ],
   imports: [
     AppRoutingModule,

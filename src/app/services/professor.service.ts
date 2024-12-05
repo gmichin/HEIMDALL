@@ -29,6 +29,10 @@ export class ProfessorService {
   public criarProfessor(professor: ProfessorModel) {
     return this.http.post(url_config.url_professor, professor);
   }
+  
+  public sendCodeEmail(req: {code: string, email: string}, url: string) {
+    return this.http.post(url, req);
+  }
 
   public atualizarProfessor(professor: ProfessorModel) {
     return this.http.patch(

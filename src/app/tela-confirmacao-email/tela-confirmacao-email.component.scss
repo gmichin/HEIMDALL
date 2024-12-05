@@ -1,0 +1,38 @@
+.example-cardLoginCadastro {
+  max-width: 700px;
+}
+.center-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.example-full-width {
+  margin-top: 1cm;
+  width: 100%;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.resend {
+  text-align: start;
+  color: cadetblue;
+  cursor: pointer;
+  :hover {
+    color: #027276;
+  }
+}
+
+::ng-deep .example-cardLoginCadastro {
+  max-width: 700px;
+  min-width: 700px;
+  max-height: 463px;
+  min-height: 300px;
+}
+
+::ng-deep .center-content .mat-mdc-tab-body-content {
+  overflow: hidden;
+}

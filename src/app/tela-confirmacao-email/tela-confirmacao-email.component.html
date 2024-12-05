@@ -1,0 +1,22 @@
+<div class="center-content">
+  <mat-card class="example-cardLoginCadastro">
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="cadastroProfessorAdm()">
+        <h2 style="font-size: 18px; text-align: center;"><strong>Enviamos um código ao seu email, realize a confirmação para completar o cadastro.</strong></h2>
+        <mat-form-field class="example-full-width">
+          <mat-label>Código</mat-label>
+          <input
+            formControlName="code"
+            type="text"
+            matInput
+            placeholder="Código"
+            value=""
+          />
+          <mat-icon matSuffix>vpn_key</mat-icon>
+        </mat-form-field>
+        <p class="resend" (click)="resend()">Reenviar código</p>
+        <button [disabled]="desabilitado" mat-button color="primary" type="submit">Enviar</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

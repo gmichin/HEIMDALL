@@ -83,6 +83,7 @@ export class TelaLoginCadastroComponent {
     });
     this.alunoService.criarAluno(request).subscribe({
       next: () => {
+        this.sessionService.setItem('aluno', request);
         this.snackBar.open(
           `Cadastro realizado, há a possibilidade do adm não permitir que a conta seja mantida.`,
           '',
@@ -90,10 +91,10 @@ export class TelaLoginCadastroComponent {
             duration: 5000,
           }
         );
-        this.dialogRef.close('close');
+        this.dialogRef.close('cadastro');
       },
-      error: () => {
-        this.snackBar.open(`Ocorreu um erro durante sua solicitação.`, '', {
+      error: (err) => {
+        this.snackBar.open(err.error.message ? err.error.message : `Ocorreu um erro durante sua solicitação.`, '', {
           duration: 2000,
         });
       },
@@ -117,6 +118,7 @@ export class TelaLoginCadastroComponent {
     });
     this.professorService.criarProfessor(request).subscribe({
       next: () => {
+        this.sessionService.setItem('professor', request);
         this.snackBar.open(
           `Cadastro realizado, há a possibilidade do adm não permitir que a conta seja mantida.`,
           '',
@@ -124,10 +126,10 @@ export class TelaLoginCadastroComponent {
             duration: 5000,
           }
         );
-        this.dialogRef.close('close');
+        this.dialogRef.close('cadastro');
       },
-      error: () => {
-        this.snackBar.open(`Ocorreu um erro durante sua solicitação.`, '', {
+      error: (err) => {
+        this.snackBar.open(err.error.message ? err.error.message : `Ocorreu um erro durante sua solicitação.`, '', {
           duration: 2000,
         });
       },
@@ -172,7 +174,7 @@ export class TelaLoginCadastroComponent {
         }
       },
       (err) => {
-        this.snackBar.open(`Erro no login.`, '', {
+        this.snackBar.open(err.error.message ? err.error.message : `Erro no login.`, '', {
           duration: 1000,
         });
       }
